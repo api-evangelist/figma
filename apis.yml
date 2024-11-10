@@ -1,17 +1,16 @@
-
-name: Figma
-description: >-
-  Figma's mission is to make design accessible to everyone. Our two products
-  help people from different backgrounds and roles express their ideas visually
-  and make things together.
-image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+aid: figma
 url: https://raw.githubusercontent.com/apis-json/artisanal/main/apis/figma.yml
-created: 2023/11/22
-modified: 2023/11/22
-specificationVersion: '0.16'
-tags: []
 apis:
-  - name: Figma API
+  - aid: figma:figma-api
+    name: Figma API
+    tags: []
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.example.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: https://www.figma.com/developers/api#intro
+        type: Documentation
     description: >-
       Welcome to Figma, the world's first collaborative interface design tool.
       Figma allows designers to create and prototype their digital experiences -
@@ -19,43 +18,67 @@ apis:
       visions into products, faster. Figma's mission is to make design
       accessible to everyone. The Figma API is one of the ways we aim to do
       that.
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-    humanURL: https://www.figma.com/developers
-    baseURL: https://api.example.com
-    tags: []
-    properties:
-      - type: Documentation
-        url: https://www.figma.com/developers/api#intro
-    overlays: []
-    aid: figma:figma-api
+name: Figma
+tags: []
+image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 common:
-  - type: Authentication
-    url: https://www.figma.com/developers/api#authentication
-  - type: Webhooks
-    url: https://www.figma.com/developers/api#webhooks_v2
-  - type: Errors
-    url: https://www.figma.com/developers/api#errors
-  - type: Change Log
-    url: https://www.figma.com/developers/api#changelog
-  - type: Login
-    url: https://www.figma.com/login
-  - type: Sign Up
-    url: https://www.figma.com/signup
-  - type: Blog
-    url: https://www.figma.com/blog
-  - type: Terms of Service
-    url: https://www.figma.com/summary-of-policy
-  - type: Contact
-    url: https://www.figma.com/contact
-  - type: Security
-    url: https://www.figma.com/security
+  - url: https://www.figma.com/developers/api#authentication
+    type: Authentication
+  - url: https://www.figma.com/developers/api#webhooks_v2
+    type: Webhooks
+  - url: https://www.figma.com/developers/api#errors
+    type: Errors
+  - url: https://www.figma.com/developers/api#changelog
+    type: Change Log
+  - url: https://www.figma.com/login
+    type: Login
+  - url: https://www.figma.com/signup
+    type: Sign Up
+  - url: https://www.figma.com/blog
+    type: Blog
+  - url: https://www.figma.com/summary-of-policy
+    type: Terms of Service
+  - url: https://www.figma.com/contact
+    type: Contact
+  - url: https://www.figma.com/security
+    type: Security
+  - name: Login
+    url: https://www.figma.com/login?cont=/developers/api
+    type: Login
+  - name: SignUp
+    url: https://www.figma.com/signup?cont=/developers/api
+    type: SignUp
+  - name: Portal
+    url: https://www.figma.com/developers
+    type: Portal
+  - name: Pricing
+    url: https://www.figma.com/pricing/
+    type: Pricing
+  - name: Blog
+    url: https://www.figma.com/blog/
+    type: Blog
+  - name: Status
+    url: https://status.figma.com/
+    type: Status
+  - name: Support
+    url: https://help.figma.com/hc/en-us
+    type: Support
+  - name: Integrations
+    url: https://www.figma.com/product-integrations/
+    type: Integrations
+created: 2023/11/22
+modified: '2024-11-10'
+overlays:
+  - url: overlays/apis-io-search.yml
+    type: APIs.io Search
+  - url: overlays/apis-io-search.yml
+    type: API Evangelist Ratings
+description: >-
+  Figma's mission is to make design accessible to everyone. Our two products
+  help people from different backgrounds and roles express their ideas visually
+  and make things together.
 maintainers:
   - FN: API Evangelist
     url: http://apievangelist.com
     email: info@apievangelist.com
-overlays:
-  - type: APIs.io Search
-    url: overlays/apis-io-search.yml
-  - type: API Evangelist Ratings
-    url: overlays/apis-io-search.yml
-aid: figma
+specificationVersion: '0.16'
