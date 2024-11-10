@@ -42,30 +42,33 @@ common:
     type: Contact
   - url: https://www.figma.com/security
     type: Security
-  - name: Login
-    url: https://www.figma.com/login?cont=/developers/api
+  - url: https://www.figma.com/login?cont=/developers/api
+    name: Login
     type: Login
-  - name: SignUp
-    url: https://www.figma.com/signup?cont=/developers/api
+  - url: https://www.figma.com/signup?cont=/developers/api
+    name: SignUp
     type: SignUp
-  - name: Portal
-    url: https://www.figma.com/developers
+  - url: https://www.figma.com/developers
+    name: Portal
     type: Portal
-  - name: Pricing
-    url: https://www.figma.com/pricing/
+  - url: https://www.figma.com/pricing/
+    name: Pricing
     type: Pricing
-  - name: Blog
-    url: https://www.figma.com/blog/
+  - url: https://www.figma.com/blog/
+    name: Blog
     type: Blog
-  - name: Status
-    url: https://status.figma.com/
+  - url: https://status.figma.com/
+    name: Status
     type: Status
-  - name: Support
-    url: https://help.figma.com/hc/en-us
+  - url: https://help.figma.com/hc/en-us
+    name: Support
     type: Support
-  - name: Integrations
-    url: https://www.figma.com/product-integrations/
+  - url: https://www.figma.com/product-integrations/
+    name: Integrations
     type: Integrations
+  - name: OpenAPI Specifications
+    url: https://github.com/figma/rest-api-spec
+    type: Specifications
 created: 2023/11/22
 modified: '2024-11-10'
 overlays:
