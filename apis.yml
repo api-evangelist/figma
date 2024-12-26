@@ -9,7 +9,7 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - url: properties/figma-api-openapi.yml
+      - url: openapi/figma-api-openapi.yml
         type: OpenAPI
     description: |-
 
