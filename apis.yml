@@ -9,7 +9,7 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - url: properties/figma-api-openapi.yml
+      - url: openapi/figma-api-openapi.yml
         type: OpenAPI
     description: |-
 
@@ -66,11 +66,11 @@ common:
   - url: https://www.figma.com/product-integrations/
     name: Integrations
     type: Integrations
-  - name: OpenAPI Specifications
-    url: https://github.com/figma/rest-api-spec
+  - url: https://github.com/figma/rest-api-spec
+    name: OpenAPI Specifications
     type: Specifications
 created: 2023/11/22
-modified: '2024-11-10'
+modified: '2024-12-26'
 description: |-
 
   Figma's mission is to make design accessible to everyone. Our two products
