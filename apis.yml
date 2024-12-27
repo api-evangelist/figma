@@ -20,17 +20,14 @@ apis:
       - Component_sets
       - Styles
       - Webhooks
-      - Activity  Logs
+      - Activity Logs
       - Payments
       - Variables
       - Local
       - Published
-      - Dev_resources
-      - Dev  Resources
       - Analytics
       - Libraries
       - Actions
-      - Library  Analytics
       - Usages
     image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
@@ -47,7 +44,7 @@ apis:
       accessible to everyone. The Figma API is one of the ways we aim to do
       that.
 created: 2023/11/22
-modified: '2024-12-26'
+modified: '2024-12-27'
 description: |-
   Figma's mission is to make design accessible to everyone. Our two products
   help people from different backgrounds and roles express their ideas visually
