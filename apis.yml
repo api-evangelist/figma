@@ -307,7 +307,7 @@ apis:
       accessible to everyone. The Figma API is one of the ways we aim to do
       that.
   - aid: figma:figma-component-sets-api
-    name: Figma Component Sets API
+    name: Figma Component_sets API
     tags:
       - Files
       - Nodes
@@ -483,7 +483,7 @@ apis:
       accessible to everyone. The Figma API is one of the ways we aim to do
       that.
   - aid: figma:figma-activity-logs-api
-    name: Figma Activity Logs API
+    name: Figma Activity_logs API
     tags:
       - Files
       - Nodes
@@ -571,7 +571,7 @@ apis:
       accessible to everyone. The Figma API is one of the ways we aim to do
       that.
   - aid: figma:figma-dev-resources-api
-    name: Figma Dev Resources API
+    name: Figma Dev_resources API
     tags:
       - Files
       - Nodes
@@ -670,7 +670,57 @@ maintainers:
     url: http://apievangelist.com
     email: info@apievangelist.com
 specificationVersion: '0.16'
-tags:
-  - Design
-  - Projects
-  - Styles
+common:
+  - name: Figma
+    description: 'null'
+    url: https://www.figma.com/developers
+    type: Portal
+  - name: Embed Figma files
+    description: 'null'
+    url: https://www.figma.com/developers/embed
+    type: Widgets
+  - name: Set up automatic provisioning via SCIM  Figma Learn - Help Center
+    description: 'null'
+    url: >-
+      https://help.figma.com/hc/en-us/articles/360048514653-Set-up-automatic-provisioning-via-SCIM
+    type: ' SCIM'
+  - name: Login | Figma
+    description: 'null'
+    url: https://www.figma.com/login?cont=/developers/embed
+    type: Login
+  - name: Sign Up for Figma
+    description: 'null'
+    url: https://www.figma.com/signup?cont=/developers/embed
+    type: SignUp
+  - name: Plans & Pricing | Figma
+    description: 'null'
+    url: https://www.figma.com/pricing/
+    type: Pricing
+  - name: Figma Blog | Shortcut
+    description: 'null'
+    url: https://www.figma.com/blog/
+    type: Blog
+  - name: Figma Security | Peace of Mind by Design
+    description: 'null'
+    url: https://www.figma.com/security/
+    type: Security
+  - name: Figma Status
+    description: 'null'
+    url: https://status.figma.com/
+    type: Status
+  - name: Terms of Service
+    description: 'null'
+    url: https://www.figma.com/legal/tos/
+    type: TermsOfService
+  - name: Privacy Policy
+    description: 'null'
+    url: https://www.figma.com/legal/privacy/
+    type: PrivacyPolicy
+  - name: Figma Partners
+    description: 'null'
+    url: https://www.figma.com/partners/
+    type: Partners
+  - name: Figma Events | Online & In-Person
+    description: 'null'
+    url: https://www.figma.com/events/
+    type: Events
