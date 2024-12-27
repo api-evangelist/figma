@@ -1,0 +1,298 @@
+openapi: 3.1.0
+info:
+  title: Figma Images API
+  version: 0.21.0
+  description: |-
+
+    Figma allows designers to create and prototype their digital experiences -
+    together in real-time and in one place - helping them turn their ideas and
+    visions into products, faster. Figma's mission is to make design
+    accessible to everyone. The Figma API is one of the ways we aim to do
+    that.
+  termsOfService: https://www.figma.com/developer-terms/
+  contact:
+    email: support@figma.com
+servers:
+  - url: https://api.figma.com
+paths:
+  /v1/images/{file_key}:
+    get:
+      tags:
+        - Images
+        - Files
+      summary: Render images of file nodes
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - files:read
+      description: >
+        Renders images from a file.
+
+
+        If no error occurs, `"images"` will be populated with a map from node
+        IDs to URLs of the rendered images, and `"status"` will be omitted. The
+        image assets will expire after 30 days. Images up to 32 megapixels can
+        be exported. Any images that are larger will be scaled down.
+
+
+        Important: the image map may contain values that are `null`. This
+        indicates that rendering of that specific node has failed. This may be
+        due to the node id not existing, or other reasons such has the node
+        having no renderable components. It is guaranteed that any node that was
+        requested for rendering will be represented in this map whether or not
+        the render succeeded.
+
+
+        To render multiple images from the same file, use the `ids` query
+        parameter to specify multiple node ids.
+
+
+        ```
+
+        GET /v1/images/:key?ids=1:2,1:3,1:4
+
+        ```
+      operationId: getImages
+      parameters:
+        - name: file_key
+          in: path
+          description: >-
+            File to export images from. This can be a file key or branch key.
+            Use `GET /v1/files/:key` with the `branch_data` query param to get
+            the branch key.
+          required: true
+          schema:
+            type: string
+        - name: ids
+          in: query
+          description: A comma separated list of node IDs to render.
+          required: true
+          schema:
+            type: string
+        - name: version
+          in: query
+          description: >-
+            A specific version ID to get. Omitting this will get the current
+            version of the file.
+          schema:
+            type: string
+        - name: scale
+          in: query
+          description: A number between 0.01 and 4, the image scaling factor.
+          schema:
+            type: number
+            minimum: 0.01
+            maximum: 4
+        - name: format
+          in: query
+          description: A string enum for the image output format.
+          schema:
+            type: string
+            enum:
+              - jpg
+              - png
+              - svg
+              - pdf
+            default: png
+        - name: svg_outline_text
+          in: query
+          description: >-
+            Whether text elements are rendered as outlines (vector paths) or as
+            `<text>` elements in SVGs.
+
+
+            Rendering text elements as outlines guarantees that the text looks
+            exactly the same in the SVG as it does in the browser/inside Figma.
+
+
+            Exporting as `<text>` allows text to be selectable inside SVGs and
+            generally makes the SVG easier to read. However, this relies on the
+            browser's rendering engine which can vary between browsers and/or
+            operating systems. As such, visual accuracy is not guaranteed as the
+            result could look different than in Figma.
+          schema:
+            type: boolean
+            default: true
+        - name: svg_include_id
+          in: query
+          description: >-
+            Whether to include id attributes for all SVG elements. Adds the
+            layer name to the `id` attribute of an svg element.
+          schema:
+            type: boolean
+            default: false
+        - name: svg_include_node_id
+          in: query
+          description: >-
+            Whether to include node id attributes for all SVG elements. Adds the
+            node id to a `data-node-id` attribute of an svg element.
+          schema:
+            type: boolean
+            default: false
+        - name: svg_simplify_stroke
+          in: query
+          description: >-
+            Whether to simplify inside/outside strokes and use stroke attribute
+            if possible instead of `<mask>`.
+          schema:
+            type: boolean
+            default: true
+        - name: contents_only
+          in: query
+          description: >-
+            Whether content that overlaps the node should be excluded from
+            rendering. Passing false (i.e., rendering overlaps) may increase
+            processing time, since more of the document must be included in
+            rendering.
+          schema:
+            type: boolean
+            default: true
+        - name: use_absolute_bounds
+          in: query
+          description: >-
+            Use the full dimensions of the node regardless of whether or not it
+            is cropped or the space around it is empty. Use this to export text
+            nodes without cropping.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          $ref: '#/components/responses/GetImagesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrMessage'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrMessage'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrMessage'
+components:
+  responses:
+    GetImagesResponse:
+      description: Response from the GET /v1/images/{file_key} endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              err:
+                type: 'null'
+                description: For successful requests, this value is always `null`.
+              images:
+                type: object
+                description: A map from node IDs to URLs of the rendered images.
+                additionalProperties:
+                  type:
+                    - string
+                    - 'null'
+                  description: A URL to the requested image.
+                  format: uri
+            required:
+              - err
+              - images
+    BadRequestErrorResponseWithErrMessage:
+      description: >-
+        Bad request. Parameters are invalid or malformed. Please check the input
+        formats. This error can also happen if the requested resources are too
+        large to complete the request, which results in a timeout. Please reduce
+        the number and size of objects requested.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 400
+                required:
+                  - status
+    ForbiddenErrorResponseWithErrMessage:
+      description: >-
+        The request was valid, but the server is refusing action. The user might
+        not have the necessary permissions for a resource, or may need an
+        account of some sort.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 403
+                required:
+                  - status
+    NotFoundErrorResponseWithErrMessage:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 404
+                required:
+                  - status
+    TooManyRequestsErrorResponseWithErrMessage:
+      description: >-
+        In some cases API requests may be throttled or rate limited. Please wait
+        a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 429
+                required:
+                  - status
+    InternalServerErrorResponseWithErrMessage:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 500
+                required:
+                  - status
+  schemas:
+    ErrorResponsePayloadWithErrMessage:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        status:
+          type: number
+          description: Status code
+        err:
+          type: string
+          description: A string describing the error
+      required:
+        - status
+        - err
