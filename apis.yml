@@ -619,7 +619,7 @@ apis:
       accessible to everyone. The Figma API is one of the ways we aim to do
       that.
   - aid: figma:figma-api-1
-    name: Figma API - 1
+    name: Figma Files API
     tags:
       - Files
       - Nodes
@@ -653,7 +653,7 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - url: openapi/figma-api-openapi-1.yml
+      - url: properties/figma-files-openapi.yml
         type: OpenAPI
     description: |-
       Figma allows designers to create and prototype their digital experiences -
