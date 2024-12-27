@@ -1,0 +1,136 @@
+openapi: 3.1.0
+info:
+  title: Figma API
+  version: 0.21.0
+  description: >-
+    This is the OpenAPI specification for the [Figma REST
+    API](https://www.figma.com/developers/api).
+  termsOfService: https://www.figma.com/developer-terms/
+  contact:
+    email: support@figma.com
+servers:
+  - url: https://api.figma.com
+paths:
+  /v1/me:
+    get:
+      tags:
+        - Me
+        - Users
+      summary: Get current user
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - files:read
+      description: Returns the user information for the currently authenticated user.
+      operationId: getMe
+      responses:
+        '200':
+          $ref: '#/components/responses/GetMeResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrMessage'
+components:
+  responses:
+    GetMeResponse:
+      description: Response from the GET /v1/me endpoint.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/User'
+              - type: object
+                properties:
+                  email:
+                    type: string
+                    description: >-
+                      Email associated with the user's account. This property is
+                      only present on the /v1/me endpoint.
+                required:
+                  - email
+    ForbiddenErrorResponseWithErrMessage:
+      description: >-
+        The request was valid, but the server is refusing action. The user might
+        not have the necessary permissions for a resource, or may need an
+        account of some sort.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 403
+                required:
+                  - status
+    TooManyRequestsErrorResponseWithErrMessage:
+      description: >-
+        In some cases API requests may be throttled or rate limited. Please wait
+        a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 429
+                required:
+                  - status
+    InternalServerErrorResponseWithErrMessage:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 500
+                required:
+                  - status
+  schemas:
+    User:
+      type: object
+      description: A description of a user.
+      properties:
+        id:
+          type: string
+          description: Unique stable id of the user.
+        handle:
+          type: string
+          description: Name of the user.
+        img_url:
+          type: string
+          description: URL link to the user's profile image.
+      required:
+        - id
+        - handle
+        - img_url
+    ErrorResponsePayloadWithErrMessage:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        status:
+          type: number
+          description: Status code
+        err:
+          type: string
+          description: A string describing the error
+      required:
+        - status
+        - err
