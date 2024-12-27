@@ -91,7 +91,7 @@ apis:
       accessible to everyone. The Figma API is one of the ways we aim to do
       that.
   - aid: figma:figma-api-13
-    name: Figma API - 13
+    name: Figma Teams API
     tags:
       - Files
       - Nodes
@@ -125,8 +125,8 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - type: OpenAPI
-        url: openapi/figma-api-13-openapi-13.yml
+      - url: properties/figma-api-13-openapi.yml
+        type: OpenAPI
     description: |-
 
       Figma allows designers to create and prototype their digital experiences -
