@@ -6568,6 +6568,75 @@ apis:
       visions into products, faster. Figma's mission is to make design
       accessible to everyone. The Figma API is one of the ways we aim to do
       that.
+  - aid: >-
+      figma:figma-v1-files-file-key-v1-files-file-key-nodes-v1-files-file-key-images-v1-files-file-key-versions-v1-files-file-key-comments-v1-files-file-key-comments-comment-id-v1-files-file-key-comments-comment-id-reactions-v1-files-file-key-components-v1-files-file-key-component-sets-v1-files-file-key-styles-v1-files-file-key-variables-local-v1-files-file-key-variables-published-v1-files-file-key-variables-v1-files-file-key-dev-resources-v1-files-file-key-dev-resources-dev-resource-id-v1-images-file-key-v1-teams-team-id-projects-v1-teams-team-id-components-v1-teams-team-id-component-sets-v1-teams-team-id-styles-v1-projects-project-id-files-v1-me-v1-components-key-v1-component-sets-key-v1-styles-key-v2-webhooks-v2-webhooks-webhook-id-v2-webhooks-webhook-id-requests-v2-teams-team-id-webhooks-v1-activity-logs-v1-payments-v1-dev-resources-v1-analytics-libraries-file-key-component-actions-v1-analytics-libraries-file-key-component-usages-v1-analytics-libraries-file-key-style-actions-v1-analytics-libraries-file-key-style-usages-v1-analytics-libraries-file-key-variable-actions-v1-analytics-libraries-file-key-variable-usages-v1-analytics-libraries-file-key-actions-v1-analytics-libraries-file-key-usages-api
+    name: >-
+      Figma /v1/files/{file_key} /v1/files/{file_key}/nodes
+      /v1/files/{file_key}/images /v1/files/{file_key}/versions
+      /v1/files/{file_key}/comments /v1/files/{file_key}/comments/{comment_id}
+      /v1/files/{file_key}/comments/{comment_id}/reactions
+      /v1/files/{file_key}/components /v1/files/{file_key}/component_sets
+      /v1/files/{file_key}/styles /v1/files/{file_key}/variables/local
+      /v1/files/{file_key}/variables/published /v1/files/{file_key}/variables
+      /v1/files/{file_key}/dev_resources
+      /v1/files/{file_key}/dev_resources/{dev_resource_id} /v1/images/{file_key}
+      /v1/teams/{team_id}/projects /v1/teams/{team_id}/components
+      /v1/teams/{team_id}/component_sets /v1/teams/{team_id}/styles
+      /v1/projects/{project_id}/files /v1/me /v1/components/{key}
+      /v1/component_sets/{key} /v1/styles/{key} /v2/webhooks
+      /v2/webhooks/{webhook_id} /v2/webhooks/{webhook_id}/requests
+      /v2/teams/{team_id}/webhooks /v1/activity_logs /v1/payments
+      /v1/dev_resources /v1/analytics/libraries/{file_key}/component/actions
+      /v1/analytics/libraries/{file_key}/component/usages
+      /v1/analytics/libraries/{file_key}/style/actions
+      /v1/analytics/libraries/{file_key}/style/usages
+      /v1/analytics/libraries/{file_key}/variable/actions
+      /v1/analytics/libraries/{file_key}/variable/usages
+      /v1/analytics/libraries/{file_key}/actions
+      /v1/analytics/libraries/{file_key}/usages API
+    tags:
+      - Files
+      - Nodes
+      - Images
+      - Teams
+      - Projects
+      - Versions
+      - Comments
+      - Reactions
+      - Me
+      - Users
+      - Components
+      - Keys
+      - Component_sets
+      - Styles
+      - Webhooks
+      - Activity  Logs
+      - Payments
+      - Variables
+      - Local
+      - Published
+      - Dev_resources
+      - Dev  Resources
+      - Analytics
+      - Libraries
+      - Actions
+      - Library  Analytics
+      - Usages
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.example.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - type: OpenAPI
+        url: >-
+          openapi/figma-v1-files-file-key-v1-files-file-key-nodes-v1-files-file-key-images-v1-files-file-key-versions-v1-files-file-key-comments-v1-files-file-key-comments-comment-id-v1-files-file-key-comments-comment-id-reactions-v1-files-file-key-components-v1-files-file-key-component-sets-v1-files-file-key-styles-v1-files-file-key-variables-local-v1-files-file-key-variables-published-v1-files-file-key-variables-v1-files-file-key-dev-resources-v1-files-file-key-dev-resources-dev-resource-id-v1-images-file-key-v1-teams-team-id-projects-v1-teams-team-id-components-v1-teams-team-id-component-sets-v1-teams-team-id-styles-v1-projects-project-id-files-v1-me-v1-components-key-v1-component-sets-key-v1-styles-key-v2-webhooks-v2-webhooks-webhook-id-v2-webhooks-webhook-id-requests-v2-teams-team-id-webhooks-v1-activity-logs-v1-payments-v1-dev-resources-v1-analytics-libraries-file-key-component-actions-v1-analytics-libraries-file-key-component-usages-v1-analytics-libraries-file-key-style-actions-v1-analytics-libraries-file-key-style-usages-v1-analytics-libraries-file-key-variable-actions-v1-analytics-libraries-file-key-variable-usages-v1-analytics-libraries-file-key-actions-v1-analytics-libraries-file-key-usages-api-openapi.yml
+    description: |-
+
+      Figma allows designers to create and prototype their digital experiences -
+      together in real-time and in one place - helping them turn their ideas and
+      visions into products, faster. Figma's mission is to make design
+      accessible to everyone. The Figma API is one of the ways we aim to do
+      that.
 created: 2023/11/22
 modified: '2024-12-26'
 description: |-
