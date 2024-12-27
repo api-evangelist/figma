@@ -1,0 +1,1523 @@
+openapi: 3.1.0
+info:
+  title: Figma Files API
+  version: 0.21.0
+  description: |-
+    Figma allows designers to create and prototype their digital experiences -
+    together in real-time and in one place - helping them turn their ideas and
+    visions into products, faster. Figma's mission is to make design
+    accessible to everyone. The Figma API is one of the ways we aim to do
+    that.
+  termsOfService: https://www.figma.com/developer-terms/
+  contact:
+    email: support@figma.com
+servers:
+  - url: https://api.figma.com
+paths:
+  /v1/files/{file_key}/dev_resources/{dev_resource_id}:
+    delete:
+      tags:
+        - Files
+        - Dev_resources
+        - Dev  Resources
+      summary: Delete dev resource
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - file_dev_resources:write
+      description: Delete a dev resource from a file
+      operationId: deleteDevResource
+      parameters:
+        - name: file_key
+          in: path
+          description: >-
+            The file to delete the dev resource from. This must be a main file
+            key, not a branch key.
+          required: true
+          schema:
+            type: string
+        - name: dev_resource_id
+          in: path
+          description: The id of the dev resource to delete.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/DeleteDevResourceResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponseWithErrorBoolean'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrorBoolean'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrorBoolean'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrorBoolean'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrorBoolean'
+components:
+  responses:
+    GetFileResponse:
+      description: Response from the GET /v1/files/{file_key} endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The name of the file as it appears in the editor.
+              role:
+                type: string
+                enum:
+                  - owner
+                  - editor
+                  - viewer
+                description: >-
+                  The role of the user making the API request in relation to the
+                  file.
+              lastModified:
+                type: string
+                format: date-time
+                description: The UTC ISO 8601 time at which the file was last modified.
+              editorType:
+                type: string
+                enum:
+                  - figma
+                  - figjam
+                description: The type of editor associated with this file.
+              thumbnailUrl:
+                type: string
+                description: A URL to a thumbnail image of the file.
+              version:
+                type: string
+                description: >-
+                  The version number of the file. This number is incremented
+                  when a file is modified and can be used to check if the file
+                  has changed between requests.
+              document:
+                $ref: '#/components/schemas/DocumentNode'
+              components:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Component'
+                description: A mapping from component IDs to component metadata.
+              componentSets:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/ComponentSet'
+                description: A mapping from component set IDs to component set metadata.
+              schemaVersion:
+                type: number
+                description: The version of the file schema that this file uses.
+                default: 0
+              styles:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Style'
+                description: A mapping from style IDs to style metadata.
+              mainFileKey:
+                type: string
+                description: >-
+                  The key of the main file for this file. If present, this file
+                  is a component or component set.
+              branches:
+                type: array
+                description: A list of branches for this file.
+                items:
+                  type: object
+                  properties:
+                    key:
+                      type: string
+                      description: The key of the branch.
+                    name:
+                      type: string
+                      description: The name of the branch.
+                    thumbnail_url:
+                      type: string
+                      description: A URL to a thumbnail image of the branch.
+                    last_modified:
+                      type: string
+                      format: date-time
+                      description: >-
+                        The UTC ISO 8601 time at which the branch was last
+                        modified.
+                  required:
+                    - key
+                    - name
+                    - thumbnail_url
+                    - last_modified
+            required:
+              - name
+              - role
+              - lastModified
+              - editorType
+              - version
+              - document
+              - components
+              - componentSets
+              - schemaVersion
+              - styles
+    GetFileNodesResponse:
+      description: Response from the GET /v1/files/{file_key}/nodes endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The name of the file as it appears in the editor.
+              role:
+                type: string
+                enum:
+                  - owner
+                  - editor
+                  - viewer
+                description: >-
+                  The role of the user making the API request in relation to the
+                  file.
+              lastModified:
+                type: string
+                format: date-time
+                description: The UTC ISO 8601 time at which the file was last modified.
+              editorType:
+                type: string
+                enum:
+                  - figma
+                  - figjam
+                description: The type of editor associated with this file.
+              thumbnailUrl:
+                type: string
+                description: A URL to a thumbnail image of the file.
+              version:
+                type: string
+                description: >-
+                  The version number of the file. This number is incremented
+                  when a file is modified and can be used to check if the file
+                  has changed between requests.
+              nodes:
+                type: object
+                description: A mapping from node IDs to node metadata.
+                additionalProperties:
+                  type: object
+                  properties:
+                    document:
+                      $ref: '#/components/schemas/Node'
+                    components:
+                      type: object
+                      additionalProperties:
+                        $ref: '#/components/schemas/Component'
+                      description: A mapping from component IDs to component metadata.
+                    componentSets:
+                      type: object
+                      additionalProperties:
+                        $ref: '#/components/schemas/ComponentSet'
+                      description: >-
+                        A mapping from component set IDs to component set
+                        metadata.
+                    schemaVersion:
+                      type: number
+                      description: The version of the file schema that this file uses.
+                      default: 0
+                    styles:
+                      type: object
+                      additionalProperties:
+                        $ref: '#/components/schemas/Style'
+                      description: A mapping from style IDs to style metadata.
+                  required:
+                    - document
+                    - components
+                    - componentSets
+                    - schemaVersion
+                    - styles
+            required:
+              - name
+              - role
+              - lastModified
+              - editorType
+              - thumbnailUrl
+              - version
+              - nodes
+    GetImageFillsResponse:
+      description: Response from the GET /v1/files/{file_key}/images endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: boolean
+                description: For successful requests, this value is always `false`.
+                enum:
+                  - false
+              status:
+                type: number
+                description: Status code
+                enum:
+                  - 200
+              meta:
+                type: object
+                properties:
+                  images:
+                    type: object
+                    description: A map of image references to URLs of the image fills.
+                    additionalProperties:
+                      type: string
+                      description: A URL to the requested image fill.
+                      format: uri
+                required:
+                  - images
+            required:
+              - error
+              - status
+              - meta
+    GetFileVersionsResponse:
+      description: Response from the GET /v1/files/{file_key}/versions endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              versions:
+                type: array
+                description: An array of versions.
+                items:
+                  $ref: '#/components/schemas/Version'
+              pagination:
+                $ref: '#/components/schemas/ResponsePagination'
+            required:
+              - versions
+              - pagination
+    GetCommentsResponse:
+      description: Response from the GET /v1/files/{file_key}/comments endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              comments:
+                type: array
+                description: An array of comments.
+                items:
+                  $ref: '#/components/schemas/Comment'
+            required:
+              - comments
+    PostCommentResponse:
+      description: Response from the POST /v1/files/{file_key}/comments endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Comment'
+    DeleteCommentResponse:
+      description: >-
+        Response from the DELETE /v1/files/{file_key}/comments/{comment_id}
+        endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                description: The status of the request.
+                enum:
+                  - 200
+              error:
+                type: boolean
+                description: For successful requests, this value is always `false`.
+                enum:
+                  - false
+            required:
+              - status
+              - error
+    GetCommentReactionsResponse:
+      description: >-
+        Response from the GET
+        /v1/files/{file_key}/comments/{comment_id}/reactions endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reactions:
+                type: array
+                description: An array of reactions.
+                items:
+                  $ref: '#/components/schemas/Reaction'
+              pagination:
+                $ref: '#/components/schemas/ResponsePagination'
+            required:
+              - reactions
+              - pagination
+    PostCommentReactionResponse:
+      description: >-
+        Response from the POST
+        /v1/files/{file_key}/comments/{comment_id}/reactions endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                description: The status of the request.
+                enum:
+                  - 200
+              error:
+                type: boolean
+                description: For successful requests, this value is always `false`.
+                enum:
+                  - false
+            required:
+              - status
+              - error
+    DeleteCommentReactionResponse:
+      description: >-
+        Response from the DELETE
+        /v1/files/{file_key}/comments/{comment_id}/reactions endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                description: The status of the request.
+                enum:
+                  - 200
+              error:
+                type: boolean
+                description: For successful requests, this value is always `false`.
+                enum:
+                  - false
+            required:
+              - status
+              - error
+    GetFileComponentsResponse:
+      description: Response from the GET /v1/files/{file_key}/components endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                description: The status of the request.
+                enum:
+                  - 200
+              error:
+                type: boolean
+                description: For successful requests, this value is always `false`.
+                enum:
+                  - false
+              meta:
+                type: object
+                properties:
+                  components:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PublishedComponent'
+                required:
+                  - components
+            required:
+              - status
+              - error
+              - meta
+    GetFileComponentSetsResponse:
+      description: Response from the GET /v1/files/{file_key}/component_sets endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                description: The status of the request.
+                enum:
+                  - 200
+              error:
+                type: boolean
+                description: For successful requests, this value is always `false`.
+                enum:
+                  - false
+              meta:
+                type: object
+                properties:
+                  component_sets:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PublishedComponentSet'
+                required:
+                  - component_sets
+            required:
+              - status
+              - error
+              - meta
+    GetFileStylesResponse:
+      description: Response from the GET /v1/files/{file_key}/styles endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                description: The status of the request.
+                enum:
+                  - 200
+              error:
+                type: boolean
+                description: For successful requests, this value is always `false`.
+                enum:
+                  - false
+              meta:
+                type: object
+                properties:
+                  styles:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PublishedStyle'
+                required:
+                  - styles
+            required:
+              - status
+              - error
+              - meta
+    GetLocalVariablesResponse:
+      description: Response from the GET /v1/files/{file_key}/variables/local endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                enum:
+                  - 200
+                description: The response status code.
+              error:
+                type: boolean
+                enum:
+                  - false
+                description: For successful requests, this value is always `false`.
+              meta:
+                type: object
+                properties:
+                  variables:
+                    type: object
+                    description: A map of variable ids to variables
+                    additionalProperties:
+                      $ref: '#/components/schemas/LocalVariable'
+                  variableCollections:
+                    type: object
+                    description: A map of variable collection ids to variable collections
+                    additionalProperties:
+                      $ref: '#/components/schemas/LocalVariableCollection'
+                required:
+                  - variables
+                  - variableCollections
+            required:
+              - status
+              - error
+              - meta
+    GetPublishedVariablesResponse:
+      description: Response from the GET /v1/files/{file_key}/variables/published endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                enum:
+                  - 200
+                description: The response status code.
+              error:
+                type: boolean
+                enum:
+                  - false
+                description: For successful requests, this value is always `false`.
+              meta:
+                type: object
+                properties:
+                  variables:
+                    type: object
+                    description: A map of variable ids to variables
+                    additionalProperties:
+                      $ref: '#/components/schemas/PublishedVariable'
+                  variableCollections:
+                    type: object
+                    description: A map of variable collection ids to variable collections
+                    additionalProperties:
+                      $ref: '#/components/schemas/PublishedVariableCollection'
+                required:
+                  - variables
+                  - variableCollections
+            required:
+              - status
+              - error
+              - meta
+    PostVariablesResponse:
+      description: Response from the POST /v1/files/{file_key}/variables endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                enum:
+                  - 200
+                description: The response status code.
+              error:
+                type: boolean
+                enum:
+                  - false
+                description: For successful requests, this value is always `false`.
+              meta:
+                type: object
+                properties:
+                  tempIdToRealId:
+                    type: object
+                    description: >-
+                      A map of temporary ids in the request to the real ids of
+                      the newly created objects
+                    additionalProperties:
+                      type: string
+                required:
+                  - tempIdToRealId
+            required:
+              - status
+              - error
+              - meta
+    GetDevResourcesResponse:
+      description: Response from the GET /v1/files/{file_key}/dev_resources endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              dev_resources:
+                type: array
+                description: An array of dev resources.
+                items:
+                  $ref: '#/components/schemas/DevResource'
+            required:
+              - dev_resources
+    DeleteDevResourceResponse:
+      description: >-
+        Response from the DELETE
+        /v1/files/{file_key}/dev_resources/{dev_resource_id} endpoint.
+    BadRequestErrorResponseWithErrMessage:
+      description: >-
+        Bad request. Parameters are invalid or malformed. Please check the input
+        formats. This error can also happen if the requested resources are too
+        large to complete the request, which results in a timeout. Please reduce
+        the number and size of objects requested.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 400
+                required:
+                  - status
+    BadRequestErrorResponseWithErrorBoolean:
+      description: >-
+        Bad request. Parameters are invalid or malformed. Please check the input
+        formats. This error can also happen if the requested resources are too
+        large to complete the request, which results in a timeout. Please reduce
+        the number and size of objects requested.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 400
+                required:
+                  - status
+    UnauthorizedErrorResponseWithErrorBoolean:
+      description: Token is missing or incorrect.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 401
+                required:
+                  - status
+    ForbiddenErrorResponseWithErrMessage:
+      description: >-
+        The request was valid, but the server is refusing action. The user might
+        not have the necessary permissions for a resource, or may need an
+        account of some sort.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 403
+                required:
+                  - status
+    ForbiddenErrorResponseWithErrorBoolean:
+      description: >-
+        The request was valid, but the server is refusing action. The user might
+        not have the necessary permissions for a resource, or may need an
+        account of some sort.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 403
+                required:
+                  - status
+    NotFoundErrorResponseWithErrMessage:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 404
+                required:
+                  - status
+    NotFoundErrorResponseWithErrorBoolean:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 404
+                required:
+                  - status
+    TooManyRequestsErrorResponseWithErrMessage:
+      description: >-
+        In some cases API requests may be throttled or rate limited. Please wait
+        a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 429
+                required:
+                  - status
+    TooManyRequestsErrorResponseWithErrorBoolean:
+      description: >-
+        In some cases API requests may be throttled or rate limited. Please wait
+        a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 429
+                required:
+                  - status
+    InternalServerErrorResponseWithErrMessage:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 500
+                required:
+                  - status
+    InternalServerErrorResponseWithErrorBoolean:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 500
+                required:
+                  - status
+  schemas:
+    Node:
+      oneOf:
+        - $ref: '#/components/schemas/BooleanOperationNode'
+        - $ref: '#/components/schemas/ComponentNode'
+        - $ref: '#/components/schemas/ComponentSetNode'
+        - $ref: '#/components/schemas/ConnectorNode'
+        - $ref: '#/components/schemas/EllipseNode'
+        - $ref: '#/components/schemas/EmbedNode'
+        - $ref: '#/components/schemas/FrameNode'
+        - $ref: '#/components/schemas/GroupNode'
+        - $ref: '#/components/schemas/InstanceNode'
+        - $ref: '#/components/schemas/LineNode'
+        - $ref: '#/components/schemas/LinkUnfurlNode'
+        - $ref: '#/components/schemas/RectangleNode'
+        - $ref: '#/components/schemas/RegularPolygonNode'
+        - $ref: '#/components/schemas/SectionNode'
+        - $ref: '#/components/schemas/ShapeWithTextNode'
+        - $ref: '#/components/schemas/SliceNode'
+        - $ref: '#/components/schemas/StarNode'
+        - $ref: '#/components/schemas/StickyNode'
+        - $ref: '#/components/schemas/TableNode'
+        - $ref: '#/components/schemas/TableCellNode'
+        - $ref: '#/components/schemas/TextNode'
+        - $ref: '#/components/schemas/VectorNode'
+        - $ref: '#/components/schemas/WashiTapeNode'
+        - $ref: '#/components/schemas/WidgetNode'
+        - $ref: '#/components/schemas/DocumentNode'
+        - $ref: '#/components/schemas/CanvasNode'
+      discriminator:
+        propertyName: type
+        mapping:
+          BOOLEAN_OPERATION: '#/components/schemas/BooleanOperationNode'
+          COMPONENT: '#/components/schemas/ComponentNode'
+          COMPONENT_SET: '#/components/schemas/ComponentSetNode'
+          CONNECTOR: '#/components/schemas/ConnectorNode'
+          ELLIPSE: '#/components/schemas/EllipseNode'
+          EMBED: '#/components/schemas/EmbedNode'
+          FRAME: '#/components/schemas/FrameNode'
+          GROUP: '#/components/schemas/GroupNode'
+          INSTANCE: '#/components/schemas/InstanceNode'
+          LINE: '#/components/schemas/LineNode'
+          LINK_UNFURL: '#/components/schemas/LinkUnfurlNode'
+          RECTANGLE: '#/components/schemas/RectangleNode'
+          REGULAR_POLYGON: '#/components/schemas/RegularPolygonNode'
+          SECTION: '#/components/schemas/SectionNode'
+          SHAPE_WITH_TEXT: '#/components/schemas/ShapeWithTextNode'
+          SLICE: '#/components/schemas/SliceNode'
+          STAR: '#/components/schemas/StarNode'
+          STICKY: '#/components/schemas/StickyNode'
+          TABLE: '#/components/schemas/TableNode'
+          TABLE_CELL: '#/components/schemas/TableCellNode'
+          TEXT: '#/components/schemas/TextNode'
+          VECTOR: '#/components/schemas/VectorNode'
+          WASHI_TAPE: '#/components/schemas/WashiTapeNode'
+          WIDGET: '#/components/schemas/WidgetNode'
+          DOCUMENT: '#/components/schemas/DocumentNode'
+          CANVAS: '#/components/schemas/CanvasNode'
+    DocumentNode:
+      allOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - DOCUMENT
+            children:
+              type: array
+              items:
+                $ref: '#/components/schemas/CanvasNode'
+          required:
+            - type
+            - children
+        - $ref: '#/components/schemas/IsLayerTrait'
+    Style:
+      type: object
+      description: >-
+        A set of properties that can be applied to nodes and published. Styles
+        for a property can be created in the corresponding property's panel
+        while editing a file.
+      properties:
+        key:
+          type: string
+          description: The key of the style
+        name:
+          type: string
+          description: Name of the style
+        description:
+          type: string
+          description: Description of the style
+        remote:
+          type: boolean
+          description: Whether this style is a remote style that doesn't live in this file
+        styleType:
+          $ref: '#/components/schemas/StyleType'
+      required:
+        - key
+        - name
+        - description
+        - remote
+        - styleType
+    Component:
+      type: object
+      description: >-
+        A description of a main component. Helps you identify which component
+        instances are attached to.
+      properties:
+        key:
+          type: string
+          description: The key of the component
+        name:
+          type: string
+          description: Name of the component
+        description:
+          type: string
+          description: The description of the component as entered in the editor
+        componentSetId:
+          type: string
+          description: The ID of the component set if the component belongs to one
+        documentationLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentationLink'
+          description: An array of documentation links attached to this component
+        remote:
+          type: boolean
+          description: >-
+            Whether this component is a remote component that doesn't live in
+            this file
+      required:
+        - key
+        - name
+        - description
+        - documentationLinks
+        - remote
+    ComponentSet:
+      type: object
+      description: >-
+        A description of a component set, which is a node containing a set of
+        variants of a component.
+      properties:
+        key:
+          type: string
+          description: The key of the component set
+        name:
+          type: string
+          description: Name of the component set
+        description:
+          type: string
+          description: The description of the component set as entered in the editor
+        documentationLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentationLink'
+          description: An array of documentation links attached to this component set
+        remote:
+          type: boolean
+          description: >-
+            Whether this component set is a remote component set that doesn't
+            live in this file
+      required:
+        - key
+        - name
+        - description
+    Comment:
+      type: object
+      description: A comment or reply left by a user.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for comment.
+        client_meta:
+          description: >-
+            Positioning information of the comment. Includes information on the
+            location of the comment pin, which is either the absolute
+            coordinates on the canvas or a relative offset within a frame. If
+            the comment is a region, it will also contain the region height,
+            width, and position of the anchor in regards to the region.
+          oneOf:
+            - $ref: '#/components/schemas/Vector'
+            - $ref: '#/components/schemas/FrameOffset'
+            - $ref: '#/components/schemas/Region'
+            - $ref: '#/components/schemas/FrameOffsetRegion'
+        file_key:
+          type: string
+          description: The file in which the comment lives
+        parent_id:
+          type: string
+          description: If present, the id of the comment to which this is the reply
+        user:
+          $ref: '#/components/schemas/User'
+          description: The user who left the comment
+        created_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the comment was left
+        resolved_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+          description: If set, the UTC ISO 8601 time the comment was resolved
+        message:
+          type: string
+          description: The content of the comment
+        order_id:
+          type:
+            - string
+            - 'null'
+          description: >-
+            Only set for top level comments. The number displayed with the
+            comment in the UI
+        reactions:
+          type: array
+          description: An array of reactions to the comment
+          items:
+            $ref: '#/components/schemas/Reaction'
+      required:
+        - id
+        - client_meta
+        - file_key
+        - user
+        - created_at
+        - message
+        - reactions
+        - order_id
+    Reaction:
+      type: object
+      description: A reaction left by a user.
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+          description: The user who left the reaction.
+        emoji:
+          $ref: '#/components/schemas/Emoji'
+        created_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the reaction was left.
+      required:
+        - user
+        - emoji
+        - created_at
+    PublishedComponent:
+      type: object
+      description: >-
+        An arrangement of published UI elements that can be instantiated across
+        figma files.
+      properties:
+        key:
+          type: string
+          description: The unique identifier for the component.
+        file_key:
+          type: string
+          description: The unique identifier of the Figma file that contains the component.
+        node_id:
+          type: string
+          description: The unique identifier of the component node within the Figma file.
+        thumbnail_url:
+          type: string
+          description: A URL to a thumbnail image of the component.
+        name:
+          type: string
+          description: The name of the component.
+        description:
+          type: string
+          description: The description of the component as entered by the publisher.
+        created_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time when the component was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time when the component was last updated.
+        user:
+          $ref: '#/components/schemas/User'
+          description: The user who last updated the component.
+        containing_frame:
+          $ref: '#/components/schemas/FrameInfo'
+          description: The containing frame of the component.
+      required:
+        - key
+        - file_key
+        - node_id
+        - name
+        - description
+        - created_at
+        - updated_at
+        - user
+    PublishedComponentSet:
+      type: object
+      description: A node containing a set of variants of a component.
+      properties:
+        key:
+          type: string
+          description: The unique identifier for the component set.
+        file_key:
+          type: string
+          description: >-
+            The unique identifier of the Figma file that contains the component
+            set.
+        node_id:
+          type: string
+          description: >-
+            The unique identifier of the component set node within the Figma
+            file.
+        thumbnail_url:
+          type: string
+          description: A URL to a thumbnail image of the component set.
+        name:
+          type: string
+          description: The name of the component set.
+        description:
+          type: string
+          description: The description of the component set as entered by the publisher.
+        created_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time when the component set was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time when the component set was last updated.
+        user:
+          $ref: '#/components/schemas/User'
+          description: The user who last updated the component set.
+        containing_frame:
+          $ref: '#/components/schemas/FrameInfo'
+          description: The containing frame of the component set.
+      required:
+        - key
+        - file_key
+        - node_id
+        - name
+        - description
+        - created_at
+        - updated_at
+        - user
+    PublishedStyle:
+      type: object
+      description: A set of published properties that can be applied to nodes.
+      properties:
+        key:
+          type: string
+          description: The unique identifier for the style
+        file_key:
+          type: string
+          description: The unique identifier of the Figma file that contains the style.
+        node_id:
+          type: string
+          description: ID of the style node within the figma file
+        style_type:
+          $ref: '#/components/schemas/StyleType'
+        thumbnail_url:
+          type: string
+          description: A URL to a thumbnail image of the style.
+        name:
+          type: string
+          description: The name of the style.
+        description:
+          type: string
+          description: The description of the style as entered by the publisher.
+        created_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time when the style was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time when the style was last updated.
+        user:
+          $ref: '#/components/schemas/User'
+          description: The user who last updated the style.
+        sort_position:
+          type: string
+          description: A user specified order number by which the style can be sorted.
+      required:
+        - key
+        - file_key
+        - node_id
+        - style_type
+        - name
+        - description
+        - created_at
+        - updated_at
+        - user
+        - sort_position
+    Version:
+      type: object
+      description: A version of a file
+      properties:
+        id:
+          type: string
+          description: Unique identifier for version
+        created_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the version was created
+        label:
+          type:
+            - string
+            - 'null'
+          description: The label given to the version in the editor
+        description:
+          type:
+            - string
+            - 'null'
+          description: The description of the version as entered in the editor
+        user:
+          $ref: '#/components/schemas/User'
+          description: The user that created the version
+        thumbnail_url:
+          type: string
+          description: A URL to a thumbnail image of the file version.
+      required:
+        - id
+        - created_at
+        - label
+        - description
+        - user
+    LocalVariableCollection:
+      type: object
+      description: A grouping of related Variable objects each with the same modes.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of this variable collection.
+        name:
+          type: string
+          description: The name of this variable collection.
+        key:
+          type: string
+          description: The key of this variable collection.
+        modes:
+          type: array
+          description: The modes of this variable collection.
+          items:
+            type: object
+            properties:
+              modeId:
+                type: string
+                description: The unique identifier of this mode.
+              name:
+                type: string
+                description: The name of this mode.
+            required:
+              - modeId
+              - name
+        defaultModeId:
+          type: string
+          description: The id of the default mode.
+        remote:
+          type: boolean
+          description: Whether this variable collection is remote.
+        hiddenFromPublishing:
+          type: boolean
+          description: >-
+            Whether this variable collection is hidden when publishing the
+            current file as a library.
+          default: false
+        variableIds:
+          type: array
+          description: >-
+            The ids of the variables in the collection. Note that the order of
+            these variables is roughly the same as what is shown in Figma
+            Design, however it does not account for groups. As a result, the
+            order of these variables may not exactly reflect the exact ordering
+            and grouping shown in the authoring UI.
+          items:
+            type: string
+      required:
+        - id
+        - name
+        - key
+        - modes
+        - defaultModeId
+        - remote
+        - hiddenFromPublishing
+        - variableIds
+    LocalVariable:
+      type: object
+      description: >-
+        A Variable is a single design token that defines values for each of the
+        modes in its VariableCollection. These values can be applied to various
+        kinds of design properties.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of this variable.
+        name:
+          type: string
+          description: The name of this variable.
+        key:
+          type: string
+          description: The key of this variable.
+        variableCollectionId:
+          type: string
+          description: The id of the variable collection that contains this variable.
+        resolvedType:
+          type: string
+          description: The resolved type of the variable.
+          enum:
+            - BOOLEAN
+            - FLOAT
+            - STRING
+            - COLOR
+        valuesByMode:
+          type: object
+          description: The values for each mode of this variable.
+          additionalProperties:
+            oneOf:
+              - type: boolean
+              - type: number
+              - type: string
+              - $ref: '#/components/schemas/RGBA'
+              - $ref: '#/components/schemas/VariableAlias'
+        remote:
+          type: boolean
+          description: Whether this variable is remote.
+        description:
+          type: string
+          description: The description of this variable.
+        hiddenFromPublishing:
+          type: boolean
+          description: >-
+            Whether this variable is hidden when publishing the current file as
+            a library.
+
+
+            If the parent `VariableCollection` is marked as
+            `hiddenFromPublishing`, then this variable will also be hidden from
+            publishing via the UI. `hiddenFromPublishing` is independently
+            toggled for a variable and collection. However, both must be true
+            for a given variable to be publishable.
+        scopes:
+          type: array
+          description: >-
+            An array of scopes in the UI where this variable is shown. Setting
+            this property will show/hide this variable in the variable picker UI
+            for different fields.
+
+
+            Setting scopes for a variable does not prevent that variable from
+            being bound in other scopes (for example, via the Plugin API). This
+            only limits the variables that are shown in pickers within the Figma
+            UI.
+          items:
+            $ref: '#/components/schemas/VariableScope'
+        codeSyntax:
+          $ref: '#/components/schemas/VariableCodeSyntax'
+        deletedButReferenced:
+          type: boolean
+          description: >-
+            Indicates that the variable was deleted in the editor, but the
+            document may still contain references to the variable. References to
+            the variable may exist through bound values or variable aliases.
+          default: false
+      required:
+        - id
+        - name
+        - key
+        - variableCollectionId
+        - resolvedType
+        - valuesByMode
+        - remote
+        - description
+        - hiddenFromPublishing
+        - scopes
+        - codeSyntax
+    PublishedVariableCollection:
+      type: object
+      description: A grouping of related Variable objects each with the same modes.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of this variable collection.
+        subscribed_id:
+          type: string
+          description: >-
+            The ID of the variable collection that is used by subscribing files.
+            This ID changes every time the variable collection is modified and
+            published.
+        name:
+          type: string
+          description: The name of this variable collection.
+        key:
+          type: string
+          description: The key of this variable collection.
+        updatedAt:
+          type: string
+          format: date-time
+          description: >-
+            The UTC ISO 8601 time at which the variable collection was last
+            updated.
+
+
+            This timestamp will change any time a variable in the collection is
+            changed.
+      required:
+        - id
+        - subscribed_id
+        - name
+        - key
+        - updatedAt
+    PublishedVariable:
+      type: object
+      description: >-
+        A Variable is a single design token that defines values for each of the
+        modes in its VariableCollection. These values can be applied to various
+        kinds of design properties.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of this variable.
+        subscribed_id:
+          type: string
+          description: >-
+            The ID of the variable that is used by subscribing files. This ID
+            changes every time the variable is modified and published.
+        name:
+          type: string
+          description: The name of this variable.
+        key:
+          type: string
+          description: The key of this variable.
+        variableCollectionId:
+          type: string
+          description: The id of the variable collection that contains this variable.
+        resolvedDataType:
+          type: string
+          description: The resolved type of the variable.
+          enum:
+            - BOOLEAN
+            - FLOAT
+            - STRING
+            - COLOR
+        updatedAt:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the variable was last updated.
+      required:
+        - id
+        - subscribed_id
+        - name
+        - key
+        - variableCollectionId
+        - resolvedDataType
+        - updatedAt
+    DevResource:
+      type: object
+      description: A dev resource in a file
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the dev resource
+        name:
+          type: string
+          description: The name of the dev resource.
+        url:
+          type: string
+          description: The URL of the dev resource.
+        file_key:
+          type: string
+          description: The file key where the dev resource belongs.
+        node_id:
+          type: string
+          description: The target node to attach the dev resource to.
+      required:
+        - id
+        - name
+        - url
+        - file_key
+        - node_id
+    ResponsePagination:
+      type: object
+      description: >-
+        If pagination is needed due to the length of the response, identifies
+        the next and previous pages.
+      properties:
+        prev_page:
+          type: string
+          description: A URL that calls the previous page of the response.
+        next_page:
+          type: string
+          description: A URL that calls the next page of the response.
+    ErrorResponsePayloadWithErrMessage:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        status:
+          type: number
+          description: Status code
+        err:
+          type: string
+          description: A string describing the error
+      required:
+        - status
+        - err
+    ErrorResponsePayloadWithErrorBoolean:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        error:
+          type: boolean
+          description: For erroneous requests, this value is always `true`.
+          enum:
+            - true
+        status:
+          type: number
+          description: Status code
+        message:
+          type: string
+          description: A string describing the error
+      required:
+        - error
+        - status
+        - message
