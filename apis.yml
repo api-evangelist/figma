@@ -668,7 +668,7 @@ common:
     description: 'null'
   - url: >-
       https://help.figma.com/hc/en-us/articles/360048514653-Set-up-automatic-provisioning-via-SCIM
-    name: Set up automatic provisioning via SCIM  Figma Learn - Help Center
+    name: Set up automatic provisioning via SCIM  Figma Learn - Help Center
     type: ' SCIM'
     description: 'null'
   - url: https://www.figma.com/login?cont=/developers/embed
@@ -722,3 +722,8 @@ maintainers:
     url: http://apievangelist.com
     email: info@apievangelist.com
 specificationVersion: '0.16'
+tags:
+  - Design
+  - Collaboration
+  - Interfaces
+  - Prototypes
