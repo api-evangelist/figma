@@ -24,12 +24,9 @@ apis:
       - Variables
       - Local
       - Published
-      - Dev_resources
-      - Dev  Resources
       - Analytics
       - Libraries
       - Actions
-      - Library  Analytics
       - Usages
     image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
