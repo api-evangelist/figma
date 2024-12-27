@@ -1,5 +1,4 @@
 aid: figma
-name: Figma
 url: https://raw.githubusercontent.com/apis-json/artisanal/main/apis/figma.yml
 apis:
   - aid: figma:figma-api
@@ -78,8 +77,8 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - type: OpenAPI
-        url: openapi/figma-files-api-openapi.yml
+      - url: openapi/figma-files-api-openapi.yml
+        type: OpenAPI
     description: |-
 
       Figma allows designers to create and prototype their digital experiences -
@@ -122,8 +121,8 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - type: OpenAPI
-        url: openapi/figma-images-api-openapi.yml
+      - url: openapi/figma-images-api-openapi.yml
+        type: OpenAPI
     description: |-
 
       Figma allows designers to create and prototype their digital experiences -
@@ -166,8 +165,8 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - type: OpenAPI
-        url: openapi/figma-teams-api-openapi.yml
+      - url: openapi/figma-teams-api-openapi.yml
+        type: OpenAPI
     description: |-
 
       Figma allows designers to create and prototype their digital experiences -
@@ -210,8 +209,8 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - type: OpenAPI
-        url: openapi/figma-projects-api-openapi.yml
+      - url: openapi/figma-projects-api-openapi.yml
+        type: OpenAPI
     description: |-
 
       Figma allows designers to create and prototype their digital experiences -
@@ -254,8 +253,8 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - type: OpenAPI
-        url: openapi/figma-me-api-openapi.yml
+      - url: openapi/figma-me-api-openapi.yml
+        type: OpenAPI
     description: |-
 
       Figma allows designers to create and prototype their digital experiences -
@@ -298,8 +297,8 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - type: OpenAPI
-        url: openapi/figma-components-api-openapi.yml
+      - url: openapi/figma-components-api-openapi.yml
+        type: OpenAPI
     description: |-
 
       Figma allows designers to create and prototype their digital experiences -
@@ -308,7 +307,7 @@ apis:
       accessible to everyone. The Figma API is one of the ways we aim to do
       that.
   - aid: figma:figma-component-sets-api
-    name: Figma Component_sets API
+    name: Figma Component Sets API
     tags:
       - Files
       - Nodes
@@ -342,8 +341,8 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - type: OpenAPI
-        url: openapi/figma-component-sets-api-openapi.yml
+      - url: openapi/figma-component-sets-api-openapi.yml
+        type: OpenAPI
     description: |-
 
       Figma allows designers to create and prototype their digital experiences -
@@ -386,8 +385,8 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - type: OpenAPI
-        url: openapi/figma-styles-api-openapi.yml
+      - url: openapi/figma-styles-api-openapi.yml
+        type: OpenAPI
     description: |-
 
       Figma allows designers to create and prototype their digital experiences -
@@ -430,8 +429,8 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - type: OpenAPI
-        url: openapi/figma-webhooks-api-openapi.yml
+      - url: openapi/figma-webhooks-api-openapi.yml
+        type: OpenAPI
     description: |-
 
       Figma allows designers to create and prototype their digital experiences -
@@ -474,8 +473,8 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - type: OpenAPI
-        url: openapi/figma-teams-api-openapi.yml
+      - url: openapi/figma-teams-api-openapi.yml
+        type: OpenAPI
     description: |-
 
       Figma allows designers to create and prototype their digital experiences -
@@ -484,7 +483,7 @@ apis:
       accessible to everyone. The Figma API is one of the ways we aim to do
       that.
   - aid: figma:figma-activity-logs-api
-    name: Figma Activity_logs API
+    name: Figma Activity Logs API
     tags:
       - Files
       - Nodes
@@ -518,8 +517,8 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - type: OpenAPI
-        url: openapi/figma-activity-logs-api-openapi.yml
+      - url: openapi/figma-activity-logs-api-openapi.yml
+        type: OpenAPI
     description: |-
 
       Figma allows designers to create and prototype their digital experiences -
@@ -562,8 +561,8 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - type: OpenAPI
-        url: openapi/figma-payments-api-openapi.yml
+      - url: openapi/figma-payments-api-openapi.yml
+        type: OpenAPI
     description: |-
 
       Figma allows designers to create and prototype their digital experiences -
@@ -572,7 +571,7 @@ apis:
       accessible to everyone. The Figma API is one of the ways we aim to do
       that.
   - aid: figma:figma-dev-resources-api
-    name: Figma Dev_resources API
+    name: Figma Dev Resources API
     tags:
       - Files
       - Nodes
@@ -606,8 +605,8 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - type: OpenAPI
-        url: openapi/figma-dev-resources-api-openapi.yml
+      - url: openapi/figma-dev-resources-api-openapi.yml
+        type: OpenAPI
     description: |-
 
       Figma allows designers to create and prototype their digital experiences -
@@ -650,8 +649,8 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - type: OpenAPI
-        url: openapi/figma-analytics-api-openapi.yml
+      - url: openapi/figma-analytics-api-openapi.yml
+        type: OpenAPI
     description: |-
 
       Figma allows designers to create and prototype their digital experiences -
@@ -659,6 +658,7 @@ apis:
       visions into products, faster. Figma's mission is to make design
       accessible to everyone. The Figma API is one of the ways we aim to do
       that.
+name: Figma
 created: 2023/11/22
 modified: '2024-12-27'
 description: |-
@@ -670,3 +670,7 @@ maintainers:
     url: http://apievangelist.com
     email: info@apievangelist.com
 specificationVersion: '0.16'
+tags:
+  - Design
+  - Projects
+  - Styles
