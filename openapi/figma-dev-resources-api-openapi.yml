@@ -1,0 +1,348 @@
+openapi: 3.1.0
+info:
+  title: Figma Dev_resources API
+  version: 0.21.0
+  description: |-
+
+    Figma allows designers to create and prototype their digital experiences -
+    together in real-time and in one place - helping them turn their ideas and
+    visions into products, faster. Figma's mission is to make design
+    accessible to everyone. The Figma API is one of the ways we aim to do
+    that.
+  termsOfService: https://www.figma.com/developer-terms/
+  contact:
+    email: support@figma.com
+servers:
+  - url: https://api.figma.com
+paths:
+  /v1/dev_resources:
+    post:
+      tags:
+        - Dev  Resources
+      summary: Create dev resources
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - file_dev_resources:write
+      description: >-
+        Bulk create dev resources across multiple files.
+
+        Dev resources that are successfully created will show up in the
+        links_created array in the response.
+
+
+        If there are any dev resources that cannot be created, you may still get
+        a 200 response. These resources will show up in the errors array. Some
+        reasons a dev resource cannot be created include:
+
+
+        - Resource points to a `file_key` that cannot be found.
+
+        - The node already has the maximum of 10 dev resources.
+
+        - Another dev resource for the node has the same url.
+      operationId: postDevResources
+      requestBody:
+        description: A list of dev resources that you want to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dev_resources:
+                  type: array
+                  description: An array of dev resources.
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: The name of the dev resource.
+                      url:
+                        type: string
+                        description: The URL of the dev resource.
+                      file_key:
+                        type: string
+                        description: The file key where the dev resource belongs.
+                      node_id:
+                        type: string
+                        description: The target node to attach the dev resource to.
+                    required:
+                      - name
+                      - url
+                      - file_key
+                      - node_id
+              required:
+                - dev_resources
+      responses:
+        '200':
+          $ref: '#/components/responses/PostDevResourcesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrorBoolean'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponseWithErrorBoolean'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrorBoolean'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrorBoolean'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrorBoolean'
+    put:
+      tags:
+        - Dev  Resources
+      summary: Update dev resources
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - file_dev_resources:write
+      description: >-
+        Bulk update dev resources across multiple files.
+
+
+        Ids for dev resources that are successfully updated will show up in the
+        `links_updated` array in the response.
+
+
+        If there are any dev resources that cannot be updated, you may still get
+        a 200 response. These resources will show up in the `errors` array.
+      operationId: putDevResources
+      requestBody:
+        description: A list of dev resources that you want to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dev_resources:
+                  type: array
+                  description: An array of dev resources.
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier of the dev resource
+                      name:
+                        type: string
+                        description: The name of the dev resource.
+                      url:
+                        type: string
+                        description: The URL of the dev resource.
+                    required:
+                      - id
+              required:
+                - dev_resources
+      responses:
+        '200':
+          $ref: '#/components/responses/PutDevResourcesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrorBoolean'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponseWithErrorBoolean'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrorBoolean'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrorBoolean'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrorBoolean'
+components:
+  responses:
+    PostDevResourcesResponse:
+      description: Response from the POST /v1/dev_resources endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              links_created:
+                type: array
+                description: An array of links created.
+                items:
+                  $ref: '#/components/schemas/DevResource'
+              errors:
+                type: array
+                description: An array of errors.
+                items:
+                  type: object
+                  properties:
+                    file_key:
+                      type:
+                        - string
+                        - 'null'
+                      description: The file key.
+                    node_id:
+                      type:
+                        - string
+                        - 'null'
+                      description: The node id.
+                    error:
+                      type: string
+                      description: The error message.
+                  required:
+                    - error
+            required:
+              - links_created
+    PutDevResourcesResponse:
+      description: Response from the PUT /v1/dev_resources endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              links_updated:
+                type: array
+                description: An array of links updated.
+                items:
+                  $ref: '#/components/schemas/DevResource'
+              errors:
+                type: array
+                description: An array of errors.
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: The id of the dev resource.
+                    error:
+                      type: string
+                      description: The error message.
+                  required:
+                    - error
+            required:
+              - links_created
+    BadRequestErrorResponseWithErrorBoolean:
+      description: >-
+        Bad request. Parameters are invalid or malformed. Please check the input
+        formats. This error can also happen if the requested resources are too
+        large to complete the request, which results in a timeout. Please reduce
+        the number and size of objects requested.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 400
+                required:
+                  - status
+    UnauthorizedErrorResponseWithErrorBoolean:
+      description: Token is missing or incorrect.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 401
+                required:
+                  - status
+    ForbiddenErrorResponseWithErrorBoolean:
+      description: >-
+        The request was valid, but the server is refusing action. The user might
+        not have the necessary permissions for a resource, or may need an
+        account of some sort.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 403
+                required:
+                  - status
+    TooManyRequestsErrorResponseWithErrorBoolean:
+      description: >-
+        In some cases API requests may be throttled or rate limited. Please wait
+        a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 429
+                required:
+                  - status
+    InternalServerErrorResponseWithErrorBoolean:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+              - type: object
+                properties:
+                  status:
+                    type: number
+                    description: Status code
+                    enum:
+                      - 500
+                required:
+                  - status
+  schemas:
+    DevResource:
+      type: object
+      description: A dev resource in a file
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the dev resource
+        name:
+          type: string
+          description: The name of the dev resource.
+        url:
+          type: string
+          description: The URL of the dev resource.
+        file_key:
+          type: string
+          description: The file key where the dev resource belongs.
+        node_id:
+          type: string
+          description: The target node to attach the dev resource to.
+      required:
+        - id
+        - name
+        - url
+        - file_key
+        - node_id
+    ErrorResponsePayloadWithErrorBoolean:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        error:
+          type: boolean
+          description: For erroneous requests, this value is always `true`.
+          enum:
+            - true
+        status:
+          type: number
+          description: Status code
+        message:
+          type: string
+          description: A string describing the error
+      required:
+        - error
+        - status
+        - message
