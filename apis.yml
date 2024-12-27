@@ -443,7 +443,7 @@ apis:
       accessible to everyone. The Figma API is one of the ways we aim to do
       that.
   - aid: figma:figma-api-5
-    name: Figma API - 5
+    name: Figma Activity Logs API
     tags:
       - Files
       - Nodes
@@ -477,8 +477,8 @@ apis:
     humanURL: https://www.figma.com/developers
     overlays: []
     properties:
-      - type: OpenAPI
-        url: openapi/figma-api-5-openapi-5.yml
+      - url: properties/figma-api-5-openapi.yml
+        type: OpenAPI
     description: |-
 
       Figma allows designers to create and prototype their digital experiences -
