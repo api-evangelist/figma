@@ -1,16 +1,11 @@
 # Figma (figma)
-Figma's mission is to make design accessible to everyone. Our two products
-help people from different backgrounds and roles express their ideas visually
-and make things together.
+Figma is a collaborative interface design tool with a comprehensive REST API for accessing and manipulating design files, projects, and teams.
 
 **URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/apis-json/artisanal/main/apis/figma.yml)
 
-## Scope
-
-
 ## Tags:
 
- - Design, Collaboration, Interfaces, Prototypes
+ - Collaboration, Design, Interfaces, Prototypes, UI/UX, collaboration, design, graphics, prototyping
 
 ## Timestamps
 
@@ -28,8 +23,6 @@ that.
 
 **Human URL:** [https://www.figma.com/developers](https://www.figma.com/developers)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
-
 
 #### Tags:
 
@@ -38,6 +31,7 @@ that.
 #### Properties
 
 - [OpenAPI](properties/figma-api-openapi.yml)
+
 ### Figma Files API
 Figma allows designers to create and prototype their digital experiences -
 together in real-time and in one place - helping them turn their ideas and
@@ -47,8 +41,6 @@ that.
 
 **Human URL:** [https://www.figma.com/developers](https://www.figma.com/developers)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
-
 
 #### Tags:
 
@@ -57,6 +49,7 @@ that.
 #### Properties
 
 - [OpenAPI](openapi/figma-files-api-openapi.yml)
+
 ### Figma Images API
 
 Figma allows designers to create and prototype their digital experiences -
@@ -67,8 +60,6 @@ that.
 
 **Human URL:** [https://www.figma.com/developers](https://www.figma.com/developers)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
-
 
 #### Tags:
 
@@ -77,6 +68,7 @@ that.
 #### Properties
 
 - [OpenAPI](openapi/figma-images-api-openapi.yml)
+
 ### Figma Teams API
 
 Figma allows designers to create and prototype their digital experiences -
@@ -87,8 +79,6 @@ that.
 
 **Human URL:** [https://www.figma.com/developers](https://www.figma.com/developers)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
-
 
 #### Tags:
 
@@ -97,6 +87,7 @@ that.
 #### Properties
 
 - [OpenAPI](openapi/figma-teams-api-openapi.yml)
+
 ### Figma Projects API
 
 Figma allows designers to create and prototype their digital experiences -
@@ -107,8 +98,6 @@ that.
 
 **Human URL:** [https://www.figma.com/developers](https://www.figma.com/developers)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
-
 
 #### Tags:
 
@@ -117,6 +106,7 @@ that.
 #### Properties
 
 - [OpenAPI](openapi/figma-projects-api-openapi.yml)
+
 ### Figma Me API
 
 Figma allows designers to create and prototype their digital experiences -
@@ -127,8 +117,6 @@ that.
 
 **Human URL:** [https://www.figma.com/developers](https://www.figma.com/developers)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
-
 
 #### Tags:
 
@@ -137,6 +125,7 @@ that.
 #### Properties
 
 - [OpenAPI](openapi/figma-me-api-openapi.yml)
+
 ### Figma Components API
 
 Figma allows designers to create and prototype their digital experiences -
@@ -147,8 +136,6 @@ that.
 
 **Human URL:** [https://www.figma.com/developers](https://www.figma.com/developers)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
-
 
 #### Tags:
 
@@ -157,6 +144,7 @@ that.
 #### Properties
 
 - [OpenAPI](openapi/figma-components-api-openapi.yml)
+
 ### Figma Component_sets API
 
 Figma allows designers to create and prototype their digital experiences -
@@ -167,8 +155,6 @@ that.
 
 **Human URL:** [https://www.figma.com/developers](https://www.figma.com/developers)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
-
 
 #### Tags:
 
@@ -177,6 +163,7 @@ that.
 #### Properties
 
 - [OpenAPI](openapi/figma-component-sets-api-openapi.yml)
+
 ### Figma Styles API
 
 Figma allows designers to create and prototype their digital experiences -
@@ -187,8 +174,6 @@ that.
 
 **Human URL:** [https://www.figma.com/developers](https://www.figma.com/developers)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
-
 
 #### Tags:
 
@@ -197,6 +182,7 @@ that.
 #### Properties
 
 - [OpenAPI](openapi/figma-styles-api-openapi.yml)
+
 ### Figma Webhooks API
 
 Figma allows designers to create and prototype their digital experiences -
@@ -207,8 +193,6 @@ that.
 
 **Human URL:** [https://www.figma.com/developers](https://www.figma.com/developers)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
-
 
 #### Tags:
 
@@ -217,6 +201,7 @@ that.
 #### Properties
 
 - [OpenAPI](openapi/figma-webhooks-api-openapi.yml)
+
 ### Figma Teams API
 
 Figma allows designers to create and prototype their digital experiences -
@@ -227,8 +212,6 @@ that.
 
 **Human URL:** [https://www.figma.com/developers](https://www.figma.com/developers)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
-
 
 #### Tags:
 
@@ -237,6 +220,7 @@ that.
 #### Properties
 
 - [OpenAPI](openapi/figma-teams-api-openapi.yml)
+
 ### Figma Activity_logs API
 
 Figma allows designers to create and prototype their digital experiences -
@@ -247,8 +231,6 @@ that.
 
 **Human URL:** [https://www.figma.com/developers](https://www.figma.com/developers)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
-
 
 #### Tags:
 
@@ -257,6 +239,7 @@ that.
 #### Properties
 
 - [OpenAPI](openapi/figma-activity-logs-api-openapi.yml)
+
 ### Figma Payments API
 
 Figma allows designers to create and prototype their digital experiences -
@@ -267,8 +250,6 @@ that.
 
 **Human URL:** [https://www.figma.com/developers](https://www.figma.com/developers)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
-
 
 #### Tags:
 
@@ -277,6 +258,7 @@ that.
 #### Properties
 
 - [OpenAPI](openapi/figma-payments-api-openapi.yml)
+
 ### Figma Dev_resources API
 
 Figma allows designers to create and prototype their digital experiences -
@@ -287,8 +269,6 @@ that.
 
 **Human URL:** [https://www.figma.com/developers](https://www.figma.com/developers)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
-
 
 #### Tags:
 
@@ -297,6 +277,7 @@ that.
 #### Properties
 
 - [OpenAPI](openapi/figma-dev-resources-api-openapi.yml)
+
 ### Figma Analytics API
 
 Figma allows designers to create and prototype their digital experiences -
@@ -306,8 +287,6 @@ accessible to everyone. The Figma API is one of the ways we aim to do
 that.
 
 **Human URL:** [https://www.figma.com/developers](https://www.figma.com/developers)
-
-**Base URL:** [https://api.example.com](https://api.example.com)
 
 
 #### Tags:
@@ -333,10 +312,13 @@ that.
 - [PrivacyPolicy](https://www.figma.com/legal/privacy/)
 - [Partners](https://www.figma.com/partners/)
 - [Events](https://www.figma.com/events/)
+- [developer-portal](https://www.figma.com/developers)
 
 ## Maintainers
 
 **FN:** API Evangelist
 
 **Email:** info@apievangelist.com
+**FN:** Figma
 
+**Email:** support@figma.com
