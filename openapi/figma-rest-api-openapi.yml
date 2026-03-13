@@ -1,0 +1,1897 @@
+openapi: 3.1.0
+info:
+  title: Figma REST API
+  version: '2.0.0'
+  description: >-
+    The Figma REST API provides programmatic access to Figma files, comments,
+    components, and related resources. It enables developers to read and interact
+    with design data, export assets, manage comments and reactions, and query
+    published components and styles from team libraries. Authentication is done
+    via personal access tokens or OAuth 2.0.
+  termsOfService: https://www.figma.com/developer-terms/
+  contact:
+    name: Figma Developer Support
+    url: https://www.figma.com/developers
+    email: support@figma.com
+  license:
+    name: Figma Developer Terms
+    url: https://www.figma.com/developer-terms/
+  externalDocs:
+    description: Figma REST API Documentation
+    url: https://developers.figma.com/docs/rest-api/
+servers:
+  - url: https://api.figma.com
+    description: Figma Production API Server
+tags:
+  - name: Files
+    description: >-
+      Endpoints for retrieving Figma file data including document trees, nodes,
+      images, and version history.
+    externalDocs:
+      description: File Endpoints Documentation
+      url: https://developers.figma.com/docs/rest-api/file-endpoints/
+  - name: Comments
+    description: >-
+      Endpoints for managing comments and reactions on Figma files, including
+      creating, listing, and deleting comments.
+    externalDocs:
+      description: Comments Endpoints Documentation
+      url: https://developers.figma.com/docs/rest-api/comments-endpoints/
+  - name: Components
+    description: >-
+      Endpoints for querying published components, component sets, and styles
+      from team libraries.
+    externalDocs:
+      description: Component Types Documentation
+      url: https://developers.figma.com/docs/rest-api/component-types/
+  - name: Projects
+    description: >-
+      Endpoints for listing team projects and project files.
+    externalDocs:
+      description: Projects Documentation
+      url: https://developers.figma.com/docs/rest-api/projects-types/
+  - name: Users
+    description: >-
+      Endpoints for retrieving information about the authenticated user.
+    externalDocs:
+      description: Users Endpoints Documentation
+      url: https://developers.figma.com/docs/rest-api/users-endpoints/
+paths:
+  /v1/files/{file_key}:
+    get:
+      tags:
+        - Files
+      summary: Get file
+      operationId: getFile
+      description: >-
+        Returns the document tree for a given Figma file. If the file is large,
+        the response may be paginated. The file_key can be found in the Figma
+        file URL after figma.com/file/.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - files:read
+      parameters:
+        - $ref: '#/components/parameters/FileKeyPathParam'
+        - name: version
+          in: query
+          description: A specific version ID to get. Omitting this will get the current version.
+          required: false
+          schema:
+            type: string
+        - name: ids
+          in: query
+          description: >-
+            Comma-separated list of nodes that you want to receive. If not set,
+            all nodes are returned.
+          required: false
+          schema:
+            type: string
+        - name: depth
+          in: query
+          description: >-
+            Positive integer representing how deep into the document tree to
+            traverse. For example, setting depth=1 returns only pages.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+        - name: geometry
+          in: query
+          description: Set to "paths" to export vector data.
+          required: false
+          schema:
+            type: string
+            enum:
+              - paths
+        - name: plugin_data
+          in: query
+          description: >-
+            Comma-separated list of plugin IDs or the string "shared" for data
+            present in all plugins.
+          required: false
+          schema:
+            type: string
+        - name: branch_data
+          in: query
+          description: Set to true to include branch metadata in the response.
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Successfully retrieved the file.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFileResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /v1/files/{file_key}/nodes:
+    get:
+      tags:
+        - Files
+      summary: Get file nodes
+      operationId: getFileNodes
+      description: >-
+        Returns the nodes referenced by ids as a JSON object. The nodes are
+        retrieved from the document referred to by file_key. The node ID and
+        file key for a given node can be parsed from any Figma node URL.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - files:read
+      parameters:
+        - $ref: '#/components/parameters/FileKeyPathParam'
+        - name: ids
+          in: query
+          description: Comma-separated list of node IDs to retrieve.
+          required: true
+          schema:
+            type: string
+        - name: version
+          in: query
+          description: A specific version ID to get.
+          required: false
+          schema:
+            type: string
+        - name: depth
+          in: query
+          description: Positive integer for how deep into the node tree to traverse.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+        - name: geometry
+          in: query
+          description: Set to "paths" to export vector data.
+          required: false
+          schema:
+            type: string
+            enum:
+              - paths
+        - name: plugin_data
+          in: query
+          description: Comma-separated list of plugin IDs or "shared".
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved the file nodes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFileNodesResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /v1/images/{file_key}:
+    get:
+      tags:
+        - Files
+      summary: Get image renders
+      operationId: getImages
+      description: >-
+        Renders images from a file. If no error occurs, the response includes
+        a mapping from node IDs to URLs of the rendered images. The image
+        assets are stored temporarily and expire after 14 days.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - files:read
+      parameters:
+        - $ref: '#/components/parameters/FileKeyPathParam'
+        - name: ids
+          in: query
+          description: Comma-separated list of node IDs to render.
+          required: true
+          schema:
+            type: string
+        - name: scale
+          in: query
+          description: A number between 0.01 and 4, the image scaling factor.
+          required: false
+          schema:
+            type: number
+            minimum: 0.01
+            maximum: 4
+        - name: format
+          in: query
+          description: Image output format.
+          required: false
+          schema:
+            type: string
+            enum:
+              - jpg
+              - png
+              - svg
+              - pdf
+        - name: svg_include_id
+          in: query
+          description: Whether to include id attributes for all SVG elements.
+          required: false
+          schema:
+            type: boolean
+        - name: svg_simplify_stroke
+          in: query
+          description: Whether to simplify inside/outside strokes and use stroke attribute.
+          required: false
+          schema:
+            type: boolean
+        - name: use_absolute_bounds
+          in: query
+          description: Use the full dimensions of the node regardless of cropping.
+          required: false
+          schema:
+            type: boolean
+        - name: version
+          in: query
+          description: A specific version ID to get.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully rendered images.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetImagesResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /v1/files/{file_key}/image_fills:
+    get:
+      tags:
+        - Files
+      summary: Get image fills
+      operationId: getImageFills
+      description: >-
+        Returns a mapping of image references to URLs of the image contents.
+        Image URLs expire after no more than 14 days.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - files:read
+      parameters:
+        - $ref: '#/components/parameters/FileKeyPathParam'
+      responses:
+        '200':
+          description: Successfully retrieved image fill URLs.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetImageFillsResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+
+  /v1/files/{file_key}/versions:
+    get:
+      tags:
+        - Files
+      summary: Get file version history
+      operationId: getFileVersions
+      description: >-
+        Returns a list of the version history of a file. The version history
+        consists of versions, auto-save entries, and named versions.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - files:read
+      parameters:
+        - $ref: '#/components/parameters/FileKeyPathParam'
+        - name: page_size
+          in: query
+          description: Number of items to return per page. Defaults to 30.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - name: before
+          in: query
+          description: >-
+            Version ID before which to start listing versions. Used for pagination.
+          required: false
+          schema:
+            type: string
+        - name: after
+          in: query
+          description: >-
+            Version ID after which to start listing versions. Used for pagination.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved version history.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFileVersionsResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+
+  /v1/files/{file_key}/comments:
+    get:
+      tags:
+        - Comments
+      summary: Get comments
+      operationId: getComments
+      description: >-
+        Gets a list of comments left on the file. Comments are returned in
+        order of creation, with the most recent comments first. By default,
+        only root-level comments and their direct replies are returned.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - files:read
+      parameters:
+        - $ref: '#/components/parameters/FileKeyPathParam'
+        - name: as_md
+          in: query
+          description: >-
+            If set to true, comment message content will be returned as
+            Markdown instead of plain text.
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Successfully retrieved comments.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCommentsResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+    post:
+      tags:
+        - Comments
+      summary: Post comment
+      operationId: postComment
+      description: >-
+        Posts a new comment on the file. The body of the request should contain
+        the comment text and optionally the position (client_meta) where the
+        comment should be pinned.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - file_comments:write
+      parameters:
+        - $ref: '#/components/parameters/FileKeyPathParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostCommentRequest'
+      responses:
+        '200':
+          description: Successfully posted the comment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+
+  /v1/files/{file_key}/comments/{comment_id}:
+    delete:
+      tags:
+        - Comments
+      summary: Delete comment
+      operationId: deleteComment
+      description: >-
+        Deletes a specific comment. Only the comment creator or file owner
+        can delete a comment.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - file_comments:write
+      parameters:
+        - $ref: '#/components/parameters/FileKeyPathParam'
+        - name: comment_id
+          in: path
+          description: The ID of the comment to delete.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully deleted the comment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+
+  /v1/files/{file_key}/comments/{comment_id}/reactions:
+    get:
+      tags:
+        - Comments
+      summary: Get comment reactions
+      operationId: getCommentReactions
+      description: >-
+        Gets a paginated list of reactions for a comment.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - files:read
+      parameters:
+        - $ref: '#/components/parameters/FileKeyPathParam'
+        - name: comment_id
+          in: path
+          description: The ID of the comment.
+          required: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          description: Cursor for paginated results.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved reactions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetReactionsResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+    post:
+      tags:
+        - Comments
+      summary: Post comment reaction
+      operationId: postCommentReaction
+      description: >-
+        Posts a reaction to a comment.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - file_comments:write
+      parameters:
+        - $ref: '#/components/parameters/FileKeyPathParam'
+        - name: comment_id
+          in: path
+          description: The ID of the comment.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - emoji
+              properties:
+                emoji:
+                  type: string
+                  description: The emoji string to react with.
+      responses:
+        '200':
+          description: Successfully posted the reaction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+
+  /v1/teams/{team_id}/components:
+    get:
+      tags:
+        - Components
+      summary: Get team components
+      operationId: getTeamComponents
+      description: >-
+        Get a paginated list of published components within a team library.
+        The components are returned in order of when they were published.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - files:read
+      parameters:
+        - $ref: '#/components/parameters/TeamIdPathParam'
+        - name: page_size
+          in: query
+          description: Number of items per page. Defaults to 30.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - name: after
+          in: query
+          description: Cursor for paginated results. Use the cursor value from pagination in a previous response.
+          required: false
+          schema:
+            type: number
+        - name: before
+          in: query
+          description: Cursor for paginated results in reverse.
+          required: false
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Successfully retrieved team components.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTeamComponentsResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+
+  /v1/files/{file_key}/components:
+    get:
+      tags:
+        - Components
+      summary: Get file components
+      operationId: getFileComponents
+      description: >-
+        Get a list of published components within a file library.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - files:read
+      parameters:
+        - $ref: '#/components/parameters/FileKeyPathParam'
+      responses:
+        '200':
+          description: Successfully retrieved file components.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFileComponentsResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+
+  /v1/components/{key}:
+    get:
+      tags:
+        - Components
+      summary: Get component
+      operationId: getComponent
+      description: >-
+        Get metadata on a component by key. This is the unique identifier for
+        a published component that is globally unique across all files.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - files:read
+      parameters:
+        - name: key
+          in: path
+          description: The unique identifier of the component.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved component.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetComponentResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+
+  /v1/teams/{team_id}/component_sets:
+    get:
+      tags:
+        - Components
+      summary: Get team component sets
+      operationId: getTeamComponentSets
+      description: >-
+        Get a paginated list of published component sets within a team library.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - files:read
+      parameters:
+        - $ref: '#/components/parameters/TeamIdPathParam'
+        - name: page_size
+          in: query
+          description: Number of items per page.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - name: after
+          in: query
+          description: Cursor for pagination.
+          required: false
+          schema:
+            type: number
+        - name: before
+          in: query
+          description: Cursor for reverse pagination.
+          required: false
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Successfully retrieved team component sets.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTeamComponentSetsResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+
+  /v1/teams/{team_id}/styles:
+    get:
+      tags:
+        - Components
+      summary: Get team styles
+      operationId: getTeamStyles
+      description: >-
+        Get a paginated list of published styles within a team library.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - files:read
+      parameters:
+        - $ref: '#/components/parameters/TeamIdPathParam'
+        - name: page_size
+          in: query
+          description: Number of items per page.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - name: after
+          in: query
+          description: Cursor for pagination.
+          required: false
+          schema:
+            type: number
+        - name: before
+          in: query
+          description: Cursor for reverse pagination.
+          required: false
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Successfully retrieved team styles.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTeamStylesResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+
+  /v1/teams/{team_id}/projects:
+    get:
+      tags:
+        - Projects
+      summary: Get team projects
+      operationId: getTeamProjects
+      description: >-
+        Lists the projects for a specified team. Only projects visible to the
+        authenticated user are returned.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - files:read
+      parameters:
+        - $ref: '#/components/parameters/TeamIdPathParam'
+      responses:
+        '200':
+          description: Successfully retrieved team projects.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTeamProjectsResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+
+  /v1/projects/{project_id}/files:
+    get:
+      tags:
+        - Projects
+      summary: Get project files
+      operationId: getProjectFiles
+      description: >-
+        Lists the files in a given project.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - files:read
+      parameters:
+        - name: project_id
+          in: path
+          description: The ID of the project to list files from.
+          required: true
+          schema:
+            type: string
+        - name: branch_data
+          in: query
+          description: Set to true to include branch metadata.
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Successfully retrieved project files.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProjectFilesResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+
+  /v1/me:
+    get:
+      tags:
+        - Users
+      summary: Get current user
+      operationId: getMe
+      description: >-
+        Returns the user information for the currently authenticated user.
+      security:
+        - PersonalAccessToken: []
+        - OAuth2:
+            - files:read
+      responses:
+        '200':
+          description: Successfully retrieved user information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+
+components:
+  securitySchemes:
+    PersonalAccessToken:
+      type: http
+      scheme: bearer
+      bearerFormat: Figma Personal Access Token
+      description: >-
+        Personal access tokens can be generated from the Figma account settings
+        page. They provide full access to the Figma REST API on behalf of the user.
+    OAuth2:
+      type: oauth2
+      description: >-
+        OAuth 2.0 authorization code flow for Figma. Applications must be
+        registered on the Figma developer portal.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            files:read: Read access to files the user can view
+            file_variables:read: Read access to variables in files
+            file_variables:write: Write access to variables in files
+            file_comments:write: Post and delete comments on files
+            file_dev_resources:read: Read dev resources on files
+            file_dev_resources:write: Write dev resources on files
+            webhooks:write: Create and manage webhooks
+
+  parameters:
+    FileKeyPathParam:
+      name: file_key
+      in: path
+      description: >-
+        The key of the Figma file. This can be found in the URL of the file:
+        figma.com/file/{file_key}/...
+      required: true
+      schema:
+        type: string
+      example: abc123xyz789
+    TeamIdPathParam:
+      name: team_id
+      in: path
+      description: The ID of the team.
+      required: true
+      schema:
+        type: string
+      example: '12345'
+
+  responses:
+    UnauthorizedError:
+      description: Authentication token is missing, invalid, or expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ForbiddenError:
+      description: >-
+        The authenticated user does not have the necessary permissions to
+        access this resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFoundError:
+      description: The requested file, project, team, or resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimitError:
+      description: >-
+        Rate limit exceeded. The Figma API enforces rate limits on a
+        per-user, per-app basis. Retry after the period indicated in the
+        Retry-After header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerError:
+      description: An unexpected error occurred on the Figma server.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    ErrorResponse:
+      type: object
+      description: Standard error response from the Figma API.
+      required:
+        - error
+        - status
+        - message
+      properties:
+        error:
+          type: boolean
+          description: Always true for error responses.
+          enum:
+            - true
+        status:
+          type: integer
+          description: The HTTP status code.
+        message:
+          type: string
+          description: A human-readable description of the error.
+
+    SuccessResponse:
+      type: object
+      description: Generic success response.
+      properties:
+        error:
+          type: boolean
+          enum:
+            - false
+        status:
+          type: integer
+          enum:
+            - 200
+
+    User:
+      type: object
+      description: A Figma user account.
+      required:
+        - id
+        - handle
+        - img_url
+      properties:
+        id:
+          type: string
+          description: Unique stable ID of the user.
+        handle:
+          type: string
+          description: Display name of the user.
+        img_url:
+          type: string
+          format: uri
+          description: URL of the user's profile image.
+        email:
+          type: string
+          format: email
+          description: Email address associated with the user's account.
+
+    Color:
+      type: object
+      description: An RGBA color value with channels ranging from 0 to 1.
+      required:
+        - r
+        - g
+        - b
+        - a
+      properties:
+        r:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Red channel value, between 0 and 1.
+        g:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Green channel value, between 0 and 1.
+        b:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Blue channel value, between 0 and 1.
+        a:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Alpha channel value, between 0 and 1.
+
+    DocumentNode:
+      type: object
+      description: The root node of a Figma document.
+      required:
+        - id
+        - name
+        - type
+        - children
+      properties:
+        id:
+          type: string
+          description: A string uniquely identifying this node within the document.
+        name:
+          type: string
+          description: The name given to the node by the user in the tool.
+        type:
+          type: string
+          enum:
+            - DOCUMENT
+          description: The type of the node.
+        children:
+          type: array
+          description: An array of canvases (pages) attached to the document.
+          items:
+            $ref: '#/components/schemas/CanvasNode'
+
+    CanvasNode:
+      type: object
+      description: A canvas (page) in the Figma document.
+      required:
+        - id
+        - name
+        - type
+      properties:
+        id:
+          type: string
+          description: A string uniquely identifying this node within the document.
+        name:
+          type: string
+          description: The name given to the page by the user.
+        type:
+          type: string
+          enum:
+            - CANVAS
+          description: The type of the node.
+        backgroundColor:
+          $ref: '#/components/schemas/Color'
+        children:
+          type: array
+          description: An array of top-level layers on the canvas.
+          items:
+            type: object
+
+    Component:
+      type: object
+      description: >-
+        Metadata about a main component in a Figma file. Components are
+        reusable design elements.
+      required:
+        - key
+        - name
+        - description
+        - documentationLinks
+        - remote
+      properties:
+        key:
+          type: string
+          description: The globally unique key of the component.
+        name:
+          type: string
+          description: Name of the component.
+        description:
+          type: string
+          description: The description of the component as entered in the editor.
+        componentSetId:
+          type: ['string', 'null']
+          description: The ID of the component set this component belongs to, if any.
+        documentationLinks:
+          type: array
+          description: An array of documentation links attached to this component.
+          items:
+            $ref: '#/components/schemas/DocumentationLink'
+        remote:
+          type: boolean
+          description: Whether this component is a remote component that was pulled from an external library.
+
+    ComponentSet:
+      type: object
+      description: >-
+        A component set groups variants of a component together. Useful for
+        organizing different states or configurations of a design element.
+      required:
+        - key
+        - name
+        - description
+      properties:
+        key:
+          type: string
+          description: The globally unique key of the component set.
+        name:
+          type: string
+          description: Name of the component set.
+        description:
+          type: string
+          description: The description of the component set as entered in the editor.
+        documentationLinks:
+          type: array
+          description: Documentation links attached to this component set.
+          items:
+            $ref: '#/components/schemas/DocumentationLink'
+        remote:
+          type: boolean
+          description: Whether this is a remote component set.
+
+    DocumentationLink:
+      type: object
+      description: A link to documentation associated with a component.
+      required:
+        - uri
+      properties:
+        uri:
+          type: string
+          format: uri
+          description: The URI of the documentation link.
+
+    Style:
+      type: object
+      description: A published style that can be applied to nodes in Figma.
+      required:
+        - key
+        - name
+        - description
+        - remote
+        - style_type
+      properties:
+        key:
+          type: string
+          description: The globally unique key of the style.
+        name:
+          type: string
+          description: Name of the style.
+        description:
+          type: string
+          description: Description of the style.
+        remote:
+          type: boolean
+          description: Whether this style is a remote style from an external library.
+        style_type:
+          type: string
+          description: The type of style.
+          enum:
+            - FILL
+            - TEXT
+            - EFFECT
+            - GRID
+
+    Comment:
+      type: object
+      description: >-
+        A comment or reply left by a user on a Figma file. Comments can be
+        pinned to specific locations on the canvas.
+      required:
+        - id
+        - file_key
+        - user
+        - created_at
+        - message
+        - reactions
+        - order_id
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the comment.
+        file_key:
+          type: string
+          description: The key of the file the comment belongs to.
+        parent_id:
+          type: ['string', 'null']
+          description: If present, the ID of the comment to which this is a reply.
+        user:
+          $ref: '#/components/schemas/User'
+        created_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the comment was left.
+        resolved_at:
+          type: ['string', 'null']
+          format: date-time
+          description: If set, the UTC ISO 8601 time the comment was resolved.
+        message:
+          type: string
+          description: The content of the comment.
+        order_id:
+          type: ['string', 'null']
+          description: >-
+            Only set for top-level comments. The number displayed with the
+            comment in the UI.
+        client_meta:
+          $ref: '#/components/schemas/ClientMeta'
+        reactions:
+          type: array
+          description: An array of emoji reactions to the comment.
+          items:
+            $ref: '#/components/schemas/Reaction'
+
+    ClientMeta:
+      type: object
+      description: >-
+        Position metadata for a pinned comment. Describes where the comment
+        marker is located on the canvas.
+      properties:
+        x:
+          type: number
+          description: X coordinate of the comment pin.
+        'y':
+          type: number
+          description: Y coordinate of the comment pin.
+        node_id:
+          type: string
+          description: The node ID the comment is pinned to.
+        node_offset:
+          type: object
+          description: Offset from the node origin.
+          properties:
+            x:
+              type: number
+            'y':
+              type: number
+
+    Reaction:
+      type: object
+      description: An emoji reaction left on a comment.
+      required:
+        - user
+        - emoji
+        - created_at
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        emoji:
+          type: string
+          description: The emoji used for the reaction.
+        created_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the reaction was left.
+
+    PublishedComponent:
+      type: object
+      description: A published component from a team or file library.
+      required:
+        - key
+        - file_key
+        - node_id
+        - name
+        - description
+        - created_at
+        - updated_at
+        - user
+      properties:
+        key:
+          type: string
+          description: The globally unique identifier for the component.
+        file_key:
+          type: string
+          description: The key of the Figma file containing the component.
+        node_id:
+          type: string
+          description: The node ID of the component within the file.
+        thumbnail_url:
+          type: string
+          format: uri
+          description: A URL to a thumbnail image of the component.
+        name:
+          type: string
+          description: The name of the component.
+        description:
+          type: string
+          description: The description of the component as entered by the publisher.
+        created_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time when the component was first published.
+        updated_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time when the component was last updated.
+        user:
+          $ref: '#/components/schemas/User'
+        containing_frame:
+          $ref: '#/components/schemas/FrameInfo'
+
+    PublishedComponentSet:
+      type: object
+      description: A published component set from a team or file library.
+      required:
+        - key
+        - file_key
+        - node_id
+        - name
+        - description
+        - created_at
+        - updated_at
+        - user
+      properties:
+        key:
+          type: string
+          description: The globally unique identifier for the component set.
+        file_key:
+          type: string
+          description: The key of the Figma file containing the component set.
+        node_id:
+          type: string
+          description: The node ID of the component set within the file.
+        thumbnail_url:
+          type: string
+          format: uri
+          description: A URL to a thumbnail image of the component set.
+        name:
+          type: string
+          description: The name of the component set.
+        description:
+          type: string
+          description: The description of the component set.
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user:
+          $ref: '#/components/schemas/User'
+        containing_frame:
+          $ref: '#/components/schemas/FrameInfo'
+
+    PublishedStyle:
+      type: object
+      description: A published style from a team or file library.
+      required:
+        - key
+        - file_key
+        - node_id
+        - name
+        - description
+        - style_type
+        - created_at
+        - updated_at
+        - user
+      properties:
+        key:
+          type: string
+          description: The globally unique identifier for the style.
+        file_key:
+          type: string
+          description: The key of the Figma file containing the style.
+        node_id:
+          type: string
+          description: The node ID of the style within the file.
+        thumbnail_url:
+          type: string
+          format: uri
+          description: A URL to a thumbnail image of the style.
+        name:
+          type: string
+          description: The name of the style.
+        description:
+          type: string
+          description: The description of the style.
+        style_type:
+          type: string
+          enum:
+            - FILL
+            - TEXT
+            - EFFECT
+            - GRID
+        sort_position:
+          type: string
+          description: A user-defined sort position for the style.
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user:
+          $ref: '#/components/schemas/User'
+
+    FrameInfo:
+      type: object
+      description: Information about the frame containing a component.
+      properties:
+        nodeId:
+          type: string
+          description: The ID of the containing frame node.
+        name:
+          type: string
+          description: The name of the containing frame.
+        backgroundColor:
+          type: string
+          description: The background color of the containing frame.
+        pageId:
+          type: string
+          description: The ID of the page containing the frame.
+        pageName:
+          type: string
+          description: The name of the page containing the frame.
+
+    Version:
+      type: object
+      description: A recorded version in the file's version history.
+      required:
+        - id
+        - created_at
+        - label
+        - description
+        - user
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the version.
+        created_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the version was created.
+        label:
+          type: ['string', 'null']
+          description: The label given to the version in the editor.
+        description:
+          type: ['string', 'null']
+          description: The description of the version as entered in the editor.
+        user:
+          $ref: '#/components/schemas/User'
+
+    Branch:
+      type: object
+      description: Information about a branch of a Figma file.
+      required:
+        - key
+        - name
+        - thumbnail_url
+        - last_modified
+      properties:
+        key:
+          type: string
+          description: The key of the branch file.
+        name:
+          type: string
+          description: The name of the branch.
+        thumbnail_url:
+          type: string
+          format: uri
+          description: A URL to a thumbnail image of the branch.
+        last_modified:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the branch was last modified.
+
+    Project:
+      type: object
+      description: A Figma project within a team.
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          description: The ID of the project.
+        name:
+          type: string
+          description: The name of the project.
+
+    ProjectFile:
+      type: object
+      description: A file within a Figma project.
+      required:
+        - key
+        - name
+        - last_modified
+      properties:
+        key:
+          type: string
+          description: The file key.
+        name:
+          type: string
+          description: The name of the file.
+        thumbnail_url:
+          type: string
+          format: uri
+          description: A URL to a thumbnail image of the file.
+        last_modified:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the file was last modified.
+        branches:
+          type: array
+          description: Branches of this file, if branch_data was requested.
+          items:
+            $ref: '#/components/schemas/Branch'
+
+    Pagination:
+      type: object
+      description: Cursor-based pagination metadata.
+      properties:
+        before:
+          type: number
+          description: Cursor value for the page before the current one.
+        after:
+          type: number
+          description: Cursor value for the page after the current one.
+
+    PostCommentRequest:
+      type: object
+      description: Request body for posting a new comment.
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: The text content of the comment.
+        comment_id:
+          type: string
+          description: >-
+            The comment to reply to, if any. This must be a root comment.
+            Creating a reply to a reply is not supported.
+        client_meta:
+          $ref: '#/components/schemas/ClientMeta'
+
+    GetFileResponse:
+      type: object
+      description: Response from the Get File endpoint.
+      required:
+        - name
+        - role
+        - lastModified
+        - editorType
+        - version
+        - document
+        - components
+        - componentSets
+        - schemaVersion
+        - styles
+      properties:
+        name:
+          type: string
+          description: The name of the file as it appears in the editor.
+        role:
+          type: string
+          enum:
+            - owner
+            - editor
+            - viewer
+          description: The role of the requesting user in relation to the file.
+        lastModified:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the file was last modified.
+        editorType:
+          type: string
+          enum:
+            - figma
+            - figjam
+          description: The type of editor associated with this file.
+        thumbnailUrl:
+          type: string
+          format: uri
+          description: A URL to a thumbnail image of the file.
+        version:
+          type: string
+          description: The version number of the file.
+        document:
+          $ref: '#/components/schemas/DocumentNode'
+        components:
+          type: object
+          description: A mapping from component IDs to component metadata.
+          additionalProperties:
+            $ref: '#/components/schemas/Component'
+        componentSets:
+          type: object
+          description: A mapping from component set IDs to component set metadata.
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentSet'
+        schemaVersion:
+          type: integer
+          description: The schema version of the file format.
+        styles:
+          type: object
+          description: A mapping from style IDs to style metadata.
+          additionalProperties:
+            $ref: '#/components/schemas/Style'
+        mainFileKey:
+          type: string
+          description: The key of the main file, if this is a branch.
+        branches:
+          type: array
+          description: A list of branches for this file.
+          items:
+            $ref: '#/components/schemas/Branch'
+
+    GetFileNodesResponse:
+      type: object
+      description: Response from the Get File Nodes endpoint.
+      required:
+        - name
+        - lastModified
+        - version
+        - nodes
+      properties:
+        name:
+          type: string
+          description: The name of the file.
+        lastModified:
+          type: string
+          format: date-time
+        version:
+          type: string
+        role:
+          type: string
+          enum:
+            - owner
+            - editor
+            - viewer
+        nodes:
+          type: object
+          description: >-
+            A mapping from node IDs to node data. Each value contains a document
+            subtree and optionally the component metadata for that node.
+          additionalProperties:
+            type: object
+            properties:
+              document:
+                type: object
+                description: The node subtree.
+              components:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Component'
+              schemaVersion:
+                type: integer
+              styles:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Style'
+
+    GetImagesResponse:
+      type: object
+      description: Response from the Get Images endpoint.
+      properties:
+        err:
+          type: ['string', 'null']
+          description: >-
+            If present, indicates an error rendering the images.
+        images:
+          type: object
+          description: >-
+            A mapping from node IDs to URLs of the rendered images. Image URLs
+            expire after 14 days.
+          additionalProperties:
+            type: ['string', 'null']
+
+    GetImageFillsResponse:
+      type: object
+      description: Response from the Get Image Fills endpoint.
+      properties:
+        error:
+          type: boolean
+        status:
+          type: integer
+        meta:
+          type: object
+          properties:
+            images:
+              type: object
+              description: A mapping from image references to image download URLs.
+              additionalProperties:
+                type: string
+
+    GetFileVersionsResponse:
+      type: object
+      description: Response from the Get File Versions endpoint.
+      required:
+        - versions
+      properties:
+        versions:
+          type: array
+          description: An array of version history entries.
+          items:
+            $ref: '#/components/schemas/Version'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+
+    GetCommentsResponse:
+      type: object
+      description: Response from the Get Comments endpoint.
+      required:
+        - comments
+      properties:
+        comments:
+          type: array
+          description: An array of comments on the file.
+          items:
+            $ref: '#/components/schemas/Comment'
+
+    GetReactionsResponse:
+      type: object
+      description: Response from the Get Reactions endpoint.
+      required:
+        - reactions
+      properties:
+        reactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reaction'
+        pagination:
+          type: object
+          properties:
+            cursor:
+              type: string
+
+    GetTeamComponentsResponse:
+      type: object
+      description: Response from the Get Team Components endpoint.
+      required:
+        - status
+        - meta
+      properties:
+        error:
+          type: boolean
+        status:
+          type: integer
+        meta:
+          type: object
+          properties:
+            components:
+              type: array
+              items:
+                $ref: '#/components/schemas/PublishedComponent'
+            cursor:
+              $ref: '#/components/schemas/Pagination'
+
+    GetFileComponentsResponse:
+      type: object
+      description: Response from the Get File Components endpoint.
+      required:
+        - status
+        - meta
+      properties:
+        error:
+          type: boolean
+        status:
+          type: integer
+        meta:
+          type: object
+          properties:
+            components:
+              type: array
+              items:
+                $ref: '#/components/schemas/PublishedComponent'
+
+    GetComponentResponse:
+      type: object
+      description: Response from the Get Component endpoint.
+      required:
+        - status
+        - meta
+      properties:
+        error:
+          type: boolean
+        status:
+          type: integer
+        meta:
+          $ref: '#/components/schemas/PublishedComponent'
+
+    GetTeamComponentSetsResponse:
+      type: object
+      description: Response from the Get Team Component Sets endpoint.
+      required:
+        - status
+        - meta
+      properties:
+        error:
+          type: boolean
+        status:
+          type: integer
+        meta:
+          type: object
+          properties:
+            component_sets:
+              type: array
+              items:
+                $ref: '#/components/schemas/PublishedComponentSet'
+            cursor:
+              $ref: '#/components/schemas/Pagination'
+
+    GetTeamStylesResponse:
+      type: object
+      description: Response from the Get Team Styles endpoint.
+      required:
+        - status
+        - meta
+      properties:
+        error:
+          type: boolean
+        status:
+          type: integer
+        meta:
+          type: object
+          properties:
+            styles:
+              type: array
+              items:
+                $ref: '#/components/schemas/PublishedStyle'
+            cursor:
+              $ref: '#/components/schemas/Pagination'
+
+    GetTeamProjectsResponse:
+      type: object
+      description: Response from the Get Team Projects endpoint.
+      required:
+        - name
+        - projects
+      properties:
+        name:
+          type: string
+          description: The name of the team.
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+
+    GetProjectFilesResponse:
+      type: object
+      description: Response from the Get Project Files endpoint.
+      required:
+        - name
+        - files
+      properties:
+        name:
+          type: string
+          description: The name of the project.
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectFile'

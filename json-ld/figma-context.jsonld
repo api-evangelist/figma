@@ -1,0 +1,326 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "figma": "https://developers.figma.com/ns/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+
+    "File": {
+      "@id": "figma:File",
+      "@context": {
+        "name": "schema:name",
+        "lastModified": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        },
+        "thumbnailUrl": {
+          "@id": "schema:thumbnailUrl",
+          "@type": "@id"
+        },
+        "version": "figma:version",
+        "role": "figma:role",
+        "editorType": "figma:editorType",
+        "document": {
+          "@id": "figma:document",
+          "@type": "@id"
+        },
+        "components": {
+          "@id": "figma:components",
+          "@container": "@index"
+        },
+        "componentSets": {
+          "@id": "figma:componentSets",
+          "@container": "@index"
+        },
+        "styles": {
+          "@id": "figma:styles",
+          "@container": "@index"
+        },
+        "schemaVersion": "figma:schemaVersion",
+        "mainFileKey": "figma:mainFileKey",
+        "branches": {
+          "@id": "figma:branches",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "DocumentNode": {
+      "@id": "figma:DocumentNode",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name",
+        "type": "figma:nodeType",
+        "children": {
+          "@id": "figma:children",
+          "@container": "@list"
+        }
+      }
+    },
+
+    "CanvasNode": {
+      "@id": "figma:CanvasNode",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name",
+        "type": "figma:nodeType",
+        "backgroundColor": "figma:backgroundColor",
+        "children": {
+          "@id": "figma:children",
+          "@container": "@list"
+        }
+      }
+    },
+
+    "Node": {
+      "@id": "figma:Node",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name",
+        "type": "figma:nodeType",
+        "visible": "figma:isVisible",
+        "locked": "figma:isLocked",
+        "opacity": "figma:opacity",
+        "children": {
+          "@id": "figma:children",
+          "@container": "@list"
+        },
+        "fills": {
+          "@id": "figma:fills",
+          "@container": "@list"
+        },
+        "strokes": {
+          "@id": "figma:strokes",
+          "@container": "@list"
+        },
+        "strokeWeight": "figma:strokeWeight",
+        "effects": {
+          "@id": "figma:effects",
+          "@container": "@list"
+        },
+        "componentId": "figma:componentId",
+        "characters": "schema:text"
+      }
+    },
+
+    "Component": {
+      "@id": "figma:Component",
+      "@context": {
+        "key": "schema:identifier",
+        "name": "schema:name",
+        "description": "schema:description",
+        "componentSetId": "figma:componentSetId",
+        "remote": "figma:isRemote",
+        "documentationLinks": {
+          "@id": "figma:documentationLinks",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "PublishedComponent": {
+      "@id": "figma:PublishedComponent",
+      "@context": {
+        "key": "schema:identifier",
+        "fileKey": "figma:fileKey",
+        "nodeId": "figma:nodeId",
+        "name": "schema:name",
+        "description": "schema:description",
+        "thumbnailUrl": {
+          "@id": "schema:thumbnailUrl",
+          "@type": "@id"
+        },
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updated_at": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        },
+        "user": {
+          "@id": "schema:author",
+          "@type": "@id"
+        },
+        "containingFrame": {
+          "@id": "figma:containingFrame",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "ComponentSet": {
+      "@id": "figma:ComponentSet",
+      "@context": {
+        "key": "schema:identifier",
+        "name": "schema:name",
+        "description": "schema:description",
+        "remote": "figma:isRemote",
+        "documentationLinks": {
+          "@id": "figma:documentationLinks",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "Style": {
+      "@id": "figma:Style",
+      "@context": {
+        "key": "schema:identifier",
+        "name": "schema:name",
+        "description": "schema:description",
+        "styleType": "figma:styleType",
+        "remote": "figma:isRemote"
+      }
+    },
+
+    "User": {
+      "@id": "figma:User",
+      "@context": {
+        "id": "schema:identifier",
+        "handle": "schema:name",
+        "imgUrl": {
+          "@id": "schema:image",
+          "@type": "@id"
+        },
+        "email": "schema:email"
+      }
+    },
+
+    "Comment": {
+      "@id": "figma:Comment",
+      "@context": {
+        "id": "schema:identifier",
+        "fileKey": "figma:fileKey",
+        "parentId": "figma:parentCommentId",
+        "message": "schema:text",
+        "user": {
+          "@id": "schema:author",
+          "@type": "@id"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "resolvedAt": {
+          "@id": "figma:resolvedAt",
+          "@type": "xsd:dateTime"
+        },
+        "orderId": "figma:orderId",
+        "reactions": {
+          "@id": "figma:reactions",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "Reaction": {
+      "@id": "figma:Reaction",
+      "@context": {
+        "user": {
+          "@id": "schema:author",
+          "@type": "@id"
+        },
+        "emoji": "figma:emoji",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Version": {
+      "@id": "figma:Version",
+      "@context": {
+        "id": "schema:identifier",
+        "label": "schema:name",
+        "description": "schema:description",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "user": {
+          "@id": "schema:author",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "Branch": {
+      "@id": "figma:Branch",
+      "@context": {
+        "key": "schema:identifier",
+        "name": "schema:name",
+        "thumbnailUrl": {
+          "@id": "schema:thumbnailUrl",
+          "@type": "@id"
+        },
+        "lastModified": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Project": {
+      "@id": "figma:Project",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name"
+      }
+    },
+
+    "Team": {
+      "@id": "figma:Team",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name"
+      }
+    },
+
+    "Webhook": {
+      "@id": "figma:Webhook",
+      "@context": {
+        "id": "schema:identifier",
+        "team_id": "figma:teamId",
+        "event_type": "figma:eventType",
+        "endpoint": {
+          "@id": "figma:endpoint",
+          "@type": "@id"
+        },
+        "status": "figma:webhookStatus",
+        "description": "schema:description"
+      }
+    },
+
+    "WebhookEvent": {
+      "@id": "figma:WebhookEvent",
+      "@context": {
+        "event_type": "figma:eventType",
+        "webhook_id": "figma:webhookId",
+        "passcode": "figma:passcode",
+        "timestamp": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "file_key": "figma:fileKey",
+        "file_name": "figma:fileName",
+        "triggered_by": {
+          "@id": "figma:triggeredBy",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "Color": {
+      "@id": "figma:Color",
+      "@context": {
+        "r": "figma:redChannel",
+        "g": "figma:greenChannel",
+        "b": "figma:blueChannel",
+        "a": "figma:alphaChannel"
+      }
+    }
+  }
+}

@@ -1,0 +1,432 @@
+asyncapi: 2.6.0
+info:
+  title: Figma Webhooks
+  description: >-
+    Figma Webhooks allow applications to receive real-time notifications when
+    events occur in Figma files and projects. Webhooks are configured at the
+    team level and send HTTP POST requests with JSON payloads to a specified
+    endpoint URL. Supported events include file updates, comments, library
+    publish changes, and version history updates. Webhooks use a passcode
+    for payload verification.
+  version: '2.0.0'
+  contact:
+    name: Figma Developer Support
+    url: https://www.figma.com/developers
+    email: support@figma.com
+  license:
+    name: Figma Developer Terms
+    url: https://www.figma.com/developer-terms/
+  externalDocs:
+    description: Figma Webhooks Documentation
+    url: https://developers.figma.com/docs/rest-api/webhooks/
+servers:
+  webhook-receiver:
+    url: '{webhookUrl}'
+    protocol: https
+    description: >-
+      Your webhook receiver endpoint. Figma sends POST requests to this URL
+      when subscribed events occur on the specified team. The endpoint must
+      respond with a 200-level status code within 10 seconds.
+    variables:
+      webhookUrl:
+        description: >-
+          The URL configured to receive webhook deliveries. This is set when
+          creating or updating a webhook via the Figma REST API.
+    security:
+      - passcodeVerification: []
+channels:
+  /webhook:
+    description: >-
+      The endpoint that receives all Figma webhook event deliveries. The
+      specific event type is identified by the event_type field in the
+      payload. Figma webhooks are team-scoped and can subscribe to specific
+      event types.
+    publish:
+      operationId: receiveFigmaWebhookEvent
+      summary: Receive a Figma webhook event
+      description: >-
+        Figma delivers webhook events as HTTP POST requests with JSON payloads.
+        Each delivery includes a passcode field that matches the passcode
+        configured when the webhook was created, which can be used to verify
+        authenticity. If a webhook endpoint fails to respond with a 2xx status
+        code, Figma will retry delivery with exponential backoff.
+      bindings:
+        http:
+          type: request
+          method: POST
+          headers:
+            type: object
+            properties:
+              Content-Type:
+                type: string
+                enum:
+                  - application/json
+                description: The content type of the webhook payload.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/ping'
+          - $ref: '#/components/messages/file_update'
+          - $ref: '#/components/messages/file_version_update'
+          - $ref: '#/components/messages/file_delete'
+          - $ref: '#/components/messages/file_comment'
+          - $ref: '#/components/messages/library_publish'
+components:
+  securitySchemes:
+    passcodeVerification:
+      type: userPassword
+      description: >-
+        Figma webhook payloads include a passcode field that matches the
+        passcode you specified when creating the webhook. Compare this value
+        to verify the payload originated from Figma.
+  messages:
+    ping:
+      name: ping
+      title: Ping Event
+      summary: >-
+        Test event sent when a webhook is first created to verify the endpoint
+        is reachable.
+      description: >-
+        The PING event is sent immediately when a new webhook is created via
+        the POST /v2/webhooks endpoint. This event confirms that your endpoint
+        is reachable and can process Figma webhook payloads. The webhook will
+        be set to ACTIVE status if the ping succeeds.
+      payload:
+        $ref: '#/components/schemas/PingEvent'
+
+    file_update:
+      name: file_update
+      title: File Update Event
+      summary: >-
+        Triggered when a file in the team is saved or modified.
+      description: >-
+        The FILE_UPDATE event fires whenever a Figma file within the subscribed
+        team is modified and saved. This includes changes to the document tree,
+        styles, components, and other file properties. Multiple rapid saves
+        may be batched into a single webhook delivery.
+      payload:
+        $ref: '#/components/schemas/FileUpdateEvent'
+
+    file_version_update:
+      name: file_version_update
+      title: File Version Update Event
+      summary: >-
+        Triggered when a named version is created in the file's version history.
+      description: >-
+        The FILE_VERSION_UPDATE event fires when a user creates a named version
+        in a file's version history. This does not fire for auto-saved versions.
+      payload:
+        $ref: '#/components/schemas/FileVersionUpdateEvent'
+
+    file_delete:
+      name: file_delete
+      title: File Delete Event
+      summary: >-
+        Triggered when a file in the team is deleted.
+      description: >-
+        The FILE_DELETE event fires when a Figma file within the subscribed
+        team is permanently deleted. This event is not triggered when a file
+        is moved to trash but only when it is permanently removed.
+      payload:
+        $ref: '#/components/schemas/FileDeleteEvent'
+
+    file_comment:
+      name: file_comment
+      title: File Comment Event
+      summary: >-
+        Triggered when a new comment is posted on a file.
+      description: >-
+        The FILE_COMMENT event fires when a user posts a new comment on a
+        Figma file within the subscribed team. This includes both top-level
+        comments and replies. The payload includes the comment text, author,
+        and location metadata.
+      payload:
+        $ref: '#/components/schemas/FileCommentEvent'
+
+    library_publish:
+      name: library_publish
+      title: Library Publish Event
+      summary: >-
+        Triggered when a library file publishes new components or styles.
+      description: >-
+        The LIBRARY_PUBLISH event fires when a library file within the
+        subscribed team publishes updates to its components, component sets,
+        or styles. The payload includes lists of created, modified, and
+        deleted library items.
+      payload:
+        $ref: '#/components/schemas/LibraryPublishEvent'
+
+  schemas:
+    BaseEvent:
+      type: object
+      description: >-
+        Common properties shared by all Figma webhook event payloads.
+      required:
+        - event_type
+        - passcode
+        - timestamp
+        - webhook_id
+      properties:
+        event_type:
+          type: string
+          description: The type of event that triggered this webhook delivery.
+          enum:
+            - PING
+            - FILE_UPDATE
+            - FILE_VERSION_UPDATE
+            - FILE_DELETE
+            - FILE_COMMENT
+            - LIBRARY_PUBLISH
+        passcode:
+          type: string
+          description: >-
+            The passcode specified when the webhook was created. Use this to
+            verify the payload originated from Figma.
+        timestamp:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time when the event occurred.
+        webhook_id:
+          type: string
+          description: The unique identifier of the webhook that generated this delivery.
+
+    PingEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          description: >-
+            Sent when a webhook is first created to verify the endpoint is
+            reachable. Contains no additional fields beyond the base event.
+          properties:
+            event_type:
+              type: string
+              enum:
+                - PING
+
+    FileUpdateEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          description: >-
+            Delivered when a file within the subscribed team is saved.
+          required:
+            - file_key
+            - file_name
+            - triggered_by
+          properties:
+            event_type:
+              type: string
+              enum:
+                - FILE_UPDATE
+            file_key:
+              type: string
+              description: The key of the file that was updated.
+            file_name:
+              type: string
+              description: The name of the file at the time of the event.
+            triggered_by:
+              $ref: '#/components/schemas/WebhookUser'
+
+    FileVersionUpdateEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          description: >-
+            Delivered when a named version is created in the version history.
+          required:
+            - file_key
+            - file_name
+            - triggered_by
+          properties:
+            event_type:
+              type: string
+              enum:
+                - FILE_VERSION_UPDATE
+            file_key:
+              type: string
+              description: The key of the file where the version was created.
+            file_name:
+              type: string
+              description: The name of the file.
+            version_id:
+              type: string
+              description: The ID of the newly created version.
+            label:
+              type: string
+              description: The label given to the new version.
+            description:
+              type: string
+              description: The description of the new version.
+            triggered_by:
+              $ref: '#/components/schemas/WebhookUser'
+
+    FileDeleteEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          description: >-
+            Delivered when a file within the subscribed team is deleted.
+          required:
+            - file_key
+            - file_name
+            - triggered_by
+          properties:
+            event_type:
+              type: string
+              enum:
+                - FILE_DELETE
+            file_key:
+              type: string
+              description: The key of the file that was deleted.
+            file_name:
+              type: string
+              description: The name of the file at the time of deletion.
+            triggered_by:
+              $ref: '#/components/schemas/WebhookUser'
+
+    FileCommentEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          description: >-
+            Delivered when a comment is posted on a file within the subscribed team.
+          required:
+            - file_key
+            - file_name
+            - comment
+            - triggered_by
+          properties:
+            event_type:
+              type: string
+              enum:
+                - FILE_COMMENT
+            file_key:
+              type: string
+              description: The key of the file where the comment was posted.
+            file_name:
+              type: string
+              description: The name of the file.
+            comment:
+              type: array
+              description: >-
+                An array of comment objects representing the new comment and
+                any mentions within the comment.
+              items:
+                $ref: '#/components/schemas/WebhookComment'
+            comment_id:
+              type: string
+              description: The ID of the comment that was posted.
+            parent_id:
+              type: string
+              description: >-
+                The ID of the parent comment if this is a reply, otherwise null.
+            triggered_by:
+              $ref: '#/components/schemas/WebhookUser'
+
+    LibraryPublishEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          description: >-
+            Delivered when a library file publishes new or updated components,
+            component sets, or styles.
+          required:
+            - file_key
+            - file_name
+            - triggered_by
+          properties:
+            event_type:
+              type: string
+              enum:
+                - LIBRARY_PUBLISH
+            file_key:
+              type: string
+              description: The key of the library file that was published.
+            file_name:
+              type: string
+              description: The name of the library file.
+            description:
+              type: string
+              description: The publish description entered by the user.
+            created_components:
+              type: array
+              description: Components that were newly published.
+              items:
+                $ref: '#/components/schemas/LibraryItem'
+            modified_components:
+              type: array
+              description: Components that were modified and republished.
+              items:
+                $ref: '#/components/schemas/LibraryItem'
+            deleted_components:
+              type: array
+              description: Components that were unpublished.
+              items:
+                $ref: '#/components/schemas/LibraryItem'
+            created_styles:
+              type: array
+              description: Styles that were newly published.
+              items:
+                $ref: '#/components/schemas/LibraryItem'
+            modified_styles:
+              type: array
+              description: Styles that were modified and republished.
+              items:
+                $ref: '#/components/schemas/LibraryItem'
+            deleted_styles:
+              type: array
+              description: Styles that were unpublished.
+              items:
+                $ref: '#/components/schemas/LibraryItem'
+            triggered_by:
+              $ref: '#/components/schemas/WebhookUser'
+
+    WebhookUser:
+      type: object
+      description: >-
+        A simplified user object included in webhook payloads identifying
+        the user who triggered the event.
+      required:
+        - id
+        - handle
+      properties:
+        id:
+          type: string
+          description: The unique stable ID of the user.
+        handle:
+          type: string
+          description: The display name of the user.
+        img_url:
+          type: string
+          format: uri
+          description: URL to the user's profile image.
+
+    WebhookComment:
+      type: object
+      description: >-
+        A comment segment within a webhook FILE_COMMENT payload. Comment text
+        is split into segments to support mentions.
+      properties:
+        text:
+          type: string
+          description: The text content of the comment segment.
+        mention:
+          type: string
+          description: >-
+            If this segment is a mention, this is the user ID of the mentioned
+            user.
+
+    LibraryItem:
+      type: object
+      description: >-
+        A library item (component or style) referenced in a LIBRARY_PUBLISH
+        webhook payload.
+      required:
+        - key
+        - name
+      properties:
+        key:
+          type: string
+          description: The globally unique key of the library item.
+        name:
+          type: string
+          description: The name of the library item.

@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://figma.com/schemas/figma/component.json",
+  "title": "Figma Published Component",
+  "description": "A published component from a Figma team or file library. Published components are reusable design elements that can be shared across files and teams. This schema represents components as returned by the component endpoints of the Figma REST API.",
+  "type": "object",
+  "required": ["key", "file_key", "node_id", "name", "description", "created_at", "updated_at", "user"],
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "The globally unique identifier for the component. This key is stable across file versions and can be used to reference the component via the GET /v1/components/{key} endpoint."
+    },
+    "file_key": {
+      "type": "string",
+      "description": "The unique identifier of the Figma file that contains this component."
+    },
+    "node_id": {
+      "type": "string",
+      "description": "The unique identifier of the component node within the Figma file. The node_id combined with file_key can be used to construct a direct URL to the component."
+    },
+    "thumbnail_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "A URL to a thumbnail image of the component. Thumbnail URLs are temporary and expire after a period of time."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the component as it appears in the assets panel and library."
+    },
+    "description": {
+      "type": "string",
+      "description": "The description of the component as entered by the publisher. Useful for documenting usage guidelines and design intent."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The UTC ISO 8601 time when the component was first published to the library."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The UTC ISO 8601 time when the component was last updated in the library."
+    },
+    "user": {
+      "$ref": "#/$defs/User"
+    },
+    "containing_frame": {
+      "$ref": "#/$defs/FrameInfo"
+    },
+    "component_set_id": {
+      "type": ["string", "null"],
+      "description": "If this component belongs to a component set (variant group), this is the ID of that component set."
+    },
+    "documentation_links": {
+      "type": "array",
+      "description": "An array of documentation links attached to this component, providing external references to code, design specs, or other resources.",
+      "items": {
+        "$ref": "#/$defs/DocumentationLink"
+      }
+    }
+  },
+  "$defs": {
+    "User": {
+      "type": "object",
+      "description": "A Figma user who published or last updated the component.",
+      "required": ["id", "handle", "img_url"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique stable ID of the user."
+        },
+        "handle": {
+          "type": "string",
+          "description": "Display name of the user."
+        },
+        "img_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the user's profile image."
+        }
+      }
+    },
+    "FrameInfo": {
+      "type": "object",
+      "description": "Information about the frame that contains the component in the Figma file. Provides context about where the component lives in the document structure.",
+      "properties": {
+        "nodeId": {
+          "type": "string",
+          "description": "The node ID of the containing frame."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the containing frame."
+        },
+        "backgroundColor": {
+          "type": "string",
+          "description": "The background color of the containing frame."
+        },
+        "pageId": {
+          "type": "string",
+          "description": "The ID of the page containing the frame."
+        },
+        "pageName": {
+          "type": "string",
+          "description": "The name of the page containing the frame."
+        }
+      }
+    },
+    "DocumentationLink": {
+      "type": "object",
+      "description": "A link to external documentation associated with the component.",
+      "required": ["uri"],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URI of the documentation link."
+        }
+      }
+    },
+    "ComponentSet": {
+      "type": "object",
+      "description": "A published component set that groups variants of a component. Component sets enable designers to organize related component variations (e.g., different sizes, states, or themes) under a single parent.",
+      "required": ["key", "file_key", "node_id", "name", "description", "created_at", "updated_at", "user"],
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The globally unique identifier for the component set."
+        },
+        "file_key": {
+          "type": "string",
+          "description": "The unique identifier of the Figma file containing the component set."
+        },
+        "node_id": {
+          "type": "string",
+          "description": "The unique identifier of the component set node within the Figma file."
+        },
+        "thumbnail_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "A URL to a thumbnail image of the component set."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the component set."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the component set as entered by the publisher."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The UTC ISO 8601 time when the component set was first published."
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The UTC ISO 8601 time when the component set was last updated."
+        },
+        "user": {
+          "$ref": "#/$defs/User"
+        },
+        "containing_frame": {
+          "$ref": "#/$defs/FrameInfo"
+        }
+      }
+    },
+    "PublishedStyle": {
+      "type": "object",
+      "description": "A published style from a team or file library. Styles define reusable visual properties like colors, text formatting, effects, and layout grids.",
+      "required": ["key", "file_key", "node_id", "name", "description", "style_type", "created_at", "updated_at", "user"],
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The globally unique identifier for the style."
+        },
+        "file_key": {
+          "type": "string",
+          "description": "The unique identifier of the Figma file containing the style."
+        },
+        "node_id": {
+          "type": "string",
+          "description": "The unique identifier of the style node."
+        },
+        "thumbnail_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "A URL to a thumbnail image of the style."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the style."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the style."
+        },
+        "style_type": {
+          "type": "string",
+          "description": "The type of style.",
+          "enum": ["FILL", "TEXT", "EFFECT", "GRID"]
+        },
+        "sort_position": {
+          "type": "string",
+          "description": "A user-defined sort position for the style."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The UTC ISO 8601 time when the style was first published."
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The UTC ISO 8601 time when the style was last updated."
+        },
+        "user": {
+          "$ref": "#/$defs/User"
+        }
+      }
+    }
+  }
+}
