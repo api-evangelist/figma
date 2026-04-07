@@ -28,7 +28,7 @@ paths:
       tags:
         - Teams
         - Webhooks
-      summary: Get team webhooks
+      summary: Figma Get team webhooks
       security:
         - PersonalAccessToken: []
         - OAuth2:
@@ -177,10 +177,10 @@ components:
             event_type: FILE_COMMENT
             team_id: "team_12345678"
             status: PAUSED
-            client_id: null
+            client_id:
             passcode: "another_passcode_456"
             endpoint: "https://api.myapp.com/figma/comments"
-            description: null
+            description:
 
     ErrorResponsePayload:
       type: object
@@ -284,10 +284,10 @@ components:
                     event_type: FILE_COMMENT
                     team_id: "team_12345678"
                     status: PAUSED
-                    client_id: null
+                    client_id:
                     passcode: "another_passcode_456"
                     endpoint: "https://api.myapp.com/figma/comments"
-                    description: null
+                    description:
 
     ForbiddenErrorResponse:
       description: >-
@@ -363,7 +363,7 @@ components:
             event_type: FILE_COMMENT
             team_id: "team_12345678"
             status: PAUSED
-            client_id: null
+            client_id:
             passcode: "another_passcode_456"
             endpoint: "https://api.myapp.com/figma/comments"
-            description: null
+            description:

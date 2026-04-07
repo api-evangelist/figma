@@ -24,7 +24,7 @@ paths:
       tags:
         - Files
         - Dev Resources
-      summary: Delete dev resource
+      summary: Figma Delete dev resource
       security:
         - PersonalAccessToken: []
         - OAuth2:

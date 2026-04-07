@@ -21,7 +21,7 @@ paths:
     get:
       tags:
         - Component Sets
-      summary: Get component set
+      summary: Figma Get component set
       security:
         - PersonalAccessToken: []
         - OAuth2:

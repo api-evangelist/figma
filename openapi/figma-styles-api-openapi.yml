@@ -28,7 +28,7 @@ paths:
       tags:
         - Styles
         - Keys
-      summary: Get style
+      summary: Figma Get style
       security:
         - PersonalAccessToken: []
         - OAuth2:

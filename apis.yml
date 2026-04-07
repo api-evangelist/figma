@@ -1,968 +1,921 @@
 aid: figma
 url: https://raw.githubusercontent.com/apis-json/artisanal/main/apis/figma.yml
 apis:
-- aid: figma:figma-api
-  name: Figma API
-  tags:
-  - Files
-  - Nodes
-  - Images
-  - Teams
-  - Projects
-  - Versions
-  - Comments
-  - Reactions
-  - Me
-  - Users
-  - Components
-  - Keys
-  - Component_sets
-  - Styles
-  - Webhooks
-  - Activity Logs
-  - Payments
-  - Variables
-  - Local
-  - Published
-  - Analytics
-  - Libraries
-  - Actions
-  - Usages
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.figma.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: properties/figma-api-openapi.yml
-    type: OpenAPI
-  - url: openapi/figma-rest-api-openapi.yml
-    type: OpenAPI
-  - url: asyncapi/figma-webhooks-asyncapi.yml
-    type: AsyncAPI
-  - url: json-schema/figma-file-schema.json
-    type: JSONSchema
-  - url: json-schema/figma-component-schema.json
-    type: JSONSchema
-  - url: json-ld/figma-context.jsonld
-    type: JSON-LD
-  - url: https://developers.figma.com/docs/rest-api/
-    type: Documentation
-  description: 'Figma allows designers to create and prototype their digital experiences -
-
-    together in real-time and in one place - helping them turn their ideas and
-
-    visions into products, faster. Figma''s mission is to make design
-
-    accessible to everyone. The Figma API is one of the ways we aim to do
-
-    that.'
-- aid: figma:figma-files-api
-  name: Figma Files API
-  tags:
-  - Files
-  - Nodes
-  - Images
-  - Teams
-  - Projects
-  - Versions
-  - Comments
-  - Reactions
-  - Me
-  - Users
-  - Components
-  - Keys
-  - Component_sets
-  - Styles
-  - Webhooks
-  - Activity  Logs
-  - Payments
-  - Variables
-  - Local
-  - Published
-  - Dev_resources
-  - Dev  Resources
-  - Analytics
-  - Libraries
-  - Actions
-  - Library  Analytics
-  - Usages
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.figma.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-files-api-openapi.yml
-    type: OpenAPI
-  - url: openapi/figma-rest-api-openapi.yml
-    type: OpenAPI
-  - url: json-schema/figma-file-schema.json
-    type: JSONSchema
-  - url: https://developers.figma.com/docs/rest-api/file-endpoints/
-    type: Documentation
-  description: 'Figma Files API provides access to design file data including document
-    trees, nodes, images, version history, and file metadata. Read and export
-    design data from Figma files programmatically.'
-- aid: figma:figma-images-api
-  name: Figma Images API
-  tags:
-  - Files
-  - Nodes
-  - Images
-  - Teams
-  - Projects
-  - Versions
-  - Comments
-  - Reactions
-  - Me
-  - Users
-  - Components
-  - Keys
-  - Component_sets
-  - Styles
-  - Webhooks
-  - Activity  Logs
-  - Payments
-  - Variables
-  - Local
-  - Published
-  - Dev_resources
-  - Dev  Resources
-  - Analytics
-  - Libraries
-  - Actions
-  - Library  Analytics
-  - Usages
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.example.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-images-api-openapi.yml
-    type: OpenAPI
-  - url: https://developers.figma.com/docs/rest-api/file-endpoints/
-    type: Documentation
-  description: '
-
-    Figma allows designers to create and prototype their digital experiences -
-
-    together in real-time and in one place - helping them turn their ideas and
-
-    visions into products, faster. Figma''s mission is to make design
-
-    accessible to everyone. The Figma API is one of the ways we aim to do
-
-    that.'
-- aid: figma:figma-teams-api
-  name: Figma Teams API
-  tags:
-  - Files
-  - Nodes
-  - Images
-  - Teams
-  - Projects
-  - Versions
-  - Comments
-  - Reactions
-  - Me
-  - Users
-  - Components
-  - Keys
-  - Component_sets
-  - Styles
-  - Webhooks
-  - Activity  Logs
-  - Payments
-  - Variables
-  - Local
-  - Published
-  - Dev_resources
-  - Dev  Resources
-  - Analytics
-  - Libraries
-  - Actions
-  - Library  Analytics
-  - Usages
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.example.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-teams-api-openapi.yml
-    type: OpenAPI
-  - url: https://developers.figma.com/docs/rest-api/file-endpoints/
-    type: Documentation
-  description: '
-
-    Figma allows designers to create and prototype their digital experiences -
-
-    together in real-time and in one place - helping them turn their ideas and
-
-    visions into products, faster. Figma''s mission is to make design
-
-    accessible to everyone. The Figma API is one of the ways we aim to do
-
-    that.'
-- aid: figma:figma-projects-api
-  name: Figma Projects API
-  tags:
-  - Files
-  - Nodes
-  - Images
-  - Teams
-  - Projects
-  - Versions
-  - Comments
-  - Reactions
-  - Me
-  - Users
-  - Components
-  - Keys
-  - Component_sets
-  - Styles
-  - Webhooks
-  - Activity  Logs
-  - Payments
-  - Variables
-  - Local
-  - Published
-  - Dev_resources
-  - Dev  Resources
-  - Analytics
-  - Libraries
-  - Actions
-  - Library  Analytics
-  - Usages
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.example.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-projects-api-openapi.yml
-    type: OpenAPI
-  - url: https://developers.figma.com/docs/rest-api/projects-types/
-    type: Documentation
-  description: '
-
-    Figma allows designers to create and prototype their digital experiences -
-
-    together in real-time and in one place - helping them turn their ideas and
-
-    visions into products, faster. Figma''s mission is to make design
-
-    accessible to everyone. The Figma API is one of the ways we aim to do
-
-    that.'
-- aid: figma:figma-me-api
-  name: Figma Me API
-  tags:
-  - Files
-  - Nodes
-  - Images
-  - Teams
-  - Projects
-  - Versions
-  - Comments
-  - Reactions
-  - Me
-  - Users
-  - Components
-  - Keys
-  - Component_sets
-  - Styles
-  - Webhooks
-  - Activity  Logs
-  - Payments
-  - Variables
-  - Local
-  - Published
-  - Dev_resources
-  - Dev  Resources
-  - Analytics
-  - Libraries
-  - Actions
-  - Library  Analytics
-  - Usages
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.example.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-me-api-openapi.yml
-    type: OpenAPI
-  - url: https://developers.figma.com/docs/rest-api/users-endpoints/
-    type: Documentation
-  description: '
-
-    Figma allows designers to create and prototype their digital experiences -
-
-    together in real-time and in one place - helping them turn their ideas and
-
-    visions into products, faster. Figma''s mission is to make design
-
-    accessible to everyone. The Figma API is one of the ways we aim to do
-
-    that.'
-- aid: figma:figma-components-api
-  name: Figma Components API
-  tags:
-  - Files
-  - Nodes
-  - Images
-  - Teams
-  - Projects
-  - Versions
-  - Comments
-  - Reactions
-  - Me
-  - Users
-  - Components
-  - Keys
-  - Component_sets
-  - Styles
-  - Webhooks
-  - Activity  Logs
-  - Payments
-  - Variables
-  - Local
-  - Published
-  - Dev_resources
-  - Dev  Resources
-  - Analytics
-  - Libraries
-  - Actions
-  - Library  Analytics
-  - Usages
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.figma.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-components-api-openapi.yml
-    type: OpenAPI
-  - url: openapi/figma-rest-api-openapi.yml
-    type: OpenAPI
-  - url: json-schema/figma-component-schema.json
-    type: JSONSchema
-  - url: https://developers.figma.com/docs/rest-api/component-types/
-    type: Documentation
-  description: 'Figma Components API provides access to published components, component
-    sets, and styles from team libraries. Query component metadata, retrieve thumbnails,
-    and access documentation links for reusable design elements.'
-- aid: figma:figma-component-sets-api
-  name: Figma Component_sets API
-  tags:
-  - Files
-  - Nodes
-  - Images
-  - Teams
-  - Projects
-  - Versions
-  - Comments
-  - Reactions
-  - Me
-  - Users
-  - Components
-  - Keys
-  - Component_sets
-  - Styles
-  - Webhooks
-  - Activity  Logs
-  - Payments
-  - Variables
-  - Local
-  - Published
-  - Dev_resources
-  - Dev  Resources
-  - Analytics
-  - Libraries
-  - Actions
-  - Library  Analytics
-  - Usages
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.example.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-component-sets-api-openapi.yml
-    type: OpenAPI
-  - url: https://developers.figma.com/docs/rest-api/component-types/
-    type: Documentation
-  description: '
-
-    Figma allows designers to create and prototype their digital experiences -
-
-    together in real-time and in one place - helping them turn their ideas and
-
-    visions into products, faster. Figma''s mission is to make design
-
-    accessible to everyone. The Figma API is one of the ways we aim to do
-
-    that.'
-- aid: figma:figma-styles-api
-  name: Figma Styles API
-  tags:
-  - Files
-  - Nodes
-  - Images
-  - Teams
-  - Projects
-  - Versions
-  - Comments
-  - Reactions
-  - Me
-  - Users
-  - Components
-  - Keys
-  - Component_sets
-  - Styles
-  - Webhooks
-  - Activity  Logs
-  - Payments
-  - Variables
-  - Local
-  - Published
-  - Dev_resources
-  - Dev  Resources
-  - Analytics
-  - Libraries
-  - Actions
-  - Library  Analytics
-  - Usages
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.example.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-styles-api-openapi.yml
-    type: OpenAPI
-  - url: https://developers.figma.com/docs/rest-api/component-types/
-    type: Documentation
-  description: '
-
-    Figma allows designers to create and prototype their digital experiences -
-
-    together in real-time and in one place - helping them turn their ideas and
-
-    visions into products, faster. Figma''s mission is to make design
-
-    accessible to everyone. The Figma API is one of the ways we aim to do
-
-    that.'
-- aid: figma:figma-webhooks-api
-  name: Figma Webhooks API
-  tags:
-  - Files
-  - Nodes
-  - Images
-  - Teams
-  - Projects
-  - Versions
-  - Comments
-  - Reactions
-  - Me
-  - Users
-  - Components
-  - Keys
-  - Component_sets
-  - Styles
-  - Webhooks
-  - Activity  Logs
-  - Payments
-  - Variables
-  - Local
-  - Published
-  - Dev_resources
-  - Dev  Resources
-  - Analytics
-  - Libraries
-  - Actions
-  - Library  Analytics
-  - Usages
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.figma.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-webhooks-api-openapi.yml
-    type: OpenAPI
-  - url: asyncapi/figma-webhooks-asyncapi.yml
-    type: AsyncAPI
-  - url: https://developers.figma.com/docs/rest-api/webhooks/
-    type: Documentation
-  description: 'Figma Webhooks allow applications to receive real-time notifications
-    when events occur in Figma files and projects. Webhooks are configured at the
-    team level and support events such as file updates, comments, library publishes,
-    and version history changes.'
-- aid: figma:figma-teams-api
-  name: Figma Teams API
-  tags:
-  - Files
-  - Nodes
-  - Images
-  - Teams
-  - Projects
-  - Versions
-  - Comments
-  - Reactions
-  - Me
-  - Users
-  - Components
-  - Keys
-  - Component_sets
-  - Styles
-  - Webhooks
-  - Activity  Logs
-  - Payments
-  - Variables
-  - Local
-  - Published
-  - Dev_resources
-  - Dev  Resources
-  - Analytics
-  - Libraries
-  - Actions
-  - Library  Analytics
-  - Usages
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.example.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-teams-api-openapi.yml
-    type: OpenAPI
-  - url: https://developers.figma.com/docs/rest-api/file-endpoints/
-    type: Documentation
-  description: '
-
-    Figma allows designers to create and prototype their digital experiences -
-
-    together in real-time and in one place - helping them turn their ideas and
-
-    visions into products, faster. Figma''s mission is to make design
-
-    accessible to everyone. The Figma API is one of the ways we aim to do
-
-    that.'
-- aid: figma:figma-activity-logs-api
-  name: Figma Activity_logs API
-  tags:
-  - Files
-  - Nodes
-  - Images
-  - Teams
-  - Projects
-  - Versions
-  - Comments
-  - Reactions
-  - Me
-  - Users
-  - Components
-  - Keys
-  - Component_sets
-  - Styles
-  - Webhooks
-  - Activity  Logs
-  - Payments
-  - Variables
-  - Local
-  - Published
-  - Dev_resources
-  - Dev  Resources
-  - Analytics
-  - Libraries
-  - Actions
-  - Library  Analytics
-  - Usages
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.example.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-activity-logs-api-openapi.yml
-    type: OpenAPI
-  - url: https://developers.figma.com/docs/rest-api/activity-logs/
-    type: Documentation
-  description: '
-
-    Figma allows designers to create and prototype their digital experiences -
-
-    together in real-time and in one place - helping them turn their ideas and
-
-    visions into products, faster. Figma''s mission is to make design
-
-    accessible to everyone. The Figma API is one of the ways we aim to do
-
-    that.'
-- aid: figma:figma-payments-api
-  name: Figma Payments API
-  tags:
-  - Files
-  - Nodes
-  - Images
-  - Teams
-  - Projects
-  - Versions
-  - Comments
-  - Reactions
-  - Me
-  - Users
-  - Components
-  - Keys
-  - Component_sets
-  - Styles
-  - Webhooks
-  - Activity  Logs
-  - Payments
-  - Variables
-  - Local
-  - Published
-  - Dev_resources
-  - Dev  Resources
-  - Analytics
-  - Libraries
-  - Actions
-  - Library  Analytics
-  - Usages
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.example.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-payments-api-openapi.yml
-    type: OpenAPI
-  - url: https://developers.figma.com/docs/plugins/api/figma-payments/
-    type: Documentation
-  description: '
-
-    Figma allows designers to create and prototype their digital experiences -
-
-    together in real-time and in one place - helping them turn their ideas and
-
-    visions into products, faster. Figma''s mission is to make design
-
-    accessible to everyone. The Figma API is one of the ways we aim to do
-
-    that.'
-- aid: figma:figma-dev-resources-api
-  name: Figma Dev_resources API
-  tags:
-  - Files
-  - Nodes
-  - Images
-  - Teams
-  - Projects
-  - Versions
-  - Comments
-  - Reactions
-  - Me
-  - Users
-  - Components
-  - Keys
-  - Component_sets
-  - Styles
-  - Webhooks
-  - Activity  Logs
-  - Payments
-  - Variables
-  - Local
-  - Published
-  - Dev_resources
-  - Dev  Resources
-  - Analytics
-  - Libraries
-  - Actions
-  - Library  Analytics
-  - Usages
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.example.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-dev-resources-api-openapi.yml
-    type: OpenAPI
-  - url: https://developers.figma.com/docs/rest-api/dev-resources/
-    type: Documentation
-  description: '
-
-    Figma allows designers to create and prototype their digital experiences -
-
-    together in real-time and in one place - helping them turn their ideas and
-
-    visions into products, faster. Figma''s mission is to make design
-
-    accessible to everyone. The Figma API is one of the ways we aim to do
-
-    that.'
-- aid: figma:figma-analytics-api
-  name: Figma Analytics API
-  tags:
-  - Files
-  - Nodes
-  - Images
-  - Teams
-  - Projects
-  - Versions
-  - Comments
-  - Reactions
-  - Me
-  - Users
-  - Components
-  - Keys
-  - Component_sets
-  - Styles
-  - Webhooks
-  - Activity  Logs
-  - Payments
-  - Variables
-  - Local
-  - Published
-  - Dev_resources
-  - Dev  Resources
-  - Analytics
-  - Libraries
-  - Actions
-  - Library  Analytics
-  - Usages
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.example.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-analytics-api-openapi.yml
-    type: OpenAPI
-  - url: https://developers.figma.com/docs/rest-api/library-analytics-intro/
-    type: Documentation
-  description: '
-
-    Figma allows designers to create and prototype their digital experiences -
-
-    together in real-time and in one place - helping them turn their ideas and
-
-    visions into products, faster. Figma''s mission is to make design
-
-    accessible to everyone. The Figma API is one of the ways we aim to do
-
-    that.'
-- aid: figma:figma-comments-api
-  name: Figma Comments API
-  tags:
-  - Comments
-  - Reactions
-  - Collaboration
-  - Annotations
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.figma.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-rest-api-openapi.yml
-    type: OpenAPI
-  - url: https://developers.figma.com/docs/rest-api/comments-endpoints/
-    type: Documentation
-  description: 'Figma Commenting mode allows users to leave comments directly on
-    layers or objects on the canvas. You can use the Figma API to post comments
-    and reactions to a Figma file, view existing comments and reactions, and
-    access information about a comment including when it was made, by whom, and
-    its exact location on the canvas.'
-- aid: figma:figma-version-history-api
-  name: Figma Version History API
-  tags:
-  - Versions
-  - History
-  - Files
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.figma.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-rest-api-openapi.yml
-    type: OpenAPI
-  - url: https://developers.figma.com/docs/rest-api/version-history-endpoints/
-    type: Documentation
-  description: 'Figma allows you to distinguish different stages or versions of a
-    file as it evolves over time. The Version History API provides endpoints to
-    view, track, and restore previous versions of a file, recorded in the
-    version history.'
-- aid: figma:figma-variables-api
-  name: Figma Variables API
-  tags:
-  - Variables
-  - Design Tokens
-  - Collections
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.figma.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-rest-api-openapi.yml
-    type: OpenAPI
-  - url: https://developers.figma.com/docs/rest-api/variables-endpoints/
-    type: Documentation
-  description: 'The Variables REST API includes endpoints for querying, creating,
-    updating, and deleting variables. Variables store reusable values that can be
-    applied to design properties and prototyping actions. To use this API, you
-    must have a Full seat in an Enterprise org.'
-- aid: figma:figma-library-analytics-api
-  name: Figma Library Analytics API
-  tags:
-  - Libraries
-  - Analytics
-  - Components
-  - Styles
-  - Variables
-  - Usages
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-  baseURL: https://api.figma.com
-  humanURL: https://www.figma.com/developers
-  overlays: []
-  properties:
-  - url: openapi/figma-rest-api-openapi.yml
-    type: OpenAPI
-  - url: https://developers.figma.com/docs/rest-api/library-analytics-endpoints/
-    type: Documentation
-  description: 'The Library Analytics REST API provides six methods for tracking
-    component, style, and variable usage. Each resource type has an actions endpoint
-    and a usages endpoint, allowing you to get time series data about user actions
-    and usage data for your library assets.'
+  - aid: figma:figma-api
+    name: Figma API
+    tags:
+      - Files
+      - Nodes
+      - Images
+      - Teams
+      - Projects
+      - Versions
+      - Comments
+      - Reactions
+      - Me
+      - Users
+      - Components
+      - Keys
+      - Component_sets
+      - Styles
+      - Webhooks
+      - Activity Logs
+      - Payments
+      - Variables
+      - Local
+      - Published
+      - Analytics
+      - Libraries
+      - Actions
+      - Usages
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.figma.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: properties/figma-api-openapi.yml
+        type: OpenAPI
+      - url: openapi/figma-rest-api-openapi.yml
+        type: OpenAPI
+      - url: asyncapi/figma-webhooks-asyncapi.yml
+        type: AsyncAPI
+      - url: json-schema/figma-file-schema.json
+        type: JSONSchema
+      - url: json-schema/figma-component-schema.json
+        type: JSONSchema
+      - url: json-ld/figma-context.jsonld
+        type: JSON-LD
+      - url: https://developers.figma.com/docs/rest-api/
+        type: Documentation
+    description: >-
+      Figma allows designers to create and prototype their digital experiences - together
+      in real-time and in one place - helping them turn their ideas and visions into
+      products, faster. Figma's mission is to make design accessible to everyone.
+      The Figma API is one of the ways we aim to do that.
+  - aid: figma:figma-files-api
+    name: Figma Files API
+    tags:
+      - Files
+      - Nodes
+      - Images
+      - Teams
+      - Projects
+      - Versions
+      - Comments
+      - Reactions
+      - Me
+      - Users
+      - Components
+      - Keys
+      - Component_sets
+      - Styles
+      - Webhooks
+      - Activity  Logs
+      - Payments
+      - Variables
+      - Local
+      - Published
+      - Dev_resources
+      - Dev  Resources
+      - Analytics
+      - Libraries
+      - Actions
+      - Library  Analytics
+      - Usages
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.figma.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-files-api-openapi.yml
+        type: OpenAPI
+      - url: openapi/figma-rest-api-openapi.yml
+        type: OpenAPI
+      - url: json-schema/figma-file-schema.json
+        type: JSONSchema
+      - url: https://developers.figma.com/docs/rest-api/file-endpoints/
+        type: Documentation
+    description: 'Figma Files API provides access to design file data including document
+      trees, nodes, images, version history, and file metadata. Read and export design
+      data from Figma files programmatically.'
+  - aid: figma:figma-images-api
+    name: Figma Images API
+    tags:
+      - Files
+      - Nodes
+      - Images
+      - Teams
+      - Projects
+      - Versions
+      - Comments
+      - Reactions
+      - Me
+      - Users
+      - Components
+      - Keys
+      - Component_sets
+      - Styles
+      - Webhooks
+      - Activity  Logs
+      - Payments
+      - Variables
+      - Local
+      - Published
+      - Dev_resources
+      - Dev  Resources
+      - Analytics
+      - Libraries
+      - Actions
+      - Library  Analytics
+      - Usages
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.example.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-images-api-openapi.yml
+        type: OpenAPI
+      - url: https://developers.figma.com/docs/rest-api/file-endpoints/
+        type: Documentation
+    description: >-
+      Figma allows designers to create and prototype their digital experiences - together
+      in real-time and in one place - helping them turn their ideas and visions into
+      products, faster. Figma's mission is to make design accessible to everyone.
+      The Figma API is one of the ways we aim to do that.
+  - aid: figma:figma-teams-api
+    name: Figma Teams API
+    tags:
+      - Files
+      - Nodes
+      - Images
+      - Teams
+      - Projects
+      - Versions
+      - Comments
+      - Reactions
+      - Me
+      - Users
+      - Components
+      - Keys
+      - Component_sets
+      - Styles
+      - Webhooks
+      - Activity  Logs
+      - Payments
+      - Variables
+      - Local
+      - Published
+      - Dev_resources
+      - Dev  Resources
+      - Analytics
+      - Libraries
+      - Actions
+      - Library  Analytics
+      - Usages
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.example.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-teams-api-openapi.yml
+        type: OpenAPI
+      - url: https://developers.figma.com/docs/rest-api/file-endpoints/
+        type: Documentation
+    description: >-
+      Figma allows designers to create and prototype their digital experiences - together
+      in real-time and in one place - helping them turn their ideas and visions into
+      products, faster. Figma's mission is to make design accessible to everyone.
+      The Figma API is one of the ways we aim to do that.
+  - aid: figma:figma-projects-api
+    name: Figma Projects API
+    tags:
+      - Files
+      - Nodes
+      - Images
+      - Teams
+      - Projects
+      - Versions
+      - Comments
+      - Reactions
+      - Me
+      - Users
+      - Components
+      - Keys
+      - Component_sets
+      - Styles
+      - Webhooks
+      - Activity  Logs
+      - Payments
+      - Variables
+      - Local
+      - Published
+      - Dev_resources
+      - Dev  Resources
+      - Analytics
+      - Libraries
+      - Actions
+      - Library  Analytics
+      - Usages
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.example.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-projects-api-openapi.yml
+        type: OpenAPI
+      - url: https://developers.figma.com/docs/rest-api/projects-types/
+        type: Documentation
+    description: >-
+      Figma allows designers to create and prototype their digital experiences - together
+      in real-time and in one place - helping them turn their ideas and visions into
+      products, faster. Figma's mission is to make design accessible to everyone.
+      The Figma API is one of the ways we aim to do that.
+  - aid: figma:figma-me-api
+    name: Figma Me API
+    tags:
+      - Files
+      - Nodes
+      - Images
+      - Teams
+      - Projects
+      - Versions
+      - Comments
+      - Reactions
+      - Me
+      - Users
+      - Components
+      - Keys
+      - Component_sets
+      - Styles
+      - Webhooks
+      - Activity  Logs
+      - Payments
+      - Variables
+      - Local
+      - Published
+      - Dev_resources
+      - Dev  Resources
+      - Analytics
+      - Libraries
+      - Actions
+      - Library  Analytics
+      - Usages
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.example.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-me-api-openapi.yml
+        type: OpenAPI
+      - url: https://developers.figma.com/docs/rest-api/users-endpoints/
+        type: Documentation
+    description: >-
+      Figma allows designers to create and prototype their digital experiences - together
+      in real-time and in one place - helping them turn their ideas and visions into
+      products, faster. Figma's mission is to make design accessible to everyone.
+      The Figma API is one of the ways we aim to do that.
+  - aid: figma:figma-components-api
+    name: Figma Components API
+    tags:
+      - Files
+      - Nodes
+      - Images
+      - Teams
+      - Projects
+      - Versions
+      - Comments
+      - Reactions
+      - Me
+      - Users
+      - Components
+      - Keys
+      - Component_sets
+      - Styles
+      - Webhooks
+      - Activity  Logs
+      - Payments
+      - Variables
+      - Local
+      - Published
+      - Dev_resources
+      - Dev  Resources
+      - Analytics
+      - Libraries
+      - Actions
+      - Library  Analytics
+      - Usages
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.figma.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-components-api-openapi.yml
+        type: OpenAPI
+      - url: openapi/figma-rest-api-openapi.yml
+        type: OpenAPI
+      - url: json-schema/figma-component-schema.json
+        type: JSONSchema
+      - url: https://developers.figma.com/docs/rest-api/component-types/
+        type: Documentation
+    description: 'Figma Components API provides access to published components, component
+      sets, and styles from team libraries. Query component metadata, retrieve thumbnails,
+      and access documentation links for reusable design elements.'
+  - aid: figma:figma-component-sets-api
+    name: Figma Component_sets API
+    tags:
+      - Files
+      - Nodes
+      - Images
+      - Teams
+      - Projects
+      - Versions
+      - Comments
+      - Reactions
+      - Me
+      - Users
+      - Components
+      - Keys
+      - Component_sets
+      - Styles
+      - Webhooks
+      - Activity  Logs
+      - Payments
+      - Variables
+      - Local
+      - Published
+      - Dev_resources
+      - Dev  Resources
+      - Analytics
+      - Libraries
+      - Actions
+      - Library  Analytics
+      - Usages
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.example.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-component-sets-api-openapi.yml
+        type: OpenAPI
+      - url: https://developers.figma.com/docs/rest-api/component-types/
+        type: Documentation
+    description: >-
+      Figma allows designers to create and prototype their digital experiences - together
+      in real-time and in one place - helping them turn their ideas and visions into
+      products, faster. Figma's mission is to make design accessible to everyone.
+      The Figma API is one of the ways we aim to do that.
+  - aid: figma:figma-styles-api
+    name: Figma Styles API
+    tags:
+      - Files
+      - Nodes
+      - Images
+      - Teams
+      - Projects
+      - Versions
+      - Comments
+      - Reactions
+      - Me
+      - Users
+      - Components
+      - Keys
+      - Component_sets
+      - Styles
+      - Webhooks
+      - Activity  Logs
+      - Payments
+      - Variables
+      - Local
+      - Published
+      - Dev_resources
+      - Dev  Resources
+      - Analytics
+      - Libraries
+      - Actions
+      - Library  Analytics
+      - Usages
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.example.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-styles-api-openapi.yml
+        type: OpenAPI
+      - url: https://developers.figma.com/docs/rest-api/component-types/
+        type: Documentation
+    description: >-
+      Figma allows designers to create and prototype their digital experiences - together
+      in real-time and in one place - helping them turn their ideas and visions into
+      products, faster. Figma's mission is to make design accessible to everyone.
+      The Figma API is one of the ways we aim to do that.
+  - aid: figma:figma-webhooks-api
+    name: Figma Webhooks API
+    tags:
+      - Files
+      - Nodes
+      - Images
+      - Teams
+      - Projects
+      - Versions
+      - Comments
+      - Reactions
+      - Me
+      - Users
+      - Components
+      - Keys
+      - Component_sets
+      - Styles
+      - Webhooks
+      - Activity  Logs
+      - Payments
+      - Variables
+      - Local
+      - Published
+      - Dev_resources
+      - Dev  Resources
+      - Analytics
+      - Libraries
+      - Actions
+      - Library  Analytics
+      - Usages
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.figma.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-webhooks-api-openapi.yml
+        type: OpenAPI
+      - url: asyncapi/figma-webhooks-asyncapi.yml
+        type: AsyncAPI
+      - url: https://developers.figma.com/docs/rest-api/webhooks/
+        type: Documentation
+    description: 'Figma Webhooks allow applications to receive real-time notifications
+      when events occur in Figma files and projects. Webhooks are configured at the
+      team level and support events such as file updates, comments, library publishes,
+      and version history changes.'
+  - aid: figma:figma-teams-api
+    name: Figma Teams API
+    tags:
+      - Files
+      - Nodes
+      - Images
+      - Teams
+      - Projects
+      - Versions
+      - Comments
+      - Reactions
+      - Me
+      - Users
+      - Components
+      - Keys
+      - Component_sets
+      - Styles
+      - Webhooks
+      - Activity  Logs
+      - Payments
+      - Variables
+      - Local
+      - Published
+      - Dev_resources
+      - Dev  Resources
+      - Analytics
+      - Libraries
+      - Actions
+      - Library  Analytics
+      - Usages
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.example.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-teams-api-openapi.yml
+        type: OpenAPI
+      - url: https://developers.figma.com/docs/rest-api/file-endpoints/
+        type: Documentation
+    description: >-
+      Figma allows designers to create and prototype their digital experiences - together
+      in real-time and in one place - helping them turn their ideas and visions into
+      products, faster. Figma's mission is to make design accessible to everyone.
+      The Figma API is one of the ways we aim to do that.
+  - aid: figma:figma-activity-logs-api
+    name: Figma Activity_logs API
+    tags:
+      - Files
+      - Nodes
+      - Images
+      - Teams
+      - Projects
+      - Versions
+      - Comments
+      - Reactions
+      - Me
+      - Users
+      - Components
+      - Keys
+      - Component_sets
+      - Styles
+      - Webhooks
+      - Activity  Logs
+      - Payments
+      - Variables
+      - Local
+      - Published
+      - Dev_resources
+      - Dev  Resources
+      - Analytics
+      - Libraries
+      - Actions
+      - Library  Analytics
+      - Usages
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.example.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-activity-logs-api-openapi.yml
+        type: OpenAPI
+      - url: https://developers.figma.com/docs/rest-api/activity-logs/
+        type: Documentation
+    description: >-
+      Figma allows designers to create and prototype their digital experiences - together
+      in real-time and in one place - helping them turn their ideas and visions into
+      products, faster. Figma's mission is to make design accessible to everyone.
+      The Figma API is one of the ways we aim to do that.
+  - aid: figma:figma-payments-api
+    name: Figma Payments API
+    tags:
+      - Files
+      - Nodes
+      - Images
+      - Teams
+      - Projects
+      - Versions
+      - Comments
+      - Reactions
+      - Me
+      - Users
+      - Components
+      - Keys
+      - Component_sets
+      - Styles
+      - Webhooks
+      - Activity  Logs
+      - Payments
+      - Variables
+      - Local
+      - Published
+      - Dev_resources
+      - Dev  Resources
+      - Analytics
+      - Libraries
+      - Actions
+      - Library  Analytics
+      - Usages
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.example.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-payments-api-openapi.yml
+        type: OpenAPI
+      - url: https://developers.figma.com/docs/plugins/api/figma-payments/
+        type: Documentation
+    description: >-
+      Figma allows designers to create and prototype their digital experiences - together
+      in real-time and in one place - helping them turn their ideas and visions into
+      products, faster. Figma's mission is to make design accessible to everyone.
+      The Figma API is one of the ways we aim to do that.
+  - aid: figma:figma-dev-resources-api
+    name: Figma Dev_resources API
+    tags:
+      - Files
+      - Nodes
+      - Images
+      - Teams
+      - Projects
+      - Versions
+      - Comments
+      - Reactions
+      - Me
+      - Users
+      - Components
+      - Keys
+      - Component_sets
+      - Styles
+      - Webhooks
+      - Activity  Logs
+      - Payments
+      - Variables
+      - Local
+      - Published
+      - Dev_resources
+      - Dev  Resources
+      - Analytics
+      - Libraries
+      - Actions
+      - Library  Analytics
+      - Usages
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.example.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-dev-resources-api-openapi.yml
+        type: OpenAPI
+      - url: https://developers.figma.com/docs/rest-api/dev-resources/
+        type: Documentation
+    description: >-
+      Figma allows designers to create and prototype their digital experiences - together
+      in real-time and in one place - helping them turn their ideas and visions into
+      products, faster. Figma's mission is to make design accessible to everyone.
+      The Figma API is one of the ways we aim to do that.
+  - aid: figma:figma-analytics-api
+    name: Figma Analytics API
+    tags:
+      - Files
+      - Nodes
+      - Images
+      - Teams
+      - Projects
+      - Versions
+      - Comments
+      - Reactions
+      - Me
+      - Users
+      - Components
+      - Keys
+      - Component_sets
+      - Styles
+      - Webhooks
+      - Activity  Logs
+      - Payments
+      - Variables
+      - Local
+      - Published
+      - Dev_resources
+      - Dev  Resources
+      - Analytics
+      - Libraries
+      - Actions
+      - Library  Analytics
+      - Usages
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.example.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-analytics-api-openapi.yml
+        type: OpenAPI
+      - url: https://developers.figma.com/docs/rest-api/library-analytics-intro/
+        type: Documentation
+    description: >-
+      Figma allows designers to create and prototype their digital experiences - together
+      in real-time and in one place - helping them turn their ideas and visions into
+      products, faster. Figma's mission is to make design accessible to everyone.
+      The Figma API is one of the ways we aim to do that.
+  - aid: figma:figma-comments-api
+    name: Figma Comments API
+    tags:
+      - Comments
+      - Reactions
+      - Collaboration
+      - Annotations
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.figma.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-rest-api-openapi.yml
+        type: OpenAPI
+      - url: https://developers.figma.com/docs/rest-api/comments-endpoints/
+        type: Documentation
+    description: 'Figma Commenting mode allows users to leave comments directly on
+      layers or objects on the canvas. You can use the Figma API to post comments
+      and reactions to a Figma file, view existing comments and reactions, and access
+      information about a comment including when it was made, by whom, and its exact
+      location on the canvas.'
+  - aid: figma:figma-version-history-api
+    name: Figma Version History API
+    tags:
+      - Versions
+      - History
+      - Files
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.figma.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-rest-api-openapi.yml
+        type: OpenAPI
+      - url: 
+          https://developers.figma.com/docs/rest-api/version-history-endpoints/
+        type: Documentation
+    description: 'Figma allows you to distinguish different stages or versions of
+      a file as it evolves over time. The Version History API provides endpoints to
+      view, track, and restore previous versions of a file, recorded in the version
+      history.'
+  - aid: figma:figma-variables-api
+    name: Figma Variables API
+    tags:
+      - Variables
+      - Design Tokens
+      - Collections
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.figma.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-rest-api-openapi.yml
+        type: OpenAPI
+      - url: https://developers.figma.com/docs/rest-api/variables-endpoints/
+        type: Documentation
+    description: 'The Variables REST API includes endpoints for querying, creating,
+      updating, and deleting variables. Variables store reusable values that can be
+      applied to design properties and prototyping actions. To use this API, you must
+      have a Full seat in an Enterprise org.'
+  - aid: figma:figma-library-analytics-api
+    name: Figma Library Analytics API
+    tags:
+      - Libraries
+      - Analytics
+      - Components
+      - Styles
+      - Variables
+      - Usages
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://api.figma.com
+    humanURL: https://www.figma.com/developers
+    overlays: []
+    properties:
+      - url: openapi/figma-rest-api-openapi.yml
+        type: OpenAPI
+      - url: 
+          https://developers.figma.com/docs/rest-api/library-analytics-endpoints/
+        type: Documentation
+    description: 'The Library Analytics REST API provides six methods for tracking
+      component, style, and variable usage. Each resource type has an actions endpoint
+      and a usages endpoint, allowing you to get time series data about user actions
+      and usage data for your library assets.'
 name: Figma
 common:
-- url: https://www.figma.com/developers
-  name: Figma
-  type: Portal
-  description: 'null'
-- url: https://www.figma.com/developers/embed
-  name: Embed Figma files
-  type: Widgets
-  description: 'null'
-- url: https://help.figma.com/hc/en-us/articles/360048514653-Set-up-automatic-provisioning-via-SCIM
-  name: Set up automatic provisioning via SCIM  Figma Learn - Help Center
-  type: ' SCIM'
-  description: 'null'
-- url: https://www.figma.com/login?cont=/developers/embed
-  name: Login | Figma
-  type: Login
-  description: 'null'
-- url: https://www.figma.com/signup?cont=/developers/embed
-  name: Sign Up for Figma
-  type: SignUp
-  description: 'null'
-- url: https://www.figma.com/pricing/
-  name: Plans & Pricing | Figma
-  type: Pricing
-  description: 'null'
-- url: https://www.figma.com/blog/
-  name: Figma Blog | Shortcut
-  type: Blog
-  description: 'null'
-- url: https://www.figma.com/security/
-  name: Figma Security | Peace of Mind by Design
-  type: Security
-  description: 'null'
-- url: https://status.figma.com/
-  name: Figma Status
-  type: Status
-  description: 'null'
-- url: https://www.figma.com/legal/tos/
-  name: Terms of Service
-  type: TermsOfService
-  description: 'null'
-- url: https://www.figma.com/legal/privacy/
-  name: Privacy Policy
-  type: PrivacyPolicy
-  description: 'null'
-- url: https://www.figma.com/partners/
-  name: Figma Partners
-  type: Partners
-  description: 'null'
-- url: https://www.figma.com/events/
-  name: Figma Events | Online & In-Person
-  type: Events
-  description: 'null'
-- url: https://www.figma.com/developers
-  type: developer-portal
-- url: https://developers.figma.com/docs/rest-api/authentication/
-  name: Figma REST API Authentication
-  type: Authentication
-  description: 'null'
-- url: https://developers.figma.com/docs/rest-api/changelog/
-  name: Figma REST API Changelog
-  type: Changelog
-  description: 'null'
-- url: https://developers.figma.com/docs/rest-api/rate-limits/
-  name: Figma REST API Rate Limits
-  type: RateLimits
-  description: 'null'
-- url: https://developers.figma.com/docs/rest-api/scopes/
-  name: Figma REST API Scopes
-  type: Scopes
-  description: 'null'
-- url: https://github.com/figma/rest-api-spec
-  name: Figma REST API OpenAPI Specification
-  type: OpenAPI
-  description: 'null'
-- url: https://developers.figma.com/docs/rest-api/scim/
-  name: Figma SCIM API Reference
-  type: SCIMAPI
-  description: 'null'
-- url: https://developers.figma.com/docs/plugins/
-  name: Figma Plugin API Documentation
-  type: PluginAPI
-  description: 'null'
-- url: https://developers.figma.com/docs/plugins/api/api-reference/
-  name: Figma Plugin API Reference
-  type: PluginAPIReference
-  description: 'null'
-- url: https://developers.figma.com/docs/widgets/
-  name: Figma Widget API Documentation
-  type: WidgetAPI
-  description: 'null'
-- url: https://developers.figma.com/docs/widgets/api/api-reference/
-  name: Figma Widget API Reference
-  type: WidgetAPIReference
-  description: 'null'
-- url: https://developers.figma.com/docs/code-connect/quickstart-guide/
-  name: Figma Code Connect Getting Started
-  type: GettingStarted
-  description: 'null'
-- url: https://developers.figma.com/compare-apis/
-  name: Compare the Figma APIs
-  type: CompareAPIs
-  description: 'null'
-- url: https://forum.figma.com/
-  name: Figma Forum
-  type: Forum
-  description: 'null'
-- url: https://help.figma.com/hc/en-us/
-  name: Figma Help Center
-  type: Support
-  description: 'null'
-- url: https://www.figma.com/contact/
-  name: Contact Figma
-  type: Contact
-  description: 'null'
-- url: https://developers.figma.com/docs/updates-to-figmas-developer-platform/
-  name: Updates to Figma Developer Platform
-  type: PlatformUpdates
-  description: 'null'
+  - url: https://www.figma.com/developers
+    name: Figma
+    type: Portal
+    description: 'null'
+  - url: https://www.figma.com/developers/embed
+    name: Embed Figma files
+    type: Widgets
+    description: 'null'
+  - url: 
+      https://help.figma.com/hc/en-us/articles/360048514653-Set-up-automatic-provisioning-via-SCIM
+    name: Set up automatic provisioning via SCIM  Figma Learn - Help Center
+    type: ' SCIM'
+    description: 'null'
+  - url: https://www.figma.com/login?cont=/developers/embed
+    name: Login | Figma
+    type: Login
+    description: 'null'
+  - url: https://www.figma.com/signup?cont=/developers/embed
+    name: Sign Up for Figma
+    type: SignUp
+    description: 'null'
+  - url: https://www.figma.com/pricing/
+    name: Plans & Pricing | Figma
+    type: Pricing
+    description: 'null'
+  - url: https://www.figma.com/blog/
+    name: Figma Blog | Shortcut
+    type: Blog
+    description: 'null'
+  - url: https://www.figma.com/security/
+    name: Figma Security | Peace of Mind by Design
+    type: Security
+    description: 'null'
+  - url: https://status.figma.com/
+    name: Figma Status
+    type: Status
+    description: 'null'
+  - url: https://www.figma.com/legal/tos/
+    name: Terms of Service
+    type: TermsOfService
+    description: 'null'
+  - url: https://www.figma.com/legal/privacy/
+    name: Privacy Policy
+    type: PrivacyPolicy
+    description: 'null'
+  - url: https://www.figma.com/partners/
+    name: Figma Partners
+    type: Partners
+    description: 'null'
+  - url: https://www.figma.com/events/
+    name: Figma Events | Online & In-Person
+    type: Events
+    description: 'null'
+  - url: https://www.figma.com/developers
+    type: developer-portal
+  - url: https://developers.figma.com/docs/rest-api/authentication/
+    name: Figma REST API Authentication
+    type: Authentication
+    description: 'null'
+  - url: https://developers.figma.com/docs/rest-api/changelog/
+    name: Figma REST API Changelog
+    type: Changelog
+    description: 'null'
+  - url: https://developers.figma.com/docs/rest-api/rate-limits/
+    name: Figma REST API Rate Limits
+    type: RateLimits
+    description: 'null'
+  - url: https://developers.figma.com/docs/rest-api/scopes/
+    name: Figma REST API Scopes
+    type: Scopes
+    description: 'null'
+  - url: https://github.com/figma/rest-api-spec
+    name: Figma REST API OpenAPI Specification
+    type: OpenAPI
+    description: 'null'
+  - url: https://developers.figma.com/docs/rest-api/scim/
+    name: Figma SCIM API Reference
+    type: SCIMAPI
+    description: 'null'
+  - url: https://developers.figma.com/docs/plugins/
+    name: Figma Plugin API Documentation
+    type: PluginAPI
+    description: 'null'
+  - url: https://developers.figma.com/docs/plugins/api/api-reference/
+    name: Figma Plugin API Reference
+    type: PluginAPIReference
+    description: 'null'
+  - url: https://developers.figma.com/docs/widgets/
+    name: Figma Widget API Documentation
+    type: WidgetAPI
+    description: 'null'
+  - url: https://developers.figma.com/docs/widgets/api/api-reference/
+    name: Figma Widget API Reference
+    type: WidgetAPIReference
+    description: 'null'
+  - url: https://developers.figma.com/docs/code-connect/quickstart-guide/
+    name: Figma Code Connect Getting Started
+    type: GettingStarted
+    description: 'null'
+  - url: https://developers.figma.com/compare-apis/
+    name: Compare the Figma APIs
+    type: CompareAPIs
+    description: 'null'
+  - url: https://forum.figma.com/
+    name: Figma Forum
+    type: Forum
+    description: 'null'
+  - url: https://help.figma.com/hc/en-us/
+    name: Figma Help Center
+    type: Support
+    description: 'null'
+  - url: https://www.figma.com/contact/
+    name: Contact Figma
+    type: Contact
+    description: 'null'
+  - url: https://developers.figma.com/docs/updates-to-figmas-developer-platform/
+    name: Updates to Figma Developer Platform
+    type: PlatformUpdates
+    description: 'null'
 created: 2023/11/22
 modified: '2026-03-03'
-description: Figma is a collaborative interface design tool with a comprehensive REST API for accessing and manipulating design files, projects, and teams.
+description: Figma is a collaborative interface design tool with a comprehensive
+  REST API for accessing and manipulating design files, projects, and teams.
 maintainers:
-- FN: Kin Lane
-  url: http://apievangelist.com
-  email: kin@apievangelist.com
-- name: Figma
-  email: support@figma.com
-  url: https://www.figma.com
+  - FN: Kin Lane
+    url: http://apievangelist.com
+    email: kin@apievangelist.com
+  - name: Figma
+    email: support@figma.com
+    url: https://www.figma.com
 specificationVersion: '0.16'
 tags:
-- Collaboration
-- Design
-- Interfaces
-- Prototypes
-- UI/UX
-- collaboration
-- design
-- graphics
-- prototyping
+  - Collaboration
+  - Design
+  - Interfaces
+  - Prototypes
+  - UI/UX
+  - collaboration
+  - design
+  - graphics
+  - prototyping
 image: https://www.figma.com/favicon.ico

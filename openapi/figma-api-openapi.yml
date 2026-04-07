@@ -24,7 +24,7 @@ paths:
     get:
       tags:
         - Users
-      summary: Get current user
+      summary: Figma Get current user
       security:
         - PersonalAccessToken: []
         - OAuth2:

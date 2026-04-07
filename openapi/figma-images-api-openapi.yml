@@ -28,7 +28,7 @@ paths:
       tags:
         - Images
         - Files
-      summary: Render images of file nodes
+      summary: Figma Render images of file nodes
       security:
         - PersonalAccessToken: []
         - OAuth2:
@@ -250,11 +250,11 @@ components:
         - err
         - images
       example:
-        err: null
+        err:
         images:
           "1:2": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/abc123"
           "1:3": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/def456"
-          "1:4": null
+          "1:4":
 
     ErrorResponsePayload:
       type: object
@@ -361,11 +361,11 @@ components:
             GetImagesSuccessExample:
               summary: Successful image rendering response
               value:
-                err: null
+                err:
                 images:
                   "1:2": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/abc123"
                   "1:3": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/def456"
-                  "1:4": null
+                  "1:4":
 
     BadRequestErrorResponse:
       description: >-
@@ -445,8 +445,8 @@ components:
     GetImagesSuccessExample:
       summary: Successful image rendering response
       value:
-        err: null
+        err:
         images:
           "1:2": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/abc123"
           "1:3": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/def456"
-          "1:4": null
+          "1:4":

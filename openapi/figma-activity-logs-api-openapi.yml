@@ -21,7 +21,7 @@ paths:
     get:
       tags:
         - Activity Logs
-      summary: Get activity logs
+      summary: Figma Get activity logs
       security:
         - OrgOAuth2:
             - org:activity_log_read
@@ -437,7 +437,7 @@ components:
                 id: "file_xyz789"
                 name: "My Design File"
               context:
-                clientName: null
+                clientName:
                 ipAddress: "192.168.1.100"
                 isFigmaSupportTeamAction: false
                 orgId: "org_123"

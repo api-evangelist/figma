@@ -22,7 +22,7 @@ paths:
     get:
       tags:
         - Library Analytics
-      summary: Get library analytics usage data
+      summary: Figma Get library analytics usage data
       security:
         - PersonalAccessToken: []
         - OAuth2:

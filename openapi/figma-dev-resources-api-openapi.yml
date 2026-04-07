@@ -21,7 +21,7 @@ paths:
     post:
       tags:
         - Dev Resources
-      summary: Create dev resources
+      summary: Figma Create dev resources
       security:
         - PersonalAccessToken: []
         - OAuth2:
@@ -56,7 +56,7 @@ paths:
     put:
       tags:
         - Dev Resources
-      summary: Update dev resources
+      summary: Figma Update dev resources
       security:
         - PersonalAccessToken: []
         - OAuth2:

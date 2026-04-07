@@ -61,7 +61,7 @@ paths:
     get:
       tags:
         - Files
-      summary: Get file
+      summary: Figma Get file
       operationId: getFile
       description: >-
         Returns the document tree for a given Figma file. If the file is large,
@@ -140,7 +140,7 @@ paths:
     get:
       tags:
         - Files
-      summary: Get file nodes
+      summary: Figma Get file nodes
       operationId: getFileNodes
       description: >-
         Returns the nodes referenced by ids as a JSON object. The nodes are
@@ -207,7 +207,7 @@ paths:
     get:
       tags:
         - Files
-      summary: Get image renders
+      summary: Figma Get image renders
       operationId: getImages
       description: >-
         Renders images from a file. If no error occurs, the response includes
@@ -290,7 +290,7 @@ paths:
     get:
       tags:
         - Files
-      summary: Get image fills
+      summary: Figma Get image fills
       operationId: getImageFills
       description: >-
         Returns a mapping of image references to URLs of the image contents.
@@ -319,7 +319,7 @@ paths:
     get:
       tags:
         - Files
-      summary: Get file version history
+      summary: Figma Get file version history
       operationId: getFileVersions
       description: >-
         Returns a list of the version history of a file. The version history
@@ -372,7 +372,7 @@ paths:
     get:
       tags:
         - Comments
-      summary: Get comments
+      summary: Figma Get comments
       operationId: getComments
       description: >-
         Gets a list of comments left on the file. Comments are returned in
@@ -410,7 +410,7 @@ paths:
     post:
       tags:
         - Comments
-      summary: Post comment
+      summary: Figma Post comment
       operationId: postComment
       description: >-
         Posts a new comment on the file. The body of the request should contain
@@ -448,7 +448,7 @@ paths:
     delete:
       tags:
         - Comments
-      summary: Delete comment
+      summary: Figma Delete comment
       operationId: deleteComment
       description: >-
         Deletes a specific comment. Only the comment creator or file owner
@@ -485,7 +485,7 @@ paths:
     get:
       tags:
         - Comments
-      summary: Get comment reactions
+      summary: Figma Get comment reactions
       operationId: getCommentReactions
       description: >-
         Gets a paginated list of reactions for a comment.
@@ -523,7 +523,7 @@ paths:
     post:
       tags:
         - Comments
-      summary: Post comment reaction
+      summary: Figma Post comment reaction
       operationId: postCommentReaction
       description: >-
         Posts a reaction to a comment.
@@ -571,7 +571,7 @@ paths:
     get:
       tags:
         - Components
-      summary: Get team components
+      summary: Figma Get team components
       operationId: getTeamComponents
       description: >-
         Get a paginated list of published components within a team library.
@@ -622,7 +622,7 @@ paths:
     get:
       tags:
         - Components
-      summary: Get file components
+      summary: Figma Get file components
       operationId: getFileComponents
       description: >-
         Get a list of published components within a file library.
@@ -652,7 +652,7 @@ paths:
     get:
       tags:
         - Components
-      summary: Get component
+      summary: Figma Get component
       operationId: getComponent
       description: >-
         Get metadata on a component by key. This is the unique identifier for
@@ -688,7 +688,7 @@ paths:
     get:
       tags:
         - Components
-      summary: Get team component sets
+      summary: Figma Get team component sets
       operationId: getTeamComponentSets
       description: >-
         Get a paginated list of published component sets within a team library.
@@ -738,7 +738,7 @@ paths:
     get:
       tags:
         - Components
-      summary: Get team styles
+      summary: Figma Get team styles
       operationId: getTeamStyles
       description: >-
         Get a paginated list of published styles within a team library.
@@ -788,7 +788,7 @@ paths:
     get:
       tags:
         - Projects
-      summary: Get team projects
+      summary: Figma Get team projects
       operationId: getTeamProjects
       description: >-
         Lists the projects for a specified team. Only projects visible to the
@@ -819,7 +819,7 @@ paths:
     get:
       tags:
         - Projects
-      summary: Get project files
+      summary: Figma Get project files
       operationId: getProjectFiles
       description: >-
         Lists the files in a given project.
@@ -860,7 +860,7 @@ paths:
     get:
       tags:
         - Users
-      summary: Get current user
+      summary: Figma Get current user
       operationId: getMe
       description: >-
         Returns the user information for the currently authenticated user.

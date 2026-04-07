@@ -28,7 +28,7 @@ paths:
       tags:
         - Projects
         - Files
-      summary: Get files in a project
+      summary: Figma Get files in a project
       security:
         - PersonalAccessToken: []
         - OAuth2:
