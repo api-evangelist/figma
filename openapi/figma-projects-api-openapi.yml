@@ -17,17 +17,17 @@ servers:
     description: Figma Production API Server
 
 tags:
-  - name: Projects
-    description: Operations for managing and retrieving project information
   - name: Files
     description: Operations related to Figma file resources
 
+  - name: Projects
+    description: Operations for managing and retrieving project information
 paths:
   /v1/projects/{project_id}/files:
     get:
       tags:
-        - Projects
         - Files
+        - Projects
       summary: Figma Get files in a project
       security:
         - PersonalAccessToken: []

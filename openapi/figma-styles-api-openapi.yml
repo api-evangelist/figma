@@ -17,17 +17,17 @@ servers:
     description: Figma Production API Server
 
 tags:
-  - name: Styles
-    description: Operations for managing and retrieving design styles
   - name: Keys
     description: Operations that use unique style keys for identification
 
+  - name: Styles
+    description: Operations for managing and retrieving design styles
 paths:
   /v1/styles/{key}:
     get:
       tags:
-        - Styles
         - Keys
+        - Styles
       summary: Figma Get style
       security:
         - PersonalAccessToken: []

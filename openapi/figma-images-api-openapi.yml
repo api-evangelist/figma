@@ -17,17 +17,17 @@ servers:
     description: Figma Production API Server
 
 tags:
-  - name: Images
-    description: Operations for rendering and exporting images from Figma files
   - name: Files
     description: Operations related to Figma file resources
 
+  - name: Images
+    description: Operations for rendering and exporting images from Figma files
 paths:
   /v1/images/{file_key}:
     get:
       tags:
-        - Images
         - Files
+        - Images
       summary: Figma Render images of file nodes
       security:
         - PersonalAccessToken: []

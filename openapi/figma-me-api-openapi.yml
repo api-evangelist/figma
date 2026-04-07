@@ -14,17 +14,17 @@ servers:
     description: Figma Production API Server
 
 tags:
-  - name: Users
-    description: Operations for managing and retrieving user information
   - name: Me
     description: Operations for the currently authenticated user
 
+  - name: Users
+    description: Operations for managing and retrieving user information
 paths:
   /v1/me:
     get:
       tags:
-        - Users
         - Me
+        - Users
       summary: Figma Get current user
       security:
         - PersonalAccessToken: []

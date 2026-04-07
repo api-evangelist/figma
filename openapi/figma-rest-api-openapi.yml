@@ -23,13 +23,6 @@ servers:
   - url: https://api.figma.com
     description: Figma Production API Server
 tags:
-  - name: Files
-    description: >-
-      Endpoints for retrieving Figma file data including document trees, nodes,
-      images, and version history.
-    externalDocs:
-      description: File Endpoints Documentation
-      url: https://developers.figma.com/docs/rest-api/file-endpoints/
   - name: Comments
     description: >-
       Endpoints for managing comments and reactions on Figma files, including
@@ -44,6 +37,13 @@ tags:
     externalDocs:
       description: Component Types Documentation
       url: https://developers.figma.com/docs/rest-api/component-types/
+  - name: Files
+    description: >-
+      Endpoints for retrieving Figma file data including document trees, nodes,
+      images, and version history.
+    externalDocs:
+      description: File Endpoints Documentation
+      url: https://developers.figma.com/docs/rest-api/file-endpoints/
   - name: Projects
     description: >-
       Endpoints for listing team projects and project files.

@@ -14,16 +14,16 @@ servers:
   - url: https://api.figma.com
     description: Figma Production API Server
 tags:
-  - name: Files
-    description: Operations for managing Figma files and their resources
   - name: Dev Resources
     description: Operations for managing dev resources attached to file nodes
+  - name: Files
+    description: Operations for managing Figma files and their resources
 paths:
   /v1/files/{file_key}/dev_resources/{dev_resource_id}:
     delete:
       tags:
-        - Files
         - Dev Resources
+        - Files
       summary: Figma Delete dev resource
       security:
         - PersonalAccessToken: []
