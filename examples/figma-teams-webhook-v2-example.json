@@ -1,0 +1,8 @@
+{
+  "id": "abc123",
+  "team_id": "500123",
+  "client_id": "500123",
+  "passcode": "example_value",
+  "endpoint": "example_value",
+  "description": "A sample description."
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetFileNodesResponse",
+  "type": "object",
+  "description": "Response from the Get File Nodes endpoint.",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the file."
+    },
+    "lastModified": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string"
+    },
+    "nodes": {
+      "type": "object",
+      "description": "A mapping from node IDs to node data. Each value contains a document subtree and optionally the component metadata for that node."
+    }
+  }
+}

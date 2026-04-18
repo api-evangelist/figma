@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "GetFileResponseBody",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string"
+    },
+    "lastModified": {
+      "type": "string"
+    },
+    "editorType": {
+      "type": "string"
+    },
+    "thumbnailUrl": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "components": {
+      "type": "object"
+    },
+    "componentSets": {
+      "type": "object"
+    },
+    "schemaVersion": {
+      "type": "number"
+    },
+    "styles": {
+      "type": "object"
+    },
+    "mainFileKey": {
+      "type": "string"
+    },
+    "branches": {
+      "type": "array"
+    }
+  }
+}

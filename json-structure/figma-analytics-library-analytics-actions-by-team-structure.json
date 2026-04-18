@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "LibraryAnalyticsActionsByTeam",
+  "type": "object",
+  "properties": {
+    "week": {
+      "type": "string"
+    },
+    "teamName": {
+      "type": "string"
+    },
+    "workspaceName": {
+      "type": "string"
+    },
+    "detachments": {
+      "type": "number"
+    },
+    "insertions": {
+      "type": "number"
+    }
+  }
+}

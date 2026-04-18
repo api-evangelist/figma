@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Color",
+  "type": "object",
+  "description": "An RGBA color.",
+  "properties": {
+    "r": {
+      "type": "number",
+      "description": "Red channel value, between 0 and 1."
+    },
+    "g": {
+      "type": "number",
+      "description": "Green channel value, between 0 and 1."
+    },
+    "b": {
+      "type": "number",
+      "description": "Blue channel value, between 0 and 1."
+    },
+    "a": {
+      "type": "number",
+      "description": "Alpha channel value, between 0 and 1."
+    }
+  }
+}

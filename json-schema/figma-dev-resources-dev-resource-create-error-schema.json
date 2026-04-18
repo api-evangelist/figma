@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DevResourceCreateError",
+  "type": "object",
+  "properties": {
+    "fileKey": {
+      "type": "['string', 'null']",
+      "description": "The file key."
+    },
+    "nodeId": {
+      "type": "['string', 'null']",
+      "description": "The node id."
+    },
+    "error": {
+      "type": "string",
+      "description": "The error message."
+    }
+  }
+}

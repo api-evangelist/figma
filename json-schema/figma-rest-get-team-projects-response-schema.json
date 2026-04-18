@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetTeamProjectsResponse",
+  "type": "object",
+  "description": "Response from the Get Team Projects endpoint.",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the team."
+    },
+    "projects": {
+      "type": "array"
+    }
+  }
+}

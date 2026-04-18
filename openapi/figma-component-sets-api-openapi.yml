@@ -11,21 +11,21 @@ info:
   contact:
     email: support@figma.com
 servers:
-  - url: https://api.figma.com
-    description: Figma Production API Server
+- url: https://api.figma.com
+  description: Figma Production API Server
 tags:
-  - name: Component Sets
-    description: Operations related to retrieving component set metadata
+- name: Component Sets
+  description: Operations related to retrieving component set metadata
 paths:
   /v1/component_sets/{key}:
     get:
       tags:
-        - Component Sets
-      summary: Figma Get component set
+      - Component Sets
+      summary: Figma Get Component Set
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       description: Get metadata on a component set by key.
       operationId: getComponentSet
       x-microcks-operation:
@@ -36,7 +36,7 @@ paths:
             "fallback": "GetComponentSetSuccessExample"
           }
       parameters:
-        - $ref: '#/components/parameters/ComponentSetKeyPathParam'
+      - $ref: '#/components/parameters/ComponentSetKeyPathParam'
       responses:
         '200':
           $ref: '#/components/responses/GetComponentSetResponse'
@@ -143,18 +143,20 @@ components:
           type: number
           description: The status of the request.
           enum:
-            - 200
+          - 200
+          example: 200
         error:
           type: boolean
           description: For successful requests, this value is always `false`.
           enum:
-            - false
+          - false
+          example: false
         meta:
           $ref: '#/components/schemas/PublishedComponentSet'
       required:
-        - status
-        - error
-        - meta
+      - status
+      - error
+      - meta
     PublishedComponentSet:
       type: object
       description: A node containing a set of variants of a component.
@@ -162,42 +164,50 @@ components:
         key:
           type: string
           description: The unique identifier for the component set.
+          example: example_value
         fileKey:
           type: string
           description: The unique identifier of the Figma file that contains the component set.
+          example: example_value
         nodeId:
           type: string
           description: The unique identifier of the component set node within the Figma file.
+          example: '500123'
         thumbnailUrl:
           type: string
           description: A URL to a thumbnail image of the component set.
+          example: https://www.example.com
         name:
           type: string
           description: The name of the component set.
+          example: Example Title
         description:
           type: string
           description: The description of the component set as entered by the publisher.
+          example: A sample description.
         createdAt:
           type: string
           format: date-time
           description: The UTC ISO 8601 time when the component set was created.
+          example: '2026-01-15T10:30:00Z'
         updatedAt:
           type: string
           format: date-time
           description: The UTC ISO 8601 time when the component set was last updated.
+          example: '2026-01-15T10:30:00Z'
         user:
           $ref: '#/components/schemas/User'
         containingFrame:
           $ref: '#/components/schemas/FrameInfo'
       required:
-        - key
-        - fileKey
-        - nodeId
-        - name
-        - description
-        - createdAt
-        - updatedAt
-        - user
+      - key
+      - fileKey
+      - nodeId
+      - name
+      - description
+      - createdAt
+      - updatedAt
+      - user
     User:
       type: object
       description: A description of a user.
@@ -205,16 +215,19 @@ components:
         id:
           type: string
           description: Unique stable id of the user.
+          example: abc123
         handle:
           type: string
           description: Name of the user.
+          example: example_value
         imgUrl:
           type: string
           description: URL link to the user's profile image.
+          example: https://www.example.com
       required:
-        - id
-        - handle
-        - imgUrl
+      - id
+      - handle
+      - imgUrl
     FrameInfo:
       type: object
       description: Information about the containing frame.
@@ -222,18 +235,23 @@ components:
         nodeId:
           type: string
           description: The ID of the containing frame.
+          example: '500123'
         name:
           type: string
           description: The name of the containing frame.
+          example: Example Title
         backgroundColor:
           type: string
           description: The background color of the containing frame.
+          example: example_value
         pageId:
           type: string
           description: The ID of the page containing the frame.
+          example: '500123'
         pageName:
           type: string
           description: The name of the page containing the frame.
+          example: example_value
     ErrorResponsePayloadWithErr:
       type: object
       description: A response indicating an error occurred.
@@ -241,12 +259,14 @@ components:
         status:
           type: number
           description: Status code
+          example: 42.5
         err:
           type: string
           description: A string describing the error
+          example: example_value
       required:
-        - status
-        - err
+      - status
+      - err
     ErrorResponsePayloadWithError:
       type: object
       description: A response indicating an error occurred.
@@ -255,17 +275,20 @@ components:
           type: boolean
           description: For erroneous requests, this value is always `true`.
           enum:
-            - true
+          - true
+          example: true
         status:
           type: number
           description: Status code
+          example: 42.5
         message:
           type: string
           description: A string describing the error
+          example: example_value
       required:
-        - error
-        - status
-        - message
+      - error
+      - status
+      - message
   examples:
     GetComponentSetSuccessExample:
       summary: Successful component set response

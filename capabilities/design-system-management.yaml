@@ -1,0 +1,280 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Figma Design System Management"
+  description: "Unified workflow for managing design files, components, styles, projects, comments, and asset export. Combines the Figma REST API endpoints into a cohesive design system management experience. Used by design system engineers, developers, and design ops teams."
+  tags:
+    - Figma
+    - Design Systems
+    - Components
+    - Files
+    - Asset Export
+  created: "2026-04-18"
+  modified: "2026-04-18"
+
+binds:
+  - namespace: env
+    keys:
+      FIGMA_ACCESS_TOKEN: FIGMA_ACCESS_TOKEN
+
+capability:
+  consumes:
+    - import: figma-rest
+      location: ./shared/rest-api.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: figma-design-api
+      description: "Unified REST API for Figma design system management."
+      resources:
+        - path: /v1/files/{file_key}
+          name: files
+          description: "Design file access."
+          operations:
+            - method: GET
+              name: get-file
+              description: "Get a Figma file."
+              call: "figma-rest.get-file"
+              with:
+                file_key: "rest.file_key"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/files/{file_key}/nodes
+          name: file-nodes
+          description: "File node access."
+          operations:
+            - method: GET
+              name: get-file-nodes
+              description: "Get specific nodes from a file."
+              call: "figma-rest.get-file-nodes"
+              with:
+                file_key: "rest.file_key"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/images/{file_key}
+          name: images
+          description: "Image rendering."
+          operations:
+            - method: GET
+              name: get-images
+              description: "Render images from a file."
+              call: "figma-rest.get-images"
+              with:
+                file_key: "rest.file_key"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/components/{key}
+          name: components
+          description: "Component access."
+          operations:
+            - method: GET
+              name: get-component
+              description: "Get a component by key."
+              call: "figma-rest.get-component"
+              with:
+                key: "rest.key"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/teams/{team_id}/components
+          name: team-components
+          description: "Team component access."
+          operations:
+            - method: GET
+              name: get-team-components
+              description: "List team components."
+              call: "figma-rest.get-team-components"
+              with:
+                team_id: "rest.team_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/teams/{team_id}/projects
+          name: team-projects
+          description: "Team project access."
+          operations:
+            - method: GET
+              name: get-team-projects
+              description: "List team projects."
+              call: "figma-rest.get-team-projects"
+              with:
+                team_id: "rest.team_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/projects/{project_id}/files
+          name: project-files
+          description: "Project file access."
+          operations:
+            - method: GET
+              name: get-project-files
+              description: "List files in a project."
+              call: "figma-rest.get-project-files"
+              with:
+                project_id: "rest.project_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9090
+      namespace: figma-design-mcp
+      transport: http
+      description: "MCP server for AI-assisted Figma design system management."
+      tools:
+        - name: get-file
+          description: "Get a Figma file document tree."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "figma-rest.get-file"
+          with:
+            file_key: "tools.file_key"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-file-nodes
+          description: "Get specific nodes from a Figma file by IDs."
+          hints:
+            readOnly: true
+          call: "figma-rest.get-file-nodes"
+          with:
+            file_key: "tools.file_key"
+            ids: "tools.ids"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-images
+          description: "Render and export images from a Figma file."
+          hints:
+            readOnly: true
+          call: "figma-rest.get-images"
+          with:
+            file_key: "tools.file_key"
+            ids: "tools.ids"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-image-fills
+          description: "Get download links for images used as fills in a file."
+          hints:
+            readOnly: true
+          call: "figma-rest.get-image-fills"
+          with:
+            file_key: "tools.file_key"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-file-versions
+          description: "List version history of a Figma file."
+          hints:
+            readOnly: true
+          call: "figma-rest.get-file-versions"
+          with:
+            file_key: "tools.file_key"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-comments
+          description: "List comments on a Figma file."
+          hints:
+            readOnly: true
+          call: "figma-rest.get-comments"
+          with:
+            file_key: "tools.file_key"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: post-comment
+          description: "Post a comment on a Figma file."
+          hints:
+            readOnly: false
+          call: "figma-rest.post-comment"
+          with:
+            file_key: "tools.file_key"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-team-components
+          description: "List published components for a team."
+          hints:
+            readOnly: true
+          call: "figma-rest.get-team-components"
+          with:
+            team_id: "tools.team_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-file-components
+          description: "List components in a Figma file."
+          hints:
+            readOnly: true
+          call: "figma-rest.get-file-components"
+          with:
+            file_key: "tools.file_key"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-component
+          description: "Get a specific component by key."
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "figma-rest.get-component"
+          with:
+            key: "tools.key"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-team-component-sets
+          description: "List published component sets for a team."
+          hints:
+            readOnly: true
+          call: "figma-rest.get-team-component-sets"
+          with:
+            team_id: "tools.team_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-team-styles
+          description: "List published styles for a team."
+          hints:
+            readOnly: true
+          call: "figma-rest.get-team-styles"
+          with:
+            team_id: "tools.team_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-team-projects
+          description: "List projects for a team."
+          hints:
+            readOnly: true
+          call: "figma-rest.get-team-projects"
+          with:
+            team_id: "tools.team_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-project-files
+          description: "List files in a project."
+          hints:
+            readOnly: true
+          call: "figma-rest.get-project-files"
+          with:
+            project_id: "tools.project_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-me
+          description: "Get information about the authenticated user."
+          hints:
+            readOnly: true
+          call: "figma-rest.get-me"
+          outputParameters:
+            - type: object
+              mapping: "$."

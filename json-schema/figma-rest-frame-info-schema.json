@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FrameInfo",
+  "type": "object",
+  "description": "Information about the frame containing a component.",
+  "properties": {
+    "nodeId": {
+      "type": "string",
+      "description": "The ID of the containing frame node."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the containing frame."
+    },
+    "backgroundColor": {
+      "type": "string",
+      "description": "The background color of the containing frame."
+    },
+    "pageId": {
+      "type": "string",
+      "description": "The ID of the page containing the frame."
+    },
+    "pageName": {
+      "type": "string",
+      "description": "The name of the page containing the frame."
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ErrorResponsePayloadWithErr",
+  "type": "object",
+  "description": "A response indicating an error occurred.",
+  "properties": {
+    "status": {
+      "type": "number",
+      "description": "Status code"
+    },
+    "err": {
+      "type": "string",
+      "description": "A string describing the error"
+    }
+  }
+}

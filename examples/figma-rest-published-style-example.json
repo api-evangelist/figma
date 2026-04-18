@@ -1,0 +1,12 @@
+{
+  "key": "example_value",
+  "file_key": "example_value",
+  "node_id": "500123",
+  "thumbnail_url": "https://www.example.com",
+  "name": "Example Title",
+  "description": "A sample description.",
+  "style_type": "example_value",
+  "sort_position": "example_value",
+  "created_at": "2026-01-15T10:30:00Z",
+  "updated_at": "2026-01-15T10:30:00Z"
+}

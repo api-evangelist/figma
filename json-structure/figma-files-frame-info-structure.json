@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "FrameInfo",
+  "type": "object",
+  "properties": {
+    "nodeId": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "backgroundColor": {
+      "type": "string"
+    },
+    "pageId": {
+      "type": "string"
+    },
+    "pageName": {
+      "type": "string"
+    }
+  }
+}

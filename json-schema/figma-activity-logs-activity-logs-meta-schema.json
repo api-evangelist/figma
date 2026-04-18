@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ActivityLogsMeta",
+  "type": "object",
+  "properties": {
+    "activityLogs": {
+      "type": "array",
+      "description": "An array of activity logs sorted by timestamp in ascending order by default."
+    },
+    "cursor": {
+      "type": "string",
+      "description": "Encodes the last event (the most recent event)"
+    },
+    "nextPage": {
+      "type": "boolean",
+      "description": "Whether there is a next page of events"
+    }
+  }
+}

@@ -11,24 +11,24 @@ info:
   contact:
     email: support@figma.com
 servers:
-  - url: https://api.figma.com
-    description: Figma Production API Server
+- url: https://api.figma.com
+  description: Figma Production API Server
 tags:
-  - name: Dev Resources
-    description: Operations for managing dev resources attached to file nodes
-  - name: Files
-    description: Operations for managing Figma files and their resources
+- name: Dev Resources
+  description: Operations for managing dev resources attached to file nodes
+- name: Files
+  description: Operations for managing Figma files and their resources
 paths:
   /v1/files/{file_key}/dev_resources/{dev_resource_id}:
     delete:
       tags:
-        - Dev Resources
-        - Files
-      summary: Figma Delete dev resource
+      - Dev Resources
+      - Files
+      summary: Figma Delete Dev Resource
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - file_dev_resources:write
+      - PersonalAccessToken: []
+      - OAuth2:
+        - file_dev_resources:write
       description: Delete a dev resource from a file
       operationId: deleteDevResource
       x-microcks-operation:
@@ -39,8 +39,8 @@ paths:
             "fallback": "DeleteDevResourceSuccessExample"
           }
       parameters:
-        - $ref: '#/components/parameters/FileKeyPathParam'
-        - $ref: '#/components/parameters/DevResourceIdPathParam'
+      - $ref: '#/components/parameters/FileKeyPathParam'
+      - $ref: '#/components/parameters/DevResourceIdPathParam'
       responses:
         '200':
           $ref: '#/components/responses/DeleteDevResourceResponse'
@@ -176,45 +176,53 @@ components:
           type: number
           description: The status of the request.
           enum:
-            - 200
+          - 200
+          example: 200
         error:
           type: boolean
           description: For successful requests, this value is always `false`.
           enum:
-            - false
+          - false
+          example: false
       required:
-        - status
-        - error
+      - status
+      - error
     GetFileResponseBody:
       type: object
       properties:
         name:
           type: string
           description: The name of the file as it appears in the editor.
+          example: Example Title
         role:
           type: string
           enum:
-            - owner
-            - editor
-            - viewer
+          - owner
+          - editor
+          - viewer
           description: >-
             The role of the user making the API request in relation to the file.
+          example: owner
         lastModified:
           type: string
           format: date-time
           description: The UTC ISO 8601 time at which the file was last modified.
+          example: '2026-01-15T10:30:00Z'
         editorType:
           type: string
           enum:
-            - figma
-            - figjam
+          - figma
+          - figjam
           description: The type of editor associated with this file.
+          example: figma
         thumbnailUrl:
           type: string
           description: A URL to a thumbnail image of the file.
+          example: https://www.example.com
         version:
           type: string
           description: The version number of the file.
+          example: example_value
         document:
           $ref: '#/components/schemas/DocumentNode'
         components:
@@ -222,39 +230,45 @@ components:
           additionalProperties:
             $ref: '#/components/schemas/Component'
           description: A mapping from component IDs to component metadata.
+          example: example_value
         componentSets:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/ComponentSet'
           description: A mapping from component set IDs to component set metadata.
+          example: example_value
         schemaVersion:
           type: number
           description: The version of the file schema that this file uses.
           default: 0
+          example: 42.5
         styles:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/Style'
           description: A mapping from style IDs to style metadata.
+          example: example_value
         mainFileKey:
           type: string
           description: The key of the main file for this file.
+          example: example_value
         branches:
           type: array
           description: A list of branches for this file.
           items:
             $ref: '#/components/schemas/Branch'
+          example: []
       required:
-        - name
-        - role
-        - lastModified
-        - editorType
-        - version
-        - document
-        - components
-        - componentSets
-        - schemaVersion
-        - styles
+      - name
+      - role
+      - lastModified
+      - editorType
+      - version
+      - document
+      - components
+      - componentSets
+      - schemaVersion
+      - styles
     GetDevResourcesResponseBody:
       type: object
       properties:
@@ -263,8 +277,9 @@ components:
           description: An array of dev resources.
           items:
             $ref: '#/components/schemas/DevResource'
+          example: []
       required:
-        - devResources
+      - devResources
     DocumentNode:
       type: object
       description: The root node of the document.
@@ -272,24 +287,28 @@ components:
         id:
           type: string
           description: A string uniquely identifying this node within the document.
+          example: abc123
         name:
           type: string
           description: The name given to the node by the user in the tool.
+          example: Example Title
         type:
           type: string
           enum:
-            - DOCUMENT
+          - DOCUMENT
           description: The type of the node.
+          example: DOCUMENT
         children:
           type: array
           items:
             $ref: '#/components/schemas/CanvasNode'
           description: An array of canvases attached to the document.
+          example: []
       required:
-        - id
-        - name
-        - type
-        - children
+      - id
+      - name
+      - type
+      - children
     CanvasNode:
       type: object
       description: A canvas (page) in the document.
@@ -297,14 +316,17 @@ components:
         id:
           type: string
           description: A string uniquely identifying this node within the document.
+          example: abc123
         name:
           type: string
           description: The name given to the node by the user in the tool.
+          example: Example Title
         type:
           type: string
           enum:
-            - CANVAS
+          - CANVAS
           description: The type of the node.
+          example: CANVAS
         backgroundColor:
           $ref: '#/components/schemas/Color'
         children:
@@ -312,10 +334,11 @@ components:
           items:
             type: object
           description: An array of top level layers on the canvas.
+          example: []
       required:
-        - id
-        - name
-        - type
+      - id
+      - name
+      - type
     Color:
       type: object
       description: An RGBA color.
@@ -323,20 +346,24 @@ components:
         r:
           type: number
           description: Red channel value, between 0 and 1.
+          example: 42.5
         g:
           type: number
           description: Green channel value, between 0 and 1.
+          example: 42.5
         b:
           type: number
           description: Blue channel value, between 0 and 1.
+          example: 42.5
         a:
           type: number
           description: Alpha channel value, between 0 and 1.
+          example: 42.5
       required:
-        - r
-        - g
-        - b
-        - a
+      - r
+      - g
+      - b
+      - a
     Component:
       type: object
       description: A description of a main component.
@@ -344,29 +371,35 @@ components:
         key:
           type: string
           description: The key of the component.
+          example: example_value
         name:
           type: string
           description: Name of the component.
+          example: Example Title
         description:
           type: string
           description: The description of the component as entered in the editor.
+          example: A sample description.
         componentSetId:
           type: string
           description: The ID of the component set if the component belongs to one.
+          example: '500123'
         documentationLinks:
           type: array
           items:
             $ref: '#/components/schemas/DocumentationLink'
           description: An array of documentation links attached to this component.
+          example: []
         remote:
           type: boolean
           description: Whether this component is a remote component.
+          example: true
       required:
-        - key
-        - name
-        - description
-        - documentationLinks
-        - remote
+      - key
+      - name
+      - description
+      - documentationLinks
+      - remote
     ComponentSet:
       type: object
       description: A description of a component set.
@@ -374,24 +407,29 @@ components:
         key:
           type: string
           description: The key of the component set.
+          example: example_value
         name:
           type: string
           description: Name of the component set.
+          example: Example Title
         description:
           type: string
           description: The description of the component set as entered in the editor.
+          example: A sample description.
         documentationLinks:
           type: array
           items:
             $ref: '#/components/schemas/DocumentationLink'
           description: An array of documentation links attached to this component set.
+          example: []
         remote:
           type: boolean
           description: Whether this component set is a remote component set.
+          example: true
       required:
-        - key
-        - name
-        - description
+      - key
+      - name
+      - description
     Style:
       type: object
       description: A set of properties that can be applied to nodes.
@@ -399,31 +437,35 @@ components:
         key:
           type: string
           description: The key of the style.
+          example: example_value
         name:
           type: string
           description: Name of the style.
+          example: Example Title
         description:
           type: string
           description: Description of the style.
+          example: A sample description.
         remote:
           type: boolean
           description: Whether this style is a remote style.
+          example: true
         styleType:
           $ref: '#/components/schemas/StyleType'
       required:
-        - key
-        - name
-        - description
-        - remote
-        - styleType
+      - key
+      - name
+      - description
+      - remote
+      - styleType
     StyleType:
       type: string
       description: The type of style.
       enum:
-        - FILL
-        - TEXT
-        - EFFECT
-        - GRID
+      - FILL
+      - TEXT
+      - EFFECT
+      - GRID
     DocumentationLink:
       type: object
       description: A link to documentation.
@@ -431,8 +473,9 @@ components:
         uri:
           type: string
           description: The URI of the documentation link.
+          example: example_value
       required:
-        - uri
+      - uri
     Branch:
       type: object
       description: Information about a branch of the file.
@@ -440,21 +483,25 @@ components:
         key:
           type: string
           description: The key of the branch.
+          example: example_value
         name:
           type: string
           description: The name of the branch.
+          example: Example Title
         thumbnailUrl:
           type: string
           description: A URL to a thumbnail image of the branch.
+          example: https://www.example.com
         lastModified:
           type: string
           format: date-time
           description: The UTC ISO 8601 time at which the branch was last modified.
+          example: '2026-01-15T10:30:00Z'
       required:
-        - key
-        - name
-        - thumbnailUrl
-        - lastModified
+      - key
+      - name
+      - thumbnailUrl
+      - lastModified
     DevResource:
       type: object
       description: A dev resource in a file.
@@ -462,24 +509,29 @@ components:
         id:
           type: string
           description: Unique identifier of the dev resource.
+          example: abc123
         name:
           type: string
           description: The name of the dev resource.
+          example: Example Title
         url:
           type: string
           description: The URL of the dev resource.
+          example: https://www.example.com
         fileKey:
           type: string
           description: The file key where the dev resource belongs.
+          example: example_value
         nodeId:
           type: string
           description: The target node to attach the dev resource to.
+          example: '500123'
       required:
-        - id
-        - name
-        - url
-        - fileKey
-        - nodeId
+      - id
+      - name
+      - url
+      - fileKey
+      - nodeId
     User:
       type: object
       description: A description of a user.
@@ -487,16 +539,19 @@ components:
         id:
           type: string
           description: Unique stable id of the user.
+          example: abc123
         handle:
           type: string
           description: Name of the user.
+          example: example_value
         imgUrl:
           type: string
           description: URL link to the user's profile image.
+          example: https://www.example.com
       required:
-        - id
-        - handle
-        - imgUrl
+      - id
+      - handle
+      - imgUrl
     Version:
       type: object
       description: A version of a file.
@@ -504,28 +559,32 @@ components:
         id:
           type: string
           description: Unique identifier for version.
+          example: abc123
         createdAt:
           type: string
           format: date-time
           description: The UTC ISO 8601 time at which the version was created.
+          example: '2026-01-15T10:30:00Z'
         label:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
           description: The label given to the version in the editor.
+          example: Example Title
         description:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
           description: The description of the version as entered in the editor.
+          example: A sample description.
         user:
           $ref: '#/components/schemas/User'
       required:
-        - id
-        - createdAt
-        - label
-        - description
-        - user
+      - id
+      - createdAt
+      - label
+      - description
+      - user
     Comment:
       type: object
       description: A comment or reply left by a user.
@@ -533,45 +592,53 @@ components:
         id:
           type: string
           description: Unique identifier for comment.
+          example: abc123
         fileKey:
           type: string
           description: The file in which the comment lives.
+          example: example_value
         parentId:
           type: string
           description: If present, the id of the comment to which this is the reply.
+          example: '500123'
         user:
           $ref: '#/components/schemas/User'
         createdAt:
           type: string
           format: date-time
           description: The UTC ISO 8601 time at which the comment was left.
+          example: '2026-01-15T10:30:00Z'
         resolvedAt:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
           format: date-time
           description: If set, the UTC ISO 8601 time the comment was resolved.
+          example: '2026-01-15T10:30:00Z'
         message:
           type: string
           description: The content of the comment.
+          example: example_value
         orderId:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
           description: The number displayed with the comment in the UI.
+          example: '500123'
         reactions:
           type: array
           description: An array of reactions to the comment.
           items:
             $ref: '#/components/schemas/Reaction'
+          example: []
       required:
-        - id
-        - fileKey
-        - user
-        - createdAt
-        - message
-        - reactions
-        - orderId
+      - id
+      - fileKey
+      - user
+      - createdAt
+      - message
+      - reactions
+      - orderId
     Reaction:
       type: object
       description: A reaction left by a user.
@@ -581,14 +648,16 @@ components:
         emoji:
           type: string
           description: The emoji used for the reaction.
+          example: example_value
         createdAt:
           type: string
           format: date-time
           description: The UTC ISO 8601 time at which the reaction was left.
+          example: '2026-01-15T10:30:00Z'
       required:
-        - user
-        - emoji
-        - createdAt
+      - user
+      - emoji
+      - createdAt
     PublishedComponent:
       type: object
       description: An arrangement of published UI elements.
@@ -596,42 +665,50 @@ components:
         key:
           type: string
           description: The unique identifier for the component.
+          example: example_value
         fileKey:
           type: string
           description: The unique identifier of the Figma file that contains the component.
+          example: example_value
         nodeId:
           type: string
           description: The unique identifier of the component node within the Figma file.
+          example: '500123'
         thumbnailUrl:
           type: string
           description: A URL to a thumbnail image of the component.
+          example: https://www.example.com
         name:
           type: string
           description: The name of the component.
+          example: Example Title
         description:
           type: string
           description: The description of the component as entered by the publisher.
+          example: A sample description.
         createdAt:
           type: string
           format: date-time
           description: The UTC ISO 8601 time when the component was created.
+          example: '2026-01-15T10:30:00Z'
         updatedAt:
           type: string
           format: date-time
           description: The UTC ISO 8601 time when the component was last updated.
+          example: '2026-01-15T10:30:00Z'
         user:
           $ref: '#/components/schemas/User'
         containingFrame:
           $ref: '#/components/schemas/FrameInfo'
       required:
-        - key
-        - fileKey
-        - nodeId
-        - name
-        - description
-        - createdAt
-        - updatedAt
-        - user
+      - key
+      - fileKey
+      - nodeId
+      - name
+      - description
+      - createdAt
+      - updatedAt
+      - user
     PublishedComponentSet:
       type: object
       description: A node containing a set of variants of a component.
@@ -639,42 +716,50 @@ components:
         key:
           type: string
           description: The unique identifier for the component set.
+          example: example_value
         fileKey:
           type: string
           description: The unique identifier of the Figma file that contains the component set.
+          example: example_value
         nodeId:
           type: string
           description: The unique identifier of the component set node within the Figma file.
+          example: '500123'
         thumbnailUrl:
           type: string
           description: A URL to a thumbnail image of the component set.
+          example: https://www.example.com
         name:
           type: string
           description: The name of the component set.
+          example: Example Title
         description:
           type: string
           description: The description of the component set as entered by the publisher.
+          example: A sample description.
         createdAt:
           type: string
           format: date-time
           description: The UTC ISO 8601 time when the component set was created.
+          example: '2026-01-15T10:30:00Z'
         updatedAt:
           type: string
           format: date-time
           description: The UTC ISO 8601 time when the component set was last updated.
+          example: '2026-01-15T10:30:00Z'
         user:
           $ref: '#/components/schemas/User'
         containingFrame:
           $ref: '#/components/schemas/FrameInfo'
       required:
-        - key
-        - fileKey
-        - nodeId
-        - name
-        - description
-        - createdAt
-        - updatedAt
-        - user
+      - key
+      - fileKey
+      - nodeId
+      - name
+      - description
+      - createdAt
+      - updatedAt
+      - user
     FrameInfo:
       type: object
       description: Information about the containing frame.
@@ -682,18 +767,23 @@ components:
         nodeId:
           type: string
           description: The ID of the containing frame.
+          example: '500123'
         name:
           type: string
           description: The name of the containing frame.
+          example: Example Title
         backgroundColor:
           type: string
           description: The background color of the containing frame.
+          example: example_value
         pageId:
           type: string
           description: The ID of the page containing the frame.
+          example: '500123'
         pageName:
           type: string
           description: The name of the page containing the frame.
+          example: example_value
     ErrorResponsePayload:
       type: object
       description: A response indicating an error occurred.
@@ -702,17 +792,20 @@ components:
           type: boolean
           description: For erroneous requests, this value is always `true`.
           enum:
-            - true
+          - true
+          example: true
         status:
           type: number
           description: Status code
+          example: 42.5
         message:
           type: string
           description: A string describing the error
+          example: example_value
       required:
-        - error
-        - status
-        - message
+      - error
+      - status
+      - message
   examples:
     DeleteDevResourceSuccessExample:
       summary: Successful dev resource deletion
@@ -733,15 +826,15 @@ components:
           name: "Document"
           type: "DOCUMENT"
           children:
-            - id: "0:1"
-              name: "Page 1"
-              type: "CANVAS"
-              backgroundColor:
-                r: 1
-                g: 1
-                b: 1
-                a: 1
-              children: []
+          - id: "0:1"
+            name: "Page 1"
+            type: "CANVAS"
+            backgroundColor:
+              r: 1
+              g: 1
+              b: 1
+              a: 1
+            children: []
         components: {}
         componentSets: {}
         schemaVersion: 0
@@ -750,16 +843,16 @@ components:
       summary: Successful dev resources retrieval
       value:
         devResources:
-          - id: "dev_res_123"
-            name: "Button Component Code"
-            url: "https://github.com/myorg/design-system/blob/main/src/components/Button.tsx"
-            fileKey: "abc123xyz789"
-            nodeId: "1:1"
-          - id: "dev_res_456"
-            name: "Button Storybook"
-            url: "https://storybook.myorg.com/?path=/story/button"
-            fileKey: "abc123xyz789"
-            nodeId: "1:1"
+        - id: "dev_res_123"
+          name: "Button Component Code"
+          url: "https://github.com/myorg/design-system/blob/main/src/components/Button.tsx"
+          fileKey: "abc123xyz789"
+          nodeId: "1:1"
+        - id: "dev_res_456"
+          name: "Button Storybook"
+          url: "https://storybook.myorg.com/?path=/story/button"
+          fileKey: "abc123xyz789"
+          nodeId: "1:1"
     UnauthorizedExample:
       summary: Unauthorized error
       value:

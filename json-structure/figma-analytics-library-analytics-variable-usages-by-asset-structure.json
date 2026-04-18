@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "LibraryAnalyticsVariableUsagesByAsset",
+  "type": "object",
+  "properties": {
+    "variableKey": {
+      "type": "string"
+    },
+    "variableName": {
+      "type": "string"
+    },
+    "variableType": {
+      "type": "string"
+    },
+    "collectionKey": {
+      "type": "string"
+    },
+    "collectionName": {
+      "type": "string"
+    },
+    "usages": {
+      "type": "number"
+    },
+    "teamsUsing": {
+      "type": "number"
+    },
+    "filesUsing": {
+      "type": "number"
+    }
+  }
+}

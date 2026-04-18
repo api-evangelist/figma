@@ -1,0 +1,10 @@
+{
+  "id": "abc123",
+  "fileKey": "example_value",
+  "parentId": "500123",
+  "createdAt": "example_value",
+  "resolvedAt": "example_value",
+  "message": "example_value",
+  "orderId": "500123",
+  "reactions": []
+}

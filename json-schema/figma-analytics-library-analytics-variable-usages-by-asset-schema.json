@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LibraryAnalyticsVariableUsagesByAsset",
+  "type": "object",
+  "description": "Library analytics variable usage data broken down by variable.",
+  "properties": {
+    "variableKey": {
+      "type": "string",
+      "description": "Unique, stable id of the variable."
+    },
+    "variableName": {
+      "type": "string",
+      "description": "The name of the variable."
+    },
+    "variableType": {
+      "type": "string",
+      "description": "The type of the variable."
+    },
+    "collectionKey": {
+      "type": "string",
+      "description": "Unique, stable id of the collection the variable belongs to."
+    },
+    "collectionName": {
+      "type": "string",
+      "description": "The name of the collection the variable belongs to."
+    },
+    "usages": {
+      "type": "number",
+      "description": "The number of usages of the variable within the organization."
+    },
+    "teamsUsing": {
+      "type": "number",
+      "description": "The number of teams using the variable within the organization."
+    },
+    "filesUsing": {
+      "type": "number",
+      "description": "The number of files using the variable within the organization."
+    }
+  }
+}

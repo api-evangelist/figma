@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetFileComponentsResponse",
+  "type": "object",
+  "description": "Response from the Get File Components endpoint.",
+  "properties": {
+    "error": {
+      "type": "boolean"
+    },
+    "status": {
+      "type": "integer"
+    },
+    "meta": {
+      "type": "object"
+    }
+  }
+}

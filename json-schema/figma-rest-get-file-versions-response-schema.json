@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetFileVersionsResponse",
+  "type": "object",
+  "description": "Response from the Get File Versions endpoint.",
+  "properties": {
+    "versions": {
+      "type": "array",
+      "description": "An array of version history entries."
+    }
+  }
+}

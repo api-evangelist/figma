@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WebhookV2Event",
+  "type": "string",
+  "description": "The event type that triggers the webhook."
+}

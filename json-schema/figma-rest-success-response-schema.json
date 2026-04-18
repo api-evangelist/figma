@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SuccessResponse",
+  "type": "object",
+  "description": "Generic success response.",
+  "properties": {
+    "error": {
+      "type": "boolean"
+    },
+    "status": {
+      "type": "integer"
+    }
+  }
+}

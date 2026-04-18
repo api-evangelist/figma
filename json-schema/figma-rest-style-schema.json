@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Style",
+  "type": "object",
+  "description": "A published style that can be applied to nodes in Figma.",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "The globally unique key of the style."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the style."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the style."
+    },
+    "remote": {
+      "type": "boolean",
+      "description": "Whether this style is a remote style from an external library."
+    },
+    "style_type": {
+      "type": "string",
+      "description": "The type of style."
+    }
+  }
+}

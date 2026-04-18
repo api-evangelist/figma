@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "GetImagesResponse",
+  "type": "object",
+  "properties": {
+    "err": {
+      "type": "['string', 'null']"
+    },
+    "images": {
+      "type": "object"
+    }
+  }
+}

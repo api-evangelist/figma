@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Component",
+  "type": "object",
+  "description": "A description of a main component.",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "The key of the component."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the component."
+    },
+    "description": {
+      "type": "string",
+      "description": "The description of the component as entered in the editor."
+    },
+    "componentSetId": {
+      "type": "string",
+      "description": "The ID of the component set if the component belongs to one."
+    },
+    "documentationLinks": {
+      "type": "array",
+      "description": "An array of documentation links attached to this component."
+    },
+    "remote": {
+      "type": "boolean",
+      "description": "Whether this component is a remote component."
+    }
+  }
+}

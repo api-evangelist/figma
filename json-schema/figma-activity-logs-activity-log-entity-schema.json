@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ActivityLogEntity",
+  "type": "object",
+  "description": "The resource the actor took the action on."
+}

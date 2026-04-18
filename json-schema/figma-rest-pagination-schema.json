@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pagination",
+  "type": "object",
+  "description": "Cursor-based pagination metadata.",
+  "properties": {
+    "before": {
+      "type": "number",
+      "description": "Cursor value for the page before the current one."
+    },
+    "after": {
+      "type": "number",
+      "description": "Cursor value for the page after the current one."
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "ActivityLogContext",
+  "type": "object",
+  "properties": {
+    "clientName": {
+      "type": "['string', 'null']"
+    },
+    "ipAddress": {
+      "type": "string"
+    },
+    "isFigmaSupportTeamAction": {
+      "type": "boolean"
+    },
+    "orgId": {
+      "type": "string"
+    },
+    "teamId": {
+      "type": "['string', 'null']"
+    }
+  }
+}

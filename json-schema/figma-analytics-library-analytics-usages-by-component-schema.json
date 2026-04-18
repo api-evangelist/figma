@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LibraryAnalyticsUsagesByComponent",
+  "type": "object",
+  "description": "Library analytics usage data broken down by component.",
+  "properties": {
+    "componentKey": {
+      "type": "string",
+      "description": "Unique, stable id of the component."
+    },
+    "componentName": {
+      "type": "string",
+      "description": "Name of the component."
+    },
+    "componentSetKey": {
+      "type": "string",
+      "description": "Unique, stable id of the component set that this component belongs to."
+    },
+    "componentSetName": {
+      "type": "string",
+      "description": "Name of the component set that this component belongs to."
+    },
+    "numInstances": {
+      "type": "number",
+      "description": "The number of instances of the component within the organization."
+    },
+    "numTeamsUsing": {
+      "type": "number",
+      "description": "The number of teams using the component within the organization."
+    },
+    "numFilesUsing": {
+      "type": "number",
+      "description": "The number of files using the component within the organization."
+    }
+  }
+}

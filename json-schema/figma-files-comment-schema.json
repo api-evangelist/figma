@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Comment",
+  "type": "object",
+  "description": "A comment or reply left by a user.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for comment."
+    },
+    "fileKey": {
+      "type": "string",
+      "description": "The file in which the comment lives."
+    },
+    "parentId": {
+      "type": "string",
+      "description": "If present, the id of the comment to which this is the reply."
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "The UTC ISO 8601 time at which the comment was left."
+    },
+    "resolvedAt": {
+      "type": "['string', 'null']",
+      "description": "If set, the UTC ISO 8601 time the comment was resolved."
+    },
+    "message": {
+      "type": "string",
+      "description": "The content of the comment."
+    },
+    "orderId": {
+      "type": "['string', 'null']",
+      "description": "The number displayed with the comment in the UI."
+    },
+    "reactions": {
+      "type": "array",
+      "description": "An array of reactions to the comment."
+    }
+  }
+}

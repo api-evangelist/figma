@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DeleteDevResourceResponseBody",
+  "type": "object",
+  "description": "Response body for successful dev resource deletion.",
+  "properties": {
+    "status": {
+      "type": "number",
+      "description": "The status of the request."
+    },
+    "error": {
+      "type": "boolean",
+      "description": "For successful requests, this value is always `false`."
+    }
+  }
+}

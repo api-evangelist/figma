@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PostDevResourcesResponseBody",
+  "type": "object",
+  "properties": {
+    "linksCreated": {
+      "type": "array",
+      "description": "An array of links created."
+    },
+    "errors": {
+      "type": "array",
+      "description": "An array of errors."
+    }
+  }
+}

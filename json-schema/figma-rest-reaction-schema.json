@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Reaction",
+  "type": "object",
+  "description": "An emoji reaction left on a comment.",
+  "properties": {
+    "emoji": {
+      "type": "string",
+      "description": "The emoji used for the reaction."
+    },
+    "created_at": {
+      "type": "string",
+      "description": "The UTC ISO 8601 time at which the reaction was left."
+    }
+  }
+}

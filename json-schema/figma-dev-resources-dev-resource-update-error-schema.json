@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DevResourceUpdateError",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The id of the dev resource."
+    },
+    "error": {
+      "type": "string",
+      "description": "The error message."
+    }
+  }
+}

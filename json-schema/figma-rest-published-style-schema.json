@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PublishedStyle",
+  "type": "object",
+  "description": "A published style from a team or file library.",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "The globally unique identifier for the style."
+    },
+    "file_key": {
+      "type": "string",
+      "description": "The key of the Figma file containing the style."
+    },
+    "node_id": {
+      "type": "string",
+      "description": "The node ID of the style within the file."
+    },
+    "thumbnail_url": {
+      "type": "string",
+      "description": "A URL to a thumbnail image of the style."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the style."
+    },
+    "description": {
+      "type": "string",
+      "description": "The description of the style."
+    },
+    "style_type": {
+      "type": "string"
+    },
+    "sort_position": {
+      "type": "string",
+      "description": "A user-defined sort position for the style."
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "LibraryAnalyticsActionsByComponent",
+  "type": "object",
+  "properties": {
+    "week": {
+      "type": "string"
+    },
+    "componentKey": {
+      "type": "string"
+    },
+    "componentName": {
+      "type": "string"
+    },
+    "detachments": {
+      "type": "number"
+    },
+    "insertions": {
+      "type": "number"
+    }
+  }
+}

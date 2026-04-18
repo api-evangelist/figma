@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetLibraryAnalyticsUsagesResponseBody",
+  "type": "object",
+  "properties": {
+    "components": {
+      "type": "array",
+      "description": "An array of analytics data when breaking down usage by component."
+    },
+    "files": {
+      "type": "array",
+      "description": "An array of analytics data when breaking down usage by file."
+    },
+    "nextPage": {
+      "type": "boolean",
+      "description": "Whether there is a next page of data that can be fetched."
+    },
+    "cursor": {
+      "type": "string",
+      "description": "The cursor to use to fetch the next page of data. Not present if nextPage is false."
+    }
+  }
+}

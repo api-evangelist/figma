@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PublishedComponentSet",
+  "type": "object",
+  "description": "A published component set from a team or file library.",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "The globally unique identifier for the component set."
+    },
+    "file_key": {
+      "type": "string",
+      "description": "The key of the Figma file containing the component set."
+    },
+    "node_id": {
+      "type": "string",
+      "description": "The node ID of the component set within the file."
+    },
+    "thumbnail_url": {
+      "type": "string",
+      "description": "A URL to a thumbnail image of the component set."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the component set."
+    },
+    "description": {
+      "type": "string",
+      "description": "The description of the component set."
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string"
+    }
+  }
+}

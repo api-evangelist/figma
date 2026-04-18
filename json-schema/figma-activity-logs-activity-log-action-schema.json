@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ActivityLogAction",
+  "type": "object",
+  "description": "The task or activity the actor performed.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "The type of the action."
+    },
+    "details": {
+      "type": "['object', 'null']",
+      "description": "Metadata of the action."
+    }
+  }
+}

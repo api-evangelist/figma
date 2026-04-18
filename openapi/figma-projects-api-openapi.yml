@@ -13,26 +13,26 @@ info:
     email: support@figma.com
 
 servers:
-  - url: https://api.figma.com
-    description: Figma Production API Server
+- url: https://api.figma.com
+  description: Figma Production API Server
 
 tags:
-  - name: Files
-    description: Operations related to Figma file resources
+- name: Files
+  description: Operations related to Figma file resources
 
-  - name: Projects
-    description: Operations for managing and retrieving project information
+- name: Projects
+  description: Operations for managing and retrieving project information
 paths:
   /v1/projects/{project_id}/files:
     get:
       tags:
-        - Files
-        - Projects
-      summary: Figma Get files in a project
+      - Files
+      - Projects
+      summary: Figma Get Files in a Project
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       description: Get a list of all the Files within the specified project.
       operationId: getProjectFiles
       x-microcks-operation:
@@ -40,8 +40,8 @@ paths:
         dispatcherRules: project_id
         defaultResponse: GetProjectFilesSuccessExample
       parameters:
-        - $ref: '#/components/parameters/ProjectIdPath'
-        - $ref: '#/components/parameters/BranchDataQuery'
+      - $ref: '#/components/parameters/ProjectIdPath'
+      - $ref: '#/components/parameters/BranchDataQuery'
       responses:
         '200':
           $ref: '#/components/responses/GetProjectFilesResponse'
@@ -98,21 +98,25 @@ components:
         key:
           type: string
           description: The file's key.
+          example: example_value
         name:
           type: string
           description: The file's name.
+          example: Example Title
         thumbnail_url:
           type: string
           description: The file's thumbnail URL.
+          example: https://www.example.com
         last_modified:
           type: string
           format: date-time
           description: >-
             The UTC ISO 8601 time at which the file was last modified.
+          example: '2026-01-15T10:30:00Z'
       required:
-        - key
-        - name
-        - last_modified
+      - key
+      - name
+      - last_modified
       example:
         key: "abc123XYZ789"
         name: "Design System Components"
@@ -126,25 +130,27 @@ components:
         name:
           type: string
           description: The project's name.
+          example: Example Title
         files:
           type: array
           description: An array of files.
           items:
             $ref: '#/components/schemas/ProjectFile'
+          example: []
       required:
-        - name
-        - files
+      - name
+      - files
       example:
         name: "Mobile App Design"
         files:
-          - key: "abc123XYZ789"
-            name: "Design System Components"
-            thumbnail_url: "https://s3-alpha.figma.com/thumbnails/abc123-xyz789"
-            last_modified: "2024-06-20T10:30:00Z"
-          - key: "def456UVW012"
-            name: "App Screens"
-            thumbnail_url: "https://s3-alpha.figma.com/thumbnails/def456-uvw012"
-            last_modified: "2024-06-19T15:45:00Z"
+        - key: "abc123XYZ789"
+          name: "Design System Components"
+          thumbnail_url: "https://s3-alpha.figma.com/thumbnails/abc123-xyz789"
+          last_modified: "2024-06-20T10:30:00Z"
+        - key: "def456UVW012"
+          name: "App Screens"
+          thumbnail_url: "https://s3-alpha.figma.com/thumbnails/def456-uvw012"
+          last_modified: "2024-06-19T15:45:00Z"
 
     ErrorResponsePayloadWithMessage:
       type: object
@@ -154,17 +160,20 @@ components:
           type: boolean
           description: For erroneous requests, this value is always `true`.
           enum:
-            - true
+          - true
+          example: true
         status:
           type: number
           description: Status code
+          example: 42.5
         message:
           type: string
           description: A string describing the error
+          example: example_value
       required:
-        - error
-        - status
-        - message
+      - error
+      - status
+      - message
 
     ErrorResponsePayloadWithErr:
       type: object
@@ -173,25 +182,27 @@ components:
         status:
           type: number
           description: Status code
+          example: 42.5
         err:
           type: string
           description: A string describing the error
+          example: example_value
       required:
-        - status
-        - err
+      - status
+      - err
 
     BadRequestError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayloadWithMessage'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 400
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithMessage'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 400
+        required:
+        - status
       example:
         error: true
         status: 400
@@ -199,48 +210,48 @@ components:
 
     ForbiddenError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 403
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 403
+        required:
+        - status
       example:
         status: 403
         err: "Access denied. You do not have permission to access this project."
 
     TooManyRequestsError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 429
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 429
+        required:
+        - status
       example:
         status: 429
         err: "Rate limit exceeded. Please wait before retrying."
 
     InternalServerError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 500
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 500
+        required:
+        - status
       example:
         status: 500
         err: "Internal server error"
@@ -258,14 +269,14 @@ components:
               value:
                 name: "Mobile App Design"
                 files:
-                  - key: "abc123XYZ789"
-                    name: "Design System Components"
-                    thumbnail_url: "https://s3-alpha.figma.com/thumbnails/abc123-xyz789"
-                    last_modified: "2024-06-20T10:30:00Z"
-                  - key: "def456UVW012"
-                    name: "App Screens"
-                    thumbnail_url: "https://s3-alpha.figma.com/thumbnails/def456-uvw012"
-                    last_modified: "2024-06-19T15:45:00Z"
+                - key: "abc123XYZ789"
+                  name: "Design System Components"
+                  thumbnail_url: "https://s3-alpha.figma.com/thumbnails/abc123-xyz789"
+                  last_modified: "2024-06-20T10:30:00Z"
+                - key: "def456UVW012"
+                  name: "App Screens"
+                  thumbnail_url: "https://s3-alpha.figma.com/thumbnails/def456-uvw012"
+                  last_modified: "2024-06-19T15:45:00Z"
 
     BadRequestErrorResponse:
       description: >-
@@ -335,11 +346,11 @@ components:
       value:
         name: "Mobile App Design"
         files:
-          - key: "abc123XYZ789"
-            name: "Design System Components"
-            thumbnail_url: "https://s3-alpha.figma.com/thumbnails/abc123-xyz789"
-            last_modified: "2024-06-20T10:30:00Z"
-          - key: "def456UVW012"
-            name: "App Screens"
-            thumbnail_url: "https://s3-alpha.figma.com/thumbnails/def456-uvw012"
-            last_modified: "2024-06-19T15:45:00Z"
+        - key: "abc123XYZ789"
+          name: "Design System Components"
+          thumbnail_url: "https://s3-alpha.figma.com/thumbnails/abc123-xyz789"
+          last_modified: "2024-06-20T10:30:00Z"
+        - key: "def456UVW012"
+          name: "App Screens"
+          thumbnail_url: "https://s3-alpha.figma.com/thumbnails/def456-uvw012"
+          last_modified: "2024-06-19T15:45:00Z"

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetFileResponse",
+  "type": "object",
+  "description": "Response from the Get File endpoint.",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the file as it appears in the editor."
+    },
+    "role": {
+      "type": "string",
+      "description": "The role of the requesting user in relation to the file."
+    },
+    "lastModified": {
+      "type": "string",
+      "description": "The UTC ISO 8601 time at which the file was last modified."
+    },
+    "editorType": {
+      "type": "string",
+      "description": "The type of editor associated with this file."
+    },
+    "thumbnailUrl": {
+      "type": "string",
+      "description": "A URL to a thumbnail image of the file."
+    },
+    "version": {
+      "type": "string",
+      "description": "The version number of the file."
+    },
+    "components": {
+      "type": "object",
+      "description": "A mapping from component IDs to component metadata."
+    },
+    "componentSets": {
+      "type": "object",
+      "description": "A mapping from component set IDs to component set metadata."
+    },
+    "schemaVersion": {
+      "type": "integer",
+      "description": "The schema version of the file format."
+    },
+    "styles": {
+      "type": "object",
+      "description": "A mapping from style IDs to style metadata."
+    },
+    "mainFileKey": {
+      "type": "string",
+      "description": "The key of the main file, if this is a branch."
+    },
+    "branches": {
+      "type": "array",
+      "description": "A list of branches for this file."
+    }
+  }
+}

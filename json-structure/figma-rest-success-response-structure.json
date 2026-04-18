@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "SuccessResponse",
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "boolean"
+    },
+    "status": {
+      "type": "integer"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+name: figma API Vocabulary
+provider: figma
+created: '2026-04-18'
+modified: '2026-04-18'
+operations: 31
+schemas: 148
+tags:
+- Activity Logs
+- Comments
+- Component Sets
+- Components
+- Dev Resources
+- Files
+- Images
+- Keys
+- Library Analytics
+- Me
+- Payments
+- Projects
+- Styles
+- Teams
+- Users
+- Webhooks

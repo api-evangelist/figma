@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "Color",
+  "type": "object",
+  "properties": {
+    "r": {
+      "type": "number"
+    },
+    "g": {
+      "type": "number"
+    },
+    "b": {
+      "type": "number"
+    },
+    "a": {
+      "type": "number"
+    }
+  }
+}

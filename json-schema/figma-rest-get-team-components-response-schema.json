@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetTeamComponentsResponse",
+  "type": "object",
+  "description": "Response from the Get Team Components endpoint.",
+  "properties": {
+    "error": {
+      "type": "boolean"
+    },
+    "status": {
+      "type": "integer"
+    },
+    "meta": {
+      "type": "object"
+    }
+  }
+}

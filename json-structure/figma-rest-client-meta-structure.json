@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "ClientMeta",
+  "type": "object",
+  "properties": {
+    "x": {
+      "type": "number"
+    },
+    "y": {
+      "type": "number"
+    },
+    "node_id": {
+      "type": "string"
+    },
+    "node_offset": {
+      "type": "object"
+    }
+  }
+}

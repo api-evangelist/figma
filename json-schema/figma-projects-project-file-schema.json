@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProjectFile",
+  "type": "object",
+  "description": "A file within a project.",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "The file's key."
+    },
+    "name": {
+      "type": "string",
+      "description": "The file's name."
+    },
+    "thumbnail_url": {
+      "type": "string",
+      "description": "The file's thumbnail URL."
+    },
+    "last_modified": {
+      "type": "string",
+      "description": "The UTC ISO 8601 time at which the file was last modified."
+    }
+  }
+}

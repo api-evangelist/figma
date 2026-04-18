@@ -13,21 +13,21 @@ info:
     email: support@figma.com
 
 servers:
-  - url: https://api.figma.com
-    description: Figma Production API Server
+- url: https://api.figma.com
+  description: Figma Production API Server
 
 tags:
-  - name: Payments
-    description: Operations for querying user payment information on plugins, widgets, and Community files
+- name: Payments
+  description: Operations for querying user payment information on plugins, widgets, and Community files
 
 paths:
   /v1/payments:
     get:
       tags:
-        - Payments
-      summary: Figma Get payments
+      - Payments
+      summary: Figma Get Payments
       security:
-        - PersonalAccessToken: []
+      - PersonalAccessToken: []
       description: >-
         There are two methods to query for a user's payment information on a
         plugin, widget, or Community file. The first method, using plugin
@@ -44,11 +44,11 @@ paths:
         dispatcherRules: ""
         defaultResponse: GetPaymentsSuccessExample
       parameters:
-        - $ref: '#/components/parameters/PluginPaymentTokenQuery'
-        - $ref: '#/components/parameters/UserIdQuery'
-        - $ref: '#/components/parameters/CommunityFileIdQuery'
-        - $ref: '#/components/parameters/PluginIdQuery'
-        - $ref: '#/components/parameters/WidgetIdQuery'
+      - $ref: '#/components/parameters/PluginPaymentTokenQuery'
+      - $ref: '#/components/parameters/UserIdQuery'
+      - $ref: '#/components/parameters/CommunityFileIdQuery'
+      - $ref: '#/components/parameters/PluginIdQuery'
+      - $ref: '#/components/parameters/WidgetIdQuery'
       responses:
         '200':
           $ref: '#/components/responses/GetPaymentsResponse'
@@ -132,9 +132,9 @@ components:
       type: string
       description: The payment status of the user for the resource.
       enum:
-        - UNPAID
-        - PAID
-        - NOT_SUPPORTED
+      - UNPAID
+      - PAID
+      - NOT_SUPPORTED
       example: PAID
 
     PaymentInformation:
@@ -148,18 +148,21 @@ components:
           description: >-
             The ID of the user whose payment information was queried. Can be
             used to verify the validity of a response.
+          example: '500123'
         resource_id:
           type: string
           description: >-
             The ID of the plugin, widget, or Community file that was queried.
             Can be used to verify the validity of a response.
+          example: '500123'
         resource_type:
           type: string
           description: The type of the resource.
           enum:
-            - PLUGIN
-            - WIDGET
-            - COMMUNITY_FILE
+          - PLUGIN
+          - WIDGET
+          - COMMUNITY_FILE
+          example: PLUGIN
         payment_status:
           $ref: '#/components/schemas/PaymentStatus'
         date_of_purchase:
@@ -169,11 +172,12 @@ components:
             The UTC ISO 8601 timestamp indicating when the user purchased the
             resource. No value is given if the user has never purchased the
             resource.
+          example: '2026-01-15T10:30:00Z'
       required:
-        - user_id
-        - resource_id
-        - resource_type
-        - payment_status
+      - user_id
+      - resource_id
+      - resource_type
+      - payment_status
       example:
         user_id: "1234567890"
         resource_id: "1122334455"
@@ -188,19 +192,21 @@ components:
         status:
           type: number
           enum:
-            - 200
+          - 200
           description: The response status code.
+          example: 200
         error:
           type: boolean
           enum:
-            - false
+          - false
           description: For successful requests, this value is always `false`.
+          example: false
         meta:
           $ref: '#/components/schemas/PaymentInformation'
       required:
-        - status
-        - error
-        - meta
+      - status
+      - error
+      - meta
       example:
         status: 200
         error: false
@@ -219,30 +225,33 @@ components:
           type: boolean
           description: For erroneous requests, this value is always `true`.
           enum:
-            - true
+          - true
+          example: true
         status:
           type: number
           description: Status code
+          example: 42.5
         message:
           type: string
           description: A string describing the error
+          example: example_value
       required:
-        - error
-        - status
-        - message
+      - error
+      - status
+      - message
 
     UnauthorizedError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayload'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 401
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 401
+        required:
+        - status
       example:
         error: true
         status: 401
@@ -250,16 +259,16 @@ components:
 
     TooManyRequestsError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayload'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 429
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 429
+        required:
+        - status
       example:
         error: true
         status: 429
@@ -267,16 +276,16 @@ components:
 
     InternalServerError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayload'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 500
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 500
+        required:
+        - status
       example:
         error: true
         status: 500

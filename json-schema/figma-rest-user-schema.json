@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "User",
+  "type": "object",
+  "description": "A Figma user account.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique stable ID of the user."
+    },
+    "handle": {
+      "type": "string",
+      "description": "Display name of the user."
+    },
+    "img_url": {
+      "type": "string",
+      "description": "URL of the user's profile image."
+    },
+    "email": {
+      "type": "string",
+      "description": "Email address associated with the user's account."
+    }
+  }
+}

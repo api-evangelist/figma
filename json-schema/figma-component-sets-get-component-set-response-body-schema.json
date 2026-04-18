@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetComponentSetResponseBody",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "number",
+      "description": "The status of the request."
+    },
+    "error": {
+      "type": "boolean",
+      "description": "For successful requests, this value is always `false`."
+    }
+  }
+}

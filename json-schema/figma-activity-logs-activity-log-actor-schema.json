@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ActivityLogActor",
+  "type": "['object', 'null']",
+  "description": "The user who performed the action.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "The type of the user."
+    },
+    "id": {
+      "type": "string",
+      "description": "The ID of the user."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the user."
+    },
+    "email": {
+      "type": "string",
+      "description": "The email of the user."
+    }
+  }
+}

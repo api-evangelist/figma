@@ -20,104 +20,110 @@ info:
     description: Figma REST API Documentation
     url: https://developers.figma.com/docs/rest-api/
 servers:
-  - url: https://api.figma.com
-    description: Figma Production API Server
+- url: https://api.figma.com
+  description: Figma Production API Server
 tags:
-  - name: Comments
-    description: >-
-      Endpoints for managing comments and reactions on Figma files, including
-      creating, listing, and deleting comments.
-    externalDocs:
-      description: Comments Endpoints Documentation
-      url: https://developers.figma.com/docs/rest-api/comments-endpoints/
-  - name: Components
-    description: >-
-      Endpoints for querying published components, component sets, and styles
-      from team libraries.
-    externalDocs:
-      description: Component Types Documentation
-      url: https://developers.figma.com/docs/rest-api/component-types/
-  - name: Files
-    description: >-
-      Endpoints for retrieving Figma file data including document trees, nodes,
-      images, and version history.
-    externalDocs:
-      description: File Endpoints Documentation
-      url: https://developers.figma.com/docs/rest-api/file-endpoints/
-  - name: Projects
-    description: >-
-      Endpoints for listing team projects and project files.
-    externalDocs:
-      description: Projects Documentation
-      url: https://developers.figma.com/docs/rest-api/projects-types/
-  - name: Users
-    description: >-
-      Endpoints for retrieving information about the authenticated user.
-    externalDocs:
-      description: Users Endpoints Documentation
-      url: https://developers.figma.com/docs/rest-api/users-endpoints/
+- name: Comments
+  description: >-
+    Endpoints for managing comments and reactions on Figma files, including
+    creating, listing, and deleting comments.
+  externalDocs:
+    description: Comments Endpoints Documentation
+    url: https://developers.figma.com/docs/rest-api/comments-endpoints/
+- name: Components
+  description: >-
+    Endpoints for querying published components, component sets, and styles
+    from team libraries.
+  externalDocs:
+    description: Component Types Documentation
+    url: https://developers.figma.com/docs/rest-api/component-types/
+- name: Files
+  description: >-
+    Endpoints for retrieving Figma file data including document trees, nodes,
+    images, and version history.
+  externalDocs:
+    description: File Endpoints Documentation
+    url: https://developers.figma.com/docs/rest-api/file-endpoints/
+- name: Projects
+  description: >-
+    Endpoints for listing team projects and project files.
+  externalDocs:
+    description: Projects Documentation
+    url: https://developers.figma.com/docs/rest-api/projects-types/
+- name: Users
+  description: >-
+    Endpoints for retrieving information about the authenticated user.
+  externalDocs:
+    description: Users Endpoints Documentation
+    url: https://developers.figma.com/docs/rest-api/users-endpoints/
 paths:
   /v1/files/{file_key}:
     get:
       tags:
-        - Files
-      summary: Figma Get file
+      - Files
+      summary: Figma Get File
       operationId: getFile
       description: >-
         Returns the document tree for a given Figma file. If the file is large,
         the response may be paginated. The file_key can be found in the Figma
         file URL after figma.com/file/.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       parameters:
-        - $ref: '#/components/parameters/FileKeyPathParam'
-        - name: version
-          in: query
-          description: A specific version ID to get. Omitting this will get the current version.
-          required: false
-          schema:
-            type: string
-        - name: ids
-          in: query
-          description: >-
-            Comma-separated list of nodes that you want to receive. If not set,
-            all nodes are returned.
-          required: false
-          schema:
-            type: string
-        - name: depth
-          in: query
-          description: >-
-            Positive integer representing how deep into the document tree to
-            traverse. For example, setting depth=1 returns only pages.
-          required: false
-          schema:
-            type: integer
-            minimum: 1
-        - name: geometry
-          in: query
-          description: Set to "paths" to export vector data.
-          required: false
-          schema:
-            type: string
-            enum:
-              - paths
-        - name: plugin_data
-          in: query
-          description: >-
-            Comma-separated list of plugin IDs or the string "shared" for data
-            present in all plugins.
-          required: false
-          schema:
-            type: string
-        - name: branch_data
-          in: query
-          description: Set to true to include branch metadata in the response.
-          required: false
-          schema:
-            type: boolean
+      - $ref: '#/components/parameters/FileKeyPathParam'
+      - name: version
+        in: query
+        description: A specific version ID to get. Omitting this will get the current version.
+        required: false
+        schema:
+          type: string
+        example: example_value
+      - name: ids
+        in: query
+        description: >-
+          Comma-separated list of nodes that you want to receive. If not set,
+          all nodes are returned.
+        required: false
+        schema:
+          type: string
+        example: example_value
+      - name: depth
+        in: query
+        description: >-
+          Positive integer representing how deep into the document tree to
+          traverse. For example, setting depth=1 returns only pages.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+        example: 10
+      - name: geometry
+        in: query
+        description: Set to "paths" to export vector data.
+        required: false
+        schema:
+          type: string
+          enum:
+          - paths
+        example: paths
+      - name: plugin_data
+        in: query
+        description: >-
+          Comma-separated list of plugin IDs or the string "shared" for data
+          present in all plugins.
+        required: false
+        schema:
+          type: string
+        example: example_value
+      - name: branch_data
+        in: query
+        description: Set to true to include branch metadata in the response.
+        required: false
+        schema:
+          type: boolean
+        example: true
       responses:
         '200':
           description: Successfully retrieved the file.
@@ -125,6 +131,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetFileResponse'
+              examples:
+                Getfile200Example:
+                  summary: Default getFile 200 response
+                  x-microcks-default: true
+                  value:
+                    name: Example Title
+                    role: owner
+                    lastModified: '2026-01-15T10:30:00Z'
+                    editorType: figma
+                    thumbnailUrl: https://www.example.com
+                    version: example_value
+                    document:
+                      id: abc123
+                      name: Example Title
+                      type: DOCUMENT
+                      children:
+                      - {}
+                    components: example_value
+                    componentSets: example_value
+                    schemaVersion: 10
+                    styles: example_value
+                    mainFileKey: example_value
+                    branches:
+                    - key: example_value
+                      name: Example Title
+                      thumbnail_url: https://www.example.com
+                      last_modified: '2026-01-15T10:30:00Z'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -136,55 +169,63 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /v1/files/{file_key}/nodes:
     get:
       tags:
-        - Files
-      summary: Figma Get file nodes
+      - Files
+      summary: Figma Get File Nodes
       operationId: getFileNodes
       description: >-
         Returns the nodes referenced by ids as a JSON object. The nodes are
         retrieved from the document referred to by file_key. The node ID and
         file key for a given node can be parsed from any Figma node URL.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       parameters:
-        - $ref: '#/components/parameters/FileKeyPathParam'
-        - name: ids
-          in: query
-          description: Comma-separated list of node IDs to retrieve.
-          required: true
-          schema:
-            type: string
-        - name: version
-          in: query
-          description: A specific version ID to get.
-          required: false
-          schema:
-            type: string
-        - name: depth
-          in: query
-          description: Positive integer for how deep into the node tree to traverse.
-          required: false
-          schema:
-            type: integer
-            minimum: 1
-        - name: geometry
-          in: query
-          description: Set to "paths" to export vector data.
-          required: false
-          schema:
-            type: string
-            enum:
-              - paths
-        - name: plugin_data
-          in: query
-          description: Comma-separated list of plugin IDs or "shared".
-          required: false
-          schema:
-            type: string
+      - $ref: '#/components/parameters/FileKeyPathParam'
+      - name: ids
+        in: query
+        description: Comma-separated list of node IDs to retrieve.
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: version
+        in: query
+        description: A specific version ID to get.
+        required: false
+        schema:
+          type: string
+        example: example_value
+      - name: depth
+        in: query
+        description: Positive integer for how deep into the node tree to traverse.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+        example: 10
+      - name: geometry
+        in: query
+        description: Set to "paths" to export vector data.
+        required: false
+        schema:
+          type: string
+          enum:
+          - paths
+        example: paths
+      - name: plugin_data
+        in: query
+        description: Comma-separated list of plugin IDs or "shared".
+        required: false
+        schema:
+          type: string
+        example: example_value
       responses:
         '200':
           description: Successfully retrieved the file nodes.
@@ -192,6 +233,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetFileNodesResponse'
+              examples:
+                Getfilenodes200Example:
+                  summary: Default getFileNodes 200 response
+                  x-microcks-default: true
+                  value:
+                    name: Example Title
+                    lastModified: '2026-01-15T10:30:00Z'
+                    version: example_value
+                    role: owner
+                    nodes: example_value
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -203,71 +254,81 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /v1/images/{file_key}:
     get:
       tags:
-        - Files
-      summary: Figma Get image renders
+      - Files
+      summary: Figma Get Image Renders
       operationId: getImages
       description: >-
         Renders images from a file. If no error occurs, the response includes
         a mapping from node IDs to URLs of the rendered images. The image
         assets are stored temporarily and expire after 14 days.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       parameters:
-        - $ref: '#/components/parameters/FileKeyPathParam'
-        - name: ids
-          in: query
-          description: Comma-separated list of node IDs to render.
-          required: true
-          schema:
-            type: string
-        - name: scale
-          in: query
-          description: A number between 0.01 and 4, the image scaling factor.
-          required: false
-          schema:
-            type: number
-            minimum: 0.01
-            maximum: 4
-        - name: format
-          in: query
-          description: Image output format.
-          required: false
-          schema:
-            type: string
-            enum:
-              - jpg
-              - png
-              - svg
-              - pdf
-        - name: svg_include_id
-          in: query
-          description: Whether to include id attributes for all SVG elements.
-          required: false
-          schema:
-            type: boolean
-        - name: svg_simplify_stroke
-          in: query
-          description: Whether to simplify inside/outside strokes and use stroke attribute.
-          required: false
-          schema:
-            type: boolean
-        - name: use_absolute_bounds
-          in: query
-          description: Use the full dimensions of the node regardless of cropping.
-          required: false
-          schema:
-            type: boolean
-        - name: version
-          in: query
-          description: A specific version ID to get.
-          required: false
-          schema:
-            type: string
+      - $ref: '#/components/parameters/FileKeyPathParam'
+      - name: ids
+        in: query
+        description: Comma-separated list of node IDs to render.
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: scale
+        in: query
+        description: A number between 0.01 and 4, the image scaling factor.
+        required: false
+        schema:
+          type: number
+          minimum: 0.01
+          maximum: 4
+        example: 42.5
+      - name: format
+        in: query
+        description: Image output format.
+        required: false
+        schema:
+          type: string
+          enum:
+          - jpg
+          - png
+          - svg
+          - pdf
+        example: jpg
+      - name: svg_include_id
+        in: query
+        description: Whether to include id attributes for all SVG elements.
+        required: false
+        schema:
+          type: boolean
+        example: '500123'
+      - name: svg_simplify_stroke
+        in: query
+        description: Whether to simplify inside/outside strokes and use stroke attribute.
+        required: false
+        schema:
+          type: boolean
+        example: true
+      - name: use_absolute_bounds
+        in: query
+        description: Use the full dimensions of the node regardless of cropping.
+        required: false
+        schema:
+          type: boolean
+        example: true
+      - name: version
+        in: query
+        description: A specific version ID to get.
+        required: false
+        schema:
+          type: string
+        example: example_value
       responses:
         '200':
           description: Successfully rendered images.
@@ -275,6 +336,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetImagesResponse'
+              examples:
+                Getimages200Example:
+                  summary: Default getImages 200 response
+                  x-microcks-default: true
+                  value:
+                    err: example_value
+                    images: example_value
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -286,21 +354,24 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /v1/files/{file_key}/image_fills:
     get:
       tags:
-        - Files
-      summary: Figma Get image fills
+      - Files
+      summary: Figma Get Image Fills
       operationId: getImageFills
       description: >-
         Returns a mapping of image references to URLs of the image contents.
         Image URLs expire after no more than 14 days.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       parameters:
-        - $ref: '#/components/parameters/FileKeyPathParam'
+      - $ref: '#/components/parameters/FileKeyPathParam'
       responses:
         '200':
           description: Successfully retrieved image fill URLs.
@@ -308,6 +379,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetImageFillsResponse'
+              examples:
+                Getimagefills200Example:
+                  summary: Default getImageFills 200 response
+                  x-microcks-default: true
+                  value:
+                    error: true
+                    status: 10
+                    meta:
+                      images: example_value
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '404':
@@ -315,43 +395,49 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimitError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /v1/files/{file_key}/versions:
     get:
       tags:
-        - Files
-      summary: Figma Get file version history
+      - Files
+      summary: Figma Get File Version History
       operationId: getFileVersions
       description: >-
         Returns a list of the version history of a file. The version history
         consists of versions, auto-save entries, and named versions.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       parameters:
-        - $ref: '#/components/parameters/FileKeyPathParam'
-        - name: page_size
-          in: query
-          description: Number of items to return per page. Defaults to 30.
-          required: false
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 100
-        - name: before
-          in: query
-          description: >-
-            Version ID before which to start listing versions. Used for pagination.
-          required: false
-          schema:
-            type: string
-        - name: after
-          in: query
-          description: >-
-            Version ID after which to start listing versions. Used for pagination.
-          required: false
-          schema:
-            type: string
+      - $ref: '#/components/parameters/FileKeyPathParam'
+      - name: page_size
+        in: query
+        description: Number of items to return per page. Defaults to 30.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+        example: 10
+      - name: before
+        in: query
+        description: >-
+          Version ID before which to start listing versions. Used for pagination.
+        required: false
+        schema:
+          type: string
+        example: example_value
+      - name: after
+        in: query
+        description: >-
+          Version ID after which to start listing versions. Used for pagination.
+        required: false
+        schema:
+          type: string
+        example: example_value
       responses:
         '200':
           description: Successfully retrieved version history.
@@ -359,6 +445,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetFileVersionsResponse'
+              examples:
+                Getfileversions200Example:
+                  summary: Default getFileVersions 200 response
+                  x-microcks-default: true
+                  value:
+                    versions:
+                    - id: abc123
+                      created_at: '2026-01-15T10:30:00Z'
+                      label: Example Title
+                      description: A sample description.
+                    pagination:
+                      before: 42.5
+                      after: 42.5
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -368,30 +467,34 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimitError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /v1/files/{file_key}/comments:
     get:
       tags:
-        - Comments
-      summary: Figma Get comments
+      - Comments
+      summary: Figma Get Comments
       operationId: getComments
       description: >-
         Gets a list of comments left on the file. Comments are returned in
         order of creation, with the most recent comments first. By default,
         only root-level comments and their direct replies are returned.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       parameters:
-        - $ref: '#/components/parameters/FileKeyPathParam'
-        - name: as_md
-          in: query
-          description: >-
-            If set to true, comment message content will be returned as
-            Markdown instead of plain text.
-          required: false
-          schema:
-            type: boolean
+      - $ref: '#/components/parameters/FileKeyPathParam'
+      - name: as_md
+        in: query
+        description: >-
+          If set to true, comment message content will be returned as
+          Markdown instead of plain text.
+        required: false
+        schema:
+          type: boolean
+        example: true
       responses:
         '200':
           description: Successfully retrieved comments.
@@ -399,6 +502,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetCommentsResponse'
+              examples:
+                Getcomments200Example:
+                  summary: Default getComments 200 response
+                  x-microcks-default: true
+                  value:
+                    comments:
+                    - id: abc123
+                      file_key: example_value
+                      parent_id: '500123'
+                      created_at: '2026-01-15T10:30:00Z'
+                      resolved_at: '2026-01-15T10:30:00Z'
+                      message: example_value
+                      order_id: '500123'
+                      reactions: {}
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -407,27 +524,44 @@ paths:
           $ref: '#/components/responses/NotFoundError'
         '429':
           $ref: '#/components/responses/RateLimitError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     post:
       tags:
-        - Comments
-      summary: Figma Post comment
+      - Comments
+      summary: Figma Post Comment
       operationId: postComment
       description: >-
         Posts a new comment on the file. The body of the request should contain
         the comment text and optionally the position (client_meta) where the
         comment should be pinned.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - file_comments:write
+      - PersonalAccessToken: []
+      - OAuth2:
+        - file_comments:write
       parameters:
-        - $ref: '#/components/parameters/FileKeyPathParam'
+      - $ref: '#/components/parameters/FileKeyPathParam'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PostCommentRequest'
+            examples:
+              PostcommentRequestExample:
+                summary: Default postComment request
+                x-microcks-default: true
+                value:
+                  message: example_value
+                  comment_id: '500123'
+                  client_meta:
+                    x: 42.5
+                    'y': 42.5
+                    node_id: '500123'
+                    node_offset:
+                      x: 42.5
+                      'y': 42.5
       responses:
         '200':
           description: Successfully posted the comment.
@@ -435,6 +569,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Comment'
+              examples:
+                Postcomment200Example:
+                  summary: Default postComment 200 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    file_key: example_value
+                    parent_id: '500123'
+                    user:
+                      id: abc123
+                      handle: example_value
+                      img_url: https://www.example.com
+                      email: user@example.com
+                    created_at: '2026-01-15T10:30:00Z'
+                    resolved_at: '2026-01-15T10:30:00Z'
+                    message: example_value
+                    order_id: '500123'
+                    client_meta:
+                      x: 42.5
+                      'y': 42.5
+                      node_id: '500123'
+                      node_offset:
+                        x: 42.5
+                        'y': 42.5
+                    reactions:
+                    - emoji: example_value
+                      created_at: '2026-01-15T10:30:00Z'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -444,27 +605,31 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimitError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /v1/files/{file_key}/comments/{comment_id}:
     delete:
       tags:
-        - Comments
-      summary: Figma Delete comment
+      - Comments
+      summary: Figma Delete Comment
       operationId: deleteComment
       description: >-
         Deletes a specific comment. Only the comment creator or file owner
         can delete a comment.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - file_comments:write
+      - PersonalAccessToken: []
+      - OAuth2:
+        - file_comments:write
       parameters:
-        - $ref: '#/components/parameters/FileKeyPathParam'
-        - name: comment_id
-          in: path
-          description: The ID of the comment to delete.
-          required: true
-          schema:
-            type: string
+      - $ref: '#/components/parameters/FileKeyPathParam'
+      - name: comment_id
+        in: path
+        description: The ID of the comment to delete.
+        required: true
+        schema:
+          type: string
+        example: '500123'
       responses:
         '200':
           description: Successfully deleted the comment.
@@ -472,6 +637,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
+              examples:
+                Deletecomment200Example:
+                  summary: Default deleteComment 200 response
+                  x-microcks-default: true
+                  value:
+                    error: false
+                    status: 200
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -481,32 +653,37 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimitError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /v1/files/{file_key}/comments/{comment_id}/reactions:
     get:
       tags:
-        - Comments
-      summary: Figma Get comment reactions
+      - Comments
+      summary: Figma Get Comment Reactions
       operationId: getCommentReactions
       description: >-
         Gets a paginated list of reactions for a comment.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       parameters:
-        - $ref: '#/components/parameters/FileKeyPathParam'
-        - name: comment_id
-          in: path
-          description: The ID of the comment.
-          required: true
-          schema:
-            type: string
-        - name: cursor
-          in: query
-          description: Cursor for paginated results.
-          required: false
-          schema:
-            type: string
+      - $ref: '#/components/parameters/FileKeyPathParam'
+      - name: comment_id
+        in: path
+        description: The ID of the comment.
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      - name: cursor
+        in: query
+        description: Cursor for paginated results.
+        required: false
+        schema:
+          type: string
+        example: example_value
       responses:
         '200':
           description: Successfully retrieved reactions.
@@ -514,31 +691,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetReactionsResponse'
+              examples:
+                Getcommentreactions200Example:
+                  summary: Default getCommentReactions 200 response
+                  x-microcks-default: true
+                  value:
+                    reactions:
+                    - emoji: example_value
+                      created_at: '2026-01-15T10:30:00Z'
+                    pagination:
+                      cursor: example_value
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '404':
           $ref: '#/components/responses/NotFoundError'
         '429':
           $ref: '#/components/responses/RateLimitError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     post:
       tags:
-        - Comments
-      summary: Figma Post comment reaction
+      - Comments
+      summary: Figma Post Comment Reaction
       operationId: postCommentReaction
       description: >-
         Posts a reaction to a comment.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - file_comments:write
+      - PersonalAccessToken: []
+      - OAuth2:
+        - file_comments:write
       parameters:
-        - $ref: '#/components/parameters/FileKeyPathParam'
-        - name: comment_id
-          in: path
-          description: The ID of the comment.
-          required: true
-          schema:
-            type: string
+      - $ref: '#/components/parameters/FileKeyPathParam'
+      - name: comment_id
+        in: path
+        description: The ID of the comment.
+        required: true
+        schema:
+          type: string
+        example: '500123'
       requestBody:
         required: true
         content:
@@ -546,11 +737,17 @@ paths:
             schema:
               type: object
               required:
-                - emoji
+              - emoji
               properties:
                 emoji:
                   type: string
                   description: The emoji string to react with.
+            examples:
+              PostcommentreactionRequestExample:
+                summary: Default postCommentReaction request
+                x-microcks-default: true
+                value:
+                  emoji: example_value
       responses:
         '200':
           description: Successfully posted the reaction.
@@ -558,6 +755,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
+              examples:
+                Postcommentreaction200Example:
+                  summary: Default postCommentReaction 200 response
+                  x-microcks-default: true
+                  value:
+                    error: false
+                    status: 200
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -567,41 +771,47 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimitError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /v1/teams/{team_id}/components:
     get:
       tags:
-        - Components
-      summary: Figma Get team components
+      - Components
+      summary: Figma Get Team Components
       operationId: getTeamComponents
       description: >-
         Get a paginated list of published components within a team library.
         The components are returned in order of when they were published.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       parameters:
-        - $ref: '#/components/parameters/TeamIdPathParam'
-        - name: page_size
-          in: query
-          description: Number of items per page. Defaults to 30.
-          required: false
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 100
-        - name: after
-          in: query
-          description: Cursor for paginated results. Use the cursor value from pagination in a previous response.
-          required: false
-          schema:
-            type: number
-        - name: before
-          in: query
-          description: Cursor for paginated results in reverse.
-          required: false
-          schema:
-            type: number
+      - $ref: '#/components/parameters/TeamIdPathParam'
+      - name: page_size
+        in: query
+        description: Number of items per page. Defaults to 30.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+        example: 10
+      - name: after
+        in: query
+        description: Cursor for paginated results. Use the cursor value from pagination in a previous response.
+        required: false
+        schema:
+          type: number
+        example: 42.5
+      - name: before
+        in: query
+        description: Cursor for paginated results in reverse.
+        required: false
+        schema:
+          type: number
+        example: 42.5
       responses:
         '200':
           description: Successfully retrieved team components.
@@ -609,6 +819,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetTeamComponentsResponse'
+              examples:
+                Getteamcomponents200Example:
+                  summary: Default getTeamComponents 200 response
+                  x-microcks-default: true
+                  value:
+                    error: true
+                    status: 10
+                    meta:
+                      components:
+                      - {}
+                      cursor:
+                        before: 42.5
+                        after: 42.5
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -618,20 +841,23 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimitError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /v1/files/{file_key}/components:
     get:
       tags:
-        - Components
-      summary: Figma Get file components
+      - Components
+      summary: Figma Get File Components
       operationId: getFileComponents
       description: >-
         Get a list of published components within a file library.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       parameters:
-        - $ref: '#/components/parameters/FileKeyPathParam'
+      - $ref: '#/components/parameters/FileKeyPathParam'
       responses:
         '200':
           description: Successfully retrieved file components.
@@ -639,6 +865,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetFileComponentsResponse'
+              examples:
+                Getfilecomponents200Example:
+                  summary: Default getFileComponents 200 response
+                  x-microcks-default: true
+                  value:
+                    error: true
+                    status: 10
+                    meta:
+                      components:
+                      - {}
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -648,26 +884,30 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimitError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /v1/components/{key}:
     get:
       tags:
-        - Components
-      summary: Figma Get component
+      - Components
+      summary: Figma Get Component
       operationId: getComponent
       description: >-
         Get metadata on a component by key. This is the unique identifier for
         a published component that is globally unique across all files.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       parameters:
-        - name: key
-          in: path
-          description: The unique identifier of the component.
-          required: true
-          schema:
-            type: string
+      - name: key
+        in: path
+        description: The unique identifier of the component.
+        required: true
+        schema:
+          type: string
+        example: example_value
       responses:
         '200':
           description: Successfully retrieved component.
@@ -675,6 +915,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetComponentResponse'
+              examples:
+                Getcomponent200Example:
+                  summary: Default getComponent 200 response
+                  x-microcks-default: true
+                  value:
+                    error: true
+                    status: 10
+                    meta:
+                      key: example_value
+                      file_key: example_value
+                      node_id: '500123'
+                      thumbnail_url: https://www.example.com
+                      name: Example Title
+                      description: A sample description.
+                      created_at: '2026-01-15T10:30:00Z'
+                      updated_at: '2026-01-15T10:30:00Z'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -684,40 +940,46 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimitError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /v1/teams/{team_id}/component_sets:
     get:
       tags:
-        - Components
-      summary: Figma Get team component sets
+      - Components
+      summary: Figma Get Team Component Sets
       operationId: getTeamComponentSets
       description: >-
         Get a paginated list of published component sets within a team library.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       parameters:
-        - $ref: '#/components/parameters/TeamIdPathParam'
-        - name: page_size
-          in: query
-          description: Number of items per page.
-          required: false
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 100
-        - name: after
-          in: query
-          description: Cursor for pagination.
-          required: false
-          schema:
-            type: number
-        - name: before
-          in: query
-          description: Cursor for reverse pagination.
-          required: false
-          schema:
-            type: number
+      - $ref: '#/components/parameters/TeamIdPathParam'
+      - name: page_size
+        in: query
+        description: Number of items per page.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+        example: 10
+      - name: after
+        in: query
+        description: Cursor for pagination.
+        required: false
+        schema:
+          type: number
+        example: 42.5
+      - name: before
+        in: query
+        description: Cursor for reverse pagination.
+        required: false
+        schema:
+          type: number
+        example: 42.5
       responses:
         '200':
           description: Successfully retrieved team component sets.
@@ -725,6 +987,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetTeamComponentSetsResponse'
+              examples:
+                Getteamcomponentsets200Example:
+                  summary: Default getTeamComponentSets 200 response
+                  x-microcks-default: true
+                  value:
+                    error: true
+                    status: 10
+                    meta:
+                      component_sets:
+                      - {}
+                      cursor:
+                        before: 42.5
+                        after: 42.5
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -734,40 +1009,46 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimitError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /v1/teams/{team_id}/styles:
     get:
       tags:
-        - Components
-      summary: Figma Get team styles
+      - Components
+      summary: Figma Get Team Styles
       operationId: getTeamStyles
       description: >-
         Get a paginated list of published styles within a team library.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       parameters:
-        - $ref: '#/components/parameters/TeamIdPathParam'
-        - name: page_size
-          in: query
-          description: Number of items per page.
-          required: false
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 100
-        - name: after
-          in: query
-          description: Cursor for pagination.
-          required: false
-          schema:
-            type: number
-        - name: before
-          in: query
-          description: Cursor for reverse pagination.
-          required: false
-          schema:
-            type: number
+      - $ref: '#/components/parameters/TeamIdPathParam'
+      - name: page_size
+        in: query
+        description: Number of items per page.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+        example: 10
+      - name: after
+        in: query
+        description: Cursor for pagination.
+        required: false
+        schema:
+          type: number
+        example: 42.5
+      - name: before
+        in: query
+        description: Cursor for reverse pagination.
+        required: false
+        schema:
+          type: number
+        example: 42.5
       responses:
         '200':
           description: Successfully retrieved team styles.
@@ -775,6 +1056,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetTeamStylesResponse'
+              examples:
+                Getteamstyles200Example:
+                  summary: Default getTeamStyles 200 response
+                  x-microcks-default: true
+                  value:
+                    error: true
+                    status: 10
+                    meta:
+                      styles:
+                      - {}
+                      cursor:
+                        before: 42.5
+                        after: 42.5
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -784,21 +1078,24 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimitError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /v1/teams/{team_id}/projects:
     get:
       tags:
-        - Projects
-      summary: Figma Get team projects
+      - Projects
+      summary: Figma Get Team Projects
       operationId: getTeamProjects
       description: >-
         Lists the projects for a specified team. Only projects visible to the
         authenticated user are returned.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       parameters:
-        - $ref: '#/components/parameters/TeamIdPathParam'
+      - $ref: '#/components/parameters/TeamIdPathParam'
       responses:
         '200':
           description: Successfully retrieved team projects.
@@ -806,6 +1103,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetTeamProjectsResponse'
+              examples:
+                Getteamprojects200Example:
+                  summary: Default getTeamProjects 200 response
+                  x-microcks-default: true
+                  value:
+                    name: Example Title
+                    projects:
+                    - id: abc123
+                      name: Example Title
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -815,31 +1121,36 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimitError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /v1/projects/{project_id}/files:
     get:
       tags:
-        - Projects
-      summary: Figma Get project files
+      - Projects
+      summary: Figma Get Project Files
       operationId: getProjectFiles
       description: >-
         Lists the files in a given project.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       parameters:
-        - name: project_id
-          in: path
-          description: The ID of the project to list files from.
-          required: true
-          schema:
-            type: string
-        - name: branch_data
-          in: query
-          description: Set to true to include branch metadata.
-          required: false
-          schema:
-            type: boolean
+      - name: project_id
+        in: path
+        description: The ID of the project to list files from.
+        required: true
+        schema:
+          type: string
+        example: '500123'
+      - name: branch_data
+        in: query
+        description: Set to true to include branch metadata.
+        required: false
+        schema:
+          type: boolean
+        example: true
       responses:
         '200':
           description: Successfully retrieved project files.
@@ -847,6 +1158,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetProjectFilesResponse'
+              examples:
+                Getprojectfiles200Example:
+                  summary: Default getProjectFiles 200 response
+                  x-microcks-default: true
+                  value:
+                    name: Example Title
+                    files:
+                    - key: example_value
+                      name: Example Title
+                      thumbnail_url: https://www.example.com
+                      last_modified: '2026-01-15T10:30:00Z'
+                      branches: {}
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -856,18 +1179,21 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimitError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /v1/me:
     get:
       tags:
-        - Users
-      summary: Figma Get current user
+      - Users
+      summary: Figma Get Current User
       operationId: getMe
       description: >-
         Returns the user information for the currently authenticated user.
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       responses:
         '200':
           description: Successfully retrieved user information.
@@ -875,11 +1201,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+              examples:
+                Getme200Example:
+                  summary: Default getMe 200 response
+                  x-microcks-default: true
+                  value:
+                    id: abc123
+                    handle: example_value
+                    img_url: https://www.example.com
+                    email: user@example.com
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '429':
           $ref: '#/components/responses/RateLimitError'
 
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   securitySchemes:
     PersonalAccessToken:
@@ -970,22 +1308,25 @@ components:
       type: object
       description: Standard error response from the Figma API.
       required:
-        - error
-        - status
-        - message
+      - error
+      - status
+      - message
       properties:
         error:
           type: boolean
           description: Always true for error responses.
           enum:
-            - true
+          - true
+          example: true
         status:
           type: integer
           description: The HTTP status code.
+          example: 10
         message:
           type: string
           description: A human-readable description of the error.
 
+          example: example_value
     SuccessResponse:
       type: object
       description: Generic success response.
@@ -993,110 +1334,127 @@ components:
         error:
           type: boolean
           enum:
-            - false
+          - false
+          example: false
         status:
           type: integer
           enum:
-            - 200
+          - 200
 
+          example: 200
     User:
       type: object
       description: A Figma user account.
       required:
-        - id
-        - handle
-        - img_url
+      - id
+      - handle
+      - img_url
       properties:
         id:
           type: string
           description: Unique stable ID of the user.
+          example: abc123
         handle:
           type: string
           description: Display name of the user.
+          example: example_value
         img_url:
           type: string
           format: uri
           description: URL of the user's profile image.
+          example: https://www.example.com
         email:
           type: string
           format: email
           description: Email address associated with the user's account.
 
+          example: user@example.com
     Color:
       type: object
       description: An RGBA color value with channels ranging from 0 to 1.
       required:
-        - r
-        - g
-        - b
-        - a
+      - r
+      - g
+      - b
+      - a
       properties:
         r:
           type: number
           minimum: 0
           maximum: 1
           description: Red channel value, between 0 and 1.
+          example: 42.5
         g:
           type: number
           minimum: 0
           maximum: 1
           description: Green channel value, between 0 and 1.
+          example: 42.5
         b:
           type: number
           minimum: 0
           maximum: 1
           description: Blue channel value, between 0 and 1.
+          example: 42.5
         a:
           type: number
           minimum: 0
           maximum: 1
           description: Alpha channel value, between 0 and 1.
 
+          example: 42.5
     DocumentNode:
       type: object
       description: The root node of a Figma document.
       required:
-        - id
-        - name
-        - type
-        - children
+      - id
+      - name
+      - type
+      - children
       properties:
         id:
           type: string
           description: A string uniquely identifying this node within the document.
+          example: abc123
         name:
           type: string
           description: The name given to the node by the user in the tool.
+          example: Example Title
         type:
           type: string
           enum:
-            - DOCUMENT
+          - DOCUMENT
           description: The type of the node.
+          example: DOCUMENT
         children:
           type: array
           description: An array of canvases (pages) attached to the document.
           items:
             $ref: '#/components/schemas/CanvasNode'
 
+          example: []
     CanvasNode:
       type: object
       description: A canvas (page) in the Figma document.
       required:
-        - id
-        - name
-        - type
+      - id
+      - name
+      - type
       properties:
         id:
           type: string
           description: A string uniquely identifying this node within the document.
+          example: abc123
         name:
           type: string
           description: The name given to the page by the user.
+          example: Example Title
         type:
           type: string
           enum:
-            - CANVAS
+          - CANVAS
           description: The type of the node.
+          example: CANVAS
         backgroundColor:
           $ref: '#/components/schemas/Color'
         children:
@@ -1105,150 +1463,175 @@ components:
           items:
             type: object
 
+          example: []
     Component:
       type: object
       description: >-
         Metadata about a main component in a Figma file. Components are
         reusable design elements.
       required:
-        - key
-        - name
-        - description
-        - documentationLinks
-        - remote
+      - key
+      - name
+      - description
+      - documentationLinks
+      - remote
       properties:
         key:
           type: string
           description: The globally unique key of the component.
+          example: example_value
         name:
           type: string
           description: Name of the component.
+          example: Example Title
         description:
           type: string
           description: The description of the component as entered in the editor.
+          example: A sample description.
         componentSetId:
           type: ['string', 'null']
           description: The ID of the component set this component belongs to, if any.
+          example: '500123'
         documentationLinks:
           type: array
           description: An array of documentation links attached to this component.
           items:
             $ref: '#/components/schemas/DocumentationLink'
+          example: []
         remote:
           type: boolean
           description: Whether this component is a remote component that was pulled from an external library.
 
+          example: true
     ComponentSet:
       type: object
       description: >-
         A component set groups variants of a component together. Useful for
         organizing different states or configurations of a design element.
       required:
-        - key
-        - name
-        - description
+      - key
+      - name
+      - description
       properties:
         key:
           type: string
           description: The globally unique key of the component set.
+          example: example_value
         name:
           type: string
           description: Name of the component set.
+          example: Example Title
         description:
           type: string
           description: The description of the component set as entered in the editor.
+          example: A sample description.
         documentationLinks:
           type: array
           description: Documentation links attached to this component set.
           items:
             $ref: '#/components/schemas/DocumentationLink'
+          example: []
         remote:
           type: boolean
           description: Whether this is a remote component set.
 
+          example: true
     DocumentationLink:
       type: object
       description: A link to documentation associated with a component.
       required:
-        - uri
+      - uri
       properties:
         uri:
           type: string
           format: uri
           description: The URI of the documentation link.
 
+          example: https://www.example.com
     Style:
       type: object
       description: A published style that can be applied to nodes in Figma.
       required:
-        - key
-        - name
-        - description
-        - remote
-        - style_type
+      - key
+      - name
+      - description
+      - remote
+      - style_type
       properties:
         key:
           type: string
           description: The globally unique key of the style.
+          example: example_value
         name:
           type: string
           description: Name of the style.
+          example: Example Title
         description:
           type: string
           description: Description of the style.
+          example: A sample description.
         remote:
           type: boolean
           description: Whether this style is a remote style from an external library.
+          example: true
         style_type:
           type: string
           description: The type of style.
           enum:
-            - FILL
-            - TEXT
-            - EFFECT
-            - GRID
+          - FILL
+          - TEXT
+          - EFFECT
+          - GRID
 
+          example: FILL
     Comment:
       type: object
       description: >-
         A comment or reply left by a user on a Figma file. Comments can be
         pinned to specific locations on the canvas.
       required:
-        - id
-        - file_key
-        - user
-        - created_at
-        - message
-        - reactions
-        - order_id
+      - id
+      - file_key
+      - user
+      - created_at
+      - message
+      - reactions
+      - order_id
       properties:
         id:
           type: string
           description: Unique identifier for the comment.
+          example: abc123
         file_key:
           type: string
           description: The key of the file the comment belongs to.
+          example: example_value
         parent_id:
           type: ['string', 'null']
           description: If present, the ID of the comment to which this is a reply.
+          example: '500123'
         user:
           $ref: '#/components/schemas/User'
         created_at:
           type: string
           format: date-time
           description: The UTC ISO 8601 time at which the comment was left.
+          example: '2026-01-15T10:30:00Z'
         resolved_at:
           type: ['string', 'null']
           format: date-time
           description: If set, the UTC ISO 8601 time the comment was resolved.
+          example: '2026-01-15T10:30:00Z'
         message:
           type: string
           description: The content of the comment.
+          example: example_value
         order_id:
           type: ['string', 'null']
           description: >-
             Only set for top-level comments. The number displayed with the
             comment in the UI.
+          example: '500123'
         client_meta:
           $ref: '#/components/schemas/ClientMeta'
         reactions:
@@ -1257,6 +1640,7 @@ components:
           items:
             $ref: '#/components/schemas/Reaction'
 
+          example: []
     ClientMeta:
       type: object
       description: >-
@@ -1266,12 +1650,15 @@ components:
         x:
           type: number
           description: X coordinate of the comment pin.
+          example: 42.5
         'y':
           type: number
           description: Y coordinate of the comment pin.
+          example: 42.5
         node_id:
           type: string
           description: The node ID the comment is pinned to.
+          example: '500123'
         node_offset:
           type: object
           description: Offset from the node origin.
@@ -1281,64 +1668,75 @@ components:
             'y':
               type: number
 
+          example: example_value
     Reaction:
       type: object
       description: An emoji reaction left on a comment.
       required:
-        - user
-        - emoji
-        - created_at
+      - user
+      - emoji
+      - created_at
       properties:
         user:
           $ref: '#/components/schemas/User'
         emoji:
           type: string
           description: The emoji used for the reaction.
+          example: example_value
         created_at:
           type: string
           format: date-time
           description: The UTC ISO 8601 time at which the reaction was left.
 
+          example: '2026-01-15T10:30:00Z'
     PublishedComponent:
       type: object
       description: A published component from a team or file library.
       required:
-        - key
-        - file_key
-        - node_id
-        - name
-        - description
-        - created_at
-        - updated_at
-        - user
+      - key
+      - file_key
+      - node_id
+      - name
+      - description
+      - created_at
+      - updated_at
+      - user
       properties:
         key:
           type: string
           description: The globally unique identifier for the component.
+          example: example_value
         file_key:
           type: string
           description: The key of the Figma file containing the component.
+          example: example_value
         node_id:
           type: string
           description: The node ID of the component within the file.
+          example: '500123'
         thumbnail_url:
           type: string
           format: uri
           description: A URL to a thumbnail image of the component.
+          example: https://www.example.com
         name:
           type: string
           description: The name of the component.
+          example: Example Title
         description:
           type: string
           description: The description of the component as entered by the publisher.
+          example: A sample description.
         created_at:
           type: string
           format: date-time
           description: The UTC ISO 8601 time when the component was first published.
+          example: '2026-01-15T10:30:00Z'
         updated_at:
           type: string
           format: date-time
           description: The UTC ISO 8601 time when the component was last updated.
+          example: '2026-01-15T10:30:00Z'
         user:
           $ref: '#/components/schemas/User'
         containing_frame:
@@ -1348,40 +1746,48 @@ components:
       type: object
       description: A published component set from a team or file library.
       required:
-        - key
-        - file_key
-        - node_id
-        - name
-        - description
-        - created_at
-        - updated_at
-        - user
+      - key
+      - file_key
+      - node_id
+      - name
+      - description
+      - created_at
+      - updated_at
+      - user
       properties:
         key:
           type: string
           description: The globally unique identifier for the component set.
+          example: example_value
         file_key:
           type: string
           description: The key of the Figma file containing the component set.
+          example: example_value
         node_id:
           type: string
           description: The node ID of the component set within the file.
+          example: '500123'
         thumbnail_url:
           type: string
           format: uri
           description: A URL to a thumbnail image of the component set.
+          example: https://www.example.com
         name:
           type: string
           description: The name of the component set.
+          example: Example Title
         description:
           type: string
           description: The description of the component set.
+          example: A sample description.
         created_at:
           type: string
           format: date-time
+          example: '2026-01-15T10:30:00Z'
         updated_at:
           type: string
           format: date-time
+          example: '2026-01-15T10:30:00Z'
         user:
           $ref: '#/components/schemas/User'
         containing_frame:
@@ -1391,51 +1797,61 @@ components:
       type: object
       description: A published style from a team or file library.
       required:
-        - key
-        - file_key
-        - node_id
-        - name
-        - description
-        - style_type
-        - created_at
-        - updated_at
-        - user
+      - key
+      - file_key
+      - node_id
+      - name
+      - description
+      - style_type
+      - created_at
+      - updated_at
+      - user
       properties:
         key:
           type: string
           description: The globally unique identifier for the style.
+          example: example_value
         file_key:
           type: string
           description: The key of the Figma file containing the style.
+          example: example_value
         node_id:
           type: string
           description: The node ID of the style within the file.
+          example: '500123'
         thumbnail_url:
           type: string
           format: uri
           description: A URL to a thumbnail image of the style.
+          example: https://www.example.com
         name:
           type: string
           description: The name of the style.
+          example: Example Title
         description:
           type: string
           description: The description of the style.
+          example: A sample description.
         style_type:
           type: string
           enum:
-            - FILL
-            - TEXT
-            - EFFECT
-            - GRID
+          - FILL
+          - TEXT
+          - EFFECT
+          - GRID
+          example: FILL
         sort_position:
           type: string
           description: A user-defined sort position for the style.
+          example: example_value
         created_at:
           type: string
           format: date-time
+          example: '2026-01-15T10:30:00Z'
         updated_at:
           type: string
           format: date-time
+          example: '2026-01-15T10:30:00Z'
         user:
           $ref: '#/components/schemas/User'
 
@@ -1446,42 +1862,51 @@ components:
         nodeId:
           type: string
           description: The ID of the containing frame node.
+          example: '500123'
         name:
           type: string
           description: The name of the containing frame.
+          example: Example Title
         backgroundColor:
           type: string
           description: The background color of the containing frame.
+          example: example_value
         pageId:
           type: string
           description: The ID of the page containing the frame.
+          example: '500123'
         pageName:
           type: string
           description: The name of the page containing the frame.
 
+          example: example_value
     Version:
       type: object
       description: A recorded version in the file's version history.
       required:
-        - id
-        - created_at
-        - label
-        - description
-        - user
+      - id
+      - created_at
+      - label
+      - description
+      - user
       properties:
         id:
           type: string
           description: Unique identifier for the version.
+          example: abc123
         created_at:
           type: string
           format: date-time
           description: The UTC ISO 8601 time at which the version was created.
+          example: '2026-01-15T10:30:00Z'
         label:
           type: ['string', 'null']
           description: The label given to the version in the editor.
+          example: Example Title
         description:
           type: ['string', 'null']
           description: The description of the version as entered in the editor.
+          example: A sample description.
         user:
           $ref: '#/components/schemas/User'
 
@@ -1489,68 +1914,79 @@ components:
       type: object
       description: Information about a branch of a Figma file.
       required:
-        - key
-        - name
-        - thumbnail_url
-        - last_modified
+      - key
+      - name
+      - thumbnail_url
+      - last_modified
       properties:
         key:
           type: string
           description: The key of the branch file.
+          example: example_value
         name:
           type: string
           description: The name of the branch.
+          example: Example Title
         thumbnail_url:
           type: string
           format: uri
           description: A URL to a thumbnail image of the branch.
+          example: https://www.example.com
         last_modified:
           type: string
           format: date-time
           description: The UTC ISO 8601 time at which the branch was last modified.
 
+          example: '2026-01-15T10:30:00Z'
     Project:
       type: object
       description: A Figma project within a team.
       required:
-        - id
-        - name
+      - id
+      - name
       properties:
         id:
           type: string
           description: The ID of the project.
+          example: abc123
         name:
           type: string
           description: The name of the project.
 
+          example: Example Title
     ProjectFile:
       type: object
       description: A file within a Figma project.
       required:
-        - key
-        - name
-        - last_modified
+      - key
+      - name
+      - last_modified
       properties:
         key:
           type: string
           description: The file key.
+          example: example_value
         name:
           type: string
           description: The name of the file.
+          example: Example Title
         thumbnail_url:
           type: string
           format: uri
           description: A URL to a thumbnail image of the file.
+          example: https://www.example.com
         last_modified:
           type: string
           format: date-time
           description: The UTC ISO 8601 time at which the file was last modified.
+          example: '2026-01-15T10:30:00Z'
         branches:
           type: array
           description: Branches of this file, if branch_data was requested.
           items:
             $ref: '#/components/schemas/Branch'
 
+          example: []
     Pagination:
       type: object
       description: Cursor-based pagination metadata.
@@ -1558,24 +1994,28 @@ components:
         before:
           type: number
           description: Cursor value for the page before the current one.
+          example: 42.5
         after:
           type: number
           description: Cursor value for the page after the current one.
 
+          example: 42.5
     PostCommentRequest:
       type: object
       description: Request body for posting a new comment.
       required:
-        - message
+      - message
       properties:
         message:
           type: string
           description: The text content of the comment.
+          example: example_value
         comment_id:
           type: string
           description: >-
             The comment to reply to, if any. This must be a root comment.
             Creating a reply to a reply is not supported.
+          example: '500123'
         client_meta:
           $ref: '#/components/schemas/ClientMeta'
 
@@ -1583,44 +2023,50 @@ components:
       type: object
       description: Response from the Get File endpoint.
       required:
-        - name
-        - role
-        - lastModified
-        - editorType
-        - version
-        - document
-        - components
-        - componentSets
-        - schemaVersion
-        - styles
+      - name
+      - role
+      - lastModified
+      - editorType
+      - version
+      - document
+      - components
+      - componentSets
+      - schemaVersion
+      - styles
       properties:
         name:
           type: string
           description: The name of the file as it appears in the editor.
+          example: Example Title
         role:
           type: string
           enum:
-            - owner
-            - editor
-            - viewer
+          - owner
+          - editor
+          - viewer
           description: The role of the requesting user in relation to the file.
+          example: owner
         lastModified:
           type: string
           format: date-time
           description: The UTC ISO 8601 time at which the file was last modified.
+          example: '2026-01-15T10:30:00Z'
         editorType:
           type: string
           enum:
-            - figma
-            - figjam
+          - figma
+          - figjam
           description: The type of editor associated with this file.
+          example: figma
         thumbnailUrl:
           type: string
           format: uri
           description: A URL to a thumbnail image of the file.
+          example: https://www.example.com
         version:
           type: string
           description: The version number of the file.
+          example: example_value
         document:
           $ref: '#/components/schemas/DocumentNode'
         components:
@@ -1628,51 +2074,61 @@ components:
           description: A mapping from component IDs to component metadata.
           additionalProperties:
             $ref: '#/components/schemas/Component'
+          example: example_value
         componentSets:
           type: object
           description: A mapping from component set IDs to component set metadata.
           additionalProperties:
             $ref: '#/components/schemas/ComponentSet'
+          example: example_value
         schemaVersion:
           type: integer
           description: The schema version of the file format.
+          example: 10
         styles:
           type: object
           description: A mapping from style IDs to style metadata.
           additionalProperties:
             $ref: '#/components/schemas/Style'
+          example: example_value
         mainFileKey:
           type: string
           description: The key of the main file, if this is a branch.
+          example: example_value
         branches:
           type: array
           description: A list of branches for this file.
           items:
             $ref: '#/components/schemas/Branch'
 
+          example: []
     GetFileNodesResponse:
       type: object
       description: Response from the Get File Nodes endpoint.
       required:
-        - name
-        - lastModified
-        - version
-        - nodes
+      - name
+      - lastModified
+      - version
+      - nodes
       properties:
         name:
           type: string
           description: The name of the file.
+          example: Example Title
         lastModified:
           type: string
           format: date-time
+          example: '2026-01-15T10:30:00Z'
         version:
           type: string
+          example: example_value
         role:
           type: string
           enum:
-            - owner
-            - editor
-            - viewer
+          - owner
+          - editor
+          - viewer
+          example: owner
         nodes:
           type: object
           description: >-
@@ -1695,6 +2151,7 @@ components:
                 additionalProperties:
                   $ref: '#/components/schemas/Style'
 
+          example: example_value
     GetImagesResponse:
       type: object
       description: Response from the Get Images endpoint.
@@ -1703,6 +2160,7 @@ components:
           type: ['string', 'null']
           description: >-
             If present, indicates an error rendering the images.
+          example: example_value
         images:
           type: object
           description: >-
@@ -1710,6 +2168,7 @@ components:
             expire after 14 days.
           additionalProperties:
             type: ['string', 'null']
+          example: example_value
 
     GetImageFillsResponse:
       type: object
@@ -1717,8 +2176,10 @@ components:
       properties:
         error:
           type: boolean
+          example: true
         status:
           type: integer
+          example: 10
         meta:
           type: object
           properties:
@@ -1728,17 +2189,19 @@ components:
               additionalProperties:
                 type: string
 
+          example: example_value
     GetFileVersionsResponse:
       type: object
       description: Response from the Get File Versions endpoint.
       required:
-        - versions
+      - versions
       properties:
         versions:
           type: array
           description: An array of version history entries.
           items:
             $ref: '#/components/schemas/Version'
+          example: []
         pagination:
           $ref: '#/components/schemas/Pagination'
 
@@ -1746,7 +2209,7 @@ components:
       type: object
       description: Response from the Get Comments endpoint.
       required:
-        - comments
+      - comments
       properties:
         comments:
           type: array
@@ -1754,33 +2217,38 @@ components:
           items:
             $ref: '#/components/schemas/Comment'
 
+          example: []
     GetReactionsResponse:
       type: object
       description: Response from the Get Reactions endpoint.
       required:
-        - reactions
+      - reactions
       properties:
         reactions:
           type: array
           items:
             $ref: '#/components/schemas/Reaction'
+          example: []
         pagination:
           type: object
           properties:
             cursor:
               type: string
 
+          example: example_value
     GetTeamComponentsResponse:
       type: object
       description: Response from the Get Team Components endpoint.
       required:
-        - status
-        - meta
+      - status
+      - meta
       properties:
         error:
           type: boolean
+          example: true
         status:
           type: integer
+          example: 10
         meta:
           type: object
           properties:
@@ -1791,17 +2259,20 @@ components:
             cursor:
               $ref: '#/components/schemas/Pagination'
 
+          example: example_value
     GetFileComponentsResponse:
       type: object
       description: Response from the Get File Components endpoint.
       required:
-        - status
-        - meta
+      - status
+      - meta
       properties:
         error:
           type: boolean
+          example: true
         status:
           type: integer
+          example: 10
         meta:
           type: object
           properties:
@@ -1810,17 +2281,20 @@ components:
               items:
                 $ref: '#/components/schemas/PublishedComponent'
 
+          example: example_value
     GetComponentResponse:
       type: object
       description: Response from the Get Component endpoint.
       required:
-        - status
-        - meta
+      - status
+      - meta
       properties:
         error:
           type: boolean
+          example: true
         status:
           type: integer
+          example: 10
         meta:
           $ref: '#/components/schemas/PublishedComponent'
 
@@ -1828,13 +2302,15 @@ components:
       type: object
       description: Response from the Get Team Component Sets endpoint.
       required:
-        - status
-        - meta
+      - status
+      - meta
       properties:
         error:
           type: boolean
+          example: true
         status:
           type: integer
+          example: 10
         meta:
           type: object
           properties:
@@ -1845,17 +2321,20 @@ components:
             cursor:
               $ref: '#/components/schemas/Pagination'
 
+          example: example_value
     GetTeamStylesResponse:
       type: object
       description: Response from the Get Team Styles endpoint.
       required:
-        - status
-        - meta
+      - status
+      - meta
       properties:
         error:
           type: boolean
+          example: true
         status:
           type: integer
+          example: 10
         meta:
           type: object
           properties:
@@ -1866,32 +2345,37 @@ components:
             cursor:
               $ref: '#/components/schemas/Pagination'
 
+          example: example_value
     GetTeamProjectsResponse:
       type: object
       description: Response from the Get Team Projects endpoint.
       required:
-        - name
-        - projects
+      - name
+      - projects
       properties:
         name:
           type: string
           description: The name of the team.
+          example: Example Title
         projects:
           type: array
           items:
             $ref: '#/components/schemas/Project'
 
+          example: []
     GetProjectFilesResponse:
       type: object
       description: Response from the Get Project Files endpoint.
       required:
-        - name
-        - files
+      - name
+      - files
       properties:
         name:
           type: string
           description: The name of the project.
+          example: Example Title
         files:
           type: array
           items:
             $ref: '#/components/schemas/ProjectFile'
+          example: []

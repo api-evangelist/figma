@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CreateDevResourcesRequest",
+  "type": "object",
+  "properties": {
+    "devResources": {
+      "type": "array",
+      "description": "An array of dev resources to create."
+    }
+  }
+}

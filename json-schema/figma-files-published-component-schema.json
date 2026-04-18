@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PublishedComponent",
+  "type": "object",
+  "description": "An arrangement of published UI elements.",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "The unique identifier for the component."
+    },
+    "fileKey": {
+      "type": "string",
+      "description": "The unique identifier of the Figma file that contains the component."
+    },
+    "nodeId": {
+      "type": "string",
+      "description": "The unique identifier of the component node within the Figma file."
+    },
+    "thumbnailUrl": {
+      "type": "string",
+      "description": "A URL to a thumbnail image of the component."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the component."
+    },
+    "description": {
+      "type": "string",
+      "description": "The description of the component as entered by the publisher."
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "The UTC ISO 8601 time when the component was created."
+    },
+    "updatedAt": {
+      "type": "string",
+      "description": "The UTC ISO 8601 time when the component was last updated."
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetImageFillsResponse",
+  "type": "object",
+  "description": "Response from the Get Image Fills endpoint.",
+  "properties": {
+    "error": {
+      "type": "boolean"
+    },
+    "status": {
+      "type": "integer"
+    },
+    "meta": {
+      "type": "object"
+    }
+  }
+}

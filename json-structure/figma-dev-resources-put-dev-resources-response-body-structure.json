@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "PutDevResourcesResponseBody",
+  "type": "object",
+  "properties": {
+    "linksUpdated": {
+      "type": "array"
+    },
+    "errors": {
+      "type": "array"
+    }
+  }
+}

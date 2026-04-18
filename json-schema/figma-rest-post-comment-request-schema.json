@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PostCommentRequest",
+  "type": "object",
+  "description": "Request body for posting a new comment.",
+  "properties": {
+    "message": {
+      "type": "string",
+      "description": "The text content of the comment."
+    },
+    "comment_id": {
+      "type": "string",
+      "description": "The comment to reply to, if any. This must be a root comment. Creating a reply to a reply is not supported."
+    }
+  }
+}

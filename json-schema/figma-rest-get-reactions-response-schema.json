@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetReactionsResponse",
+  "type": "object",
+  "description": "Response from the Get Reactions endpoint.",
+  "properties": {
+    "reactions": {
+      "type": "array"
+    },
+    "pagination": {
+      "type": "object"
+    }
+  }
+}

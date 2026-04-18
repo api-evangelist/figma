@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WebhookV2Status",
+  "type": "string",
+  "description": "The current status of the webhook."
+}

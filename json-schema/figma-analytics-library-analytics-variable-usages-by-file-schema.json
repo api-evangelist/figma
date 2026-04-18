@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LibraryAnalyticsVariableUsagesByFile",
+  "type": "object",
+  "description": "Library analytics variable usage data broken down by file.",
+  "properties": {
+    "fileName": {
+      "type": "string",
+      "description": "The name of the file using the library."
+    },
+    "teamName": {
+      "type": "string",
+      "description": "The name of the team the file belongs to."
+    },
+    "workspaceName": {
+      "type": "string",
+      "description": "The name of the workspace that the file belongs to."
+    },
+    "usages": {
+      "type": "number",
+      "description": "The number of times variables from this library are used within the file."
+    }
+  }
+}

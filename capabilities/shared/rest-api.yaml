@@ -1,0 +1,386 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Figma REST API"
+  description: "Figma REST API providing access to files, comments, components, component sets, styles, projects, users, images, and version history."
+  tags:
+    - Figma
+    - Design
+    - REST API
+  created: "2026-04-18"
+  modified: "2026-04-18"
+
+binds:
+  - namespace: env
+    keys:
+      FIGMA_ACCESS_TOKEN: FIGMA_ACCESS_TOKEN
+
+capability:
+  consumes:
+    - type: http
+      namespace: figma-rest
+      baseUri: https://api.figma.com
+      description: "Figma REST API for design file and team management."
+      authentication:
+        type: bearer
+        token: "{{FIGMA_ACCESS_TOKEN}}"
+      resources:
+        - name: files
+          path: /v1/files/{file_key}
+          description: "Access Figma file data."
+          operations:
+            - name: get-file
+              method: GET
+              description: "Returns the document tree for a given Figma file."
+              inputParameters:
+                - name: file_key
+                  in: path
+                  type: string
+                  required: true
+                  description: "The file key."
+                - name: version
+                  in: query
+                  type: string
+                  required: false
+                  description: "A specific version ID."
+                - name: ids
+                  in: query
+                  type: string
+                  required: false
+                  description: "Comma-separated list of node IDs."
+                - name: depth
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Document tree depth."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: file-nodes
+          path: /v1/files/{file_key}/nodes
+          description: "Access specific nodes in a file."
+          operations:
+            - name: get-file-nodes
+              method: GET
+              description: "Returns nodes referenced by IDs."
+              inputParameters:
+                - name: file_key
+                  in: path
+                  type: string
+                  required: true
+                  description: "The file key."
+                - name: ids
+                  in: query
+                  type: string
+                  required: true
+                  description: "Comma-separated list of node IDs."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: images
+          path: /v1/images/{file_key}
+          description: "Export images from a file."
+          operations:
+            - name: get-images
+              method: GET
+              description: "Render images from a file."
+              inputParameters:
+                - name: file_key
+                  in: path
+                  type: string
+                  required: true
+                  description: "The file key."
+                - name: ids
+                  in: query
+                  type: string
+                  required: true
+                  description: "Comma-separated list of node IDs to render."
+                - name: scale
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Image scale factor."
+                - name: format
+                  in: query
+                  type: string
+                  required: false
+                  description: "Image format (jpg, png, svg, pdf)."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: image-fills
+          path: /v1/files/{file_key}/images
+          description: "Get image fill URLs."
+          operations:
+            - name: get-image-fills
+              method: GET
+              description: "Returns download links for images in a file."
+              inputParameters:
+                - name: file_key
+                  in: path
+                  type: string
+                  required: true
+                  description: "The file key."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: file-versions
+          path: /v1/files/{file_key}/versions
+          description: "Access file version history."
+          operations:
+            - name: get-file-versions
+              method: GET
+              description: "List version history of a file."
+              inputParameters:
+                - name: file_key
+                  in: path
+                  type: string
+                  required: true
+                  description: "The file key."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: comments
+          path: /v1/files/{file_key}/comments
+          description: "Manage file comments."
+          operations:
+            - name: get-comments
+              method: GET
+              description: "List comments on a file."
+              inputParameters:
+                - name: file_key
+                  in: path
+                  type: string
+                  required: true
+                  description: "The file key."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: post-comment
+              method: POST
+              description: "Post a comment on a file."
+              inputParameters:
+                - name: file_key
+                  in: path
+                  type: string
+                  required: true
+                  description: "The file key."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  message: "{{tools.message}}"
+        - name: team-components
+          path: /v1/teams/{team_id}/components
+          description: "Access team components."
+          operations:
+            - name: get-team-components
+              method: GET
+              description: "List published components for a team."
+              inputParameters:
+                - name: team_id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The team ID."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: file-components
+          path: /v1/files/{file_key}/components
+          description: "Access file components."
+          operations:
+            - name: get-file-components
+              method: GET
+              description: "List components in a file."
+              inputParameters:
+                - name: file_key
+                  in: path
+                  type: string
+                  required: true
+                  description: "The file key."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: component-details
+          path: /v1/components/{key}
+          description: "Access component details."
+          operations:
+            - name: get-component
+              method: GET
+              description: "Get a component by key."
+              inputParameters:
+                - name: key
+                  in: path
+                  type: string
+                  required: true
+                  description: "The component key."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: team-component-sets
+          path: /v1/teams/{team_id}/component_sets
+          description: "Access team component sets."
+          operations:
+            - name: get-team-component-sets
+              method: GET
+              description: "List published component sets for a team."
+              inputParameters:
+                - name: team_id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The team ID."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: team-styles
+          path: /v1/teams/{team_id}/styles
+          description: "Access team styles."
+          operations:
+            - name: get-team-styles
+              method: GET
+              description: "List published styles for a team."
+              inputParameters:
+                - name: team_id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The team ID."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: team-projects
+          path: /v1/teams/{team_id}/projects
+          description: "Access team projects."
+          operations:
+            - name: get-team-projects
+              method: GET
+              description: "List projects for a team."
+              inputParameters:
+                - name: team_id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The team ID."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: project-files
+          path: /v1/projects/{project_id}/files
+          description: "Access project files."
+          operations:
+            - name: get-project-files
+              method: GET
+              description: "List files in a project."
+              inputParameters:
+                - name: project_id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The project ID."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: me
+          path: /v1/me
+          description: "Current user info."
+          operations:
+            - name: get-me
+              method: GET
+              description: "Get the authenticated user."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8100
+      namespace: figma-rest-api
+      resources:
+        - path: /v1/files/{file_key}
+          name: files
+          description: "File access."
+          operations:
+            - method: GET
+              name: get-file
+              description: "Get a Figma file."
+              call: "figma-rest.get-file"
+
+    - type: mcp
+      port: 9100
+      namespace: figma-rest-mcp
+      transport: http
+      tools:
+        - name: get-file
+          description: "Get a Figma file document tree."
+          hints:
+            readOnly: true
+          call: "figma-rest.get-file"
+          with:
+            file_key: "tools.file_key"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-file-nodes
+          description: "Get specific nodes from a Figma file."
+          hints:
+            readOnly: true
+          call: "figma-rest.get-file-nodes"
+          with:
+            file_key: "tools.file_key"
+            ids: "tools.ids"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-images
+          description: "Render images from a Figma file."
+          hints:
+            readOnly: true
+          call: "figma-rest.get-images"
+          with:
+            file_key: "tools.file_key"
+            ids: "tools.ids"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-me
+          description: "Get the authenticated user."
+          hints:
+            readOnly: true
+          call: "figma-rest.get-me"
+          outputParameters:
+            - type: object
+              mapping: "$."

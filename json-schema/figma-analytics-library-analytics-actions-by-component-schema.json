@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LibraryAnalyticsActionsByComponent",
+  "type": "object",
+  "description": "Library analytics actions data broken down by component.",
+  "properties": {
+    "week": {
+      "type": "string",
+      "description": "The date in ISO 8601 format. e.g. 2023-12-13"
+    },
+    "componentKey": {
+      "type": "string",
+      "description": "Unique, stable id of the component."
+    },
+    "componentName": {
+      "type": "string",
+      "description": "Name of the component."
+    },
+    "detachments": {
+      "type": "number",
+      "description": "The number of detach events for this period."
+    },
+    "insertions": {
+      "type": "number",
+      "description": "The number of insertion events for this period."
+    }
+  }
+}

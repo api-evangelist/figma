@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetCommentsResponse",
+  "type": "object",
+  "description": "Response from the Get Comments endpoint.",
+  "properties": {
+    "comments": {
+      "type": "array",
+      "description": "An array of comments on the file."
+    }
+  }
+}

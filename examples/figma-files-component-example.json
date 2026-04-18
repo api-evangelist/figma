@@ -1,0 +1,8 @@
+{
+  "key": "example_value",
+  "name": "Example Title",
+  "description": "A sample description.",
+  "componentSetId": "500123",
+  "documentationLinks": [],
+  "remote": true
+}

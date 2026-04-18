@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "PublishedStyle",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string"
+    },
+    "file_key": {
+      "type": "string"
+    },
+    "node_id": {
+      "type": "string"
+    },
+    "thumbnail_url": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "style_type": {
+      "type": "string"
+    },
+    "sort_position": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string"
+    }
+  }
+}

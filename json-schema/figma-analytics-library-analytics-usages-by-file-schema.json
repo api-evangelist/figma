@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LibraryAnalyticsUsagesByFile",
+  "type": "object",
+  "description": "Library analytics usage data broken down by file.",
+  "properties": {
+    "fileName": {
+      "type": "string",
+      "description": "The name of the file using the library."
+    },
+    "teamName": {
+      "type": "string",
+      "description": "The name of the team the file belongs to."
+    },
+    "workspaceName": {
+      "type": "string",
+      "description": "The name of the workspace that the file belongs to."
+    },
+    "numInstances": {
+      "type": "number",
+      "description": "The number of component instances from the library used within the file."
+    }
+  }
+}

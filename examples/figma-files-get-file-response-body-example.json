@@ -1,0 +1,14 @@
+{
+  "name": "Example Title",
+  "role": "example_value",
+  "lastModified": "example_value",
+  "editorType": "example_value",
+  "thumbnailUrl": "https://www.example.com",
+  "version": "example_value",
+  "components": "example_value",
+  "componentSets": "example_value",
+  "schemaVersion": 42.5,
+  "styles": "example_value",
+  "mainFileKey": "example_value",
+  "branches": []
+}

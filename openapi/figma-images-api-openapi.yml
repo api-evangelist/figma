@@ -13,26 +13,26 @@ info:
     email: support@figma.com
 
 servers:
-  - url: https://api.figma.com
-    description: Figma Production API Server
+- url: https://api.figma.com
+  description: Figma Production API Server
 
 tags:
-  - name: Files
-    description: Operations related to Figma file resources
+- name: Files
+  description: Operations related to Figma file resources
 
-  - name: Images
-    description: Operations for rendering and exporting images from Figma files
+- name: Images
+  description: Operations for rendering and exporting images from Figma files
 paths:
   /v1/images/{file_key}:
     get:
       tags:
-        - Files
-        - Images
-      summary: Figma Render images of file nodes
+      - Files
+      - Images
+      summary: Figma Render Images of File Nodes
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       description: >
         Renders images from a file.
 
@@ -64,17 +64,17 @@ paths:
           }
         defaultResponse: GetImagesSuccessExample
       parameters:
-        - $ref: '#/components/parameters/FileKeyPath'
-        - $ref: '#/components/parameters/NodeIdsQuery'
-        - $ref: '#/components/parameters/VersionQuery'
-        - $ref: '#/components/parameters/ScaleQuery'
-        - $ref: '#/components/parameters/FormatQuery'
-        - $ref: '#/components/parameters/SvgOutlineTextQuery'
-        - $ref: '#/components/parameters/SvgIncludeIdQuery'
-        - $ref: '#/components/parameters/SvgIncludeNodeIdQuery'
-        - $ref: '#/components/parameters/SvgSimplifyStrokeQuery'
-        - $ref: '#/components/parameters/ContentsOnlyQuery'
-        - $ref: '#/components/parameters/UseAbsoluteBoundsQuery'
+      - $ref: '#/components/parameters/FileKeyPath'
+      - $ref: '#/components/parameters/NodeIdsQuery'
+      - $ref: '#/components/parameters/VersionQuery'
+      - $ref: '#/components/parameters/ScaleQuery'
+      - $ref: '#/components/parameters/FormatQuery'
+      - $ref: '#/components/parameters/SvgOutlineTextQuery'
+      - $ref: '#/components/parameters/SvgIncludeIdQuery'
+      - $ref: '#/components/parameters/SvgIncludeNodeIdQuery'
+      - $ref: '#/components/parameters/SvgSimplifyStrokeQuery'
+      - $ref: '#/components/parameters/ContentsOnlyQuery'
+      - $ref: '#/components/parameters/UseAbsoluteBoundsQuery'
       responses:
         '200':
           $ref: '#/components/responses/GetImagesResponse'
@@ -153,10 +153,10 @@ components:
       schema:
         type: string
         enum:
-          - jpg
-          - png
-          - svg
-          - pdf
+        - jpg
+        - png
+        - svg
+        - pdf
         default: png
       example: png
 
@@ -237,18 +237,20 @@ components:
         err:
           type: 'null'
           description: For successful requests, this value is always `null`.
+          example: example_value
         images:
           type: object
           description: A map from node IDs to URLs of the rendered images.
           additionalProperties:
             type:
-              - string
-              - 'null'
+            - string
+            - 'null'
             description: A URL to the requested image.
             format: uri
+          example: example_value
       required:
-        - err
-        - images
+      - err
+      - images
       example:
         err:
         images:
@@ -263,89 +265,91 @@ components:
         status:
           type: number
           description: Status code
+          example: 42.5
         err:
           type: string
           description: A string describing the error
+          example: example_value
       required:
-        - status
-        - err
+      - status
+      - err
 
     BadRequestError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayload'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 400
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 400
+        required:
+        - status
       example:
         status: 400
         err: "Invalid parameter: scale must be between 0.01 and 4"
 
     ForbiddenError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayload'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 403
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 403
+        required:
+        - status
       example:
         status: 403
         err: "Access denied. You do not have permission to access this file."
 
     NotFoundError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayload'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 404
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 404
+        required:
+        - status
       example:
         status: 404
         err: "File not found"
 
     TooManyRequestsError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayload'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 429
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 429
+        required:
+        - status
       example:
         status: 429
         err: "Rate limit exceeded. Please wait before retrying."
 
     InternalServerError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayload'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 500
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 500
+        required:
+        - status
       example:
         status: 500
         err: "Internal server error"

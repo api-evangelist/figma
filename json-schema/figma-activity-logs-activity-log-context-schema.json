@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ActivityLogContext",
+  "type": "object",
+  "description": "Contextual information about the event.",
+  "properties": {
+    "clientName": {
+      "type": "['string', 'null']",
+      "description": "The third-party application that triggered the event."
+    },
+    "ipAddress": {
+      "type": "string",
+      "description": "The IP address from of the client that sent the event request."
+    },
+    "isFigmaSupportTeamAction": {
+      "type": "boolean",
+      "description": "If Figma's Support team triggered the event."
+    },
+    "orgId": {
+      "type": "string",
+      "description": "The id of the organization where the event took place."
+    },
+    "teamId": {
+      "type": "['string', 'null']",
+      "description": "The id of the team where the event took place."
+    }
+  }
+}

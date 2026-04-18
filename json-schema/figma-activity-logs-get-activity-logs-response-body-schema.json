@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetActivityLogsResponseBody",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "number",
+      "description": "The response status code."
+    },
+    "error": {
+      "type": "boolean",
+      "description": "For successful requests, this value is always `false`."
+    }
+  }
+}

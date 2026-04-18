@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LibraryAnalyticsActionsByTeam",
+  "type": "object",
+  "description": "Library analytics action data broken down by team.",
+  "properties": {
+    "week": {
+      "type": "string",
+      "description": "The date in ISO 8601 format. e.g. 2023-12-13"
+    },
+    "teamName": {
+      "type": "string",
+      "description": "The name of the team using the library."
+    },
+    "workspaceName": {
+      "type": "string",
+      "description": "The name of the workspace that the team belongs to."
+    },
+    "detachments": {
+      "type": "number",
+      "description": "The number of detach events for this period."
+    },
+    "insertions": {
+      "type": "number",
+      "description": "The number of insertion events for this period."
+    }
+  }
+}

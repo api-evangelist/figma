@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetProjectFilesResponseBody",
+  "type": "object",
+  "description": "Successful response containing project files.",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The project's name."
+    },
+    "files": {
+      "type": "array",
+      "description": "An array of files."
+    }
+  }
+}

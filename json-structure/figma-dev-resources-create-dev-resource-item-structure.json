@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "CreateDevResourceItem",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "fileKey": {
+      "type": "string"
+    },
+    "nodeId": {
+      "type": "string"
+    }
+  }
+}

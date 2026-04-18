@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "handle": {
+      "type": "string"
+    },
+    "img_url": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    }
+  }
+}

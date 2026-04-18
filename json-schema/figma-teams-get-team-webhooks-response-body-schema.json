@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetTeamWebhooksResponseBody",
+  "type": "object",
+  "description": "Successful response containing team webhooks.",
+  "properties": {
+    "webhooks": {
+      "type": "array",
+      "description": "An array of webhooks."
+    }
+  }
+}

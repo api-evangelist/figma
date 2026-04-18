@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ActivityLog",
+  "type": "object",
+  "description": "An event returned by the Activity Logs API.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The ID of the event."
+    },
+    "timestamp": {
+      "type": "number",
+      "description": "The timestamp of the event in seconds since the Unix epoch."
+    }
+  }
+}

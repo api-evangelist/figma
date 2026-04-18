@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DevResource",
+  "type": "object",
+  "description": "A dev resource in a file",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of the dev resource"
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the dev resource."
+    },
+    "url": {
+      "type": "string",
+      "description": "The URL of the dev resource."
+    },
+    "fileKey": {
+      "type": "string",
+      "description": "The file key where the dev resource belongs."
+    },
+    "nodeId": {
+      "type": "string",
+      "description": "The target node to attach the dev resource to."
+    }
+  }
+}

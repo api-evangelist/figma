@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Component",
+  "type": "object",
+  "description": "Metadata about a main component in a Figma file. Components are reusable design elements.",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "The globally unique key of the component."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the component."
+    },
+    "description": {
+      "type": "string",
+      "description": "The description of the component as entered in the editor."
+    },
+    "componentSetId": {
+      "type": "['string', 'null']",
+      "description": "The ID of the component set this component belongs to, if any."
+    },
+    "documentationLinks": {
+      "type": "array",
+      "description": "An array of documentation links attached to this component."
+    },
+    "remote": {
+      "type": "boolean",
+      "description": "Whether this component is a remote component that was pulled from an external library."
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ComponentSet",
+  "type": "object",
+  "description": "A description of a component set.",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "The key of the component set."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the component set."
+    },
+    "description": {
+      "type": "string",
+      "description": "The description of the component set as entered in the editor."
+    },
+    "documentationLinks": {
+      "type": "array",
+      "description": "An array of documentation links attached to this component set."
+    },
+    "remote": {
+      "type": "boolean",
+      "description": "Whether this component set is a remote component set."
+    }
+  }
+}

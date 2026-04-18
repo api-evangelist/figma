@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "LibraryAnalyticsUsagesByComponent",
+  "type": "object",
+  "properties": {
+    "componentKey": {
+      "type": "string"
+    },
+    "componentName": {
+      "type": "string"
+    },
+    "componentSetKey": {
+      "type": "string"
+    },
+    "componentSetName": {
+      "type": "string"
+    },
+    "numInstances": {
+      "type": "number"
+    },
+    "numTeamsUsing": {
+      "type": "number"
+    },
+    "numFilesUsing": {
+      "type": "number"
+    }
+  }
+}

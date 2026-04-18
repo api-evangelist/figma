@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "Component",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "componentSetId": {
+      "type": "string"
+    },
+    "documentationLinks": {
+      "type": "array"
+    },
+    "remote": {
+      "type": "boolean"
+    }
+  }
+}

@@ -10,26 +10,26 @@ info:
     email: support@figma.com
 
 servers:
-  - url: https://api.figma.com
-    description: Figma Production API Server
+- url: https://api.figma.com
+  description: Figma Production API Server
 
 tags:
-  - name: Me
-    description: Operations for the currently authenticated user
+- name: Me
+  description: Operations for the currently authenticated user
 
-  - name: Users
-    description: Operations for managing and retrieving user information
+- name: Users
+  description: Operations for managing and retrieving user information
 paths:
   /v1/me:
     get:
       tags:
-        - Me
-        - Users
-      summary: Figma Get current user
+      - Me
+      - Users
+      summary: Figma Get Current User
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       description: Returns the user information for the currently authenticated user.
       operationId: getMe
       x-microcks-operation:
@@ -69,16 +69,19 @@ components:
         id:
           type: string
           description: Unique stable id of the user.
+          example: abc123
         handle:
           type: string
           description: Name of the user.
+          example: example_value
         img_url:
           type: string
           description: URL link to the user's profile image.
+          example: https://www.example.com
       required:
-        - id
-        - handle
-        - img_url
+      - id
+      - handle
+      - img_url
       example:
         id: "1234567890"
         handle: "John Designer"
@@ -86,16 +89,16 @@ components:
 
     UserWithEmail:
       allOf:
-        - $ref: '#/components/schemas/User'
-        - type: object
-          properties:
-            email:
-              type: string
-              description: >-
-                Email associated with the user's account. This property is
-                only present on the /v1/me endpoint.
-          required:
-            - email
+      - $ref: '#/components/schemas/User'
+      - type: object
+        properties:
+          email:
+            type: string
+            description: >-
+              Email associated with the user's account. This property is
+              only present on the /v1/me endpoint.
+        required:
+        - email
       example:
         id: "1234567890"
         handle: "John Designer"
@@ -109,57 +112,59 @@ components:
         status:
           type: number
           description: Status code
+          example: 42.5
         err:
           type: string
           description: A string describing the error
+          example: example_value
       required:
-        - status
-        - err
+      - status
+      - err
 
     ForbiddenError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayload'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 403
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 403
+        required:
+        - status
       example:
         status: 403
         err: "Invalid token"
 
     TooManyRequestsError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayload'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 429
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 429
+        required:
+        - status
       example:
         status: 429
         err: "Rate limit exceeded. Please wait before retrying."
 
     InternalServerError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayload'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 500
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 500
+        required:
+        - status
       example:
         status: 500
         err: "Internal server error"

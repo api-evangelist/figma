@@ -14,21 +14,21 @@ info:
   contact:
     email: support@figma.com
 servers:
-  - url: https://api.figma.com
-    description: Figma Production API Server
+- url: https://api.figma.com
+  description: Figma Production API Server
 tags:
-  - name: Users
-    description: Operations related to user information and authentication
+- name: Users
+  description: Operations related to user information and authentication
 paths:
   /v1/me:
     get:
       tags:
-        - Users
-      summary: Figma Get current user
+      - Users
+      summary: Figma Get Current User
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       description: Returns the user information for the currently authenticated user.
       operationId: getMe
       x-microcks-operation:
@@ -106,16 +106,16 @@ components:
   schemas:
     GetMeResponseBody:
       allOf:
-        - $ref: '#/components/schemas/User'
-        - type: object
-          properties:
-            email:
-              type: string
-              description: >-
-                Email associated with the user's account. This property is
-                only present on the /v1/me endpoint.
-          required:
-            - email
+      - $ref: '#/components/schemas/User'
+      - type: object
+        properties:
+          email:
+            type: string
+            description: >-
+              Email associated with the user's account. This property is
+              only present on the /v1/me endpoint.
+        required:
+        - email
     User:
       type: object
       description: A description of a user.
@@ -123,16 +123,19 @@ components:
         id:
           type: string
           description: Unique stable id of the user.
+          example: abc123
         handle:
           type: string
           description: Name of the user.
+          example: example_value
         imgUrl:
           type: string
           description: URL link to the user's profile image.
+          example: https://www.example.com
       required:
-        - id
-        - handle
-        - imgUrl
+      - id
+      - handle
+      - imgUrl
     ErrorResponsePayload:
       type: object
       description: A response indicating an error occurred.
@@ -140,12 +143,14 @@ components:
         status:
           type: number
           description: Status code
+          example: 42.5
         err:
           type: string
           description: A string describing the error
+          example: example_value
       required:
-        - status
-        - err
+      - status
+      - err
   examples:
     GetMeSuccessExample:
       summary: Successful user profile response

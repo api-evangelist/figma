@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "User",
+  "type": "object",
+  "description": "A description of a user.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique stable id of the user."
+    },
+    "handle": {
+      "type": "string",
+      "description": "Name of the user."
+    },
+    "img_url": {
+      "type": "string",
+      "description": "URL link to the user's profile image."
+    }
+  }
+}

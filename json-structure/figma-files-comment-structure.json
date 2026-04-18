@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "Comment",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "fileKey": {
+      "type": "string"
+    },
+    "parentId": {
+      "type": "string"
+    },
+    "createdAt": {
+      "type": "string"
+    },
+    "resolvedAt": {
+      "type": "['string', 'null']"
+    },
+    "message": {
+      "type": "string"
+    },
+    "orderId": {
+      "type": "['string', 'null']"
+    },
+    "reactions": {
+      "type": "array"
+    }
+  }
+}

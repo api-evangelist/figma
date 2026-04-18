@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProjectFile",
+  "type": "object",
+  "description": "A file within a Figma project.",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "The file key."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the file."
+    },
+    "thumbnail_url": {
+      "type": "string",
+      "description": "A URL to a thumbnail image of the file."
+    },
+    "last_modified": {
+      "type": "string",
+      "description": "The UTC ISO 8601 time at which the file was last modified."
+    },
+    "branches": {
+      "type": "array",
+      "description": "Branches of this file, if branch_data was requested."
+    }
+  }
+}

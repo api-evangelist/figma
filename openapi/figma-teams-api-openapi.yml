@@ -13,26 +13,26 @@ info:
     email: support@figma.com
 
 servers:
-  - url: https://api.figma.com
-    description: Figma Production API Server
+- url: https://api.figma.com
+  description: Figma Production API Server
 
 tags:
-  - name: Teams
-    description: Operations for managing and retrieving team information
-  - name: Webhooks
-    description: Operations for managing webhook subscriptions and notifications
+- name: Teams
+  description: Operations for managing and retrieving team information
+- name: Webhooks
+  description: Operations for managing webhook subscriptions and notifications
 
 paths:
   /v2/teams/{team_id}/webhooks:
     get:
       tags:
-        - Teams
-        - Webhooks
-      summary: Figma Get team webhooks
+      - Teams
+      - Webhooks
+      summary: Figma Get Team Webhooks
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       description: Returns all webhooks registered under the specified team.
       operationId: getTeamWebhooks
       x-microcks-operation:
@@ -40,7 +40,7 @@ paths:
         dispatcherRules: team_id
         defaultResponse: GetTeamWebhooksSuccessExample
       parameters:
-        - $ref: '#/components/parameters/TeamIdPath'
+      - $ref: '#/components/parameters/TeamIdPath'
       responses:
         '200':
           $ref: '#/components/responses/GetTeamWebhooksResponse'
@@ -83,19 +83,19 @@ components:
       type: string
       description: The event type that triggers the webhook.
       enum:
-        - FILE_UPDATE
-        - FILE_DELETE
-        - FILE_VERSION_UPDATE
-        - LIBRARY_PUBLISH
-        - FILE_COMMENT
+      - FILE_UPDATE
+      - FILE_DELETE
+      - FILE_VERSION_UPDATE
+      - LIBRARY_PUBLISH
+      - FILE_COMMENT
       example: FILE_UPDATE
 
     WebhookV2Status:
       type: string
       description: The current status of the webhook.
       enum:
-        - ACTIVE
-        - PAUSED
+      - ACTIVE
+      - PAUSED
       example: ACTIVE
 
     WebhookV2:
@@ -105,43 +105,49 @@ components:
         id:
           type: string
           description: The ID of the webhook
+          example: abc123
         event_type:
           $ref: '#/components/schemas/WebhookV2Event'
         team_id:
           type: string
           description: The team id you are subscribed to for updates
+          example: '500123'
         status:
           $ref: '#/components/schemas/WebhookV2Status'
         client_id:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
           description: >-
             The client ID of the OAuth application that registered this webhook,
             if any
+          example: '500123'
         passcode:
           type: string
           description: The passcode that will be passed back to the webhook endpoint
+          example: example_value
         endpoint:
           type: string
           description: The endpoint that will be hit when the webhook is triggered
+          example: example_value
         description:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
           description: >-
             Optional user-provided description or name for the webhook. This is
             provided to help make maintaining a number of webhooks more
             convenient. Max length 140 characters.
+          example: A sample description.
       required:
-        - id
-        - event_type
-        - team_id
-        - status
-        - client_id
-        - passcode
-        - endpoint
-        - description
+      - id
+      - event_type
+      - team_id
+      - status
+      - client_id
+      - passcode
+      - endpoint
+      - description
       example:
         id: "webhook_abc123xyz789"
         event_type: FILE_UPDATE
@@ -161,26 +167,27 @@ components:
           description: An array of webhooks.
           items:
             $ref: '#/components/schemas/WebhookV2'
+          example: []
       required:
-        - webhooks
+      - webhooks
       example:
         webhooks:
-          - id: "webhook_abc123xyz789"
-            event_type: FILE_UPDATE
-            team_id: "team_12345678"
-            status: ACTIVE
-            client_id: "oauth_client_xyz"
-            passcode: "secret_passcode_123"
-            endpoint: "https://api.myapp.com/figma/webhooks"
-            description: "Webhook for design file updates"
-          - id: "webhook_def456uvw012"
-            event_type: FILE_COMMENT
-            team_id: "team_12345678"
-            status: PAUSED
-            client_id:
-            passcode: "another_passcode_456"
-            endpoint: "https://api.myapp.com/figma/comments"
-            description:
+        - id: "webhook_abc123xyz789"
+          event_type: FILE_UPDATE
+          team_id: "team_12345678"
+          status: ACTIVE
+          client_id: "oauth_client_xyz"
+          passcode: "secret_passcode_123"
+          endpoint: "https://api.myapp.com/figma/webhooks"
+          description: "Webhook for design file updates"
+        - id: "webhook_def456uvw012"
+          event_type: FILE_COMMENT
+          team_id: "team_12345678"
+          status: PAUSED
+          client_id:
+          passcode: "another_passcode_456"
+          endpoint: "https://api.myapp.com/figma/comments"
+          description:
 
     ErrorResponsePayload:
       type: object
@@ -189,73 +196,75 @@ components:
         status:
           type: number
           description: Status code
+          example: 42.5
         err:
           type: string
           description: A string describing the error
+          example: example_value
       required:
-        - status
-        - err
+      - status
+      - err
 
     ForbiddenError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayload'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 403
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 403
+        required:
+        - status
       example:
         status: 403
         err: "Access denied. You do not have permission to access this team's webhooks."
 
     NotFoundError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayload'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 404
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 404
+        required:
+        - status
       example:
         status: 404
         err: "Team not found"
 
     TooManyRequestsError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayload'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 429
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 429
+        required:
+        - status
       example:
         status: 429
         err: "Rate limit exceeded. Please wait before retrying."
 
     InternalServerError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayload'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 500
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 500
+        required:
+        - status
       example:
         status: 500
         err: "Internal server error"
@@ -272,22 +281,22 @@ components:
               summary: Successful team webhooks response
               value:
                 webhooks:
-                  - id: "webhook_abc123xyz789"
-                    event_type: FILE_UPDATE
-                    team_id: "team_12345678"
-                    status: ACTIVE
-                    client_id: "oauth_client_xyz"
-                    passcode: "secret_passcode_123"
-                    endpoint: "https://api.myapp.com/figma/webhooks"
-                    description: "Webhook for design file updates"
-                  - id: "webhook_def456uvw012"
-                    event_type: FILE_COMMENT
-                    team_id: "team_12345678"
-                    status: PAUSED
-                    client_id:
-                    passcode: "another_passcode_456"
-                    endpoint: "https://api.myapp.com/figma/comments"
-                    description:
+                - id: "webhook_abc123xyz789"
+                  event_type: FILE_UPDATE
+                  team_id: "team_12345678"
+                  status: ACTIVE
+                  client_id: "oauth_client_xyz"
+                  passcode: "secret_passcode_123"
+                  endpoint: "https://api.myapp.com/figma/webhooks"
+                  description: "Webhook for design file updates"
+                - id: "webhook_def456uvw012"
+                  event_type: FILE_COMMENT
+                  team_id: "team_12345678"
+                  status: PAUSED
+                  client_id:
+                  passcode: "another_passcode_456"
+                  endpoint: "https://api.myapp.com/figma/comments"
+                  description:
 
     ForbiddenErrorResponse:
       description: >-
@@ -351,19 +360,19 @@ components:
       summary: Successful team webhooks response
       value:
         webhooks:
-          - id: "webhook_abc123xyz789"
-            event_type: FILE_UPDATE
-            team_id: "team_12345678"
-            status: ACTIVE
-            client_id: "oauth_client_xyz"
-            passcode: "secret_passcode_123"
-            endpoint: "https://api.myapp.com/figma/webhooks"
-            description: "Webhook for design file updates"
-          - id: "webhook_def456uvw012"
-            event_type: FILE_COMMENT
-            team_id: "team_12345678"
-            status: PAUSED
-            client_id:
-            passcode: "another_passcode_456"
-            endpoint: "https://api.myapp.com/figma/comments"
-            description:
+        - id: "webhook_abc123xyz789"
+          event_type: FILE_UPDATE
+          team_id: "team_12345678"
+          status: ACTIVE
+          client_id: "oauth_client_xyz"
+          passcode: "secret_passcode_123"
+          endpoint: "https://api.myapp.com/figma/webhooks"
+          description: "Webhook for design file updates"
+        - id: "webhook_def456uvw012"
+          event_type: FILE_COMMENT
+          team_id: "team_12345678"
+          status: PAUSED
+          client_id:
+          passcode: "another_passcode_456"
+          endpoint: "https://api.myapp.com/figma/comments"
+          description:

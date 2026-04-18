@@ -13,26 +13,26 @@ info:
     email: support@figma.com
 
 servers:
-  - url: https://api.figma.com
-    description: Figma Production API Server
+- url: https://api.figma.com
+  description: Figma Production API Server
 
 tags:
-  - name: Keys
-    description: Operations that use unique style keys for identification
+- name: Keys
+  description: Operations that use unique style keys for identification
 
-  - name: Styles
-    description: Operations for managing and retrieving design styles
+- name: Styles
+  description: Operations for managing and retrieving design styles
 paths:
   /v1/styles/{key}:
     get:
       tags:
-        - Keys
-        - Styles
-      summary: Figma Get style
+      - Keys
+      - Styles
+      summary: Figma Get Style
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - files:read
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
       description: Get metadata on a style by key.
       operationId: getStyle
       x-microcks-operation:
@@ -40,7 +40,7 @@ paths:
         dispatcherRules: key
         defaultResponse: GetStyleSuccessExample
       parameters:
-        - $ref: '#/components/parameters/StyleKeyPath'
+      - $ref: '#/components/parameters/StyleKeyPath'
       responses:
         '200':
           $ref: '#/components/responses/GetStyleResponse'
@@ -85,10 +85,10 @@ components:
       type: string
       description: The type of style.
       enum:
-        - FILL
-        - TEXT
-        - EFFECT
-        - GRID
+      - FILL
+      - TEXT
+      - EFFECT
+      - GRID
       example: FILL
 
     User:
@@ -98,16 +98,19 @@ components:
         id:
           type: string
           description: Unique stable id of the user.
+          example: abc123
         handle:
           type: string
           description: Name of the user.
+          example: example_value
         img_url:
           type: string
           description: URL link to the user's profile image.
+          example: https://www.example.com
       required:
-        - id
-        - handle
-        - img_url
+      - id
+      - handle
+      - img_url
       example:
         id: "1234567890"
         handle: "John Designer"
@@ -120,47 +123,56 @@ components:
         key:
           type: string
           description: The unique identifier for the style
+          example: example_value
         file_key:
           type: string
           description: The unique identifier of the Figma file that contains the style.
+          example: example_value
         node_id:
           type: string
           description: ID of the style node within the figma file
+          example: '500123'
         style_type:
           $ref: '#/components/schemas/StyleType'
         thumbnail_url:
           type: string
           description: A URL to a thumbnail image of the style.
+          example: https://www.example.com
         name:
           type: string
           description: The name of the style.
+          example: Example Title
         description:
           type: string
           description: The description of the style as entered by the publisher.
+          example: A sample description.
         created_at:
           type: string
           format: date-time
           description: The UTC ISO 8601 time when the style was created.
+          example: '2026-01-15T10:30:00Z'
         updated_at:
           type: string
           format: date-time
           description: The UTC ISO 8601 time when the style was last updated.
+          example: '2026-01-15T10:30:00Z'
         user:
           $ref: '#/components/schemas/User'
         sort_position:
           type: string
           description: A user specified order number by which the style can be sorted.
+          example: example_value
       required:
-        - key
-        - file_key
-        - node_id
-        - style_type
-        - name
-        - description
-        - created_at
-        - updated_at
-        - user
-        - sort_position
+      - key
+      - file_key
+      - node_id
+      - style_type
+      - name
+      - description
+      - created_at
+      - updated_at
+      - user
+      - sort_position
       example:
         key: "style_abc123xyz789"
         file_key: "file_def456uvw012"
@@ -185,18 +197,20 @@ components:
           type: number
           description: The status of the request.
           enum:
-            - 200
+          - 200
+          example: 200
         error:
           type: boolean
           description: For successful requests, this value is always `false`.
           enum:
-            - false
+          - false
+          example: false
         meta:
           $ref: '#/components/schemas/PublishedStyle'
       required:
-        - status
-        - error
-        - meta
+      - status
+      - error
+      - meta
       example:
         status: 200
         error: false
@@ -223,12 +237,14 @@ components:
         status:
           type: number
           description: Status code
+          example: 42.5
         err:
           type: string
           description: A string describing the error
+          example: example_value
       required:
-        - status
-        - err
+      - status
+      - err
 
     ErrorResponsePayloadWithMessage:
       type: object
@@ -238,62 +254,65 @@ components:
           type: boolean
           description: For erroneous requests, this value is always `true`.
           enum:
-            - true
+          - true
+          example: true
         status:
           type: number
           description: Status code
+          example: 42.5
         message:
           type: string
           description: A string describing the error
+          example: example_value
       required:
-        - error
-        - status
-        - message
+      - error
+      - status
+      - message
 
     BadRequestError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 400
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 400
+        required:
+        - status
       example:
         status: 400
         err: "Invalid style key format"
 
     ForbiddenError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 403
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 403
+        required:
+        - status
       example:
         status: 403
         err: "Access denied. You do not have permission to access this style."
 
     NotFoundError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayloadWithMessage'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 404
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithMessage'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 404
+        required:
+        - status
       example:
         error: true
         status: 404
@@ -301,32 +320,32 @@ components:
 
     TooManyRequestsError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 429
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 429
+        required:
+        - status
       example:
         status: 429
         err: "Rate limit exceeded. Please wait before retrying."
 
     InternalServerError:
       allOf:
-        - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
-        - type: object
-          properties:
-            status:
-              type: number
-              description: Status code
-              enum:
-                - 500
-          required:
-            - status
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 500
+        required:
+        - status
       example:
         status: 500
         err: "Internal server error"

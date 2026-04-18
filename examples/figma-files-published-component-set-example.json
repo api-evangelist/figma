@@ -1,0 +1,10 @@
+{
+  "key": "example_value",
+  "fileKey": "example_value",
+  "nodeId": "500123",
+  "thumbnailUrl": "https://www.example.com",
+  "name": "Example Title",
+  "description": "A sample description.",
+  "createdAt": "example_value",
+  "updatedAt": "example_value"
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ClientMeta",
+  "type": "object",
+  "description": "Position metadata for a pinned comment. Describes where the comment marker is located on the canvas.",
+  "properties": {
+    "x": {
+      "type": "number",
+      "description": "X coordinate of the comment pin."
+    },
+    "y": {
+      "type": "number",
+      "description": "Y coordinate of the comment pin."
+    },
+    "node_id": {
+      "type": "string",
+      "description": "The node ID the comment is pinned to."
+    },
+    "node_offset": {
+      "type": "object",
+      "description": "Offset from the node origin."
+    }
+  }
+}

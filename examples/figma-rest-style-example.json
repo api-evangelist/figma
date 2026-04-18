@@ -1,0 +1,7 @@
+{
+  "key": "example_value",
+  "name": "Example Title",
+  "description": "A sample description.",
+  "remote": true,
+  "style_type": "example_value"
+}

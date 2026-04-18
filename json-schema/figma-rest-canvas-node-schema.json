@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CanvasNode",
+  "type": "object",
+  "description": "A canvas (page) in the Figma document.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "A string uniquely identifying this node within the document."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name given to the page by the user."
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of the node."
+    },
+    "children": {
+      "type": "array",
+      "description": "An array of top-level layers on the canvas."
+    }
+  }
+}

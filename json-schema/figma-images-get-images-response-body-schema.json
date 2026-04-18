@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GetImagesResponseBody",
+  "type": "object",
+  "description": "Successful response containing rendered image URLs.",
+  "properties": {
+    "err": {
+      "type": "null",
+      "description": "For successful requests, this value is always `null`."
+    },
+    "images": {
+      "type": "object",
+      "description": "A map from node IDs to URLs of the rendered images."
+    }
+  }
+}

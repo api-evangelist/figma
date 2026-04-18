@@ -11,21 +11,21 @@ info:
   contact:
     email: support@figma.com
 servers:
-  - url: https://api.figma.com
-    description: Figma Production API Server
+- url: https://api.figma.com
+  description: Figma Production API Server
 tags:
-  - name: Dev Resources
-    description: Operations for managing dev resources attached to design nodes
+- name: Dev Resources
+  description: Operations for managing dev resources attached to design nodes
 paths:
   /v1/dev_resources:
     post:
       tags:
-        - Dev Resources
-      summary: Figma Create dev resources
+      - Dev Resources
+      summary: Figma Create Dev Resources
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - file_dev_resources:write
+      - PersonalAccessToken: []
+      - OAuth2:
+        - file_dev_resources:write
       description: >-
         Bulk create dev resources across multiple files.
         Dev resources that are successfully created will show up in the
@@ -55,12 +55,12 @@ paths:
           $ref: '#/components/responses/InternalServerErrorResponse'
     put:
       tags:
-        - Dev Resources
-      summary: Figma Update dev resources
+      - Dev Resources
+      summary: Figma Update Dev Resources
       security:
-        - PersonalAccessToken: []
-        - OAuth2:
-            - file_dev_resources:write
+      - PersonalAccessToken: []
+      - OAuth2:
+        - file_dev_resources:write
       description: >-
         Bulk update dev resources across multiple files.
         Ids for dev resources that are successfully updated will show up in the
@@ -203,28 +203,33 @@ components:
           description: An array of dev resources to create.
           items:
             $ref: '#/components/schemas/CreateDevResourceItem'
+          example: []
       required:
-        - devResources
+      - devResources
     CreateDevResourceItem:
       type: object
       properties:
         name:
           type: string
           description: The name of the dev resource.
+          example: Example Title
         url:
           type: string
           description: The URL of the dev resource.
+          example: https://www.example.com
         fileKey:
           type: string
           description: The file key where the dev resource belongs.
+          example: example_value
         nodeId:
           type: string
           description: The target node to attach the dev resource to.
+          example: '500123'
       required:
-        - name
-        - url
-        - fileKey
-        - nodeId
+      - name
+      - url
+      - fileKey
+      - nodeId
     UpdateDevResourcesRequest:
       type: object
       properties:
@@ -233,22 +238,26 @@ components:
           description: An array of dev resources to update.
           items:
             $ref: '#/components/schemas/UpdateDevResourceItem'
+          example: []
       required:
-        - devResources
+      - devResources
     UpdateDevResourceItem:
       type: object
       properties:
         id:
           type: string
           description: Unique identifier of the dev resource
+          example: abc123
         name:
           type: string
           description: The name of the dev resource.
+          example: Example Title
         url:
           type: string
           description: The URL of the dev resource.
+          example: https://www.example.com
       required:
-        - id
+      - id
     PostDevResourcesResponseBody:
       type: object
       properties:
@@ -257,13 +266,15 @@ components:
           description: An array of links created.
           items:
             $ref: '#/components/schemas/DevResource'
+          example: []
         errors:
           type: array
           description: An array of errors.
           items:
             $ref: '#/components/schemas/DevResourceCreateError'
+          example: []
       required:
-        - linksCreated
+      - linksCreated
     PutDevResourcesResponseBody:
       type: object
       properties:
@@ -272,13 +283,15 @@ components:
           description: An array of links updated.
           items:
             $ref: '#/components/schemas/DevResource'
+          example: []
         errors:
           type: array
           description: An array of errors.
           items:
             $ref: '#/components/schemas/DevResourceUpdateError'
+          example: []
       required:
-        - linksUpdated
+      - linksUpdated
     DevResource:
       type: object
       description: A dev resource in a file
@@ -286,53 +299,63 @@ components:
         id:
           type: string
           description: Unique identifier of the dev resource
+          example: abc123
         name:
           type: string
           description: The name of the dev resource.
+          example: Example Title
         url:
           type: string
           description: The URL of the dev resource.
+          example: https://www.example.com
         fileKey:
           type: string
           description: The file key where the dev resource belongs.
+          example: example_value
         nodeId:
           type: string
           description: The target node to attach the dev resource to.
+          example: '500123'
       required:
-        - id
-        - name
-        - url
-        - fileKey
-        - nodeId
+      - id
+      - name
+      - url
+      - fileKey
+      - nodeId
     DevResourceCreateError:
       type: object
       properties:
         fileKey:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
           description: The file key.
+          example: example_value
         nodeId:
           type:
-            - string
-            - 'null'
+          - string
+          - 'null'
           description: The node id.
+          example: '500123'
         error:
           type: string
           description: The error message.
+          example: example_value
       required:
-        - error
+      - error
     DevResourceUpdateError:
       type: object
       properties:
         id:
           type: string
           description: The id of the dev resource.
+          example: abc123
         error:
           type: string
           description: The error message.
+          example: example_value
       required:
-        - error
+      - error
     ErrorResponsePayload:
       type: object
       description: A response indicating an error occurred.
@@ -341,68 +364,71 @@ components:
           type: boolean
           description: For erroneous requests, this value is always `true`.
           enum:
-            - true
+          - true
+          example: true
         status:
           type: number
           description: Status code
+          example: 42.5
         message:
           type: string
           description: A string describing the error
+          example: example_value
       required:
-        - error
-        - status
-        - message
+      - error
+      - status
+      - message
   examples:
     CreateDevResourcesRequestExample:
       summary: Create dev resources request
       value:
         devResources:
-          - name: "Button Component Code"
-            url: "https://github.com/myorg/design-system/blob/main/src/components/Button.tsx"
-            fileKey: "abc123xyz789"
-            nodeId: "1:1"
-          - name: "Button Storybook"
-            url: "https://storybook.myorg.com/?path=/story/button"
-            fileKey: "abc123xyz789"
-            nodeId: "1:1"
+        - name: "Button Component Code"
+          url: "https://github.com/myorg/design-system/blob/main/src/components/Button.tsx"
+          fileKey: "abc123xyz789"
+          nodeId: "1:1"
+        - name: "Button Storybook"
+          url: "https://storybook.myorg.com/?path=/story/button"
+          fileKey: "abc123xyz789"
+          nodeId: "1:1"
     UpdateDevResourcesRequestExample:
       summary: Update dev resources request
       value:
         devResources:
-          - id: "dev_res_123"
-            name: "Updated Button Component"
-            url: "https://github.com/myorg/design-system/blob/main/src/components/Button/index.tsx"
-          - id: "dev_res_456"
-            name: "Button Documentation"
+        - id: "dev_res_123"
+          name: "Updated Button Component"
+          url: "https://github.com/myorg/design-system/blob/main/src/components/Button/index.tsx"
+        - id: "dev_res_456"
+          name: "Button Documentation"
     PostDevResourcesSuccessExample:
       summary: Successful create dev resources response
       value:
         linksCreated:
-          - id: "dev_res_123"
-            name: "Button Component Code"
-            url: "https://github.com/myorg/design-system/blob/main/src/components/Button.tsx"
-            fileKey: "abc123xyz789"
-            nodeId: "1:1"
-          - id: "dev_res_456"
-            name: "Button Storybook"
-            url: "https://storybook.myorg.com/?path=/story/button"
-            fileKey: "abc123xyz789"
-            nodeId: "1:1"
+        - id: "dev_res_123"
+          name: "Button Component Code"
+          url: "https://github.com/myorg/design-system/blob/main/src/components/Button.tsx"
+          fileKey: "abc123xyz789"
+          nodeId: "1:1"
+        - id: "dev_res_456"
+          name: "Button Storybook"
+          url: "https://storybook.myorg.com/?path=/story/button"
+          fileKey: "abc123xyz789"
+          nodeId: "1:1"
         errors: []
     PutDevResourcesSuccessExample:
       summary: Successful update dev resources response
       value:
         linksUpdated:
-          - id: "dev_res_123"
-            name: "Updated Button Component"
-            url: "https://github.com/myorg/design-system/blob/main/src/components/Button/index.tsx"
-            fileKey: "abc123xyz789"
-            nodeId: "1:1"
-          - id: "dev_res_456"
-            name: "Button Documentation"
-            url: "https://storybook.myorg.com/?path=/story/button"
-            fileKey: "abc123xyz789"
-            nodeId: "1:1"
+        - id: "dev_res_123"
+          name: "Updated Button Component"
+          url: "https://github.com/myorg/design-system/blob/main/src/components/Button/index.tsx"
+          fileKey: "abc123xyz789"
+          nodeId: "1:1"
+        - id: "dev_res_456"
+          name: "Button Documentation"
+          url: "https://storybook.myorg.com/?path=/story/button"
+          fileKey: "abc123xyz789"
+          nodeId: "1:1"
         errors: []
     BadRequestExample:
       summary: Bad request error
