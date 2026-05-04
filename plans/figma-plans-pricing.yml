@@ -1,0 +1,94 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Figma
+providerId: figma
+created: '2026-05-04'
+modified: '2026-05-04'
+reconciled: true
+tags:
+  - Design
+  - Collaboration
+description: Figma per-seat pricing for design, prototyping, dev mode, and FigJam.
+sources:
+  - https://www.figma.com/pricing/
+plans:
+  - id: figma-starter
+    name: Starter
+    type: freemium
+    description: Free.
+    entries:
+      - label: Per user
+        name: seat
+        type: subscription
+        metric: user
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: true
+    elements:
+      - name: Unlimited drafts
+      - name: UI kits and templates
+      - name: 150 AI credits/day, up to 500/mo
+  - id: figma-professional
+    name: Professional
+    type: paid
+    description: $16/full-seat/month.
+    entries:
+      - label: Per full seat
+        name: seat
+        type: subscription
+        metric: user
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '16.00'
+        userMultiplied: true
+    elements:
+      - name: Unlimited files/projects
+      - name: Team-wide design libraries
+      - name: Advanced Dev Mode + MCP Server
+      - name: 3,000 AI credits/mo
+  - id: figma-organization
+    name: Organization
+    type: paid
+    description: $55/full-seat/month annual.
+    entries:
+      - label: Per full seat
+        name: seat
+        type: subscription
+        metric: user
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '55.00'
+        userMultiplied: true
+    elements:
+      - name: Unlimited teams
+      - name: Shared libraries/fonts
+      - name: Centralized admin
+      - name: 3,500 AI credits/mo
+  - id: figma-enterprise
+    name: Enterprise
+    type: enterprise
+    description: $90/full-seat/month annual.
+    entries:
+      - label: Per full seat
+        name: seat
+        type: subscription
+        metric: user
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '90.00'
+        userMultiplied: true
+    elements:
+      - name: Custom team workspaces
+      - name: Design system theming and APIs
+      - name: SCIM seat management
+      - name: 4,250 AI credits/mo

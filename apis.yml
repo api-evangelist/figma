@@ -1,6 +1,7 @@
 aid: figma
 name: Figma
-description: Figma is a collaborative interface design tool with a comprehensive REST API for accessing and manipulating design files, projects, and teams.
+description: Figma is a collaborative interface design tool with a comprehensive REST API for accessing
+  and manipulating design files, projects, and teams.
 url: https://raw.githubusercontent.com/api-evangelist/figma/refs/heads/main/apis.yml
 image: https://www.figma.com/favicon.ico
 tags:
@@ -12,17 +13,16 @@ tags:
   - Prototyping
   - UI/UX
 created: '2023-11-22'
-modified: '2026-04-18'
+modified: '2026-05-04'
 specificationVersion: '0.19'
 type: Index
 apis:
   - aid: figma:figma-api
     name: Figma API
-    description: >-
-      Figma allows designers to create and prototype their digital experiences - together
-      in real-time and in one place - helping them turn their ideas and visions into
-      products, faster. Figma's mission is to make design accessible to everyone.
-      The Figma API is one of the ways we aim to do that.
+    description: Figma allows designers to create and prototype their digital experiences - together in
+      real-time and in one place - helping them turn their ideas and visions into products, faster. Figma's
+      mission is to make design accessible to everyone. The Figma API is one of the ways we aim to do
+      that.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://www.figma.com/developers
@@ -59,11 +59,9 @@ apis:
         url: https://developers.figma.com/docs/rest-api/
   - aid: figma:figma-rest-api
     name: Figma REST API
-    description: >-
-      The Figma REST API provides programmatic access to Figma files, comments,
-      components, and related resources. It enables developers to read and interact
-      with design data, export assets, manage comments and reactions, and query
-      published components and styles from team libraries.
+    description: The Figma REST API provides programmatic access to Figma files, comments, components,
+      and related resources. It enables developers to read and interact with design data, export assets,
+      manage comments and reactions, and query published components and styles from team libraries.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://developers.figma.com/docs/rest-api/
@@ -156,7 +154,8 @@ apis:
         url: https://developers.figma.com/docs/rest-api/
   - aid: figma:figma-files-api
     name: Figma Files API
-    description: Figma Files API provides access to design file data including document trees, nodes, images, version history, and file metadata. Read and export design data from Figma files programmatically.
+    description: Figma Files API provides access to design file data including document trees, nodes,
+      images, version history, and file metadata. Read and export design data from Figma files programmatically.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://developers.figma.com/docs/rest-api/file-endpoints/
@@ -214,7 +213,8 @@ apis:
         url: https://developers.figma.com/docs/rest-api/file-endpoints/
   - aid: figma:figma-images-api
     name: Figma Images API
-    description: Figma Images API provides endpoints for rendering and exporting images from Figma files in various formats including PNG, JPG, SVG, and PDF.
+    description: Figma Images API provides endpoints for rendering and exporting images from Figma files
+      in various formats including PNG, JPG, SVG, and PDF.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://developers.figma.com/docs/rest-api/file-endpoints/
@@ -245,7 +245,8 @@ apis:
         url: https://developers.figma.com/docs/rest-api/file-endpoints/
   - aid: figma:figma-teams-api
     name: Figma Teams API
-    description: Figma Teams API provides endpoints for managing team-level resources including webhooks, projects, and team configuration.
+    description: Figma Teams API provides endpoints for managing team-level resources including webhooks,
+      projects, and team configuration.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://developers.figma.com/docs/rest-api/file-endpoints/
@@ -279,7 +280,8 @@ apis:
         url: https://developers.figma.com/docs/rest-api/file-endpoints/
   - aid: figma:figma-projects-api
     name: Figma Projects API
-    description: Figma Projects API provides endpoints for listing team projects and retrieving project files.
+    description: Figma Projects API provides endpoints for listing team projects and retrieving project
+      files.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://developers.figma.com/docs/rest-api/projects-types/
@@ -311,7 +313,8 @@ apis:
         url: https://developers.figma.com/docs/rest-api/projects-types/
   - aid: figma:figma-me-api
     name: Figma Me API
-    description: Figma Me API provides the endpoint for retrieving information about the currently authenticated user.
+    description: Figma Me API provides the endpoint for retrieving information about the currently authenticated
+      user.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://developers.figma.com/docs/rest-api/users-endpoints/
@@ -339,7 +342,9 @@ apis:
         url: https://developers.figma.com/docs/rest-api/users-endpoints/
   - aid: figma:figma-components-api
     name: Figma Components API
-    description: Figma Components API provides access to published components, component sets, and styles from team libraries. Query component metadata, retrieve thumbnails, and access documentation links for reusable design elements.
+    description: Figma Components API provides access to published components, component sets, and styles
+      from team libraries. Query component metadata, retrieve thumbnails, and access documentation links
+      for reusable design elements.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://developers.figma.com/docs/rest-api/component-types/
@@ -356,7 +361,8 @@ apis:
         url: https://developers.figma.com/docs/rest-api/component-types/
   - aid: figma:figma-component-sets-api
     name: Figma Component Sets API
-    description: Figma Component Sets API provides endpoints for retrieving published component set metadata from team libraries.
+    description: Figma Component Sets API provides endpoints for retrieving published component set metadata
+      from team libraries.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://developers.figma.com/docs/rest-api/component-types/
@@ -384,7 +390,8 @@ apis:
         url: https://developers.figma.com/docs/rest-api/component-types/
   - aid: figma:figma-styles-api
     name: Figma Styles API
-    description: Figma Styles API provides endpoints for retrieving published style metadata including colors, text styles, and effects from team libraries.
+    description: Figma Styles API provides endpoints for retrieving published style metadata including
+      colors, text styles, and effects from team libraries.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://developers.figma.com/docs/rest-api/component-types/
@@ -422,7 +429,8 @@ apis:
         url: https://developers.figma.com/docs/rest-api/component-types/
   - aid: figma:figma-activity-logs-api
     name: Figma Activity Logs API
-    description: Figma Activity Logs API provides endpoints for retrieving activity log events for an organization, enabling audit trail and compliance monitoring.
+    description: Figma Activity Logs API provides endpoints for retrieving activity log events for an
+      organization, enabling audit trail and compliance monitoring.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://developers.figma.com/docs/rest-api/activity-logs/
@@ -465,7 +473,8 @@ apis:
         url: https://developers.figma.com/docs/rest-api/activity-logs/
   - aid: figma:figma-payments-api
     name: Figma Payments API
-    description: Figma Payments API provides endpoints for querying user payment information on plugins, widgets, and Community files.
+    description: Figma Payments API provides endpoints for querying user payment information on plugins,
+      widgets, and Community files.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://developers.figma.com/docs/plugins/api/figma-payments/
@@ -496,7 +505,8 @@ apis:
         url: https://developers.figma.com/docs/plugins/api/figma-payments/
   - aid: figma:figma-dev-resources-api
     name: Figma Dev Resources API
-    description: Figma Dev Resources API provides endpoints for creating, updating, and deleting dev resources attached to design nodes, enabling design-to-code workflows.
+    description: Figma Dev Resources API provides endpoints for creating, updating, and deleting dev resources
+      attached to design nodes, enabling design-to-code workflows.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://developers.figma.com/docs/rest-api/dev-resources/
@@ -533,7 +543,8 @@ apis:
         url: https://developers.figma.com/docs/rest-api/dev-resources/
   - aid: figma:figma-analytics-api
     name: Figma Analytics API
-    description: Figma Analytics API provides endpoints for tracking component, style, and variable usage across team libraries, enabling design system adoption measurement.
+    description: Figma Analytics API provides endpoints for tracking component, style, and variable usage
+      across team libraries, enabling design system adoption measurement.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://developers.figma.com/docs/rest-api/library-analytics-intro/
@@ -570,7 +581,10 @@ apis:
         url: https://developers.figma.com/docs/rest-api/library-analytics-intro/
   - aid: figma:figma-comments-api
     name: Figma Comments API
-    description: Figma Commenting mode allows users to leave comments directly on layers or objects on the canvas. You can use the Figma API to post comments and reactions to a Figma file, view existing comments and reactions, and access information about a comment including when it was made, by whom, and its exact location on the canvas.
+    description: Figma Commenting mode allows users to leave comments directly on layers or objects on
+      the canvas. You can use the Figma API to post comments and reactions to a Figma file, view existing
+      comments and reactions, and access information about a comment including when it was made, by whom,
+      and its exact location on the canvas.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://developers.figma.com/docs/rest-api/comments-endpoints/
@@ -586,7 +600,9 @@ apis:
         url: https://developers.figma.com/docs/rest-api/comments-endpoints/
   - aid: figma:figma-version-history-api
     name: Figma Version History API
-    description: Figma allows you to distinguish different stages or versions of a file as it evolves over time. The Version History API provides endpoints to view, track, and restore previous versions of a file, recorded in the version history.
+    description: Figma allows you to distinguish different stages or versions of a file as it evolves
+      over time. The Version History API provides endpoints to view, track, and restore previous versions
+      of a file, recorded in the version history.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://developers.figma.com/docs/rest-api/version-history-endpoints/
@@ -601,7 +617,9 @@ apis:
         url: https://developers.figma.com/docs/rest-api/version-history-endpoints/
   - aid: figma:figma-variables-api
     name: Figma Variables API
-    description: The Variables REST API includes endpoints for querying, creating, updating, and deleting variables. Variables store reusable values that can be applied to design properties and prototyping actions. To use this API, you must have a Full seat in an Enterprise org.
+    description: The Variables REST API includes endpoints for querying, creating, updating, and deleting
+      variables. Variables store reusable values that can be applied to design properties and prototyping
+      actions. To use this API, you must have a Full seat in an Enterprise org.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://developers.figma.com/docs/rest-api/variables-endpoints/
@@ -616,7 +634,9 @@ apis:
         url: https://developers.figma.com/docs/rest-api/variables-endpoints/
   - aid: figma:figma-library-analytics-api
     name: Figma Library Analytics API
-    description: The Library Analytics REST API provides six methods for tracking component, style, and variable usage. Each resource type has an actions endpoint and a usages endpoint, allowing you to get time series data about user actions and usage data for your library assets.
+    description: The Library Analytics REST API provides six methods for tracking component, style, and
+      variable usage. Each resource type has an actions endpoint and a usages endpoint, allowing you to
+      get time series data about user actions and usage data for your library assets.
     image: https://www.figma.com/favicon.ico
     baseURL: https://api.figma.com
     humanURL: https://developers.figma.com/docs/rest-api/library-analytics-endpoints/
@@ -702,24 +722,25 @@ common:
     title: Design System Management Workflow
   - type: Features
     data:
-      - name: Real-Time Collaboration
-        description: Multiple designers and stakeholders can work on the same file simultaneously with live cursors and instant updates.
-      - name: Design Systems
-        description: Create and maintain component libraries, styles, and variables that teams can share and reuse across projects.
-      - name: Prototyping
-        description: Build interactive prototypes with transitions, animations, and smart animate to demonstrate user flows.
-      - name: Dev Mode
-        description: Developers can inspect designs, copy CSS/code snippets, and access design tokens directly from Figma files.
-      - name: Webhooks
-        description: Receive real-time notifications when files are updated, comments are added, or library components are published.
-      - name: Asset Export
-        description: Export design assets in PNG, JPG, SVG, and PDF formats at multiple scales via the API.
-      - name: Variables and Design Tokens
-        description: Define and manage design tokens as variables that can be applied across components and exported for development.
-      - name: Activity Logging
-        description: Enterprise organizations can track and audit user activity across files, projects, and teams.
-      - name: Library Analytics
-        description: Track component, style, and variable adoption across teams to measure design system usage.
+      - Starter free with unlimited drafts and 150-500 AI credits/mo
+      - Professional at $16/full-seat/mo with team libraries and MCP Server
+      - Organization at $55/full-seat/mo with shared libraries and centralized admin
+      - Enterprise at $90/full-seat/mo with design system APIs and SCIM
+      - REST API for files, projects, components, comments
+      - Plugin API for in-editor extensions
+      - Widget API for FigJam interactive widgets
+      - Variables API for design token management
+      - Webhooks v2 for file and library updates
+      - OAuth 2.0 with granular scopes
+      - Personal access tokens for scripts/automation
+      - Dev Mode for handoff and code generation
+      - Dev Mode MCP Server for AI design integration
+      - FigJam whiteboarding included
+      - Variables and modes for design system theming (Enterprise)
+      - Branching and merging on Organization+
+    sources:
+      - https://www.figma.com/pricing/
+    updated: '2026-05-04'
   - type: UseCases
     data:
       - name: Design System Management
@@ -727,7 +748,8 @@ common:
       - name: Automated Asset Export
         description: Programmatically export design assets for build pipelines and content delivery workflows.
       - name: Design-to-Code Handoff
-        description: Attach code references to design nodes using dev resources for seamless developer handoff.
+        description: Attach code references to design nodes using dev resources for seamless developer
+          handoff.
       - name: Plugin and Widget Development
         description: Extend Figma with custom plugins and widgets using the Plugin API and Widget API.
       - name: Compliance and Audit
@@ -743,7 +765,8 @@ common:
       - name: GitHub
         description: Link Figma designs to pull requests and track design-to-code implementation.
       - name: Storybook
-        description: Connect Figma components to Storybook stories using Code Connect for design-code parity.
+        description: Connect Figma components to Storybook stories using Code Connect for design-code
+          parity.
       - name: Zeplin
         description: Export designs from Figma to Zeplin for detailed developer handoff and style guides.
       - name: Abstract
