@@ -773,6 +773,10 @@ common:
         description: Version control and branching for Figma design files with Abstract integration.
       - name: Microsoft Teams
         description: Share and preview Figma designs within Microsoft Teams conversations and channels.
+  - type: Integrations
+    url: https://www.figma.com/partners/
+integrations:
+  - name: certified Figma expert
 maintainers:
   - FN: Kin Lane
     url: http://apievangelist.com
