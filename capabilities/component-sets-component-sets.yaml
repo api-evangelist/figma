@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Figma Component Sets API — Component Sets
+  description: 'Figma Component Sets API — Component Sets. 1 operations. Lead operation: Figma Get Component Set. Self-contained
+    Naftiko capability covering one Figma business surface.'
+  tags:
+  - Figma
+  - Component Sets
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    FIGMA_API_KEY: FIGMA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: component-sets-component-sets
+    baseUri: https://api.figma.com
+    description: Figma Component Sets API — Component Sets business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-component_sets-key
+      path: /v1/component_sets/{key}
+      operations:
+      - name: getcomponentset
+        method: GET
+        description: Figma Get Component Set
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.FIGMA_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: component-sets-component-sets-rest
+    port: 8080
+    description: REST adapter for Figma Component Sets API — Component Sets. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/v1/component-sets/{key}
+      name: v1-component-sets-key
+      description: REST surface for v1-component_sets-key.
+      operations:
+      - method: GET
+        name: getcomponentset
+        description: Figma Get Component Set
+        call: component-sets-component-sets.getcomponentset
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: component-sets-component-sets-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Figma Component Sets API — Component Sets. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: figma-get-component-set
+      description: Figma Get Component Set
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: component-sets-component-sets.getcomponentset
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Figma Projects API — Files
+  description: 'Figma Projects API — Files. 1 operations. Lead operation: Figma Get Files in a Project. Self-contained Naftiko
+    capability covering one Figma business surface.'
+  tags:
+  - Figma
+  - Files
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    FIGMA_API_KEY: FIGMA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: projects-files
+    baseUri: https://api.figma.com
+    description: Figma Projects API — Files business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-projects-project_id-files
+      path: /v1/projects/{project_id}/files
+      operations:
+      - name: getprojectfiles
+        method: GET
+        description: Figma Get Files in a Project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.FIGMA_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: projects-files-rest
+    port: 8080
+    description: REST adapter for Figma Projects API — Files. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/projects/{project-id}/files
+      name: v1-projects-project-id-files
+      description: REST surface for v1-projects-project_id-files.
+      operations:
+      - method: GET
+        name: getprojectfiles
+        description: Figma Get Files in a Project
+        call: projects-files.getprojectfiles
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: projects-files-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Figma Projects API — Files. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: figma-get-files-project
+      description: Figma Get Files in a Project
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: projects-files.getprojectfiles
+      outputParameters:
+      - type: object
+        mapping: $.

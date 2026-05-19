@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Figma Styles API — Styles
+  description: 'Figma Styles API — Styles. 1 operations. Lead operation: Figma Get Style. Self-contained Naftiko capability
+    covering one Figma business surface.'
+  tags:
+  - Figma
+  - Styles
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    FIGMA_API_KEY: FIGMA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: styles-styles
+    baseUri: https://api.figma.com
+    description: Figma Styles API — Styles business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-styles-key
+      path: /v1/styles/{key}
+      operations:
+      - name: getstyle
+        method: GET
+        description: Figma Get Style
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.FIGMA_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: styles-styles-rest
+    port: 8080
+    description: REST adapter for Figma Styles API — Styles. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v1/styles/{key}
+      name: v1-styles-key
+      description: REST surface for v1-styles-key.
+      operations:
+      - method: GET
+        name: getstyle
+        description: Figma Get Style
+        call: styles-styles.getstyle
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: styles-styles-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Figma Styles API — Styles. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: figma-get-style
+      description: Figma Get Style
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: styles-styles.getstyle
+      outputParameters:
+      - type: object
+        mapping: $.

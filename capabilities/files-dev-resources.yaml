@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Figma Files API — Dev Resources
+  description: 'Figma Files API — Dev Resources. 1 operations. Lead operation: Figma Delete Dev Resource. Self-contained Naftiko
+    capability covering one Figma business surface.'
+  tags:
+  - Figma
+  - Dev Resources
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    FIGMA_API_KEY: FIGMA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: files-dev-resources
+    baseUri: https://api.figma.com
+    description: Figma Files API — Dev Resources business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-files-file_key-dev_resources-dev_resource_id
+      path: /v1/files/{file_key}/dev_resources/{dev_resource_id}
+      operations:
+      - name: deletedevresource
+        method: DELETE
+        description: Figma Delete Dev Resource
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.FIGMA_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: files-dev-resources-rest
+    port: 8080
+    description: REST adapter for Figma Files API — Dev Resources. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/v1/files/{file-key}/dev-resources/{dev-resource-id}
+      name: v1-files-file-key-dev-resources-dev-resource-id
+      description: REST surface for v1-files-file_key-dev_resources-dev_resource_id.
+      operations:
+      - method: DELETE
+        name: deletedevresource
+        description: Figma Delete Dev Resource
+        call: files-dev-resources.deletedevresource
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: files-dev-resources-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Figma Files API — Dev Resources. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: figma-delete-dev-resource
+      description: Figma Delete Dev Resource
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: files-dev-resources.deletedevresource
+      outputParameters:
+      - type: object
+        mapping: $.
