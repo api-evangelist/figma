@@ -811,6 +811,8 @@ common:
 - name: Agent Skills
   url: https://github.com/figma/community-resources
   type: AgentSkill
+- type: LLMsTxt
+  url: https://developers.figma.com/llms.txt
 integrations:
 - name: certified Figma expert
 maintainers:
