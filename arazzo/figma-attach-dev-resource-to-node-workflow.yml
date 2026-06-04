@@ -1,0 +1,101 @@
+arazzo: 1.0.1
+info:
+  title: Figma Attach Dev Resource to Node
+  summary: Confirm a file and node exist, then attach a code or doc link to that node.
+  description: >-
+    A design-to-development handoff flow that links external code or
+    documentation to a specific node. The workflow opens the file to confirm
+    access, validates that the target node exists by fetching it, and then
+    bulk-creates a dev resource that attaches the supplied URL to that node.
+    The file and node lookups come from the Figma REST description while the
+    dev resource creation comes from the dedicated dev resources description,
+    so both are referenced as distinct source descriptions. Every step spells
+    out its request inline so the flow can be read and executed without opening
+    the underlying OpenAPI description. Authentication is carried by the Figma
+    personal access token bearer credential declared on each operation's
+    security requirement.
+  version: 1.0.0
+sourceDescriptions:
+- name: figmaRestApi
+  url: ../openapi/figma-rest-api-openapi.yml
+  type: openapi
+- name: figmaDevResourcesApi
+  url: ../openapi/figma-dev-resources-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: attach-dev-resource-to-node
+  summary: Validate a file node and attach an external dev resource link to it.
+  description: >-
+    Opens a file, confirms the target node exists, and creates a dev resource
+    linking an external URL to that node.
+  inputs:
+    type: object
+    required:
+    - fileKey
+    - nodeId
+    - resourceName
+    - resourceUrl
+    properties:
+      fileKey:
+        type: string
+        description: The key of the Figma file that contains the target node.
+      nodeId:
+        type: string
+        description: The ID of the node to attach the dev resource to.
+      resourceName:
+        type: string
+        description: The display name of the dev resource.
+      resourceUrl:
+        type: string
+        description: The external URL of the dev resource.
+  steps:
+  - stepId: getFile
+    description: >-
+      Open the file to confirm it is accessible before attaching a dev
+      resource to one of its nodes.
+    operationId: getFile
+    parameters:
+    - name: file_key
+      in: path
+      value: $inputs.fileKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      fileName: $response.body#/name
+  - stepId: validateNode
+    description: >-
+      Fetch the target node to confirm it exists in the document before
+      linking a resource to it.
+    operationId: getFileNodes
+    parameters:
+    - name: file_key
+      in: path
+      value: $inputs.fileKey
+    - name: ids
+      in: query
+      value: $inputs.nodeId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      nodes: $response.body#/nodes
+  - stepId: createDevResource
+    description: >-
+      Bulk-create a dev resource that attaches the supplied URL to the target
+      node in the file.
+    operationId: postDevResources
+    requestBody:
+      contentType: application/json
+      payload:
+        devResources:
+        - name: $inputs.resourceName
+          url: $inputs.resourceUrl
+          fileKey: $inputs.fileKey
+          nodeId: $inputs.nodeId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      linksCreated: $response.body#/linksCreated
+      errors: $response.body#/errors
+  outputs:
+    fileName: $steps.getFile.outputs.fileName
+    linksCreated: $steps.createDevResource.outputs.linksCreated

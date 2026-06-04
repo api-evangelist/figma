@@ -1,0 +1,64 @@
+arazzo: 1.0.1
+info:
+  title: Figma Audit Team Webhooks
+  summary: Confirm the authenticated user, then list the webhooks registered for a team.
+  description: >-
+    An operations flow that audits the webhook configuration of a team. The
+    workflow first confirms the authenticated user by reading the current user
+    profile, then lists every webhook registered under the supplied team so
+    their event types, endpoints, and statuses can be reviewed. The current
+    user lookup comes from the Figma REST description while the webhook listing
+    comes from the dedicated teams description, so both are referenced as
+    distinct source descriptions. Every step spells out its request inline so
+    the flow can be read and executed without opening the underlying OpenAPI
+    description. Authentication is carried by the Figma personal access token
+    bearer credential declared on each operation's security requirement.
+  version: 1.0.0
+sourceDescriptions:
+- name: figmaRestApi
+  url: ../openapi/figma-rest-api-openapi.yml
+  type: openapi
+- name: figmaTeamsApi
+  url: ../openapi/figma-teams-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: audit-team-webhooks
+  summary: Confirm the caller's identity and list a team's registered webhooks.
+  description: >-
+    Reads the current user profile and then lists all webhooks registered
+    under the supplied team.
+  inputs:
+    type: object
+    required:
+    - teamId
+    properties:
+      teamId:
+        type: string
+        description: The ID of the team whose webhooks are listed.
+  steps:
+  - stepId: whoAmI
+    description: >-
+      Read the current user profile to confirm the access token is valid before
+      auditing team webhooks.
+    operationId: getMe
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      userId: $response.body#/id
+      handle: $response.body#/handle
+  - stepId: listTeamWebhooks
+    description: >-
+      List every webhook registered under the team, including event type,
+      endpoint, and status.
+    operationId: getTeamWebhooks
+    parameters:
+    - name: team_id
+      in: path
+      value: $inputs.teamId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      webhooks: $response.body#/webhooks
+  outputs:
+    userId: $steps.whoAmI.outputs.userId
+    webhooks: $steps.listTeamWebhooks.outputs.webhooks

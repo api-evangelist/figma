@@ -1,0 +1,86 @@
+arazzo: 1.0.1
+info:
+  title: Figma Audit Team Component
+  summary: List a team's published components, inspect one, and open its source file.
+  description: >-
+    A design-system audit flow that traces a published component back to the
+    file it lives in. The workflow lists the components published by a team
+    library, takes the key of the first component to retrieve its full
+    metadata, and then opens the file that contains the component so its
+    current document state can be reviewed. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description. Authentication is carried by the Figma personal access
+    token bearer credential declared on each operation's security requirement.
+  version: 1.0.0
+sourceDescriptions:
+- name: figmaRestApi
+  url: ../openapi/figma-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: audit-team-component
+  summary: Trace a team-published component to its metadata and source file.
+  description: >-
+    Lists a team's components, retrieves the first component by key, and opens
+    the file that contains it.
+  inputs:
+    type: object
+    required:
+    - teamId
+    properties:
+      teamId:
+        type: string
+        description: The ID of the team whose published components are listed.
+      pageSize:
+        type: integer
+        description: Number of components to return per page.
+  steps:
+  - stepId: listTeamComponents
+    description: >-
+      List the components published by the team library so a component can be
+      selected for inspection.
+    operationId: getTeamComponents
+    parameters:
+    - name: team_id
+      in: path
+      value: $inputs.teamId
+    - name: page_size
+      in: query
+      value: $inputs.pageSize
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      components: $response.body#/meta/components
+      firstComponentKey: $response.body#/meta/components/0/key
+  - stepId: getComponent
+    description: >-
+      Retrieve the full metadata for the first published component, including
+      the file key and node id it maps to.
+    operationId: getComponent
+    parameters:
+    - name: key
+      in: path
+      value: $steps.listTeamComponents.outputs.firstComponentKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      componentFileKey: $response.body#/meta/file_key
+      componentNodeId: $response.body#/meta/node_id
+      componentName: $response.body#/meta/name
+  - stepId: openSourceFile
+    description: >-
+      Open the file that contains the component to review its current document
+      state.
+    operationId: getFile
+    parameters:
+    - name: file_key
+      in: path
+      value: $steps.getComponent.outputs.componentFileKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      fileName: $response.body#/name
+      lastModified: $response.body#/lastModified
+  outputs:
+    componentName: $steps.getComponent.outputs.componentName
+    componentFileKey: $steps.getComponent.outputs.componentFileKey
+    fileName: $steps.openSourceFile.outputs.fileName

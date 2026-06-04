@@ -1,0 +1,71 @@
+arazzo: 1.0.1
+info:
+  title: Figma Post and Verify Comment
+  summary: Post a new comment to a file, then read the thread back to confirm it landed.
+  description: >-
+    A write-then-read confirmation flow for file feedback. The workflow posts a
+    new comment onto a file, optionally pinned to a canvas position, and then
+    reads the file's comment thread back so the caller can confirm the new
+    comment is present. Every step spells out its request inline so the flow
+    can be read and executed without opening the underlying OpenAPI
+    description. Authentication is carried by the Figma personal access token
+    bearer credential declared on each operation's security requirement.
+  version: 1.0.0
+sourceDescriptions:
+- name: figmaRestApi
+  url: ../openapi/figma-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: post-and-verify-comment
+  summary: Post a comment to a Figma file and verify it by reading the thread.
+  description: >-
+    Posts a comment message to a file and then re-reads the comment thread to
+    confirm the comment was created.
+  inputs:
+    type: object
+    required:
+    - fileKey
+    - message
+    properties:
+      fileKey:
+        type: string
+        description: The key of the Figma file to comment on.
+      message:
+        type: string
+        description: The text body of the comment to post.
+  steps:
+  - stepId: postComment
+    description: >-
+      Post a new root-level comment with the supplied message text onto the
+      file.
+    operationId: postComment
+    parameters:
+    - name: file_key
+      in: path
+      value: $inputs.fileKey
+    requestBody:
+      contentType: application/json
+      payload:
+        message: $inputs.message
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      commentId: $response.body#/id
+      orderId: $response.body#/order_id
+      createdAt: $response.body#/created_at
+  - stepId: verifyComments
+    description: >-
+      Read the file comment thread back so the newly created comment can be
+      confirmed present.
+    operationId: getComments
+    parameters:
+    - name: file_key
+      in: path
+      value: $inputs.fileKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      comments: $response.body#/comments
+  outputs:
+    commentId: $steps.postComment.outputs.commentId
+    comments: $steps.verifyComments.outputs.comments

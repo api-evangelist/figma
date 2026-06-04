@@ -692,6 +692,45 @@ apis:
   - type: Documentation
     url: https://developers.figma.com/docs/rest-api/library-analytics-endpoints/
 common:
+- type: ArazzoWorkflows
+  url: arazzo/
+  workflows:
+  - url: arazzo/figma-attach-dev-resource-to-node-workflow.yml
+    name: Figma Attach Dev Resource to Node
+    summary: Confirm a file and node exist, then attach a code or doc link to that node.
+  - url: arazzo/figma-audit-team-component-workflow.yml
+    name: Figma Audit Team Component
+    summary: List a team's published components, inspect one, and open its source file.
+  - url: arazzo/figma-audit-team-webhooks-workflow.yml
+    name: Figma Audit Team Webhooks
+    summary: Confirm the authenticated user, then list the webhooks registered for a team.
+  - url: arazzo/figma-browse-project-file-comments-workflow.yml
+    name: Figma Browse Project File Comments
+    summary: List files in a project, open the first file, and read its comments.
+  - url: arazzo/figma-catalog-file-components-workflow.yml
+    name: Figma Catalog File Components
+    summary: Open a file and list the local published components it defines.
+  - url: arazzo/figma-inventory-team-component-sets-workflow.yml
+    name: Figma Inventory Team Component Sets
+    summary: List a team's published component sets and pull metadata for the first one.
+  - url: arazzo/figma-inventory-team-styles-workflow.yml
+    name: Figma Inventory Team Styles
+    summary: List a team's published styles and pull full metadata for the first one.
+  - url: arazzo/figma-post-and-verify-comment-workflow.yml
+    name: Figma Post and Verify Comment
+    summary: Post a new comment to a file, then read the thread back to confirm it landed.
+  - url: arazzo/figma-react-to-latest-comment-workflow.yml
+    name: Figma React to Latest Comment
+    summary: Find the most recent comment on a file, add an emoji reaction, and list reactions.
+  - url: arazzo/figma-render-file-node-images-workflow.yml
+    name: Figma Render File Node Images
+    summary: Open a file, drill into specific nodes, and render them to image URLs.
+  - url: arazzo/figma-report-library-usage-workflow.yml
+    name: Figma Report Library Usage
+    summary: Open a library file, then pull its component or style usage analytics.
+  - url: arazzo/figma-snapshot-team-project-versions-workflow.yml
+    name: Figma Snapshot Team Project Versions
+    summary: Walk a team to its first project, list that project's files, and read one file's version history.
 - type: LinkedIn
   url: https://www.linkedin.com/company/figma
 - type: Portal

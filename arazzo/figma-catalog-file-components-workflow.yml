@@ -1,0 +1,62 @@
+arazzo: 1.0.1
+info:
+  title: Figma Catalog File Components
+  summary: Open a file and list the local published components it defines.
+  description: >-
+    A per-file design-system flow that catalogs the components a single file
+    publishes. The workflow opens the file to confirm access and capture its
+    metadata, then lists the local components defined in that file so the
+    caller can enumerate the building blocks the file contributes to a library.
+    Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description. Authentication
+    is carried by the Figma personal access token bearer credential declared on
+    each operation's security requirement.
+  version: 1.0.0
+sourceDescriptions:
+- name: figmaRestApi
+  url: ../openapi/figma-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: catalog-file-components
+  summary: Open a file and enumerate the components it publishes locally.
+  description: >-
+    Retrieves a file and then lists the local published components defined
+    within it.
+  inputs:
+    type: object
+    required:
+    - fileKey
+    properties:
+      fileKey:
+        type: string
+        description: The key of the Figma file to catalog components for.
+  steps:
+  - stepId: getFile
+    description: >-
+      Open the file to confirm it is accessible and capture its current
+      metadata before listing its components.
+    operationId: getFile
+    parameters:
+    - name: file_key
+      in: path
+      value: $inputs.fileKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      fileName: $response.body#/name
+      lastModified: $response.body#/lastModified
+  - stepId: listFileComponents
+    description: >-
+      List the local published components defined within the file.
+    operationId: getFileComponents
+    parameters:
+    - name: file_key
+      in: path
+      value: $inputs.fileKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      components: $response.body#/meta/components
+  outputs:
+    fileName: $steps.getFile.outputs.fileName
+    components: $steps.listFileComponents.outputs.components

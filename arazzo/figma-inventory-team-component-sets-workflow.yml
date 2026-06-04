@@ -1,0 +1,76 @@
+arazzo: 1.0.1
+info:
+  title: Figma Inventory Team Component Sets
+  summary: List a team's published component sets and pull metadata for the first one.
+  description: >-
+    A library inventory flow for variant component sets. The workflow lists the
+    component sets published by a team library and then retrieves the full
+    metadata for the first component set by its key, exposing the file and node
+    the set maps back to. The team listing and the single component-set lookup
+    live in different Figma OpenAPI descriptions, so both are referenced as
+    distinct source descriptions. Every step spells out its request inline so
+    the flow can be read and executed without opening the underlying OpenAPI
+    description. Authentication is carried by the Figma personal access token
+    bearer credential declared on each operation's security requirement.
+  version: 1.0.0
+sourceDescriptions:
+- name: figmaRestApi
+  url: ../openapi/figma-rest-api-openapi.yml
+  type: openapi
+- name: figmaComponentSetsApi
+  url: ../openapi/figma-component-sets-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: inventory-team-component-sets
+  summary: List a team's published component sets and resolve the first one's metadata.
+  description: >-
+    Lists the component sets in a team library and retrieves full metadata for
+    the first published component set by key.
+  inputs:
+    type: object
+    required:
+    - teamId
+    properties:
+      teamId:
+        type: string
+        description: The ID of the team whose published component sets are listed.
+      pageSize:
+        type: integer
+        description: Number of component sets to return per page.
+  steps:
+  - stepId: listTeamComponentSets
+    description: >-
+      List the component sets published by the team library so a set can be
+      selected for inspection.
+    operationId: getTeamComponentSets
+    parameters:
+    - name: team_id
+      in: path
+      value: $inputs.teamId
+    - name: page_size
+      in: query
+      value: $inputs.pageSize
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      componentSets: $response.body#/meta/component_sets
+      firstComponentSetKey: $response.body#/meta/component_sets/0/key
+  - stepId: getComponentSet
+    description: >-
+      Retrieve the full metadata for the first published component set by its
+      key.
+    operationId: getComponentSet
+    parameters:
+    - name: key
+      in: path
+      value: $steps.listTeamComponentSets.outputs.firstComponentSetKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      componentSetName: $response.body#/meta/name
+      componentSetFileKey: $response.body#/meta/fileKey
+      componentSetNodeId: $response.body#/meta/nodeId
+  outputs:
+    componentSetName: $steps.getComponentSet.outputs.componentSetName
+    componentSetFileKey: $steps.getComponentSet.outputs.componentSetFileKey
+    componentSetNodeId: $steps.getComponentSet.outputs.componentSetNodeId

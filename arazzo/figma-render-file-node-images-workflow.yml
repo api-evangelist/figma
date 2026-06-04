@@ -1,0 +1,100 @@
+arazzo: 1.0.1
+info:
+  title: Figma Render File Node Images
+  summary: Open a file, drill into specific nodes, and render them to image URLs.
+  description: >-
+    The canonical Figma design-to-asset flow. The workflow first retrieves the
+    document tree for a file, then fetches the specific nodes the caller is
+    interested in to confirm they exist, and finally renders those nodes to
+    temporary image URLs in the requested format and scale. Every step spells
+    out its request inline so the flow can be read and executed without opening
+    the underlying OpenAPI description. Authentication is carried by the Figma
+    personal access token bearer credential declared on each operation's
+    security requirement.
+  version: 1.0.0
+sourceDescriptions:
+- name: figmaRestApi
+  url: ../openapi/figma-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: render-file-node-images
+  summary: Render selected nodes of a Figma file to downloadable image URLs.
+  description: >-
+    Retrieves the file document, validates the requested nodes, and renders
+    them to image URLs that remain available for fourteen days.
+  inputs:
+    type: object
+    required:
+    - fileKey
+    - ids
+    properties:
+      fileKey:
+        type: string
+        description: The key of the Figma file (from figma.com/file/{file_key}/...).
+      ids:
+        type: string
+        description: Comma-separated list of node IDs to render.
+      format:
+        type: string
+        description: Image output format (jpg, png, svg, or pdf).
+      scale:
+        type: number
+        description: Image scaling factor between 0.01 and 4.
+  steps:
+  - stepId: getFile
+    description: >-
+      Retrieve the document tree for the file to confirm it exists and is
+      accessible before drilling into specific nodes.
+    operationId: getFile
+    parameters:
+    - name: file_key
+      in: path
+      value: $inputs.fileKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      fileName: $response.body#/name
+      lastModified: $response.body#/lastModified
+      version: $response.body#/version
+  - stepId: getNodes
+    description: >-
+      Fetch the specific nodes referenced by the supplied ids to confirm they
+      are present in the document before rendering.
+    operationId: getFileNodes
+    parameters:
+    - name: file_key
+      in: path
+      value: $inputs.fileKey
+    - name: ids
+      in: query
+      value: $inputs.ids
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      nodes: $response.body#/nodes
+  - stepId: renderImages
+    description: >-
+      Render the requested nodes to temporary image URLs in the requested
+      format and scale.
+    operationId: getImages
+    parameters:
+    - name: file_key
+      in: path
+      value: $inputs.fileKey
+    - name: ids
+      in: query
+      value: $inputs.ids
+    - name: format
+      in: query
+      value: $inputs.format
+    - name: scale
+      in: query
+      value: $inputs.scale
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      images: $response.body#/images
+      err: $response.body#/err
+  outputs:
+    fileName: $steps.getFile.outputs.fileName
+    images: $steps.renderImages.outputs.images

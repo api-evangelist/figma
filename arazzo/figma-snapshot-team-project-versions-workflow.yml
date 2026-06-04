@@ -1,0 +1,83 @@
+arazzo: 1.0.1
+info:
+  title: Figma Snapshot Team Project Versions
+  summary: Walk a team to its first project, list that project's files, and read one file's version history.
+  description: >-
+    A backup and history flow that traces a team down to the version history of
+    one of its files. The workflow lists the projects owned by a team, lists
+    the files in the first project, and then reads the version history of the
+    first file so named versions and auto-saves can be reviewed. Every step
+    spells out its request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description. Authentication is carried by
+    the Figma personal access token bearer credential declared on each
+    operation's security requirement.
+  version: 1.0.0
+sourceDescriptions:
+- name: figmaRestApi
+  url: ../openapi/figma-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: snapshot-team-project-versions
+  summary: Trace a team to a project file and read its version history.
+  description: >-
+    Lists a team's projects, lists the first project's files, and reads the
+    version history of the first file.
+  inputs:
+    type: object
+    required:
+    - teamId
+    properties:
+      teamId:
+        type: string
+        description: The ID of the team whose projects are listed.
+      pageSize:
+        type: integer
+        description: Number of version-history items to return per page.
+  steps:
+  - stepId: listTeamProjects
+    description: >-
+      List the projects owned by the team so the first project can be opened.
+    operationId: getTeamProjects
+    parameters:
+    - name: team_id
+      in: path
+      value: $inputs.teamId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      teamName: $response.body#/name
+      firstProjectId: $response.body#/projects/0/id
+  - stepId: listProjectFiles
+    description: >-
+      List the files contained in the first project so a file can be selected
+      for its version history.
+    operationId: getProjectFiles
+    parameters:
+    - name: project_id
+      in: path
+      value: $steps.listTeamProjects.outputs.firstProjectId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      projectName: $response.body#/name
+      firstFileKey: $response.body#/files/0/key
+  - stepId: readVersionHistory
+    description: >-
+      Read the version history of the first file, including named versions and
+      auto-save entries.
+    operationId: getFileVersions
+    parameters:
+    - name: file_key
+      in: path
+      value: $steps.listProjectFiles.outputs.firstFileKey
+    - name: page_size
+      in: query
+      value: $inputs.pageSize
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      versions: $response.body#/versions
+  outputs:
+    teamName: $steps.listTeamProjects.outputs.teamName
+    projectName: $steps.listProjectFiles.outputs.projectName
+    versions: $steps.readVersionHistory.outputs.versions

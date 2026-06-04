@@ -1,0 +1,101 @@
+arazzo: 1.0.1
+info:
+  title: Figma React to Latest Comment
+  summary: Find the most recent comment on a file, add an emoji reaction, and list reactions.
+  description: >-
+    An engagement flow that acknowledges feedback with an emoji. The workflow
+    reads the comment thread for a file and branches on whether any comments
+    exist; when at least one comment is present it posts an emoji reaction to
+    the most recent comment and then lists that comment's reactions to confirm
+    the reaction landed. Every step spells out its request inline so the flow
+    can be read and executed without opening the underlying OpenAPI
+    description. Authentication is carried by the Figma personal access token
+    bearer credential declared on each operation's security requirement.
+  version: 1.0.0
+sourceDescriptions:
+- name: figmaRestApi
+  url: ../openapi/figma-rest-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: react-to-latest-comment
+  summary: React to the most recent comment on a file and confirm the reaction.
+  description: >-
+    Lists comments, branches on whether any exist, reacts to the latest one
+    with an emoji, and reads the reactions back.
+  inputs:
+    type: object
+    required:
+    - fileKey
+    - emoji
+    properties:
+      fileKey:
+        type: string
+        description: The key of the Figma file whose comments are reacted to.
+      emoji:
+        type: string
+        description: The emoji string to react with.
+  steps:
+  - stepId: listComments
+    description: >-
+      Read the comment thread for the file, most recent comment first, so the
+      latest comment can be selected.
+    operationId: getComments
+    parameters:
+    - name: file_key
+      in: path
+      value: $inputs.fileKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      latestCommentId: $response.body#/comments/0/id
+    onSuccess:
+    - name: hasComments
+      type: goto
+      stepId: reactToComment
+      criteria:
+      - context: $response.body
+        condition: $.comments.length > 0
+        type: jsonpath
+    - name: noComments
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.comments.length == 0
+        type: jsonpath
+  - stepId: reactToComment
+    description: >-
+      Post an emoji reaction to the most recent comment on the file.
+    operationId: postCommentReaction
+    parameters:
+    - name: file_key
+      in: path
+      value: $inputs.fileKey
+    - name: comment_id
+      in: path
+      value: $steps.listComments.outputs.latestCommentId
+    requestBody:
+      contentType: application/json
+      payload:
+        emoji: $inputs.emoji
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      status: $response.body#/status
+  - stepId: listReactions
+    description: >-
+      List the reactions on the comment to confirm the new reaction is present.
+    operationId: getCommentReactions
+    parameters:
+    - name: file_key
+      in: path
+      value: $inputs.fileKey
+    - name: comment_id
+      in: path
+      value: $steps.listComments.outputs.latestCommentId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      reactions: $response.body#/reactions
+  outputs:
+    commentId: $steps.listComments.outputs.latestCommentId
+    reactions: $steps.listReactions.outputs.reactions

@@ -1,0 +1,75 @@
+arazzo: 1.0.1
+info:
+  title: Figma Inventory Team Styles
+  summary: List a team's published styles and pull full metadata for the first one.
+  description: >-
+    A library inventory flow for shared styles. The workflow lists the styles
+    published by a team library and then retrieves the full metadata for the
+    first style by its key, exposing the file, node, and style type the style
+    maps back to. The team listing and the single-style lookup live in
+    different Figma OpenAPI descriptions, so both are referenced as distinct
+    source descriptions. Every step spells out its request inline so the flow
+    can be read and executed without opening the underlying OpenAPI
+    description. Authentication is carried by the Figma personal access token
+    bearer credential declared on each operation's security requirement.
+  version: 1.0.0
+sourceDescriptions:
+- name: figmaRestApi
+  url: ../openapi/figma-rest-api-openapi.yml
+  type: openapi
+- name: figmaStylesApi
+  url: ../openapi/figma-styles-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: inventory-team-styles
+  summary: List a team's published styles and resolve the first style's metadata.
+  description: >-
+    Lists the styles in a team library and retrieves full metadata for the
+    first published style by key.
+  inputs:
+    type: object
+    required:
+    - teamId
+    properties:
+      teamId:
+        type: string
+        description: The ID of the team whose published styles are listed.
+      pageSize:
+        type: integer
+        description: Number of styles to return per page.
+  steps:
+  - stepId: listTeamStyles
+    description: >-
+      List the styles published by the team library so a style can be selected
+      for inspection.
+    operationId: getTeamStyles
+    parameters:
+    - name: team_id
+      in: path
+      value: $inputs.teamId
+    - name: page_size
+      in: query
+      value: $inputs.pageSize
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      styles: $response.body#/meta/styles
+      firstStyleKey: $response.body#/meta/styles/0/key
+  - stepId: getStyle
+    description: >-
+      Retrieve the full metadata for the first published style by its key.
+    operationId: getStyle
+    parameters:
+    - name: key
+      in: path
+      value: $steps.listTeamStyles.outputs.firstStyleKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      styleName: $response.body#/meta/name
+      styleType: $response.body#/meta/style_type
+      styleFileKey: $response.body#/meta/file_key
+  outputs:
+    styleName: $steps.getStyle.outputs.styleName
+    styleType: $steps.getStyle.outputs.styleType
+    styleFileKey: $steps.getStyle.outputs.styleFileKey
