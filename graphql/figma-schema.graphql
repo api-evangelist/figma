@@ -1,0 +1,1384 @@
+# Figma Conceptual GraphQL Schema
+# Derived from the Figma REST API (https://developers.figma.com/docs/rest-api/)
+# No native GraphQL endpoint exists; this schema models the REST API type system.
+
+# ─────────────────────────────────────────────
+# Scalars
+# ─────────────────────────────────────────────
+
+scalar DateTime
+scalar JSON
+
+# ─────────────────────────────────────────────
+# Enumerations
+# ─────────────────────────────────────────────
+
+enum StyleType {
+  FILL
+  TEXT
+  EFFECT
+  GRID
+}
+
+enum NodeType {
+  DOCUMENT
+  CANVAS
+  FRAME
+  GROUP
+  VECTOR
+  BOOLEAN_OPERATION
+  STAR
+  LINE
+  ELLIPSE
+  REGULAR_POLYGON
+  RECTANGLE
+  TABLE
+  TABLE_CELL
+  TEXT
+  SLICE
+  COMPONENT
+  COMPONENT_SET
+  INSTANCE
+  STICKY
+  SHAPE_WITH_TEXT
+  CONNECTOR
+  WASHI_TAPE
+}
+
+enum BooleanOperation {
+  UNION
+  INTERSECT
+  SUBTRACT
+  EXCLUDE
+}
+
+enum BlendMode {
+  PASS_THROUGH
+  NORMAL
+  DARKEN
+  MULTIPLY
+  LINEAR_BURN
+  COLOR_BURN
+  LIGHTEN
+  SCREEN
+  LINEAR_DODGE
+  COLOR_DODGE
+  OVERLAY
+  SOFT_LIGHT
+  HARD_LIGHT
+  DIFFERENCE
+  EXCLUSION
+  HUE
+  SATURATION
+  COLOR
+  LUMINOSITY
+}
+
+enum LayoutConstraintHorizontal {
+  LEFT
+  RIGHT
+  CENTER
+  LEFT_RIGHT
+  SCALE
+}
+
+enum LayoutConstraintVertical {
+  TOP
+  BOTTOM
+  CENTER
+  TOP_BOTTOM
+  SCALE
+}
+
+enum LayoutGridAlignment {
+  MIN
+  MAX
+  CENTER
+  STRETCH
+}
+
+enum LayoutGridPattern {
+  COLUMNS
+  ROWS
+  GRID
+}
+
+enum ExportFormat {
+  JPG
+  PNG
+  SVG
+  PDF
+}
+
+enum ImageScaleMode {
+  FILL
+  FIT
+  TILE
+  CROP
+}
+
+enum TextAlignHorizontal {
+  LEFT
+  RIGHT
+  CENTER
+  JUSTIFIED
+}
+
+enum TextAlignVertical {
+  TOP
+  CENTER
+  BOTTOM
+}
+
+enum TextDecoration {
+  NONE
+  UNDERLINE
+  STRIKETHROUGH
+}
+
+enum TextCase {
+  ORIGINAL
+  UPPER
+  LOWER
+  TITLE
+  SMALL_CAPS
+  SMALL_CAPS_FORCED
+}
+
+enum StrokeAlign {
+  INSIDE
+  OUTSIDE
+  CENTER
+}
+
+enum StrokeCap {
+  NONE
+  ROUND
+  SQUARE
+  LINE_ARROW
+  TRIANGLE_ARROW
+  DIAMOND_FILLED
+  CIRCLE_FILLED
+  TRIANGLE_FILLED
+  WASHI_TAPE_1
+  WASHI_TAPE_2
+  WASHI_TAPE_3
+  WASHI_TAPE_4
+  WASHI_TAPE_5
+  WASHI_TAPE_6
+}
+
+enum StrokeJoin {
+  MITER
+  BEVEL
+  ROUND
+}
+
+enum EffectType {
+  INNER_SHADOW
+  DROP_SHADOW
+  LAYER_BLUR
+  BACKGROUND_BLUR
+}
+
+enum PaintType {
+  SOLID
+  GRADIENT_LINEAR
+  GRADIENT_RADIAL
+  GRADIENT_ANGULAR
+  GRADIENT_DIAMOND
+  IMAGE
+  EMOJI
+  VIDEO
+}
+
+enum VariableResolvedType {
+  BOOLEAN
+  FLOAT
+  STRING
+  COLOR
+}
+
+enum VariableScope {
+  ALL_SCOPES
+  TEXT_CONTENT
+  CORNER_RADIUS
+  WIDTH_HEIGHT
+  GAP
+  ALL_FILLS
+  FRAME_FILL
+  SHAPE_FILL
+  TEXT_FILL
+  STROKE_COLOR
+  STROKE_FLOAT
+  EFFECT_COLOR
+  EFFECT_FLOAT
+  OPACITY
+  FONT_FAMILY
+  FONT_STYLE
+  FONT_WEIGHT
+  FONT_SIZE
+  LINE_HEIGHT
+  LETTER_SPACING
+  PARAGRAPH_SPACING
+  PARAGRAPH_INDENT
+}
+
+enum WebhookStatus {
+  ACTIVE
+  PAUSED
+}
+
+enum WebhookEventType {
+  FILE_UPDATE
+  FILE_VERSION_UPDATE
+  FILE_DELETE
+  LIBRARY_PUBLISH
+  FILE_COMMENT
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+}
+
+# ─────────────────────────────────────────────
+# Shared value types
+# ─────────────────────────────────────────────
+
+type Color {
+  r: Float!
+  g: Float!
+  b: Float!
+  a: Float!
+}
+
+type ColorStop {
+  position: Float!
+  color: Color!
+}
+
+type Vector2D {
+  x: Float!
+  y: Float!
+}
+
+type Rectangle {
+  x: Float
+  y: Float
+  width: Float
+  height: Float
+}
+
+type Constraint {
+  type: LayoutConstraintHorizontal!
+  value: Float
+}
+
+type LayoutConstraint {
+  vertical: LayoutConstraintVertical!
+  horizontal: LayoutConstraintHorizontal!
+}
+
+type LayoutGrid {
+  pattern: LayoutGridPattern!
+  sectionSize: Float
+  visible: Boolean
+  color: Color
+  alignment: LayoutGridAlignment
+  gutterSize: Float
+  offset: Float
+  count: Int
+}
+
+type ExportSetting {
+  suffix: String!
+  format: ExportFormat!
+  constraint: ExportConstraint!
+}
+
+type ExportConstraint {
+  type: String!
+  value: Float!
+}
+
+# ─────────────────────────────────────────────
+# Paint / Fill
+# ─────────────────────────────────────────────
+
+type Paint {
+  type: PaintType!
+  visible: Boolean
+  opacity: Float
+  color: Color
+  blendMode: BlendMode
+  gradientHandlePositions: [Vector2D!]
+  gradientStops: [ColorStop!]
+  scaleMode: ImageScaleMode
+  imageTransform: [[Float!]!]
+  scalingFactor: Float
+  rotation: Float
+  imageRef: String
+  gifRef: String
+}
+
+# ─────────────────────────────────────────────
+# Effects
+# ─────────────────────────────────────────────
+
+type EffectShadow {
+  type: EffectType!
+  visible: Boolean!
+  radius: Float!
+  color: Color!
+  blendMode: BlendMode!
+  offset: Vector2D!
+  spread: Float
+  showShadowBehindNode: Boolean
+}
+
+type EffectBlur {
+  type: EffectType!
+  visible: Boolean!
+  radius: Float!
+}
+
+union Effect = EffectShadow | EffectBlur
+
+# ─────────────────────────────────────────────
+# Typography
+# ─────────────────────────────────────────────
+
+type TypeStyle {
+  fontFamily: String!
+  fontPostScriptName: String
+  paragraphSpacing: Float
+  paragraphIndent: Float
+  listSpacing: Float
+  italic: Boolean
+  fontWeight: Float!
+  fontSize: Float!
+  textCase: TextCase
+  textDecoration: TextDecoration
+  textAutoResize: String
+  textTruncation: String
+  maxLines: Int
+  textAlignHorizontal: TextAlignHorizontal!
+  textAlignVertical: TextAlignVertical!
+  letterSpacing: Float!
+  fills: [Paint!]
+  hyperlink: Hyperlink
+  opentypeFlags: JSON
+  lineHeightPx: Float!
+  lineHeightPercent: Float
+  lineHeightPercentFontSize: Float
+  lineHeightUnit: String!
+}
+
+type Hyperlink {
+  type: String!
+  url: String
+  nodeID: String
+}
+
+# ─────────────────────────────────────────────
+# Nodes
+# ─────────────────────────────────────────────
+
+interface Node {
+  id: String!
+  name: String!
+  type: NodeType!
+  visible: Boolean
+  rotation: Float
+  componentPropertyReferences: JSON
+  pluginData: JSON
+  sharedPluginData: JSON
+  boundVariables: JSON
+  explicitVariableModes: JSON
+}
+
+type DocumentNode implements Node {
+  id: String!
+  name: String!
+  type: NodeType!
+  visible: Boolean
+  rotation: Float
+  componentPropertyReferences: JSON
+  pluginData: JSON
+  sharedPluginData: JSON
+  boundVariables: JSON
+  explicitVariableModes: JSON
+  children: [CanvasNode!]!
+}
+
+type CanvasNode implements Node {
+  id: String!
+  name: String!
+  type: NodeType!
+  visible: Boolean
+  rotation: Float
+  componentPropertyReferences: JSON
+  pluginData: JSON
+  sharedPluginData: JSON
+  boundVariables: JSON
+  explicitVariableModes: JSON
+  children: [Node!]
+  backgroundColor: Color
+  prototypeStartNodeID: String
+  flowStartingPoints: [FlowStartingPoint!]
+  prototypeDevice: PrototypeDevice
+  exportSettings: [ExportSetting!]
+}
+
+type FrameNode implements Node {
+  id: String!
+  name: String!
+  type: NodeType!
+  visible: Boolean
+  rotation: Float
+  componentPropertyReferences: JSON
+  pluginData: JSON
+  sharedPluginData: JSON
+  boundVariables: JSON
+  explicitVariableModes: JSON
+  children: [Node!]
+  locked: Boolean
+  fills: [Paint!]
+  strokes: [Paint!]
+  strokeWeight: Float
+  strokeAlign: StrokeAlign
+  strokeDashes: [Float!]
+  strokeMiterAngle: Float
+  strokeCap: StrokeCap
+  strokeJoin: StrokeJoin
+  cornerRadius: Float
+  rectangleCornerRadii: [Float!]
+  blendMode: BlendMode
+  opacity: Float
+  absoluteBoundingBox: Rectangle
+  absoluteRenderBounds: Rectangle
+  size: Vector2D
+  minWidth: Float
+  minHeight: Float
+  maxWidth: Float
+  maxHeight: Float
+  relativeTransform: [[Float!]!]
+  clipsContent: Boolean
+  layoutMode: String
+  layoutWrap: String
+  primaryAxisSizingMode: String
+  counterAxisSizingMode: String
+  primaryAxisAlignItems: String
+  counterAxisAlignItems: String
+  counterAxisAlignContent: String
+  paddingLeft: Float
+  paddingRight: Float
+  paddingTop: Float
+  paddingBottom: Float
+  itemSpacing: Float
+  counterAxisSpacing: Float
+  layoutPositioning: String
+  itemReverseZIndex: Boolean
+  strokesIncludedInLayout: Boolean
+  layoutGrids: [LayoutGrid!]
+  overflowDirection: String
+  effects: [JSON!]
+  isMask: Boolean
+  isMaskOutline: Boolean
+  maskType: String
+  styles: JSON
+  exportSettings: [ExportSetting!]
+  transitionNodeID: String
+  transitionDuration: Float
+  transitionEasing: String
+  interactions: [JSON!]
+  layoutSizingHorizontal: String
+  layoutSizingVertical: String
+  devStatus: DevStatus
+}
+
+type GroupNode implements Node {
+  id: String!
+  name: String!
+  type: NodeType!
+  visible: Boolean
+  rotation: Float
+  componentPropertyReferences: JSON
+  pluginData: JSON
+  sharedPluginData: JSON
+  boundVariables: JSON
+  explicitVariableModes: JSON
+  children: [Node!]
+  blendMode: BlendMode
+  opacity: Float
+  absoluteBoundingBox: Rectangle
+  absoluteRenderBounds: Rectangle
+  size: Vector2D
+  relativeTransform: [[Float!]!]
+  clipsContent: Boolean
+  exportSettings: [ExportSetting!]
+  isMask: Boolean
+}
+
+type VectorNode implements Node {
+  id: String!
+  name: String!
+  type: NodeType!
+  visible: Boolean
+  rotation: Float
+  componentPropertyReferences: JSON
+  pluginData: JSON
+  sharedPluginData: JSON
+  boundVariables: JSON
+  explicitVariableModes: JSON
+  locked: Boolean
+  fills: [Paint!]
+  strokes: [Paint!]
+  strokeWeight: Float
+  strokeAlign: StrokeAlign
+  strokeDashes: [Float!]
+  strokeMiterAngle: Float
+  strokeCap: StrokeCap
+  strokeJoin: StrokeJoin
+  fillGeometry: [JSON!]
+  strokeGeometry: [JSON!]
+  blendMode: BlendMode
+  opacity: Float
+  absoluteBoundingBox: Rectangle
+  absoluteRenderBounds: Rectangle
+  size: Vector2D
+  relativeTransform: [[Float!]!]
+  effects: [JSON!]
+  isMask: Boolean
+  exportSettings: [ExportSetting!]
+  styles: JSON
+  vectorNetwork: JSON
+  vectorPaths: [JSON!]
+  handleMirroring: String
+}
+
+type TextNode implements Node {
+  id: String!
+  name: String!
+  type: NodeType!
+  visible: Boolean
+  rotation: Float
+  componentPropertyReferences: JSON
+  pluginData: JSON
+  sharedPluginData: JSON
+  boundVariables: JSON
+  explicitVariableModes: JSON
+  characters: String!
+  style: TypeStyle!
+  characterStyleOverrides: [Int!]
+  styleOverrideTable: JSON
+  lineTypes: [String!]
+  lineIndentations: [Int!]
+  fills: [Paint!]
+  strokes: [Paint!]
+  strokeWeight: Float
+  strokeAlign: StrokeAlign
+  blendMode: BlendMode
+  opacity: Float
+  absoluteBoundingBox: Rectangle
+  absoluteRenderBounds: Rectangle
+  size: Vector2D
+  relativeTransform: [[Float!]!]
+  effects: [JSON!]
+  isMask: Boolean
+  exportSettings: [ExportSetting!]
+  styles: JSON
+}
+
+type RectangleNode implements Node {
+  id: String!
+  name: String!
+  type: NodeType!
+  visible: Boolean
+  rotation: Float
+  componentPropertyReferences: JSON
+  pluginData: JSON
+  sharedPluginData: JSON
+  boundVariables: JSON
+  explicitVariableModes: JSON
+  fills: [Paint!]
+  strokes: [Paint!]
+  strokeWeight: Float
+  strokeAlign: StrokeAlign
+  cornerRadius: Float
+  rectangleCornerRadii: [Float!]
+  blendMode: BlendMode
+  opacity: Float
+  absoluteBoundingBox: Rectangle
+  absoluteRenderBounds: Rectangle
+  size: Vector2D
+  relativeTransform: [[Float!]!]
+  effects: [JSON!]
+  isMask: Boolean
+  exportSettings: [ExportSetting!]
+  styles: JSON
+  layoutSizingHorizontal: String
+  layoutSizingVertical: String
+}
+
+type ComponentNode implements Node {
+  id: String!
+  name: String!
+  type: NodeType!
+  visible: Boolean
+  rotation: Float
+  componentPropertyReferences: JSON
+  pluginData: JSON
+  sharedPluginData: JSON
+  boundVariables: JSON
+  explicitVariableModes: JSON
+  children: [Node!]
+  componentPropertyDefinitions: JSON
+  fills: [Paint!]
+  strokes: [Paint!]
+  strokeWeight: Float
+  strokeAlign: StrokeAlign
+  blendMode: BlendMode
+  opacity: Float
+  absoluteBoundingBox: Rectangle
+  absoluteRenderBounds: Rectangle
+  size: Vector2D
+  relativeTransform: [[Float!]!]
+  clipsContent: Boolean
+  effects: [JSON!]
+  exportSettings: [ExportSetting!]
+  styles: JSON
+  devStatus: DevStatus
+}
+
+type ComponentSetNode implements Node {
+  id: String!
+  name: String!
+  type: NodeType!
+  visible: Boolean
+  rotation: Float
+  componentPropertyReferences: JSON
+  pluginData: JSON
+  sharedPluginData: JSON
+  boundVariables: JSON
+  explicitVariableModes: JSON
+  children: [ComponentNode!]
+  componentPropertyDefinitions: JSON
+  description: String
+  documentationLinks: [DocumentationLink!]
+  fills: [Paint!]
+  blendMode: BlendMode
+  opacity: Float
+  absoluteBoundingBox: Rectangle
+  absoluteRenderBounds: Rectangle
+  size: Vector2D
+  relativeTransform: [[Float!]!]
+  effects: [JSON!]
+  exportSettings: [ExportSetting!]
+}
+
+type InstanceNode implements Node {
+  id: String!
+  name: String!
+  type: NodeType!
+  visible: Boolean
+  rotation: Float
+  componentPropertyReferences: JSON
+  pluginData: JSON
+  sharedPluginData: JSON
+  boundVariables: JSON
+  explicitVariableModes: JSON
+  children: [Node!]
+  componentId: String!
+  isExposedInstance: Boolean
+  exposedInstances: [String!]
+  componentProperties: JSON
+  overrides: [JSON!]
+  fills: [Paint!]
+  strokes: [Paint!]
+  strokeWeight: Float
+  strokeAlign: StrokeAlign
+  blendMode: BlendMode
+  opacity: Float
+  absoluteBoundingBox: Rectangle
+  absoluteRenderBounds: Rectangle
+  size: Vector2D
+  relativeTransform: [[Float!]!]
+  clipsContent: Boolean
+  effects: [JSON!]
+  exportSettings: [ExportSetting!]
+  styles: JSON
+}
+
+type BooleanOperationNode implements Node {
+  id: String!
+  name: String!
+  type: NodeType!
+  visible: Boolean
+  rotation: Float
+  componentPropertyReferences: JSON
+  pluginData: JSON
+  sharedPluginData: JSON
+  boundVariables: JSON
+  explicitVariableModes: JSON
+  children: [Node!]
+  booleanOperation: BooleanOperation!
+  fills: [Paint!]
+  strokes: [Paint!]
+  strokeWeight: Float
+  strokeAlign: StrokeAlign
+  blendMode: BlendMode
+  opacity: Float
+  absoluteBoundingBox: Rectangle
+  absoluteRenderBounds: Rectangle
+  size: Vector2D
+  relativeTransform: [[Float!]!]
+  effects: [JSON!]
+  exportSettings: [ExportSetting!]
+}
+
+# ─────────────────────────────────────────────
+# Supporting node sub-types
+# ─────────────────────────────────────────────
+
+type FlowStartingPoint {
+  nodeId: String!
+  name: String!
+}
+
+type PrototypeDevice {
+  type: String!
+  size: Vector2D
+  presetIdentifier: String
+  rotation: String
+}
+
+type DocumentationLink {
+  uri: String!
+}
+
+type DevStatus {
+  type: String!
+  description: String
+}
+
+# ─────────────────────────────────────────────
+# File
+# ─────────────────────────────────────────────
+
+type FigmaFile {
+  key: String!
+  name: String!
+  role: String
+  lastModified: DateTime!
+  editorType: String
+  thumbnailUrl: String
+  version: String!
+  document: DocumentNode!
+  components: JSON
+  componentSets: JSON
+  schemaVersion: Int
+  styles: JSON
+  mainFileKey: String
+  branches: [Branch!]
+}
+
+type Branch {
+  key: String!
+  name: String!
+  thumbnailUrl: String
+  lastModified: DateTime!
+  linkAccess: String
+}
+
+type Version {
+  id: String!
+  createdAt: DateTime!
+  label: String
+  description: String
+  user: User!
+}
+
+type ImageRef {
+  imageRef: String!
+  url: String!
+}
+
+# ─────────────────────────────────────────────
+# User
+# ─────────────────────────────────────────────
+
+type User {
+  id: String!
+  handle: String!
+  imgUrl: String!
+  email: String
+}
+
+# ─────────────────────────────────────────────
+# Team and Project
+# ─────────────────────────────────────────────
+
+type Team {
+  id: String!
+  name: String!
+}
+
+type Project {
+  id: String!
+  name: String!
+}
+
+type ProjectFile {
+  key: String!
+  name: String!
+  thumbnailUrl: String
+  lastModified: DateTime!
+  editorType: String
+  linkAccess: String
+  branches: [Branch!]
+}
+
+# ─────────────────────────────────────────────
+# Component
+# ─────────────────────────────────────────────
+
+type Component {
+  key: String!
+  fileKey: String!
+  nodeId: String!
+  thumbnailUrl: String
+  name: String!
+  description: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  user: User!
+  containingFrame: FrameInfo
+  containingPage: JSON
+  documentationLinks: [DocumentationLink!]
+}
+
+type PublishedComponent {
+  key: String!
+  fileKey: String!
+  nodeId: String!
+  thumbnailUrl: String
+  name: String!
+  description: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  user: User!
+  containingFrame: FrameInfo
+  documentationLinks: [DocumentationLink!]
+}
+
+type ComponentSet {
+  key: String!
+  fileKey: String!
+  nodeId: String!
+  thumbnailUrl: String
+  name: String!
+  description: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  user: User!
+  containingFrame: FrameInfo
+  documentationLinks: [DocumentationLink!]
+}
+
+type PublishedComponentSet {
+  key: String!
+  fileKey: String!
+  nodeId: String!
+  thumbnailUrl: String
+  name: String!
+  description: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  user: User!
+  containingFrame: FrameInfo
+}
+
+type FrameInfo {
+  nodeId: String!
+  name: String!
+  backgroundColor: String
+  pageId: String!
+  pageName: String!
+  containingStateGroup: StateGroup
+}
+
+type StateGroup {
+  name: String!
+  nodeId: String!
+}
+
+# ─────────────────────────────────────────────
+# Style
+# ─────────────────────────────────────────────
+
+type Style {
+  key: String!
+  fileKey: String!
+  nodeId: String!
+  styleType: StyleType!
+  thumbnailUrl: String
+  name: String!
+  description: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  user: User!
+  sortPosition: String
+}
+
+type PublishedStyle {
+  key: String!
+  fileKey: String!
+  nodeId: String!
+  styleType: StyleType!
+  thumbnailUrl: String
+  name: String!
+  description: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  user: User!
+  sortPosition: String
+}
+
+# ─────────────────────────────────────────────
+# Comment
+# ─────────────────────────────────────────────
+
+type Comment {
+  id: String!
+  uuid: String
+  fileKey: String!
+  parentId: String
+  user: User!
+  createdAt: DateTime!
+  resolvedAt: DateTime
+  message: String!
+  clientMeta: ClientMeta
+  orderId: String!
+  reactions: [Reaction!]
+}
+
+type ClientMeta {
+  x: Float
+  y: Float
+  nodeId: [String!]
+  nodeOffset: Vector2D
+}
+
+type Reaction {
+  user: User!
+  emoji: String!
+  createdAt: DateTime!
+}
+
+# ─────────────────────────────────────────────
+# Dev Resource
+# ─────────────────────────────────────────────
+
+type DevResource {
+  id: String!
+  name: String!
+  url: String!
+  fileKey: String!
+  nodeId: String!
+}
+
+# ─────────────────────────────────────────────
+# Webhook
+# ─────────────────────────────────────────────
+
+type WebhookV2 {
+  id: String!
+  teamId: String!
+  eventType: WebhookEventType!
+  clientId: String
+  endpoint: String!
+  passcode: String!
+  status: WebhookStatus!
+  description: String
+  protocolVersion: String
+  errors: [WebhookError!]
+}
+
+type WebhookError {
+  message: String!
+  createdAt: DateTime!
+}
+
+# ─────────────────────────────────────────────
+# Variable
+# ─────────────────────────────────────────────
+
+type VariableCollection {
+  id: String!
+  name: String!
+  key: String!
+  modes: [VariableMode!]!
+  defaultModeId: String!
+  remote: Boolean!
+  hiddenFromPublishing: Boolean!
+  variableIds: [String!]!
+}
+
+type VariableMode {
+  modeId: String!
+  name: String!
+}
+
+type Variable {
+  id: String!
+  name: String!
+  key: String!
+  variableCollectionId: String!
+  resolvedType: VariableResolvedType!
+  valuesByMode: JSON!
+  remote: Boolean!
+  description: String!
+  hiddenFromPublishing: Boolean!
+  scopes: [VariableScope!]!
+  codeSyntax: JSON
+}
+
+# ─────────────────────────────────────────────
+# Activity Log
+# ─────────────────────────────────────────────
+
+type ActivityLog {
+  id: String!
+  timestamp: DateTime!
+  action: ActivityLogAction!
+  actor: ActivityLogActor!
+  entity: ActivityLogEntity!
+  context: ActivityLogContext
+}
+
+type ActivityLogAction {
+  type: String!
+  details: JSON
+}
+
+type ActivityLogActor {
+  type: String!
+  id: String
+  name: String
+  email: String
+}
+
+type ActivityLogEntity {
+  type: String!
+  id: String!
+  name: String
+}
+
+type ActivityLogContext {
+  clientName: String
+  clientPlatform: String
+  ipAddress: String
+}
+
+type ActivityLogsMeta {
+  nextPage: String
+  cursor: String
+}
+
+# ─────────────────────────────────────────────
+# Payment
+# ─────────────────────────────────────────────
+
+type PaymentInformation {
+  userId: String!
+  resourceType: String!
+  resourceId: String!
+  status: PaymentStatus!
+  dateOfPurchase: DateTime
+}
+
+# ─────────────────────────────────────────────
+# Library Analytics
+# ─────────────────────────────────────────────
+
+type LibraryAnalyticsUsagesByComponent {
+  key: String!
+  fileKey: String
+  name: String!
+  usages: Int!
+  numInstances: Int
+  uniqueFiles: Int
+  uniqueTeams: Int
+}
+
+type LibraryAnalyticsUsagesByFile {
+  fileKey: String!
+  fileName: String!
+  teamName: String
+  usages: Int!
+}
+
+type LibraryAnalyticsActionsByComponent {
+  key: String!
+  name: String!
+  type: String!
+  detachments: Int
+  insertions: Int
+  period: String
+}
+
+type LibraryAnalyticsActionsByTeam {
+  teamId: String!
+  teamName: String!
+  detachments: Int
+  insertions: Int
+  period: String
+}
+
+type LibraryAnalyticsStyleUsagesByAsset {
+  key: String!
+  name: String!
+  styleType: StyleType!
+  usages: Int!
+  uniqueFiles: Int
+}
+
+type LibraryAnalyticsVariableUsagesByAsset {
+  id: String!
+  name: String!
+  resolvedType: VariableResolvedType!
+  usages: Int!
+  uniqueFiles: Int
+}
+
+# ─────────────────────────────────────────────
+# Pagination
+# ─────────────────────────────────────────────
+
+type Pagination {
+  cursor: String
+  nextPage: String
+}
+
+# ─────────────────────────────────────────────
+# Query
+# ─────────────────────────────────────────────
+
+type Query {
+  # User
+  me: User!
+
+  # Files
+  file(key: String!, version: String, depth: Int, geometry: String, plugin_data: String, branch_data: Boolean): FigmaFile!
+  fileNodes(key: String!, ids: [String!]!, version: String, depth: Int, geometry: String, plugin_data: String): JSON!
+  fileImages(key: String!, ids: [String!]!, scale: Float, format: ExportFormat, svg_include_id: Boolean, svg_simplify_stroke: Boolean, use_absolute_bounds: Boolean, version: String): JSON!
+  fileImageFills(key: String!): JSON!
+  fileVersions(key: String!, page_size: Int, before: Int, after: Int): [Version!]!
+
+  # Comments
+  comments(fileKey: String!, as_md: Boolean): [Comment!]!
+
+  # Team resources
+  teamComponents(team_id: String!, page_size: Int, before: Int, after: Int): TeamComponentsResult!
+  teamComponentSets(team_id: String!, page_size: Int, before: Int, after: Int): TeamComponentSetsResult!
+  teamStyles(team_id: String!, page_size: Int, before: Int, after: Int): TeamStylesResult!
+  teamProjects(team_id: String!): [Project!]!
+  teamWebhooks(team_id: String!): [WebhookV2!]!
+
+  # File-level components and styles
+  fileComponents(key: String!, page_size: Int, before: Int, after: Int): FileComponentsResult!
+  fileComponentSets(key: String!, page_size: Int, before: Int, after: Int): FileComponentSetsResult!
+  fileStyles(key: String!, page_size: Int, before: Int, after: Int): FileStylesResult!
+
+  # Single resource lookups
+  component(key: String!): Component!
+  componentSet(key: String!): ComponentSet!
+  style(key: String!): Style!
+  webhook(id: String!): WebhookV2!
+
+  # Projects
+  projectFiles(project_id: String!, branch_data: Boolean): [ProjectFile!]!
+
+  # Variables (Enterprise)
+  localVariables(fileKey: String!): LocalVariablesResult!
+  publishedVariables(fileKey: String!): PublishedVariablesResult!
+
+  # Activity logs (Org)
+  activityLogs(org_id: String!, event_type: String, start_time: DateTime, end_time: DateTime, limit: Int, cursor: String): ActivityLogsResult!
+
+  # Dev resources
+  devResources(fileKey: String!, nodeIds: [String!]): [DevResource!]!
+
+  # Payments
+  payments(user_id: String!, community_file_id: String, plugin_id: String, widget_id: String): [PaymentInformation!]!
+
+  # Library analytics
+  libraryAnalyticsComponentActions(file_key: String!, group_by: String, order: String, cursor: String): LibraryAnalyticsActionsResult!
+  libraryAnalyticsComponentUsages(file_key: String!, group_by: String, order: String, cursor: String): LibraryAnalyticsUsagesResult!
+  libraryAnalyticsStyleActions(file_key: String!, group_by: String, order: String, cursor: String): LibraryAnalyticsActionsResult!
+  libraryAnalyticsStyleUsages(file_key: String!, group_by: String, order: String, cursor: String): LibraryAnalyticsStyleUsagesResult!
+  libraryAnalyticsVariableActions(file_key: String!, group_by: String, order: String, cursor: String): LibraryAnalyticsActionsResult!
+  libraryAnalyticsVariableUsages(file_key: String!, group_by: String, order: String, cursor: String): LibraryAnalyticsVariableUsagesResult!
+}
+
+# ─────────────────────────────────────────────
+# Result wrappers with pagination
+# ─────────────────────────────────────────────
+
+type TeamComponentsResult {
+  meta: ComponentsMeta!
+}
+
+type FileComponentsResult {
+  meta: ComponentsMeta!
+}
+
+type ComponentsMeta {
+  components: [PublishedComponent!]!
+  cursor: String
+}
+
+type TeamComponentSetsResult {
+  meta: ComponentSetsMeta!
+}
+
+type FileComponentSetsResult {
+  meta: ComponentSetsMeta!
+}
+
+type ComponentSetsMeta {
+  componentSets: [PublishedComponentSet!]!
+  cursor: String
+}
+
+type TeamStylesResult {
+  meta: StylesMeta!
+}
+
+type FileStylesResult {
+  meta: StylesMeta!
+}
+
+type StylesMeta {
+  styles: [PublishedStyle!]!
+  cursor: String
+}
+
+type LocalVariablesResult {
+  status: Int!
+  error: Boolean
+  meta: LocalVariablesMeta!
+}
+
+type LocalVariablesMeta {
+  variableCollections: JSON!
+  variables: JSON!
+}
+
+type PublishedVariablesResult {
+  status: Int!
+  error: Boolean
+  meta: PublishedVariablesMeta!
+}
+
+type PublishedVariablesMeta {
+  variableCollections: JSON!
+  variables: JSON!
+}
+
+type ActivityLogsResult {
+  activityLogs: [ActivityLog!]!
+  meta: ActivityLogsMeta!
+}
+
+type LibraryAnalyticsActionsResult {
+  rows: [JSON!]!
+  nextPage: String
+  cursor: String
+}
+
+type LibraryAnalyticsUsagesResult {
+  rows: [LibraryAnalyticsUsagesByComponent!]!
+  nextPage: String
+  cursor: String
+}
+
+type LibraryAnalyticsStyleUsagesResult {
+  rows: [LibraryAnalyticsStyleUsagesByAsset!]!
+  nextPage: String
+  cursor: String
+}
+
+type LibraryAnalyticsVariableUsagesResult {
+  rows: [LibraryAnalyticsVariableUsagesByAsset!]!
+  nextPage: String
+  cursor: String
+}
+
+# ─────────────────────────────────────────────
+# Mutation
+# ─────────────────────────────────────────────
+
+type Mutation {
+  # Comments
+  postComment(fileKey: String!, message: String!, client_meta: JSON, comment_id: String): Comment!
+  deleteComment(fileKey: String!, commentId: String!): Boolean!
+  postCommentReaction(fileKey: String!, commentId: String!, emoji: String!): Boolean!
+  deleteCommentReaction(fileKey: String!, commentId: String!, emoji: String!): Boolean!
+
+  # Versions
+  createFileVersion(fileKey: String!, label: String, description: String): Version!
+  deleteFileVersion(fileKey: String!, versionId: String!): Boolean!
+
+  # Webhooks
+  createWebhook(team_id: String!, event_type: WebhookEventType!, endpoint: String!, passcode: String!, status: WebhookStatus, description: String): WebhookV2!
+  updateWebhook(id: String!, status: WebhookStatus, endpoint: String, passcode: String, description: String): WebhookV2!
+  deleteWebhook(id: String!): Boolean!
+
+  # Dev resources
+  createDevResources(fileKey: String!, devResources: [DevResourceInput!]!): DevResourcesResult!
+  updateDevResources(fileKey: String!, devResources: [DevResourceUpdateInput!]!): DevResourcesResult!
+  deleteDevResource(fileKey: String!, devResourceId: String!): Boolean!
+
+  # Variables (Enterprise)
+  createVariable(fileKey: String!, variableCollectionId: String!, name: String!, resolvedType: VariableResolvedType!, description: String, hiddenFromPublishing: Boolean, scopes: [VariableScope!], codeSyntax: JSON): Variable!
+  updateVariable(fileKey: String!, variableId: String!, name: String, description: String, hiddenFromPublishing: Boolean, scopes: [VariableScope!], codeSyntax: JSON): Variable!
+  deleteVariable(fileKey: String!, variableId: String!): Boolean!
+  createVariableCollection(fileKey: String!, name: String!, hiddenFromPublishing: Boolean): VariableCollection!
+  updateVariableCollection(fileKey: String!, collectionId: String!, name: String, hiddenFromPublishing: Boolean): VariableCollection!
+  deleteVariableCollection(fileKey: String!, collectionId: String!): Boolean!
+  createVariableMode(fileKey: String!, collectionId: String!, name: String!): VariableMode!
+  updateVariableMode(fileKey: String!, collectionId: String!, modeId: String!, name: String!): VariableMode!
+  deleteVariableMode(fileKey: String!, collectionId: String!, modeId: String!): Boolean!
+  setVariableModeValue(fileKey: String!, variableId: String!, modeId: String!, value: JSON!): Boolean!
+  deleteVariableModeValue(fileKey: String!, variableId: String!, modeId: String!): Boolean!
+}
+
+# ─────────────────────────────────────────────
+# Mutation input types
+# ─────────────────────────────────────────────
+
+input DevResourceInput {
+  name: String!
+  url: String!
+  nodeId: String!
+  fileKey: String!
+}
+
+input DevResourceUpdateInput {
+  id: String!
+  name: String
+  url: String
+}
+
+type DevResourcesResult {
+  devResources: [DevResource!]
+  errors: [DevResourceError!]
+}
+
+type DevResourceError {
+  resource: JSON
+  error: String
+}
