@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Figma Files API",
+    "version": "0.21.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Dev Resources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Figma Delete Dev Resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.figma.com/v1/files/:file_key/dev_resources/:dev_resource_id",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The file to delete the dev resource from. This must be a main file key, not a branch key."
+              },
+              {
+                "name": "dev_resource_id",
+                "value": "dev_res_123456",
+                "type": "path",
+                "description": "The id of the dev resource to delete."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a dev resource from a file"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

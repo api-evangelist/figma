@@ -1,0 +1,448 @@
+{
+  "info": {
+    "_postman_id": "70ccffd2-3505-4e93-89e1-9d699d0a54d1",
+    "name": "Figma Files API",
+    "description": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do that.\n\nContact Support:\n Email: support@figma.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:08:38.000Z",
+    "updatedAt": "2026-06-05T15:08:38.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-70ccffd2-3505-4e93-89e1-9d699d0a54d1"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "files",
+          "item": [
+            {
+              "name": "{file_key}",
+              "item": [
+                {
+                  "name": "dev_resources",
+                  "item": [
+                    {
+                      "name": "{dev_resource_id}",
+                      "item": [
+                        {
+                          "name": "Figma Delete Dev Resource",
+                          "id": "836f77aa-3103-4ac4-adb2-23c71b24a8b2",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{bearerToken}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/files/:file_key/dev_resources/:dev_resource_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "files",
+                                ":file_key",
+                                "dev_resources",
+                                ":dev_resource_id"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "912c4d96-7d4e-4aff-8c29-3eb234f585bf",
+                                  "key": "file_key",
+                                  "value": "<string>",
+                                  "description": "(Required) The file to delete the dev resource from. This must be a main file key, not a branch key."
+                                },
+                                {
+                                  "id": "d748e04a-eb48-46bb-ab5a-9ecad907aac0",
+                                  "key": "dev_resource_id",
+                                  "value": "<string>",
+                                  "description": "(Required) The id of the dev resource to delete."
+                                }
+                              ]
+                            },
+                            "description": "Delete a dev resource from a file"
+                          },
+                          "response": [
+                            {
+                              "id": "9f341a42-4cc7-4e00-baf1-847b248fb15e",
+                              "name": "Response from the DELETE /v1/files/{file_key}/dev_resources/{dev_resource_id} endpoint.",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/files/:file_key/dev_resources/:dev_resource_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "files",
+                                    ":file_key",
+                                    "dev_resources",
+                                    ":dev_resource_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "file_key"
+                                    },
+                                    {
+                                      "key": "dev_resource_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"status\": 200,\n  \"error\": false\n}",
+                              "createdAt": "2026-06-05T15:08:38.000Z",
+                              "updatedAt": "2026-06-05T15:08:38.000Z",
+                              "uid": "35240-9f341a42-4cc7-4e00-baf1-847b248fb15e"
+                            },
+                            {
+                              "id": "7796bc9c-8165-4aa2-b687-945d9bf450e7",
+                              "name": "Token is missing or incorrect.",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/files/:file_key/dev_resources/:dev_resource_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "files",
+                                    ":file_key",
+                                    "dev_resources",
+                                    ":dev_resource_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "file_key"
+                                    },
+                                    {
+                                      "key": "dev_resource_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-06-05T15:08:38.000Z",
+                              "updatedAt": "2026-06-05T15:08:38.000Z",
+                              "uid": "35240-7796bc9c-8165-4aa2-b687-945d9bf450e7"
+                            },
+                            {
+                              "id": "e07c1769-7199-46ac-940b-a76c595d8f4a",
+                              "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/files/:file_key/dev_resources/:dev_resource_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "files",
+                                    ":file_key",
+                                    "dev_resources",
+                                    ":dev_resource_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "file_key"
+                                    },
+                                    {
+                                      "key": "dev_resource_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Forbidden",
+                              "code": 403,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-06-05T15:08:38.000Z",
+                              "updatedAt": "2026-06-05T15:08:38.000Z",
+                              "uid": "35240-e07c1769-7199-46ac-940b-a76c595d8f4a"
+                            },
+                            {
+                              "id": "24311307-7e3c-4301-9580-66e95e64b736",
+                              "name": "The requested file or resource was not found.",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/files/:file_key/dev_resources/:dev_resource_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "files",
+                                    ":file_key",
+                                    "dev_resources",
+                                    ":dev_resource_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "file_key"
+                                    },
+                                    {
+                                      "key": "dev_resource_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-06-05T15:08:38.000Z",
+                              "updatedAt": "2026-06-05T15:08:38.000Z",
+                              "uid": "35240-24311307-7e3c-4301-9580-66e95e64b736"
+                            },
+                            {
+                              "id": "310bcdb4-7a73-40cf-b4a3-3bd40b18bcf1",
+                              "name": "API requests may be throttled or rate limited. Please wait a while before attempting the request again.",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/files/:file_key/dev_resources/:dev_resource_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "files",
+                                    ":file_key",
+                                    "dev_resources",
+                                    ":dev_resource_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "file_key"
+                                    },
+                                    {
+                                      "key": "dev_resource_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Too Many Requests",
+                              "code": 429,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-06-05T15:08:38.000Z",
+                              "updatedAt": "2026-06-05T15:08:38.000Z",
+                              "uid": "35240-310bcdb4-7a73-40cf-b4a3-3bd40b18bcf1"
+                            },
+                            {
+                              "id": "8e0ed523-2e79-429c-8232-026b05ea666e",
+                              "name": "An internal server error occurred.",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/files/:file_key/dev_resources/:dev_resource_id",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "files",
+                                    ":file_key",
+                                    "dev_resources",
+                                    ":dev_resource_id"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "file_key"
+                                    },
+                                    {
+                                      "key": "dev_resource_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-06-05T15:08:38.000Z",
+                              "updatedAt": "2026-06-05T15:08:38.000Z",
+                              "uid": "35240-8e0ed523-2e79-429c-8232-026b05ea666e"
+                            }
+                          ],
+                          "createdAt": "2026-06-05T15:08:38.000Z",
+                          "updatedAt": "2026-06-05T15:08:38.000Z",
+                          "uid": "35240-836f77aa-3103-4ac4-adb2-23c71b24a8b2"
+                        }
+                      ],
+                      "id": "fe293953-491c-4b87-8ede-03b545341867",
+                      "createdAt": "2026-06-05T15:08:38.000Z",
+                      "updatedAt": "2026-06-05T15:08:38.000Z",
+                      "uid": "35240-fe293953-491c-4b87-8ede-03b545341867"
+                    }
+                  ],
+                  "id": "0b06351b-642c-450c-89ab-1a582ede4df3",
+                  "createdAt": "2026-06-05T15:08:38.000Z",
+                  "updatedAt": "2026-06-05T15:08:38.000Z",
+                  "uid": "35240-0b06351b-642c-450c-89ab-1a582ede4df3"
+                }
+              ],
+              "id": "efeccbcf-0223-491b-9afc-8dfb6d3a5a89",
+              "createdAt": "2026-06-05T15:08:38.000Z",
+              "updatedAt": "2026-06-05T15:08:38.000Z",
+              "uid": "35240-efeccbcf-0223-491b-9afc-8dfb6d3a5a89"
+            }
+          ],
+          "id": "70f634c1-e1cf-450b-9273-c3f779d58e24",
+          "createdAt": "2026-06-05T15:08:38.000Z",
+          "updatedAt": "2026-06-05T15:08:38.000Z",
+          "uid": "35240-70f634c1-e1cf-450b-9273-c3f779d58e24"
+        }
+      ],
+      "id": "ab190721-2248-42a8-af48-2df30efcc3bc",
+      "createdAt": "2026-06-05T15:08:38.000Z",
+      "updatedAt": "2026-06-05T15:08:38.000Z",
+      "uid": "35240-ab190721-2248-42a8-af48-2df30efcc3bc"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.figma.com"
+    }
+  ]
+}

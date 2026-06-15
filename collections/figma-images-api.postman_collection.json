@@ -1,0 +1,1399 @@
+{
+  "item": [
+    {
+      "id": "6a4713ec-fd5b-4265-a9ae-fdfdf0182b07",
+      "name": "Files",
+      "description": {
+        "content": "Operations related to Figma file resources",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b009e6cd-6c25-4911-bd29-e2a20e3a4894",
+          "name": "Figma Render Images of File Nodes",
+          "request": {
+            "name": "Figma Render Images of File Nodes",
+            "description": {
+              "content": "Renders images from a file.\nIf no error occurs, `\"images\"` will be populated with a map from node IDs to URLs of the rendered images, and `\"status\"` will be omitted. The image assets will expire after 30 days. Images up to 32 megapixels can be exported. Any images that are larger will be scaled down.\nImportant: the image map may contain values that are `null`. This indicates that rendering of that specific node has failed. This may be due to the node id not existing, or other reasons such has the node having no renderable components. It is guaranteed that any node that was requested for rendering will be represented in this map whether or not the render succeeded.\nTo render multiple images from the same file, use the `ids` query parameter to specify multiple node ids.\n``` GET /v1/images/:key?ids=1:2,1:3,1:4 ```\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "images",
+                ":file_key"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>",
+                  "description": "(Required) A comma separated list of node IDs to render."
+                },
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "A specific version ID to get. Omitting this will get the current version of the file."
+                },
+                {
+                  "disabled": false,
+                  "key": "scale",
+                  "value": "<number>",
+                  "description": "A number between 0.01 and 4, the image scaling factor."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "png",
+                  "description": "A string enum for the image output format."
+                },
+                {
+                  "disabled": false,
+                  "key": "svg_outline_text",
+                  "value": "true",
+                  "description": "Whether text elements are rendered as outlines (vector paths) or as `<text>` elements in SVGs."
+                },
+                {
+                  "disabled": false,
+                  "key": "svg_include_id",
+                  "value": "false",
+                  "description": "Whether to include id attributes for all SVG elements. Adds the layer name to the `id` attribute of an svg element."
+                },
+                {
+                  "disabled": false,
+                  "key": "svg_include_node_id",
+                  "value": "false",
+                  "description": "Whether to include node id attributes for all SVG elements. Adds the node id to a `data-node-id` attribute of an svg element."
+                },
+                {
+                  "disabled": false,
+                  "key": "svg_simplify_stroke",
+                  "value": "true",
+                  "description": "Whether to simplify inside/outside strokes and use stroke attribute if possible instead of `<mask>`."
+                },
+                {
+                  "disabled": false,
+                  "key": "contents_only",
+                  "value": "true",
+                  "description": "Whether content that overlaps the node should be excluded from rendering. Passing false (i.e., rendering overlaps) may increase processing time, since more of the document must be included in rendering."
+                },
+                {
+                  "disabled": false,
+                  "key": "use_absolute_bounds",
+                  "value": "false",
+                  "description": "Use the full dimensions of the node regardless of whether or not it is cropped or the space around it is empty. Use this to export text nodes without cropping."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "file_key",
+                  "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "89307336-4fd1-46ee-b121-ca573f5641e5",
+              "name": "Response from the GET /v1/images/{file_key} endpoint.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"err\": null,\n  \"images\": {\n    \"1:2\": \"https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/abc123\",\n    \"1:3\": \"https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/def456\",\n    \"1:4\": null\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "299b3d4c-204f-41d1-9b17-d54eafa57ee6",
+              "name": "Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"err\": \"Invalid parameter: scale must be between 0.01 and 4\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7166867-7254-43b7-978d-7ea8aee3dc55",
+              "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 403,\n  \"err\": \"Access denied. You do not have permission to access this file.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6e824928-e9ee-4d40-83d7-edc2b5a071ed",
+              "name": "The requested file or resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 404,\n  \"err\": \"File not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c2b43543-9ee1-486a-bc85-f984353de592",
+              "name": "In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 429,\n  \"err\": \"Rate limit exceeded. Please wait before retrying.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ee5eee6e-0d6b-48da-ad66-529fec58d9b3",
+              "name": "An internal server error occurred.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 500,\n  \"err\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "5ed70cb3-54a0-4434-bab4-f7adc40887db",
+      "name": "Images",
+      "description": {
+        "content": "Operations for rendering and exporting images from Figma files",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9cdfb1cb-f2b3-4293-a510-6a59395949e4",
+          "name": "Figma Render Images of File Nodes",
+          "request": {
+            "name": "Figma Render Images of File Nodes",
+            "description": {
+              "content": "Renders images from a file.\nIf no error occurs, `\"images\"` will be populated with a map from node IDs to URLs of the rendered images, and `\"status\"` will be omitted. The image assets will expire after 30 days. Images up to 32 megapixels can be exported. Any images that are larger will be scaled down.\nImportant: the image map may contain values that are `null`. This indicates that rendering of that specific node has failed. This may be due to the node id not existing, or other reasons such has the node having no renderable components. It is guaranteed that any node that was requested for rendering will be represented in this map whether or not the render succeeded.\nTo render multiple images from the same file, use the `ids` query parameter to specify multiple node ids.\n``` GET /v1/images/:key?ids=1:2,1:3,1:4 ```\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "images",
+                ":file_key"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>",
+                  "description": "(Required) A comma separated list of node IDs to render."
+                },
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "A specific version ID to get. Omitting this will get the current version of the file."
+                },
+                {
+                  "disabled": false,
+                  "key": "scale",
+                  "value": "<number>",
+                  "description": "A number between 0.01 and 4, the image scaling factor."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "png",
+                  "description": "A string enum for the image output format."
+                },
+                {
+                  "disabled": false,
+                  "key": "svg_outline_text",
+                  "value": "true",
+                  "description": "Whether text elements are rendered as outlines (vector paths) or as `<text>` elements in SVGs."
+                },
+                {
+                  "disabled": false,
+                  "key": "svg_include_id",
+                  "value": "false",
+                  "description": "Whether to include id attributes for all SVG elements. Adds the layer name to the `id` attribute of an svg element."
+                },
+                {
+                  "disabled": false,
+                  "key": "svg_include_node_id",
+                  "value": "false",
+                  "description": "Whether to include node id attributes for all SVG elements. Adds the node id to a `data-node-id` attribute of an svg element."
+                },
+                {
+                  "disabled": false,
+                  "key": "svg_simplify_stroke",
+                  "value": "true",
+                  "description": "Whether to simplify inside/outside strokes and use stroke attribute if possible instead of `<mask>`."
+                },
+                {
+                  "disabled": false,
+                  "key": "contents_only",
+                  "value": "true",
+                  "description": "Whether content that overlaps the node should be excluded from rendering. Passing false (i.e., rendering overlaps) may increase processing time, since more of the document must be included in rendering."
+                },
+                {
+                  "disabled": false,
+                  "key": "use_absolute_bounds",
+                  "value": "false",
+                  "description": "Use the full dimensions of the node regardless of whether or not it is cropped or the space around it is empty. Use this to export text nodes without cropping."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "file_key",
+                  "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "846f9cbe-1103-4e8c-8854-079d712206d2",
+              "name": "Response from the GET /v1/images/{file_key} endpoint.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"err\": null,\n  \"images\": {\n    \"1:2\": \"https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/abc123\",\n    \"1:3\": \"https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/def456\",\n    \"1:4\": null\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4ab8ba63-c4b7-4b85-ac1f-7d27e387fffb",
+              "name": "Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"err\": \"Invalid parameter: scale must be between 0.01 and 4\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eb6726ee-c3b3-4c27-bf5a-c25638b5c9bb",
+              "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 403,\n  \"err\": \"Access denied. You do not have permission to access this file.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c7edb021-4518-48ff-a25d-f785fa8cc89c",
+              "name": "The requested file or resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 404,\n  \"err\": \"File not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1438a04f-085b-488f-a13f-b84982af67ee",
+              "name": "In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 429,\n  \"err\": \"Rate limit exceeded. Please wait before retrying.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7030d467-d54e-44d2-bf14-f8f21036719a",
+              "name": "An internal server error occurred.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 500,\n  \"err\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.figma.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c263cc75-3cc3-4472-89ee-694dec8866a5",
+    "name": "Figma Images API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do\nthat.\n\nContact Support:\n Email: support@figma.com",
+      "type": "text/plain"
+    }
+  }
+}

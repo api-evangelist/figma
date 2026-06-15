@@ -1,0 +1,367 @@
+{
+  "item": [
+    {
+      "id": "9c4bcb82-1f3f-43ca-b0d1-1329d6bf0896",
+      "name": "Payments",
+      "description": {
+        "content": "Operations for querying user payment information on plugins, widgets, and Community files",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1335586c-8d0f-43d0-b6f1-b00f506d773a",
+          "name": "Figma Get Payments",
+          "request": {
+            "name": "Figma Get Payments",
+            "description": {
+              "content": "There are two methods to query for a user's payment information on a plugin, widget, or Community file. The first method, using plugin payment tokens, is typically used when making queries from a plugin's or widget's code. The second method, providing a user ID and resource ID, is typically used when making queries from anywhere else.\nNote that you can only query for resources that you own. In most cases, this means that you can only query resources that you originally created.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "payments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "plugin_payment_token",
+                  "value": "<string>",
+                  "description": "Short-lived token returned from \"getPluginPaymentTokenAsync\" in the plugin payments API and used to authenticate to this endpoint. Read more about generating this token through \"Calling the Payments REST API from a plugin or widget\" below."
+                },
+                {
+                  "disabled": false,
+                  "key": "user_id",
+                  "value": "<number>",
+                  "description": "The ID of the user to query payment information about. You can get the user ID by having the user OAuth2 to the Figma REST API."
+                },
+                {
+                  "disabled": false,
+                  "key": "community_file_id",
+                  "value": "<number>",
+                  "description": "The ID of the Community file to query a user's payment information on. You can get the Community file ID from the file's Community page (look for the number after \"file/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\"."
+                },
+                {
+                  "disabled": false,
+                  "key": "plugin_id",
+                  "value": "<number>",
+                  "description": "The ID of the plugin to query a user's payment information on. You can get the plugin ID from the plugin's manifest, or from the plugin's Community page (look for the number after \"plugin/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\"."
+                },
+                {
+                  "disabled": false,
+                  "key": "widget_id",
+                  "value": "<number>",
+                  "description": "The ID of the widget to query a user's payment information on. You can get the widget ID from the widget's manifest, or from the widget's Community page (look for the number after \"widget/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\"."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "7609ff0e-c294-4a56-b79e-410ab2a164b1",
+              "name": "Response from the GET /v1/payments endpoint.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "plugin_payment_token",
+                      "value": "ppt_abc123xyz789"
+                    },
+                    {
+                      "key": "user_id",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "community_file_id",
+                      "value": "9876543210"
+                    },
+                    {
+                      "key": "plugin_id",
+                      "value": "1122334455"
+                    },
+                    {
+                      "key": "widget_id",
+                      "value": "5544332211"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 200,\n  \"error\": false,\n  \"meta\": {\n    \"user_id\": \"1234567890\",\n    \"resource_id\": \"1122334455\",\n    \"resource_type\": \"PLUGIN\",\n    \"payment_status\": \"PAID\",\n    \"date_of_purchase\": \"2024-06-15T14:30:00Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e2534ec3-ed80-4a42-b705-ad440a9df780",
+              "name": "Token is missing or incorrect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "plugin_payment_token",
+                      "value": "ppt_abc123xyz789"
+                    },
+                    {
+                      "key": "user_id",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "community_file_id",
+                      "value": "9876543210"
+                    },
+                    {
+                      "key": "plugin_id",
+                      "value": "1122334455"
+                    },
+                    {
+                      "key": "widget_id",
+                      "value": "5544332211"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 401,\n  \"message\": \"Token is missing or incorrect\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a614864d-dd4f-4be2-b30c-8c5becc7d540",
+              "name": "In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "plugin_payment_token",
+                      "value": "ppt_abc123xyz789"
+                    },
+                    {
+                      "key": "user_id",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "community_file_id",
+                      "value": "9876543210"
+                    },
+                    {
+                      "key": "plugin_id",
+                      "value": "1122334455"
+                    },
+                    {
+                      "key": "widget_id",
+                      "value": "5544332211"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 429,\n  \"message\": \"Rate limit exceeded. Please wait before retrying.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa500569-74e7-4e24-a569-82baa08fc9ff",
+              "name": "An internal server error occurred.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "plugin_payment_token",
+                      "value": "ppt_abc123xyz789"
+                    },
+                    {
+                      "key": "user_id",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "community_file_id",
+                      "value": "9876543210"
+                    },
+                    {
+                      "key": "plugin_id",
+                      "value": "1122334455"
+                    },
+                    {
+                      "key": "widget_id",
+                      "value": "5544332211"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 500,\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.figma.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5b55fe7f-642d-4b1b-b77a-572485f27e85",
+    "name": "Figma Payments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do\nthat.\n\nContact Support:\n Email: support@figma.com",
+      "type": "text/plain"
+    }
+  }
+}

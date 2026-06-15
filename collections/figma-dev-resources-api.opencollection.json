@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Figma Dev Resources API",
+    "version": "0.21.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Dev Resources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Figma Create Dev Resources",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.figma.com/v1/dev_resources",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Bulk create dev resources across multiple files. Dev resources that are successfully created will show up in the links_created array in the response."
+        },
+        {
+          "info": {
+            "name": "Figma Update Dev Resources",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.figma.com/v1/dev_resources",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Bulk update dev resources across multiple files. Ids for dev resources that are successfully updated will show up in the `links_updated` array in the response."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

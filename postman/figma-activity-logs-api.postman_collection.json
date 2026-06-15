@@ -1,0 +1,542 @@
+{
+  "info": {
+    "_postman_id": "85b7673e-95d0-48d0-b657-e19c71f6fb29",
+    "name": "Figma Activity Logs API",
+    "description": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do that.\n\nContact Support:\n Email: support@figma.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:08:45.000Z",
+    "updatedAt": "2026-06-05T15:08:45.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-85b7673e-95d0-48d0-b657-e19c71f6fb29"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "activity_logs",
+          "item": [
+            {
+              "name": "Figma Get Activity Logs",
+              "id": "7f1b2432-0e63-4fd9-9c54-55b27bec3659",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "oauth2",
+                  "oauth2": [
+                    {
+                      "key": "scope",
+                      "value": "org:activity_log_read",
+                      "type": "string"
+                    },
+                    {
+                      "key": "accessTokenUrl",
+                      "value": "https://api.figma.com/v1/oauth/token",
+                      "type": "string"
+                    },
+                    {
+                      "key": "authUrl",
+                      "value": "https://www.figma.com/oauth",
+                      "type": "string"
+                    },
+                    {
+                      "key": "grant_type",
+                      "value": "authorization_code",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/activity_logs?events=<string>&start_time=<number>&end_time=<number>&limit=<number>&order=asc",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "activity_logs"
+                  ],
+                  "query": [
+                    {
+                      "description": "Event type(s) to include in the response. Can have multiple values separated by comma. All events are returned by default.",
+                      "key": "events",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Unix timestamp of the least recent event to include. This param defaults to one year ago if unspecified. Events prior to one year ago are not available.",
+                      "key": "start_time",
+                      "value": "<number>"
+                    },
+                    {
+                      "description": "Unix timestamp of the most recent event to include. This param defaults to the current timestamp if unspecified.",
+                      "key": "end_time",
+                      "value": "<number>"
+                    },
+                    {
+                      "description": "Maximum number of events to return. This param defaults to 1000 if unspecified.",
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "description": "Event order by timestamp. This param can be either \"asc\" (default) or \"desc\".",
+                      "key": "order",
+                      "value": "asc"
+                    }
+                  ]
+                },
+                "description": "Returns a list of activity log events"
+              },
+              "response": [
+                {
+                  "id": "c4c76f19-1521-412f-af03-ec4c3dc88477",
+                  "name": "Response from the GET /v1/activity_logs endpoint.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: oauth2",
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/activity_logs?events=<string>&start_time=<number>&end_time=<number>&limit=<number>&order=asc",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "activity_logs"
+                      ],
+                      "query": [
+                        {
+                          "description": "Event type(s) to include in the response. Can have multiple values separated by comma. All events are returned by default.",
+                          "key": "events",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Unix timestamp of the least recent event to include. This param defaults to one year ago if unspecified. Events prior to one year ago are not available.",
+                          "key": "start_time",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Unix timestamp of the most recent event to include. This param defaults to the current timestamp if unspecified.",
+                          "key": "end_time",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Maximum number of events to return. This param defaults to 1000 if unspecified.",
+                          "key": "limit",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Event order by timestamp. This param can be either \"asc\" (default) or \"desc\".",
+                          "key": "order",
+                          "value": "asc"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": 200,\n  \"error\": false,\n  \"meta\": {\n    \"activityLogs\": [\n      {\n        \"id\": \"<string>\",\n        \"timestamp\": \"<number>\",\n        \"actor\": {\n          \"name\": \"<string>\",\n          \"type\": \"user\",\n          \"id\": \"<string>\",\n          \"email\": \"<string>\"\n        },\n        \"action\": {\n          \"type\": \"<string>\",\n          \"details\": null\n        },\n        \"entity\": {\n          \"type\": \"user\",\n          \"id\": \"<string>\",\n          \"name\": \"<string>\",\n          \"email\": \"<string>\"\n        },\n        \"context\": {\n          \"clientName\": \"<string,null>\",\n          \"ipAddress\": \"<string>\",\n          \"isFigmaSupportTeamAction\": \"<boolean>\",\n          \"orgId\": \"<string>\",\n          \"teamId\": \"<string,null>\"\n        }\n      },\n      {\n        \"id\": \"<string>\",\n        \"timestamp\": \"<number>\",\n        \"actor\": null,\n        \"action\": {\n          \"type\": \"<string>\",\n          \"details\": null\n        },\n        \"entity\": {\n          \"type\": \"user\",\n          \"id\": \"<string>\",\n          \"name\": \"<string>\",\n          \"email\": \"<string>\"\n        },\n        \"context\": {\n          \"clientName\": \"<string,null>\",\n          \"ipAddress\": \"<string>\",\n          \"isFigmaSupportTeamAction\": \"<boolean>\",\n          \"orgId\": \"<string>\",\n          \"teamId\": \"<string,null>\"\n        }\n      }\n    ],\n    \"nextPage\": \"<boolean>\",\n    \"cursor\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:08:46.000Z",
+                  "updatedAt": "2026-06-05T15:08:46.000Z",
+                  "uid": "35240-c4c76f19-1521-412f-af03-ec4c3dc88477"
+                },
+                {
+                  "id": "74fac9f1-51f3-4d33-85f1-0d7a63e7c9f9",
+                  "name": "Bad request. Parameters are invalid or malformed. Please check the input formats.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: oauth2",
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/activity_logs?events=<string>&start_time=<number>&end_time=<number>&limit=<number>&order=asc",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "activity_logs"
+                      ],
+                      "query": [
+                        {
+                          "description": "Event type(s) to include in the response. Can have multiple values separated by comma. All events are returned by default.",
+                          "key": "events",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Unix timestamp of the least recent event to include. This param defaults to one year ago if unspecified. Events prior to one year ago are not available.",
+                          "key": "start_time",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Unix timestamp of the most recent event to include. This param defaults to the current timestamp if unspecified.",
+                          "key": "end_time",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Maximum number of events to return. This param defaults to 1000 if unspecified.",
+                          "key": "limit",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Event order by timestamp. This param can be either \"asc\" (default) or \"desc\".",
+                          "key": "order",
+                          "value": "asc"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:46.000Z",
+                  "updatedAt": "2026-06-05T15:08:46.000Z",
+                  "uid": "35240-74fac9f1-51f3-4d33-85f1-0d7a63e7c9f9"
+                },
+                {
+                  "id": "0399773f-f525-4bdc-912b-d792665da6e4",
+                  "name": "Token is missing or incorrect.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: oauth2",
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/activity_logs?events=<string>&start_time=<number>&end_time=<number>&limit=<number>&order=asc",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "activity_logs"
+                      ],
+                      "query": [
+                        {
+                          "description": "Event type(s) to include in the response. Can have multiple values separated by comma. All events are returned by default.",
+                          "key": "events",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Unix timestamp of the least recent event to include. This param defaults to one year ago if unspecified. Events prior to one year ago are not available.",
+                          "key": "start_time",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Unix timestamp of the most recent event to include. This param defaults to the current timestamp if unspecified.",
+                          "key": "end_time",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Maximum number of events to return. This param defaults to 1000 if unspecified.",
+                          "key": "limit",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Event order by timestamp. This param can be either \"asc\" (default) or \"desc\".",
+                          "key": "order",
+                          "value": "asc"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:46.000Z",
+                  "updatedAt": "2026-06-05T15:08:46.000Z",
+                  "uid": "35240-0399773f-f525-4bdc-912b-d792665da6e4"
+                },
+                {
+                  "id": "303f09cd-019c-4ea6-b55f-7497f41565f0",
+                  "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: oauth2",
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/activity_logs?events=<string>&start_time=<number>&end_time=<number>&limit=<number>&order=asc",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "activity_logs"
+                      ],
+                      "query": [
+                        {
+                          "description": "Event type(s) to include in the response. Can have multiple values separated by comma. All events are returned by default.",
+                          "key": "events",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Unix timestamp of the least recent event to include. This param defaults to one year ago if unspecified. Events prior to one year ago are not available.",
+                          "key": "start_time",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Unix timestamp of the most recent event to include. This param defaults to the current timestamp if unspecified.",
+                          "key": "end_time",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Maximum number of events to return. This param defaults to 1000 if unspecified.",
+                          "key": "limit",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Event order by timestamp. This param can be either \"asc\" (default) or \"desc\".",
+                          "key": "order",
+                          "value": "asc"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:46.000Z",
+                  "updatedAt": "2026-06-05T15:08:46.000Z",
+                  "uid": "35240-303f09cd-019c-4ea6-b55f-7497f41565f0"
+                },
+                {
+                  "id": "82a750eb-aa66-410c-94ef-f5ae2b8a8e0a",
+                  "name": "API requests may be throttled or rate limited. Please wait a while before attempting the request again.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: oauth2",
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/activity_logs?events=<string>&start_time=<number>&end_time=<number>&limit=<number>&order=asc",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "activity_logs"
+                      ],
+                      "query": [
+                        {
+                          "description": "Event type(s) to include in the response. Can have multiple values separated by comma. All events are returned by default.",
+                          "key": "events",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Unix timestamp of the least recent event to include. This param defaults to one year ago if unspecified. Events prior to one year ago are not available.",
+                          "key": "start_time",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Unix timestamp of the most recent event to include. This param defaults to the current timestamp if unspecified.",
+                          "key": "end_time",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Maximum number of events to return. This param defaults to 1000 if unspecified.",
+                          "key": "limit",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Event order by timestamp. This param can be either \"asc\" (default) or \"desc\".",
+                          "key": "order",
+                          "value": "asc"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:46.000Z",
+                  "updatedAt": "2026-06-05T15:08:46.000Z",
+                  "uid": "35240-82a750eb-aa66-410c-94ef-f5ae2b8a8e0a"
+                },
+                {
+                  "id": "f6c8cdfb-4f62-4b36-a08d-c178489f3076",
+                  "name": "An internal server error occurred.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: oauth2",
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/activity_logs?events=<string>&start_time=<number>&end_time=<number>&limit=<number>&order=asc",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "activity_logs"
+                      ],
+                      "query": [
+                        {
+                          "description": "Event type(s) to include in the response. Can have multiple values separated by comma. All events are returned by default.",
+                          "key": "events",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Unix timestamp of the least recent event to include. This param defaults to one year ago if unspecified. Events prior to one year ago are not available.",
+                          "key": "start_time",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Unix timestamp of the most recent event to include. This param defaults to the current timestamp if unspecified.",
+                          "key": "end_time",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Maximum number of events to return. This param defaults to 1000 if unspecified.",
+                          "key": "limit",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Event order by timestamp. This param can be either \"asc\" (default) or \"desc\".",
+                          "key": "order",
+                          "value": "asc"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:46.000Z",
+                  "updatedAt": "2026-06-05T15:08:46.000Z",
+                  "uid": "35240-f6c8cdfb-4f62-4b36-a08d-c178489f3076"
+                }
+              ],
+              "createdAt": "2026-06-05T15:08:46.000Z",
+              "updatedAt": "2026-06-05T15:08:46.000Z",
+              "uid": "35240-7f1b2432-0e63-4fd9-9c54-55b27bec3659"
+            }
+          ],
+          "id": "a6da5d76-30b3-4c54-865d-ea72aeb9f109",
+          "createdAt": "2026-06-05T15:08:46.000Z",
+          "updatedAt": "2026-06-05T15:08:46.000Z",
+          "uid": "35240-a6da5d76-30b3-4c54-865d-ea72aeb9f109"
+        }
+      ],
+      "id": "4ee5eaea-5fe6-45b3-aec9-6f4d8da67f8d",
+      "createdAt": "2026-06-05T15:08:46.000Z",
+      "updatedAt": "2026-06-05T15:08:46.000Z",
+      "uid": "35240-4ee5eaea-5fe6-45b3-aec9-6f4d8da67f8d"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.figma.com"
+    }
+  ]
+}

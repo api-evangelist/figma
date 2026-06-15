@@ -1,0 +1,509 @@
+{
+  "item": [
+    {
+      "id": "372af6be-bf30-4a59-b81d-bf9549a95156",
+      "name": "Activity Logs",
+      "description": {
+        "content": "Operations related to retrieving activity logs for an organization",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1122bee4-4da6-446f-8f9b-e56ce1d1ce00",
+          "name": "Figma Get Activity Logs",
+          "request": {
+            "name": "Figma Get Activity Logs",
+            "description": {
+              "content": "Returns a list of activity log events",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "activity_logs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "events",
+                  "value": "<string>",
+                  "description": "Event type(s) to include in the response. Can have multiple values separated by comma. All events are returned by default."
+                },
+                {
+                  "disabled": false,
+                  "key": "start_time",
+                  "value": "<number>",
+                  "description": "Unix timestamp of the least recent event to include. This param defaults to one year ago if unspecified. Events prior to one year ago are not available."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_time",
+                  "value": "<number>",
+                  "description": "Unix timestamp of the most recent event to include. This param defaults to the current timestamp if unspecified."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<number>",
+                  "description": "Maximum number of events to return. This param defaults to 1000 if unspecified."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "asc",
+                  "description": "Event order by timestamp. This param can be either \"asc\" (default) or \"desc\"."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "org:activity_log_read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.figma.com/v1/oauth/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://www.figma.com/oauth"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0ff3f248-8d93-4f51-8df8-2e017a8d6ebd",
+              "name": "Response from the GET /v1/activity_logs endpoint.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "activity_logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "events",
+                      "value": "file.created,file.deleted"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "1704067200"
+                    },
+                    {
+                      "key": "end_time",
+                      "value": "1706745600"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 200,\n  \"error\": false,\n  \"meta\": {\n    \"activityLogs\": [\n      {\n        \"id\": \"evt_123456789\",\n        \"timestamp\": 1706745600,\n        \"actor\": {\n          \"type\": \"user\",\n          \"id\": \"usr_abc123\",\n          \"name\": \"John Doe\",\n          \"email\": \"john.doe@example.com\"\n        },\n        \"action\": {\n          \"type\": \"file.created\",\n          \"details\": {\n            \"fileName\": \"My Design File\"\n          }\n        },\n        \"entity\": {\n          \"type\": \"file\",\n          \"id\": \"file_xyz789\",\n          \"name\": \"My Design File\"\n        },\n        \"context\": {\n          \"clientName\": null,\n          \"ipAddress\": \"192.168.1.100\",\n          \"isFigmaSupportTeamAction\": false,\n          \"orgId\": \"org_123\",\n          \"teamId\": \"team_456\"\n        }\n      }\n    ],\n    \"cursor\": \"eyJsYXN0X2V2ZW50X2lkIjoiZXZ0XzEyMzQ1Njc4OSJ9\",\n    \"nextPage\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a0e153ee-3760-4388-a7ad-19852e13b147",
+              "name": "Bad request. Parameters are invalid or malformed. Please check the input formats.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "activity_logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "events",
+                      "value": "file.created,file.deleted"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "1704067200"
+                    },
+                    {
+                      "key": "end_time",
+                      "value": "1706745600"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 400,\n  \"message\": \"Invalid parameter: start_time must be a valid Unix timestamp\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a55fb9f4-8651-4a89-9dd2-6c7c8c966f4a",
+              "name": "Token is missing or incorrect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "activity_logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "events",
+                      "value": "file.created,file.deleted"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "1704067200"
+                    },
+                    {
+                      "key": "end_time",
+                      "value": "1706745600"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 401,\n  \"message\": \"Token is missing or incorrect\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2a57e1eb-f983-4db7-b880-8a5a002bbea2",
+              "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "activity_logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "events",
+                      "value": "file.created,file.deleted"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "1704067200"
+                    },
+                    {
+                      "key": "end_time",
+                      "value": "1706745600"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 403,\n  \"message\": \"You do not have permission to access this resource\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e5a0cedb-c6cf-4302-979d-8392d07c1a4d",
+              "name": "API requests may be throttled or rate limited. Please wait a while before attempting the request again.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "activity_logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "events",
+                      "value": "file.created,file.deleted"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "1704067200"
+                    },
+                    {
+                      "key": "end_time",
+                      "value": "1706745600"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 429,\n  \"message\": \"Rate limit exceeded. Please wait before making another request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "89a6dc7f-fb1a-4c32-9923-ae5508964151",
+              "name": "An internal server error occurred.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "activity_logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "events",
+                      "value": "file.created,file.deleted"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "1704067200"
+                    },
+                    {
+                      "key": "end_time",
+                      "value": "1706745600"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 500,\n  \"message\": \"An internal server error occurred\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.figma.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "480ffcc2-d1b4-4c4f-a354-aaad9e933c59",
+    "name": "Figma Activity Logs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do that.\n\nContact Support:\n Email: support@figma.com",
+      "type": "text/plain"
+    }
+  }
+}

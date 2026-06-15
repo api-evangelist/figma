@@ -1,0 +1,59 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Figma Analytics API",
+    "version": "0.21.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Library Analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Figma Get Library Analytics Usage Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/analytics/libraries/:file_key/usages",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "File key of the library to fetch analytics data for."
+              },
+              {
+                "name": "cursor",
+                "value": "eyJwYWdlIjoxfQ==",
+                "type": "query",
+                "description": "Cursor indicating what page of data to fetch. Obtained from prior API call."
+              },
+              {
+                "name": "group_by",
+                "value": "component",
+                "type": "query",
+                "description": "A dimension to group returned analytics data by. Accepts \"component\" or \"file\"."
+              },
+              {
+                "name": "order",
+                "value": "desc",
+                "type": "query",
+                "description": "How to order response rows by number of instances. This param can be either \"asc\" or \"desc\" (default)."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of library analytics usage data broken down by the requested dimension."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

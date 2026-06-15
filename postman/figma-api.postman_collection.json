@@ -1,0 +1,252 @@
+{
+  "info": {
+    "_postman_id": "293d0c58-a59d-4507-8d49-dc82cea0f6a2",
+    "name": "Figma API",
+    "description": "This is the OpenAPI specification for the [Figma REST API](https://www.figma.com/developers/api).\nNote: we are releasing the OpenAPI specification as a beta given the large surface area and complexity of the REST API. If you notice any inaccuracies with the specification, please [file an issue](https://github.com/figma/rest-api-spec/issues).\n\nContact Support:\n Email: support@figma.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:08:33.000Z",
+    "updatedAt": "2026-06-05T15:08:33.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-293d0c58-a59d-4507-8d49-dc82cea0f6a2"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "me",
+          "item": [
+            {
+              "name": "Figma Get Current User",
+              "id": "58c1f0dd-c508-4f67-a8ab-392dd1303534",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/me",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "me"
+                  ]
+                },
+                "description": "Returns the user information for the currently authenticated user."
+              },
+              "response": [
+                {
+                  "id": "4152974f-0b2b-4738-af67-1d068779405e",
+                  "name": "Response from the GET /v1/me endpoint.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/me",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "me"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"email\": \"<string>\",\n  \"handle\": \"<string>\",\n  \"id\": \"<string>\",\n  \"imgUrl\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:34.000Z",
+                  "updatedAt": "2026-06-05T15:08:34.000Z",
+                  "uid": "35240-4152974f-0b2b-4738-af67-1d068779405e"
+                },
+                {
+                  "id": "ae9a2998-5298-4736-be9a-d8d94d9755ee",
+                  "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/me",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "me"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"<number>\",\n  \"err\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:34.000Z",
+                  "updatedAt": "2026-06-05T15:08:34.000Z",
+                  "uid": "35240-ae9a2998-5298-4736-be9a-d8d94d9755ee"
+                },
+                {
+                  "id": "5cb39939-17bc-4e95-a336-7813f472a5d7",
+                  "name": "API requests may be throttled or rate limited. Please wait a while before attempting the request again.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/me",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "me"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"<number>\",\n  \"err\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:34.000Z",
+                  "updatedAt": "2026-06-05T15:08:34.000Z",
+                  "uid": "35240-5cb39939-17bc-4e95-a336-7813f472a5d7"
+                },
+                {
+                  "id": "02b8193c-89cf-4683-869b-cdc416359304",
+                  "name": "An internal server error occurred.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/me",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "me"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"<number>\",\n  \"err\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:34.000Z",
+                  "updatedAt": "2026-06-05T15:08:34.000Z",
+                  "uid": "35240-02b8193c-89cf-4683-869b-cdc416359304"
+                }
+              ],
+              "createdAt": "2026-06-05T15:08:34.000Z",
+              "updatedAt": "2026-06-05T15:08:34.000Z",
+              "uid": "35240-58c1f0dd-c508-4f67-a8ab-392dd1303534"
+            }
+          ],
+          "id": "81dade4b-3090-47f2-84f2-d8f5011a96ca",
+          "createdAt": "2026-06-05T15:08:34.000Z",
+          "updatedAt": "2026-06-05T15:08:34.000Z",
+          "uid": "35240-81dade4b-3090-47f2-84f2-d8f5011a96ca"
+        }
+      ],
+      "id": "33ac3bf4-48d6-4c7e-a775-f46a1dc88ee8",
+      "createdAt": "2026-06-05T15:08:34.000Z",
+      "updatedAt": "2026-06-05T15:08:34.000Z",
+      "uid": "35240-33ac3bf4-48d6-4c7e-a775-f46a1dc88ee8"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.figma.com"
+    }
+  ]
+}

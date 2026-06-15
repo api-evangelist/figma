@@ -1,0 +1,834 @@
+{
+  "info": {
+    "_postman_id": "32af0e03-69ab-45a3-9680-5c4a409bed7a",
+    "name": "Figma Dev Resources API",
+    "description": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do that.\n\nContact Support:\n Email: support@figma.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:08:47.000Z",
+    "updatedAt": "2026-06-05T15:08:47.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-32af0e03-69ab-45a3-9680-5c4a409bed7a"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "dev_resources",
+          "item": [
+            {
+              "name": "Figma Create Dev Resources",
+              "id": "d6b9d92b-6cfc-4034-8f30-f3bd9d294b38",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"devResources\": [\n    {\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v1/dev_resources",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "dev_resources"
+                  ]
+                },
+                "description": "Bulk create dev resources across multiple files. Dev resources that are successfully created will show up in the links_created array in the response."
+              },
+              "response": [
+                {
+                  "id": "2036a999-f2db-47c6-ad13-06dc47fa3e1d",
+                  "name": "Response from the POST /v1/dev_resources endpoint.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"devResources\": [\n    {\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/dev_resources",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "dev_resources"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"linksCreated\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    }\n  ],\n  \"errors\": [\n    {\n      \"error\": \"<string>\",\n      \"fileKey\": \"<string,null>\",\n      \"nodeId\": \"<string,null>\"\n    },\n    {\n      \"error\": \"<string>\",\n      \"fileKey\": \"<string,null>\",\n      \"nodeId\": \"<string,null>\"\n    }\n  ]\n}",
+                  "createdAt": "2026-06-05T15:08:48.000Z",
+                  "updatedAt": "2026-06-05T15:08:48.000Z",
+                  "uid": "35240-2036a999-f2db-47c6-ad13-06dc47fa3e1d"
+                },
+                {
+                  "id": "2a33349a-b40a-4bea-ba15-accb167024ec",
+                  "name": "Bad request. Parameters are invalid or malformed. Please check the input formats.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"devResources\": [\n    {\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/dev_resources",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "dev_resources"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:48.000Z",
+                  "updatedAt": "2026-06-05T15:08:48.000Z",
+                  "uid": "35240-2a33349a-b40a-4bea-ba15-accb167024ec"
+                },
+                {
+                  "id": "acf59d24-c88e-4473-9b73-168a7507e8e9",
+                  "name": "Token is missing or incorrect.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"devResources\": [\n    {\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/dev_resources",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "dev_resources"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:48.000Z",
+                  "updatedAt": "2026-06-05T15:08:48.000Z",
+                  "uid": "35240-acf59d24-c88e-4473-9b73-168a7507e8e9"
+                },
+                {
+                  "id": "966cc994-eede-40bd-a136-1edb9c231f78",
+                  "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"devResources\": [\n    {\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/dev_resources",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "dev_resources"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:48.000Z",
+                  "updatedAt": "2026-06-05T15:08:48.000Z",
+                  "uid": "35240-966cc994-eede-40bd-a136-1edb9c231f78"
+                },
+                {
+                  "id": "5a54a5db-17c6-47a1-a584-94f2fd70116a",
+                  "name": "API requests may be throttled or rate limited. Please wait a while before attempting the request again.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"devResources\": [\n    {\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/dev_resources",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "dev_resources"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:48.000Z",
+                  "updatedAt": "2026-06-05T15:08:48.000Z",
+                  "uid": "35240-5a54a5db-17c6-47a1-a584-94f2fd70116a"
+                },
+                {
+                  "id": "4e6b17f7-92c6-405f-a238-e6774859fc98",
+                  "name": "An internal server error occurred.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"devResources\": [\n    {\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/dev_resources",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "dev_resources"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:48.000Z",
+                  "updatedAt": "2026-06-05T15:08:48.000Z",
+                  "uid": "35240-4e6b17f7-92c6-405f-a238-e6774859fc98"
+                }
+              ],
+              "createdAt": "2026-06-05T15:08:48.000Z",
+              "updatedAt": "2026-06-05T15:08:48.000Z",
+              "uid": "35240-d6b9d92b-6cfc-4034-8f30-f3bd9d294b38"
+            },
+            {
+              "name": "Figma Update Dev Resources",
+              "id": "9f73462d-5a1d-44dd-893d-f8f8b67c833d",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"devResources\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v1/dev_resources",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "dev_resources"
+                  ]
+                },
+                "description": "Bulk update dev resources across multiple files. Ids for dev resources that are successfully updated will show up in the `links_updated` array in the response."
+              },
+              "response": [
+                {
+                  "id": "04ff087e-768e-4cb7-b452-13beb77db4de",
+                  "name": "Response from the PUT /v1/dev_resources endpoint.",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"devResources\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/dev_resources",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "dev_resources"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"linksUpdated\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    }\n  ],\n  \"errors\": [\n    {\n      \"error\": \"<string>\",\n      \"id\": \"<string>\"\n    },\n    {\n      \"error\": \"<string>\",\n      \"id\": \"<string>\"\n    }\n  ]\n}",
+                  "createdAt": "2026-06-05T15:08:48.000Z",
+                  "updatedAt": "2026-06-05T15:08:48.000Z",
+                  "uid": "35240-04ff087e-768e-4cb7-b452-13beb77db4de"
+                },
+                {
+                  "id": "b792ea67-94b2-4b69-92ce-9b354addc7bc",
+                  "name": "Bad request. Parameters are invalid or malformed. Please check the input formats.",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"devResources\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/dev_resources",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "dev_resources"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:48.000Z",
+                  "updatedAt": "2026-06-05T15:08:48.000Z",
+                  "uid": "35240-b792ea67-94b2-4b69-92ce-9b354addc7bc"
+                },
+                {
+                  "id": "ca477f7b-28ff-45e7-9794-49eb6f5e5a9a",
+                  "name": "Token is missing or incorrect.",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"devResources\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/dev_resources",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "dev_resources"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:48.000Z",
+                  "updatedAt": "2026-06-05T15:08:48.000Z",
+                  "uid": "35240-ca477f7b-28ff-45e7-9794-49eb6f5e5a9a"
+                },
+                {
+                  "id": "26aa7efe-3606-40d9-8859-68768de63f77",
+                  "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"devResources\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/dev_resources",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "dev_resources"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:48.000Z",
+                  "updatedAt": "2026-06-05T15:08:48.000Z",
+                  "uid": "35240-26aa7efe-3606-40d9-8859-68768de63f77"
+                },
+                {
+                  "id": "c5527538-6e5b-441b-8ee8-f19298a9f41d",
+                  "name": "API requests may be throttled or rate limited. Please wait a while before attempting the request again.",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"devResources\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/dev_resources",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "dev_resources"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:48.000Z",
+                  "updatedAt": "2026-06-05T15:08:48.000Z",
+                  "uid": "35240-c5527538-6e5b-441b-8ee8-f19298a9f41d"
+                },
+                {
+                  "id": "4a37d6f6-6b01-456a-86cb-36dd037d987f",
+                  "name": "An internal server error occurred.",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"devResources\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/dev_resources",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "dev_resources"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:08:48.000Z",
+                  "updatedAt": "2026-06-05T15:08:48.000Z",
+                  "uid": "35240-4a37d6f6-6b01-456a-86cb-36dd037d987f"
+                }
+              ],
+              "createdAt": "2026-06-05T15:08:48.000Z",
+              "updatedAt": "2026-06-05T15:08:48.000Z",
+              "uid": "35240-9f73462d-5a1d-44dd-893d-f8f8b67c833d"
+            }
+          ],
+          "id": "e03a70a4-b84c-4433-a338-8cfc8880551c",
+          "createdAt": "2026-06-05T15:08:47.000Z",
+          "updatedAt": "2026-06-05T15:08:47.000Z",
+          "uid": "35240-e03a70a4-b84c-4433-a338-8cfc8880551c"
+        }
+      ],
+      "id": "a5d42e2a-9ecf-4c4a-8595-3e192dbff0bd",
+      "createdAt": "2026-06-05T15:08:47.000Z",
+      "updatedAt": "2026-06-05T15:08:47.000Z",
+      "uid": "35240-a5d42e2a-9ecf-4c4a-8595-3e192dbff0bd"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.figma.com"
+    }
+  ]
+}

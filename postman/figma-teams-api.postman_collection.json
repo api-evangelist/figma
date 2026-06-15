@@ -1,0 +1,358 @@
+{
+  "info": {
+    "_postman_id": "40ad7bc9-ac4f-4117-8ec4-156cd15b5032",
+    "name": "Figma Teams API",
+    "description": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do\nthat.\n\nContact Support:\n Email: support@figma.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:08:40.000Z",
+    "updatedAt": "2026-06-05T15:08:40.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-40ad7bc9-ac4f-4117-8ec4-156cd15b5032"
+  },
+  "item": [
+    {
+      "name": "v2",
+      "item": [
+        {
+          "name": "teams",
+          "item": [
+            {
+              "name": "{team_id}",
+              "item": [
+                {
+                  "name": "webhooks",
+                  "item": [
+                    {
+                      "name": "Figma Get Team Webhooks",
+                      "id": "0d412cf5-a6c9-4ca5-83ad-038b0b0ae747",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/teams/:team_id/webhooks",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            "teams",
+                            ":team_id",
+                            "webhooks"
+                          ],
+                          "variable": [
+                            {
+                              "id": "337b4a73-caef-4961-bd7f-be0716c0d0c4",
+                              "key": "team_id",
+                              "value": "<string>",
+                              "description": "(Required) ID of team to get webhooks for"
+                            }
+                          ]
+                        },
+                        "description": "Returns all webhooks registered under the specified team."
+                      },
+                      "response": [
+                        {
+                          "id": "0c32a68d-9bfb-4c36-950d-c970030cf3df",
+                          "name": "Response from the GET /v2/teams/{team_id}/webhooks endpoint.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/teams/:team_id/webhooks",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                "teams",
+                                ":team_id",
+                                "webhooks"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "team_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"webhooks\": [\n    {\n      \"id\": \"<string>\",\n      \"event_type\": \"FILE_UPDATE\",\n      \"team_id\": \"<string>\",\n      \"status\": \"PAUSED\",\n      \"client_id\": \"<string,null>\",\n      \"passcode\": \"<string>\",\n      \"endpoint\": \"<string>\",\n      \"description\": \"<string,null>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"event_type\": \"FILE_VERSION_UPDATE\",\n      \"team_id\": \"<string>\",\n      \"status\": \"ACTIVE\",\n      \"client_id\": \"<string,null>\",\n      \"passcode\": \"<string>\",\n      \"endpoint\": \"<string>\",\n      \"description\": \"<string,null>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-06-05T15:08:41.000Z",
+                          "updatedAt": "2026-06-05T15:08:41.000Z",
+                          "uid": "35240-0c32a68d-9bfb-4c36-950d-c970030cf3df"
+                        },
+                        {
+                          "id": "a2d50633-6181-4aea-9d70-e558e6b923e7",
+                          "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/teams/:team_id/webhooks",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                "teams",
+                                ":team_id",
+                                "webhooks"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "team_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"err\": \"<string>\",\n  \"status\": \"<number>\"\n}",
+                          "createdAt": "2026-06-05T15:08:41.000Z",
+                          "updatedAt": "2026-06-05T15:08:41.000Z",
+                          "uid": "35240-a2d50633-6181-4aea-9d70-e558e6b923e7"
+                        },
+                        {
+                          "id": "8cb0475e-ed1a-4509-9034-4ef92ebe5b94",
+                          "name": "The requested file or resource was not found.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/teams/:team_id/webhooks",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                "teams",
+                                ":team_id",
+                                "webhooks"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "team_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"err\": \"<string>\",\n  \"status\": \"<number>\"\n}",
+                          "createdAt": "2026-06-05T15:08:41.000Z",
+                          "updatedAt": "2026-06-05T15:08:41.000Z",
+                          "uid": "35240-8cb0475e-ed1a-4509-9034-4ef92ebe5b94"
+                        },
+                        {
+                          "id": "e82afe46-d706-44aa-bac4-6b2e68855515",
+                          "name": "In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/teams/:team_id/webhooks",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                "teams",
+                                ":team_id",
+                                "webhooks"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "team_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Too Many Requests",
+                          "code": 429,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"err\": \"<string>\",\n  \"status\": \"<number>\"\n}",
+                          "createdAt": "2026-06-05T15:08:41.000Z",
+                          "updatedAt": "2026-06-05T15:08:41.000Z",
+                          "uid": "35240-e82afe46-d706-44aa-bac4-6b2e68855515"
+                        },
+                        {
+                          "id": "6862f6b3-9826-4c95-a2d6-cc4670167d4e",
+                          "name": "An internal server error occurred.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/teams/:team_id/webhooks",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                "teams",
+                                ":team_id",
+                                "webhooks"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "team_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"err\": \"<string>\",\n  \"status\": \"<number>\"\n}",
+                          "createdAt": "2026-06-05T15:08:41.000Z",
+                          "updatedAt": "2026-06-05T15:08:41.000Z",
+                          "uid": "35240-6862f6b3-9826-4c95-a2d6-cc4670167d4e"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T15:08:41.000Z",
+                      "updatedAt": "2026-06-05T15:08:41.000Z",
+                      "uid": "35240-0d412cf5-a6c9-4ca5-83ad-038b0b0ae747"
+                    }
+                  ],
+                  "id": "7a416646-6215-4d03-8fbe-eecc504c45a5",
+                  "createdAt": "2026-06-05T15:08:41.000Z",
+                  "updatedAt": "2026-06-05T15:08:41.000Z",
+                  "uid": "35240-7a416646-6215-4d03-8fbe-eecc504c45a5"
+                }
+              ],
+              "id": "be820e87-ca2a-4abe-89b1-8f6f1ba29ccb",
+              "createdAt": "2026-06-05T15:08:41.000Z",
+              "updatedAt": "2026-06-05T15:08:41.000Z",
+              "uid": "35240-be820e87-ca2a-4abe-89b1-8f6f1ba29ccb"
+            }
+          ],
+          "id": "4afed44d-e297-47eb-9db5-2f2a4df1fa0d",
+          "createdAt": "2026-06-05T15:08:41.000Z",
+          "updatedAt": "2026-06-05T15:08:41.000Z",
+          "uid": "35240-4afed44d-e297-47eb-9db5-2f2a4df1fa0d"
+        }
+      ],
+      "id": "0a2d2ac9-c317-4a92-84b2-73e5470c4820",
+      "createdAt": "2026-06-05T15:08:41.000Z",
+      "updatedAt": "2026-06-05T15:08:41.000Z",
+      "uid": "35240-0a2d2ac9-c317-4a92-84b2-73e5470c4820"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.figma.com"
+    }
+  ]
+}

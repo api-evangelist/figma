@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Figma Projects API",
+    "version": "0.21.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Files",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Figma Get Files in a Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/projects/:project_id/files",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "12345678",
+                "type": "path",
+                "description": "ID of the project to list files from"
+              },
+              {
+                "name": "branch_data",
+                "value": "false",
+                "type": "query",
+                "description": "Returns branch metadata in the response for each main file with a branch inside the project."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a list of all the Files within the specified project."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

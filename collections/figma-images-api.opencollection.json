@@ -1,0 +1,101 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Figma Images API",
+    "version": "0.21.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Files",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Figma Render Images of File Nodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/images/:file_key",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123XYZ789",
+                "type": "path",
+                "description": "File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+              },
+              {
+                "name": "ids",
+                "value": "1:2,1:3,1:4",
+                "type": "query",
+                "description": "A comma separated list of node IDs to render."
+              },
+              {
+                "name": "version",
+                "value": "1234567890",
+                "type": "query",
+                "description": "A specific version ID to get. Omitting this will get the current version of the file."
+              },
+              {
+                "name": "scale",
+                "value": "2",
+                "type": "query",
+                "description": "A number between 0.01 and 4, the image scaling factor."
+              },
+              {
+                "name": "format",
+                "value": "png",
+                "type": "query",
+                "description": "A string enum for the image output format."
+              },
+              {
+                "name": "svg_outline_text",
+                "value": "true",
+                "type": "query",
+                "description": "Whether text elements are rendered as outlines (vector paths) or as `<text>` elements in SVGs."
+              },
+              {
+                "name": "svg_include_id",
+                "value": "false",
+                "type": "query",
+                "description": "Whether to include id attributes for all SVG elements. Adds the layer name to the `id` attribute of an svg element."
+              },
+              {
+                "name": "svg_include_node_id",
+                "value": "false",
+                "type": "query",
+                "description": "Whether to include node id attributes for all SVG elements. Adds the node id to a `data-node-id` attribute of an svg element."
+              },
+              {
+                "name": "svg_simplify_stroke",
+                "value": "true",
+                "type": "query",
+                "description": "Whether to simplify inside/outside strokes and use stroke attribute if possible instead of `<mask>`."
+              },
+              {
+                "name": "contents_only",
+                "value": "true",
+                "type": "query",
+                "description": "Whether content that overlaps the node should be excluded from rendering. Passing false (i.e., rendering overlaps) may increase processing time, since more of the document must be included in rendering."
+              },
+              {
+                "name": "use_absolute_bounds",
+                "value": "false",
+                "type": "query",
+                "description": "Use the full dimensions of the node regardless of whether or not it is cropped or the space around it is empty. Use this to export text nodes without cropping."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Renders images from a file.\nIf no error occurs, `\"images\"` will be populated with a map from node IDs to URLs of the rendered images, and `\"status\"` will be omitted. The image assets will expire after 30 days. Images up to 32 megapixels can be exported. Any images that are larger will be scaled down.\nImportant: the image map may contain values that are `null`. This indicates that rendering of that specific node has failed. This may be due to the node id not existing, or other reasons such has th"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

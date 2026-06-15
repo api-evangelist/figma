@@ -1,0 +1,756 @@
+{
+  "info": {
+    "_postman_id": "94316d3c-9454-49fe-814e-8aa0fd815381",
+    "name": "Figma Images API",
+    "description": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do\nthat.\n\nContact Support:\n Email: support@figma.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:08:39.000Z",
+    "updatedAt": "2026-06-05T15:08:39.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-94316d3c-9454-49fe-814e-8aa0fd815381"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "images",
+          "item": [
+            {
+              "name": "{file_key}",
+              "item": [
+                {
+                  "name": "Figma Render Images of File Nodes",
+                  "id": "79f1c7b3-04b7-4886-bdf8-b4ca6a4cb415",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/images/:file_key?ids=<string>&version=<string>&scale=<number>&format=png&svg_outline_text=true&svg_include_id=false&svg_include_node_id=false&svg_simplify_stroke=true&contents_only=true&use_absolute_bounds=false",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "images",
+                        ":file_key"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) A comma separated list of node IDs to render.",
+                          "key": "ids",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "A specific version ID to get. Omitting this will get the current version of the file.",
+                          "key": "version",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "A number between 0.01 and 4, the image scaling factor.",
+                          "key": "scale",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "A string enum for the image output format.",
+                          "key": "format",
+                          "value": "png"
+                        },
+                        {
+                          "description": "Whether text elements are rendered as outlines (vector paths) or as `<text>` elements in SVGs.",
+                          "key": "svg_outline_text",
+                          "value": "true"
+                        },
+                        {
+                          "description": "Whether to include id attributes for all SVG elements. Adds the layer name to the `id` attribute of an svg element.",
+                          "key": "svg_include_id",
+                          "value": "false"
+                        },
+                        {
+                          "description": "Whether to include node id attributes for all SVG elements. Adds the node id to a `data-node-id` attribute of an svg element.",
+                          "key": "svg_include_node_id",
+                          "value": "false"
+                        },
+                        {
+                          "description": "Whether to simplify inside/outside strokes and use stroke attribute if possible instead of `<mask>`.",
+                          "key": "svg_simplify_stroke",
+                          "value": "true"
+                        },
+                        {
+                          "description": "Whether content that overlaps the node should be excluded from rendering. Passing false (i.e., rendering overlaps) may increase processing time, since more of the document must be included in rendering.",
+                          "key": "contents_only",
+                          "value": "true"
+                        },
+                        {
+                          "description": "Use the full dimensions of the node regardless of whether or not it is cropped or the space around it is empty. Use this to export text nodes without cropping.",
+                          "key": "use_absolute_bounds",
+                          "value": "false"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "ffbc9a1a-8aa5-4b13-bdca-eb4bbbec2986",
+                          "key": "file_key",
+                          "value": "<string>",
+                          "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                        }
+                      ]
+                    },
+                    "description": "Renders images from a file.\nIf no error occurs, `\"images\"` will be populated with a map from node IDs to URLs of the rendered images, and `\"status\"` will be omitted. The image assets will expire after 30 days. Images up to 32 megapixels can be exported. Any images that are larger will be scaled down.\nImportant: the image map may contain values that are `null`. This indicates that rendering of that specific node has failed. This may be due to the node id not existing, or other reasons such has the node having no renderable components. It is guaranteed that any node that was requested for rendering will be represented in this map whether or not the render succeeded.\nTo render multiple images from the same file, use the `ids` query parameter to specify multiple node ids.\n``` GET /v1/images/:key?ids=1:2,1:3,1:4 ```\n"
+                  },
+                  "response": [
+                    {
+                      "id": "45e93a30-c514-4ec5-b90b-da1935fb5e14",
+                      "name": "Response from the GET /v1/images/{file_key} endpoint.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/images/:file_key?ids=<string>&version=<string>&scale=<number>&format=png&svg_outline_text=true&svg_include_id=false&svg_include_node_id=false&svg_simplify_stroke=true&contents_only=true&use_absolute_bounds=false",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "images",
+                            ":file_key"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) A comma separated list of node IDs to render.",
+                              "key": "ids",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "A specific version ID to get. Omitting this will get the current version of the file.",
+                              "key": "version",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "A number between 0.01 and 4, the image scaling factor.",
+                              "key": "scale",
+                              "value": "<number>"
+                            },
+                            {
+                              "description": "A string enum for the image output format.",
+                              "key": "format",
+                              "value": "png"
+                            },
+                            {
+                              "description": "Whether text elements are rendered as outlines (vector paths) or as `<text>` elements in SVGs.",
+                              "key": "svg_outline_text",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Whether to include id attributes for all SVG elements. Adds the layer name to the `id` attribute of an svg element.",
+                              "key": "svg_include_id",
+                              "value": "false"
+                            },
+                            {
+                              "description": "Whether to include node id attributes for all SVG elements. Adds the node id to a `data-node-id` attribute of an svg element.",
+                              "key": "svg_include_node_id",
+                              "value": "false"
+                            },
+                            {
+                              "description": "Whether to simplify inside/outside strokes and use stroke attribute if possible instead of `<mask>`.",
+                              "key": "svg_simplify_stroke",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Whether content that overlaps the node should be excluded from rendering. Passing false (i.e., rendering overlaps) may increase processing time, since more of the document must be included in rendering.",
+                              "key": "contents_only",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Use the full dimensions of the node regardless of whether or not it is cropped or the space around it is empty. Use this to export text nodes without cropping.",
+                              "key": "use_absolute_bounds",
+                              "value": "false"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "file_key"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"err\": \"<null>\",\n  \"images\": {\n    \"in_a7\": \"<string,null-uri>\",\n    \"in17b\": \"<string,null-uri>\"\n  }\n}",
+                      "createdAt": "2026-06-05T15:08:39.000Z",
+                      "updatedAt": "2026-06-05T15:08:39.000Z",
+                      "uid": "35240-45e93a30-c514-4ec5-b90b-da1935fb5e14"
+                    },
+                    {
+                      "id": "f9a2b9d1-3e10-4c8a-af81-71dc586d4526",
+                      "name": "Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects request",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/images/:file_key?ids=<string>&version=<string>&scale=<number>&format=png&svg_outline_text=true&svg_include_id=false&svg_include_node_id=false&svg_simplify_stroke=true&contents_only=true&use_absolute_bounds=false",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "images",
+                            ":file_key"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) A comma separated list of node IDs to render.",
+                              "key": "ids",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "A specific version ID to get. Omitting this will get the current version of the file.",
+                              "key": "version",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "A number between 0.01 and 4, the image scaling factor.",
+                              "key": "scale",
+                              "value": "<number>"
+                            },
+                            {
+                              "description": "A string enum for the image output format.",
+                              "key": "format",
+                              "value": "png"
+                            },
+                            {
+                              "description": "Whether text elements are rendered as outlines (vector paths) or as `<text>` elements in SVGs.",
+                              "key": "svg_outline_text",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Whether to include id attributes for all SVG elements. Adds the layer name to the `id` attribute of an svg element.",
+                              "key": "svg_include_id",
+                              "value": "false"
+                            },
+                            {
+                              "description": "Whether to include node id attributes for all SVG elements. Adds the node id to a `data-node-id` attribute of an svg element.",
+                              "key": "svg_include_node_id",
+                              "value": "false"
+                            },
+                            {
+                              "description": "Whether to simplify inside/outside strokes and use stroke attribute if possible instead of `<mask>`.",
+                              "key": "svg_simplify_stroke",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Whether content that overlaps the node should be excluded from rendering. Passing false (i.e., rendering overlaps) may increase processing time, since more of the document must be included in rendering.",
+                              "key": "contents_only",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Use the full dimensions of the node regardless of whether or not it is cropped or the space around it is empty. Use this to export text nodes without cropping.",
+                              "key": "use_absolute_bounds",
+                              "value": "false"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "file_key"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"err\": \"<string>\",\n  \"status\": \"<number>\"\n}",
+                      "createdAt": "2026-06-05T15:08:39.000Z",
+                      "updatedAt": "2026-06-05T15:08:39.000Z",
+                      "uid": "35240-f9a2b9d1-3e10-4c8a-af81-71dc586d4526"
+                    },
+                    {
+                      "id": "f089cdb5-b65c-4719-859f-5c3c00f349cc",
+                      "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/images/:file_key?ids=<string>&version=<string>&scale=<number>&format=png&svg_outline_text=true&svg_include_id=false&svg_include_node_id=false&svg_simplify_stroke=true&contents_only=true&use_absolute_bounds=false",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "images",
+                            ":file_key"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) A comma separated list of node IDs to render.",
+                              "key": "ids",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "A specific version ID to get. Omitting this will get the current version of the file.",
+                              "key": "version",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "A number between 0.01 and 4, the image scaling factor.",
+                              "key": "scale",
+                              "value": "<number>"
+                            },
+                            {
+                              "description": "A string enum for the image output format.",
+                              "key": "format",
+                              "value": "png"
+                            },
+                            {
+                              "description": "Whether text elements are rendered as outlines (vector paths) or as `<text>` elements in SVGs.",
+                              "key": "svg_outline_text",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Whether to include id attributes for all SVG elements. Adds the layer name to the `id` attribute of an svg element.",
+                              "key": "svg_include_id",
+                              "value": "false"
+                            },
+                            {
+                              "description": "Whether to include node id attributes for all SVG elements. Adds the node id to a `data-node-id` attribute of an svg element.",
+                              "key": "svg_include_node_id",
+                              "value": "false"
+                            },
+                            {
+                              "description": "Whether to simplify inside/outside strokes and use stroke attribute if possible instead of `<mask>`.",
+                              "key": "svg_simplify_stroke",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Whether content that overlaps the node should be excluded from rendering. Passing false (i.e., rendering overlaps) may increase processing time, since more of the document must be included in rendering.",
+                              "key": "contents_only",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Use the full dimensions of the node regardless of whether or not it is cropped or the space around it is empty. Use this to export text nodes without cropping.",
+                              "key": "use_absolute_bounds",
+                              "value": "false"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "file_key"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"err\": \"<string>\",\n  \"status\": \"<number>\"\n}",
+                      "createdAt": "2026-06-05T15:08:39.000Z",
+                      "updatedAt": "2026-06-05T15:08:39.000Z",
+                      "uid": "35240-f089cdb5-b65c-4719-859f-5c3c00f349cc"
+                    },
+                    {
+                      "id": "a1eb679b-b6f3-4eca-b2b4-773aca919d76",
+                      "name": "The requested file or resource was not found.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/images/:file_key?ids=<string>&version=<string>&scale=<number>&format=png&svg_outline_text=true&svg_include_id=false&svg_include_node_id=false&svg_simplify_stroke=true&contents_only=true&use_absolute_bounds=false",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "images",
+                            ":file_key"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) A comma separated list of node IDs to render.",
+                              "key": "ids",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "A specific version ID to get. Omitting this will get the current version of the file.",
+                              "key": "version",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "A number between 0.01 and 4, the image scaling factor.",
+                              "key": "scale",
+                              "value": "<number>"
+                            },
+                            {
+                              "description": "A string enum for the image output format.",
+                              "key": "format",
+                              "value": "png"
+                            },
+                            {
+                              "description": "Whether text elements are rendered as outlines (vector paths) or as `<text>` elements in SVGs.",
+                              "key": "svg_outline_text",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Whether to include id attributes for all SVG elements. Adds the layer name to the `id` attribute of an svg element.",
+                              "key": "svg_include_id",
+                              "value": "false"
+                            },
+                            {
+                              "description": "Whether to include node id attributes for all SVG elements. Adds the node id to a `data-node-id` attribute of an svg element.",
+                              "key": "svg_include_node_id",
+                              "value": "false"
+                            },
+                            {
+                              "description": "Whether to simplify inside/outside strokes and use stroke attribute if possible instead of `<mask>`.",
+                              "key": "svg_simplify_stroke",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Whether content that overlaps the node should be excluded from rendering. Passing false (i.e., rendering overlaps) may increase processing time, since more of the document must be included in rendering.",
+                              "key": "contents_only",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Use the full dimensions of the node regardless of whether or not it is cropped or the space around it is empty. Use this to export text nodes without cropping.",
+                              "key": "use_absolute_bounds",
+                              "value": "false"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "file_key"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"err\": \"<string>\",\n  \"status\": \"<number>\"\n}",
+                      "createdAt": "2026-06-05T15:08:39.000Z",
+                      "updatedAt": "2026-06-05T15:08:39.000Z",
+                      "uid": "35240-a1eb679b-b6f3-4eca-b2b4-773aca919d76"
+                    },
+                    {
+                      "id": "f9a6dd8b-4535-40a2-95ff-8e584388158c",
+                      "name": "In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/images/:file_key?ids=<string>&version=<string>&scale=<number>&format=png&svg_outline_text=true&svg_include_id=false&svg_include_node_id=false&svg_simplify_stroke=true&contents_only=true&use_absolute_bounds=false",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "images",
+                            ":file_key"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) A comma separated list of node IDs to render.",
+                              "key": "ids",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "A specific version ID to get. Omitting this will get the current version of the file.",
+                              "key": "version",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "A number between 0.01 and 4, the image scaling factor.",
+                              "key": "scale",
+                              "value": "<number>"
+                            },
+                            {
+                              "description": "A string enum for the image output format.",
+                              "key": "format",
+                              "value": "png"
+                            },
+                            {
+                              "description": "Whether text elements are rendered as outlines (vector paths) or as `<text>` elements in SVGs.",
+                              "key": "svg_outline_text",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Whether to include id attributes for all SVG elements. Adds the layer name to the `id` attribute of an svg element.",
+                              "key": "svg_include_id",
+                              "value": "false"
+                            },
+                            {
+                              "description": "Whether to include node id attributes for all SVG elements. Adds the node id to a `data-node-id` attribute of an svg element.",
+                              "key": "svg_include_node_id",
+                              "value": "false"
+                            },
+                            {
+                              "description": "Whether to simplify inside/outside strokes and use stroke attribute if possible instead of `<mask>`.",
+                              "key": "svg_simplify_stroke",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Whether content that overlaps the node should be excluded from rendering. Passing false (i.e., rendering overlaps) may increase processing time, since more of the document must be included in rendering.",
+                              "key": "contents_only",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Use the full dimensions of the node regardless of whether or not it is cropped or the space around it is empty. Use this to export text nodes without cropping.",
+                              "key": "use_absolute_bounds",
+                              "value": "false"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "file_key"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Too Many Requests",
+                      "code": 429,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"err\": \"<string>\",\n  \"status\": \"<number>\"\n}",
+                      "createdAt": "2026-06-05T15:08:39.000Z",
+                      "updatedAt": "2026-06-05T15:08:39.000Z",
+                      "uid": "35240-f9a6dd8b-4535-40a2-95ff-8e584388158c"
+                    },
+                    {
+                      "id": "5aed5dac-45dd-47ca-8f49-97883cbd4e2c",
+                      "name": "An internal server error occurred.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/images/:file_key?ids=<string>&version=<string>&scale=<number>&format=png&svg_outline_text=true&svg_include_id=false&svg_include_node_id=false&svg_simplify_stroke=true&contents_only=true&use_absolute_bounds=false",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "images",
+                            ":file_key"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) A comma separated list of node IDs to render.",
+                              "key": "ids",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "A specific version ID to get. Omitting this will get the current version of the file.",
+                              "key": "version",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "A number between 0.01 and 4, the image scaling factor.",
+                              "key": "scale",
+                              "value": "<number>"
+                            },
+                            {
+                              "description": "A string enum for the image output format.",
+                              "key": "format",
+                              "value": "png"
+                            },
+                            {
+                              "description": "Whether text elements are rendered as outlines (vector paths) or as `<text>` elements in SVGs.",
+                              "key": "svg_outline_text",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Whether to include id attributes for all SVG elements. Adds the layer name to the `id` attribute of an svg element.",
+                              "key": "svg_include_id",
+                              "value": "false"
+                            },
+                            {
+                              "description": "Whether to include node id attributes for all SVG elements. Adds the node id to a `data-node-id` attribute of an svg element.",
+                              "key": "svg_include_node_id",
+                              "value": "false"
+                            },
+                            {
+                              "description": "Whether to simplify inside/outside strokes and use stroke attribute if possible instead of `<mask>`.",
+                              "key": "svg_simplify_stroke",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Whether content that overlaps the node should be excluded from rendering. Passing false (i.e., rendering overlaps) may increase processing time, since more of the document must be included in rendering.",
+                              "key": "contents_only",
+                              "value": "true"
+                            },
+                            {
+                              "description": "Use the full dimensions of the node regardless of whether or not it is cropped or the space around it is empty. Use this to export text nodes without cropping.",
+                              "key": "use_absolute_bounds",
+                              "value": "false"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "file_key"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"err\": \"<string>\",\n  \"status\": \"<number>\"\n}",
+                      "createdAt": "2026-06-05T15:08:39.000Z",
+                      "updatedAt": "2026-06-05T15:08:39.000Z",
+                      "uid": "35240-5aed5dac-45dd-47ca-8f49-97883cbd4e2c"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:08:39.000Z",
+                  "updatedAt": "2026-06-05T15:08:39.000Z",
+                  "uid": "35240-79f1c7b3-04b7-4886-bdf8-b4ca6a4cb415"
+                }
+              ],
+              "id": "a637b0dc-93a7-49e9-80f3-6b1ec4941575",
+              "createdAt": "2026-06-05T15:08:39.000Z",
+              "updatedAt": "2026-06-05T15:08:39.000Z",
+              "uid": "35240-a637b0dc-93a7-49e9-80f3-6b1ec4941575"
+            }
+          ],
+          "id": "4a0b8ffb-a6eb-4696-ad25-83e50f441860",
+          "createdAt": "2026-06-05T15:08:39.000Z",
+          "updatedAt": "2026-06-05T15:08:39.000Z",
+          "uid": "35240-4a0b8ffb-a6eb-4696-ad25-83e50f441860"
+        }
+      ],
+      "id": "f85a7fa1-5298-45a0-97fc-65f7cb2ea1a1",
+      "createdAt": "2026-06-05T15:08:39.000Z",
+      "updatedAt": "2026-06-05T15:08:39.000Z",
+      "uid": "35240-f85a7fa1-5298-45a0-97fc-65f7cb2ea1a1"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.figma.com"
+    }
+  ]
+}

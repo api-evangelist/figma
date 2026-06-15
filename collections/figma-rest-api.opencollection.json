@@ -1,0 +1,680 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Figma REST API",
+    "version": "2.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Files",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Figma Get File",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/files/:file_key",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              },
+              {
+                "name": "version",
+                "value": "example_value",
+                "type": "query",
+                "description": "A specific version ID to get. Omitting this will get the current version."
+              },
+              {
+                "name": "ids",
+                "value": "example_value",
+                "type": "query",
+                "description": "Comma-separated list of nodes that you want to receive. If not set, all nodes are returned."
+              },
+              {
+                "name": "depth",
+                "value": "10",
+                "type": "query",
+                "description": "Positive integer representing how deep into the document tree to traverse. For example, setting depth=1 returns only pages."
+              },
+              {
+                "name": "geometry",
+                "value": "paths",
+                "type": "query",
+                "description": "Set to \"paths\" to export vector data."
+              },
+              {
+                "name": "plugin_data",
+                "value": "example_value",
+                "type": "query",
+                "description": "Comma-separated list of plugin IDs or the string \"shared\" for data present in all plugins."
+              },
+              {
+                "name": "branch_data",
+                "value": "true",
+                "type": "query",
+                "description": "Set to true to include branch metadata in the response."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns the document tree for a given Figma file. If the file is large, the response may be paginated. The file_key can be found in the Figma file URL after figma.com/file/."
+        },
+        {
+          "info": {
+            "name": "Figma Get File Nodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/files/:file_key/nodes",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              },
+              {
+                "name": "ids",
+                "value": "example_value",
+                "type": "query",
+                "description": "Comma-separated list of node IDs to retrieve."
+              },
+              {
+                "name": "version",
+                "value": "example_value",
+                "type": "query",
+                "description": "A specific version ID to get."
+              },
+              {
+                "name": "depth",
+                "value": "10",
+                "type": "query",
+                "description": "Positive integer for how deep into the node tree to traverse."
+              },
+              {
+                "name": "geometry",
+                "value": "paths",
+                "type": "query",
+                "description": "Set to \"paths\" to export vector data."
+              },
+              {
+                "name": "plugin_data",
+                "value": "example_value",
+                "type": "query",
+                "description": "Comma-separated list of plugin IDs or \"shared\"."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns the nodes referenced by ids as a JSON object. The nodes are retrieved from the document referred to by file_key. The node ID and file key for a given node can be parsed from any Figma node URL."
+        },
+        {
+          "info": {
+            "name": "Figma Get Image Renders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/images/:file_key",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              },
+              {
+                "name": "ids",
+                "value": "example_value",
+                "type": "query",
+                "description": "Comma-separated list of node IDs to render."
+              },
+              {
+                "name": "scale",
+                "value": "42.5",
+                "type": "query",
+                "description": "A number between 0.01 and 4, the image scaling factor."
+              },
+              {
+                "name": "format",
+                "value": "jpg",
+                "type": "query",
+                "description": "Image output format."
+              },
+              {
+                "name": "svg_include_id",
+                "value": "500123",
+                "type": "query",
+                "description": "Whether to include id attributes for all SVG elements."
+              },
+              {
+                "name": "svg_simplify_stroke",
+                "value": "true",
+                "type": "query",
+                "description": "Whether to simplify inside/outside strokes and use stroke attribute."
+              },
+              {
+                "name": "use_absolute_bounds",
+                "value": "true",
+                "type": "query",
+                "description": "Use the full dimensions of the node regardless of cropping."
+              },
+              {
+                "name": "version",
+                "value": "example_value",
+                "type": "query",
+                "description": "A specific version ID to get."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Renders images from a file. If no error occurs, the response includes a mapping from node IDs to URLs of the rendered images. The image assets are stored temporarily and expire after 14 days."
+        },
+        {
+          "info": {
+            "name": "Figma Get Image Fills",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/files/:file_key/image_fills",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a mapping of image references to URLs of the image contents. Image URLs expire after no more than 14 days."
+        },
+        {
+          "info": {
+            "name": "Figma Get File Version History",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/files/:file_key/versions",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              },
+              {
+                "name": "page_size",
+                "value": "10",
+                "type": "query",
+                "description": "Number of items to return per page. Defaults to 30."
+              },
+              {
+                "name": "before",
+                "value": "example_value",
+                "type": "query",
+                "description": "Version ID before which to start listing versions. Used for pagination."
+              },
+              {
+                "name": "after",
+                "value": "example_value",
+                "type": "query",
+                "description": "Version ID after which to start listing versions. Used for pagination."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of the version history of a file. The version history consists of versions, auto-save entries, and named versions."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Comments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Figma Get Comments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/files/:file_key/comments",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              },
+              {
+                "name": "as_md",
+                "value": "true",
+                "type": "query",
+                "description": "If set to true, comment message content will be returned as Markdown instead of plain text."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Gets a list of comments left on the file. Comments are returned in order of creation, with the most recent comments first. By default, only root-level comments and their direct replies are returned."
+        },
+        {
+          "info": {
+            "name": "Figma Post Comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.figma.com/v1/files/:file_key/comments",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Posts a new comment on the file. The body of the request should contain the comment text and optionally the position (client_meta) where the comment should be pinned."
+        },
+        {
+          "info": {
+            "name": "Figma Delete Comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.figma.com/v1/files/:file_key/comments/:comment_id",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              },
+              {
+                "name": "comment_id",
+                "value": "500123",
+                "type": "path",
+                "description": "The ID of the comment to delete."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes a specific comment. Only the comment creator or file owner can delete a comment."
+        },
+        {
+          "info": {
+            "name": "Figma Get Comment Reactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/files/:file_key/comments/:comment_id/reactions",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              },
+              {
+                "name": "comment_id",
+                "value": "500123",
+                "type": "path",
+                "description": "The ID of the comment."
+              },
+              {
+                "name": "cursor",
+                "value": "example_value",
+                "type": "query",
+                "description": "Cursor for paginated results."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Gets a paginated list of reactions for a comment."
+        },
+        {
+          "info": {
+            "name": "Figma Post Comment Reaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.figma.com/v1/files/:file_key/comments/:comment_id/reactions",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              },
+              {
+                "name": "comment_id",
+                "value": "500123",
+                "type": "path",
+                "description": "The ID of the comment."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Posts a reaction to a comment."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Components",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Figma Get Team Components",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/teams/:team_id/components",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID of the team."
+              },
+              {
+                "name": "page_size",
+                "value": "10",
+                "type": "query",
+                "description": "Number of items per page. Defaults to 30."
+              },
+              {
+                "name": "after",
+                "value": "42.5",
+                "type": "query",
+                "description": "Cursor for paginated results. Use the cursor value from pagination in a previous response."
+              },
+              {
+                "name": "before",
+                "value": "42.5",
+                "type": "query",
+                "description": "Cursor for paginated results in reverse."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a paginated list of published components within a team library. The components are returned in order of when they were published."
+        },
+        {
+          "info": {
+            "name": "Figma Get File Components",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/files/:file_key/components",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a list of published components within a file library."
+        },
+        {
+          "info": {
+            "name": "Figma Get Component",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/components/:key",
+            "params": [
+              {
+                "name": "key",
+                "value": "example_value",
+                "type": "path",
+                "description": "The unique identifier of the component."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get metadata on a component by key. This is the unique identifier for a published component that is globally unique across all files."
+        },
+        {
+          "info": {
+            "name": "Figma Get Team Component Sets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/teams/:team_id/component_sets",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID of the team."
+              },
+              {
+                "name": "page_size",
+                "value": "10",
+                "type": "query",
+                "description": "Number of items per page."
+              },
+              {
+                "name": "after",
+                "value": "42.5",
+                "type": "query",
+                "description": "Cursor for pagination."
+              },
+              {
+                "name": "before",
+                "value": "42.5",
+                "type": "query",
+                "description": "Cursor for reverse pagination."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a paginated list of published component sets within a team library."
+        },
+        {
+          "info": {
+            "name": "Figma Get Team Styles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/teams/:team_id/styles",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID of the team."
+              },
+              {
+                "name": "page_size",
+                "value": "10",
+                "type": "query",
+                "description": "Number of items per page."
+              },
+              {
+                "name": "after",
+                "value": "42.5",
+                "type": "query",
+                "description": "Cursor for pagination."
+              },
+              {
+                "name": "before",
+                "value": "42.5",
+                "type": "query",
+                "description": "Cursor for reverse pagination."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a paginated list of published styles within a team library."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Figma Get Team Projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/teams/:team_id/projects",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID of the team."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Lists the projects for a specified team. Only projects visible to the authenticated user are returned."
+        },
+        {
+          "info": {
+            "name": "Figma Get Project Files",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/projects/:project_id/files",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "500123",
+                "type": "path",
+                "description": "The ID of the project to list files from."
+              },
+              {
+                "name": "branch_data",
+                "value": "true",
+                "type": "query",
+                "description": "Set to true to include branch metadata."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Lists the files in a given project."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Figma Get Current User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/me",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns the user information for the currently authenticated user."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,543 @@
+{
+  "info": {
+    "_postman_id": "eac2c1b9-0a3d-4b0f-b135-1e961930dfe6",
+    "name": "Figma Analytics API",
+    "description": "This is the OpenAPI specification for the [Figma REST API](https://www.figma.com/developers/api) Analytics endpoints.\nNote: we are releasing the OpenAPI specification as a beta given the large surface area and complexity of the REST API.\n\nContact Support:\n Email: support@figma.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:08:48.000Z",
+    "updatedAt": "2026-06-05T15:08:48.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-eac2c1b9-0a3d-4b0f-b135-1e961930dfe6"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "analytics",
+          "item": [
+            {
+              "name": "libraries",
+              "item": [
+                {
+                  "name": "{file_key}",
+                  "item": [
+                    {
+                      "name": "usages",
+                      "item": [
+                        {
+                          "name": "Figma Get Library Analytics Usage Data",
+                          "id": "7307087d-4eab-4264-993b-4b1eef3aadbc",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{bearerToken}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/analytics/libraries/:file_key/usages?cursor=<string>&group_by=file&order=desc",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "analytics",
+                                "libraries",
+                                ":file_key",
+                                "usages"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Cursor indicating what page of data to fetch. Obtained from prior API call.",
+                                  "key": "cursor",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "(Required) A dimension to group returned analytics data by. Accepts \"component\" or \"file\".",
+                                  "key": "group_by",
+                                  "value": "file"
+                                },
+                                {
+                                  "description": "How to order response rows by number of instances. This param can be either \"asc\" or \"desc\" (default).",
+                                  "key": "order",
+                                  "value": "desc"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "id": "bfaf2041-2063-4a2b-8f66-74cfee5f816f",
+                                  "key": "file_key",
+                                  "value": "<string>",
+                                  "description": "(Required) File key of the library to fetch analytics data for."
+                                }
+                              ]
+                            },
+                            "description": "Returns a list of library analytics usage data broken down by the requested dimension."
+                          },
+                          "response": [
+                            {
+                              "id": "b979d67a-c3d1-46f7-9117-3677a2dfbbe5",
+                              "name": "Response from the GET /v1/analytics/libraries/{file_key}/usages endpoint.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/analytics/libraries/:file_key/usages?cursor=<string>&group_by=file&order=desc",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "analytics",
+                                    "libraries",
+                                    ":file_key",
+                                    "usages"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Cursor indicating what page of data to fetch. Obtained from prior API call.",
+                                      "key": "cursor",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) A dimension to group returned analytics data by. Accepts \"component\" or \"file\".",
+                                      "key": "group_by",
+                                      "value": "file"
+                                    },
+                                    {
+                                      "description": "How to order response rows by number of instances. This param can be either \"asc\" or \"desc\" (default).",
+                                      "key": "order",
+                                      "value": "desc"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "file_key"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"nextPage\": \"<boolean>\",\n  \"components\": [\n    {\n      \"componentKey\": \"<string>\",\n      \"componentName\": \"<string>\",\n      \"numInstances\": \"<number>\",\n      \"numTeamsUsing\": \"<number>\",\n      \"numFilesUsing\": \"<number>\",\n      \"componentSetKey\": \"<string>\",\n      \"componentSetName\": \"<string>\"\n    },\n    {\n      \"componentKey\": \"<string>\",\n      \"componentName\": \"<string>\",\n      \"numInstances\": \"<number>\",\n      \"numTeamsUsing\": \"<number>\",\n      \"numFilesUsing\": \"<number>\",\n      \"componentSetKey\": \"<string>\",\n      \"componentSetName\": \"<string>\"\n    }\n  ],\n  \"files\": [\n    {\n      \"fileName\": \"<string>\",\n      \"teamName\": \"<string>\",\n      \"numInstances\": \"<number>\",\n      \"workspaceName\": \"<string>\"\n    },\n    {\n      \"fileName\": \"<string>\",\n      \"teamName\": \"<string>\",\n      \"numInstances\": \"<number>\",\n      \"workspaceName\": \"<string>\"\n    }\n  ],\n  \"cursor\": \"<string>\"\n}",
+                              "createdAt": "2026-06-05T15:08:48.000Z",
+                              "updatedAt": "2026-06-05T15:08:48.000Z",
+                              "uid": "35240-b979d67a-c3d1-46f7-9117-3677a2dfbbe5"
+                            },
+                            {
+                              "id": "5c09a673-9418-489f-b78e-47210a5143ab",
+                              "name": "Bad request. Parameters are invalid or malformed. Please check the input formats.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/analytics/libraries/:file_key/usages?cursor=<string>&group_by=file&order=desc",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "analytics",
+                                    "libraries",
+                                    ":file_key",
+                                    "usages"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Cursor indicating what page of data to fetch. Obtained from prior API call.",
+                                      "key": "cursor",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) A dimension to group returned analytics data by. Accepts \"component\" or \"file\".",
+                                      "key": "group_by",
+                                      "value": "file"
+                                    },
+                                    {
+                                      "description": "How to order response rows by number of instances. This param can be either \"asc\" or \"desc\" (default).",
+                                      "key": "order",
+                                      "value": "desc"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "file_key"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Bad Request",
+                              "code": 400,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-06-05T15:08:48.000Z",
+                              "updatedAt": "2026-06-05T15:08:48.000Z",
+                              "uid": "35240-5c09a673-9418-489f-b78e-47210a5143ab"
+                            },
+                            {
+                              "id": "c3e02b33-2b6e-40bf-8504-b413b51f4cb9",
+                              "name": "Token is missing or incorrect.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/analytics/libraries/:file_key/usages?cursor=<string>&group_by=file&order=desc",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "analytics",
+                                    "libraries",
+                                    ":file_key",
+                                    "usages"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Cursor indicating what page of data to fetch. Obtained from prior API call.",
+                                      "key": "cursor",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) A dimension to group returned analytics data by. Accepts \"component\" or \"file\".",
+                                      "key": "group_by",
+                                      "value": "file"
+                                    },
+                                    {
+                                      "description": "How to order response rows by number of instances. This param can be either \"asc\" or \"desc\" (default).",
+                                      "key": "order",
+                                      "value": "desc"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "file_key"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-06-05T15:08:48.000Z",
+                              "updatedAt": "2026-06-05T15:08:48.000Z",
+                              "uid": "35240-c3e02b33-2b6e-40bf-8504-b413b51f4cb9"
+                            },
+                            {
+                              "id": "1db95431-bf0d-4f86-b5cf-c2d6e6d0b56a",
+                              "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/analytics/libraries/:file_key/usages?cursor=<string>&group_by=file&order=desc",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "analytics",
+                                    "libraries",
+                                    ":file_key",
+                                    "usages"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Cursor indicating what page of data to fetch. Obtained from prior API call.",
+                                      "key": "cursor",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) A dimension to group returned analytics data by. Accepts \"component\" or \"file\".",
+                                      "key": "group_by",
+                                      "value": "file"
+                                    },
+                                    {
+                                      "description": "How to order response rows by number of instances. This param can be either \"asc\" or \"desc\" (default).",
+                                      "key": "order",
+                                      "value": "desc"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "file_key"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Forbidden",
+                              "code": 403,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-06-05T15:08:48.000Z",
+                              "updatedAt": "2026-06-05T15:08:48.000Z",
+                              "uid": "35240-1db95431-bf0d-4f86-b5cf-c2d6e6d0b56a"
+                            },
+                            {
+                              "id": "cedb5cbb-2d23-4aba-be6f-258d28efd55d",
+                              "name": "API requests may be throttled or rate limited. Please wait a while before attempting the request again.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/analytics/libraries/:file_key/usages?cursor=<string>&group_by=file&order=desc",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "analytics",
+                                    "libraries",
+                                    ":file_key",
+                                    "usages"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Cursor indicating what page of data to fetch. Obtained from prior API call.",
+                                      "key": "cursor",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) A dimension to group returned analytics data by. Accepts \"component\" or \"file\".",
+                                      "key": "group_by",
+                                      "value": "file"
+                                    },
+                                    {
+                                      "description": "How to order response rows by number of instances. This param can be either \"asc\" or \"desc\" (default).",
+                                      "key": "order",
+                                      "value": "desc"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "file_key"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Too Many Requests",
+                              "code": 429,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-06-05T15:08:48.000Z",
+                              "updatedAt": "2026-06-05T15:08:48.000Z",
+                              "uid": "35240-cedb5cbb-2d23-4aba-be6f-258d28efd55d"
+                            },
+                            {
+                              "id": "0e47595e-3e2d-40e9-9203-c0935b683df0",
+                              "name": "An internal server error occurred.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/analytics/libraries/:file_key/usages?cursor=<string>&group_by=file&order=desc",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "analytics",
+                                    "libraries",
+                                    ":file_key",
+                                    "usages"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Cursor indicating what page of data to fetch. Obtained from prior API call.",
+                                      "key": "cursor",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "(Required) A dimension to group returned analytics data by. Accepts \"component\" or \"file\".",
+                                      "key": "group_by",
+                                      "value": "file"
+                                    },
+                                    {
+                                      "description": "How to order response rows by number of instances. This param can be either \"asc\" or \"desc\" (default).",
+                                      "key": "order",
+                                      "value": "desc"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "file_key"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": true,\n  \"status\": \"<number>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-06-05T15:08:48.000Z",
+                              "updatedAt": "2026-06-05T15:08:48.000Z",
+                              "uid": "35240-0e47595e-3e2d-40e9-9203-c0935b683df0"
+                            }
+                          ],
+                          "createdAt": "2026-06-05T15:08:48.000Z",
+                          "updatedAt": "2026-06-05T15:08:48.000Z",
+                          "uid": "35240-7307087d-4eab-4264-993b-4b1eef3aadbc"
+                        }
+                      ],
+                      "id": "aa8fd605-338e-4923-ac9c-f7bae1ae32d3",
+                      "createdAt": "2026-06-05T15:08:48.000Z",
+                      "updatedAt": "2026-06-05T15:08:48.000Z",
+                      "uid": "35240-aa8fd605-338e-4923-ac9c-f7bae1ae32d3"
+                    }
+                  ],
+                  "id": "907177f1-5267-4008-8828-8bbae3997208",
+                  "createdAt": "2026-06-05T15:08:48.000Z",
+                  "updatedAt": "2026-06-05T15:08:48.000Z",
+                  "uid": "35240-907177f1-5267-4008-8828-8bbae3997208"
+                }
+              ],
+              "id": "d64bdbc9-9fbf-47b4-a980-0d4183938bce",
+              "createdAt": "2026-06-05T15:08:48.000Z",
+              "updatedAt": "2026-06-05T15:08:48.000Z",
+              "uid": "35240-d64bdbc9-9fbf-47b4-a980-0d4183938bce"
+            }
+          ],
+          "id": "5af160b3-feb5-4af6-ab59-09993c759927",
+          "createdAt": "2026-06-05T15:08:48.000Z",
+          "updatedAt": "2026-06-05T15:08:48.000Z",
+          "uid": "35240-5af160b3-feb5-4af6-ab59-09993c759927"
+        }
+      ],
+      "id": "5bd0493b-fc55-4e50-a147-18e2821b4729",
+      "createdAt": "2026-06-05T15:08:48.000Z",
+      "updatedAt": "2026-06-05T15:08:48.000Z",
+      "uid": "35240-5bd0493b-fc55-4e50-a147-18e2821b4729"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.figma.com"
+    }
+  ]
+}

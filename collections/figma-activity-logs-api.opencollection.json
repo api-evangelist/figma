@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Figma Activity Logs API",
+    "version": "0.21.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Activity Logs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Figma Get Activity Logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/activity_logs",
+            "params": [
+              {
+                "name": "events",
+                "value": "file.created,file.deleted",
+                "type": "query",
+                "description": "Event type(s) to include in the response. Can have multiple values separated by comma. All events are returned by default."
+              },
+              {
+                "name": "start_time",
+                "value": "1704067200",
+                "type": "query",
+                "description": "Unix timestamp of the least recent event to include. This param defaults to one year ago if unspecified. Events prior to one year ago are not available."
+              },
+              {
+                "name": "end_time",
+                "value": "1706745600",
+                "type": "query",
+                "description": "Unix timestamp of the most recent event to include. This param defaults to the current timestamp if unspecified."
+              },
+              {
+                "name": "limit",
+                "value": "100",
+                "type": "query",
+                "description": "Maximum number of events to return. This param defaults to 1000 if unspecified."
+              },
+              {
+                "name": "order",
+                "value": "desc",
+                "type": "query",
+                "description": "Event order by timestamp. This param can be either \"asc\" (default) or \"desc\"."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://www.figma.com/oauth",
+              "accessTokenUrl": "https://api.figma.com/v1/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns a list of activity log events"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

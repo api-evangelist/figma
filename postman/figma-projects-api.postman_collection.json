@@ -1,0 +1,400 @@
+{
+  "info": {
+    "_postman_id": "0a4f3461-6eee-47b5-bf47-197334c08081",
+    "name": "Figma Projects API",
+    "description": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do\nthat.\n\nContact Support:\n Email: support@figma.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:08:41.000Z",
+    "updatedAt": "2026-06-05T15:08:41.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-0a4f3461-6eee-47b5-bf47-197334c08081"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "projects",
+          "item": [
+            {
+              "name": "{project_id}",
+              "item": [
+                {
+                  "name": "files",
+                  "item": [
+                    {
+                      "name": "Figma Get Files in a Project",
+                      "id": "d3063ced-edf7-41d9-a793-b1a26054c7bf",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/projects/:project_id/files?branch_data=false",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "projects",
+                            ":project_id",
+                            "files"
+                          ],
+                          "query": [
+                            {
+                              "description": "Returns branch metadata in the response for each main file with a branch inside the project.",
+                              "key": "branch_data",
+                              "value": "false"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "09cfa485-8849-4d03-9085-e3836ba67b74",
+                              "key": "project_id",
+                              "value": "<string>",
+                              "description": "(Required) ID of the project to list files from"
+                            }
+                          ]
+                        },
+                        "description": "Get a list of all the Files within the specified project."
+                      },
+                      "response": [
+                        {
+                          "id": "8c3aa3df-b0e2-4bc5-a6d9-5a9c82af0d79",
+                          "name": "Response from the GET /v1/projects/{project_id}/files endpoint.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/projects/:project_id/files?branch_data=false",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "projects",
+                                ":project_id",
+                                "files"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Returns branch metadata in the response for each main file with a branch inside the project.",
+                                  "key": "branch_data",
+                                  "value": "false"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "project_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"name\": \"<string>\",\n  \"files\": [\n    {\n      \"key\": \"<string>\",\n      \"name\": \"<string>\",\n      \"last_modified\": \"<dateTime>\",\n      \"thumbnail_url\": \"<string>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"name\": \"<string>\",\n      \"last_modified\": \"<dateTime>\",\n      \"thumbnail_url\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-06-05T15:08:42.000Z",
+                          "updatedAt": "2026-06-05T15:08:42.000Z",
+                          "uid": "35240-8c3aa3df-b0e2-4bc5-a6d9-5a9c82af0d79"
+                        },
+                        {
+                          "id": "6cfd2ed4-85d1-4a8f-b266-ca3a80aa6907",
+                          "name": "Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects request",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/projects/:project_id/files?branch_data=false",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "projects",
+                                ":project_id",
+                                "files"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Returns branch metadata in the response for each main file with a branch inside the project.",
+                                  "key": "branch_data",
+                                  "value": "false"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "project_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": true,\n  \"message\": \"<string>\",\n  \"status\": \"<number>\"\n}",
+                          "createdAt": "2026-06-05T15:08:42.000Z",
+                          "updatedAt": "2026-06-05T15:08:42.000Z",
+                          "uid": "35240-6cfd2ed4-85d1-4a8f-b266-ca3a80aa6907"
+                        },
+                        {
+                          "id": "c7d41f95-e360-4468-a1ad-ea85f667aa9e",
+                          "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/projects/:project_id/files?branch_data=false",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "projects",
+                                ":project_id",
+                                "files"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Returns branch metadata in the response for each main file with a branch inside the project.",
+                                  "key": "branch_data",
+                                  "value": "false"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "project_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"err\": \"<string>\",\n  \"status\": \"<number>\"\n}",
+                          "createdAt": "2026-06-05T15:08:42.000Z",
+                          "updatedAt": "2026-06-05T15:08:42.000Z",
+                          "uid": "35240-c7d41f95-e360-4468-a1ad-ea85f667aa9e"
+                        },
+                        {
+                          "id": "6c5fb8ae-d947-40bc-a99b-c7f3338d2383",
+                          "name": "In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/projects/:project_id/files?branch_data=false",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "projects",
+                                ":project_id",
+                                "files"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Returns branch metadata in the response for each main file with a branch inside the project.",
+                                  "key": "branch_data",
+                                  "value": "false"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "project_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Too Many Requests",
+                          "code": 429,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"err\": \"<string>\",\n  \"status\": \"<number>\"\n}",
+                          "createdAt": "2026-06-05T15:08:42.000Z",
+                          "updatedAt": "2026-06-05T15:08:42.000Z",
+                          "uid": "35240-6c5fb8ae-d947-40bc-a99b-c7f3338d2383"
+                        },
+                        {
+                          "id": "c5b7f39c-6116-42cb-bac7-1afd5b21bfe4",
+                          "name": "An internal server error occurred.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/projects/:project_id/files?branch_data=false",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "projects",
+                                ":project_id",
+                                "files"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Returns branch metadata in the response for each main file with a branch inside the project.",
+                                  "key": "branch_data",
+                                  "value": "false"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "project_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"err\": \"<string>\",\n  \"status\": \"<number>\"\n}",
+                          "createdAt": "2026-06-05T15:08:42.000Z",
+                          "updatedAt": "2026-06-05T15:08:42.000Z",
+                          "uid": "35240-c5b7f39c-6116-42cb-bac7-1afd5b21bfe4"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T15:08:42.000Z",
+                      "updatedAt": "2026-06-05T15:08:42.000Z",
+                      "uid": "35240-d3063ced-edf7-41d9-a793-b1a26054c7bf"
+                    }
+                  ],
+                  "id": "7b91d503-41dd-4186-a452-96a4e8089d3d",
+                  "createdAt": "2026-06-05T15:08:42.000Z",
+                  "updatedAt": "2026-06-05T15:08:42.000Z",
+                  "uid": "35240-7b91d503-41dd-4186-a452-96a4e8089d3d"
+                }
+              ],
+              "id": "c215657b-9873-4138-9024-ad511cabea39",
+              "createdAt": "2026-06-05T15:08:42.000Z",
+              "updatedAt": "2026-06-05T15:08:42.000Z",
+              "uid": "35240-c215657b-9873-4138-9024-ad511cabea39"
+            }
+          ],
+          "id": "71a4fb8e-717a-475f-99ab-04b2302a5d61",
+          "createdAt": "2026-06-05T15:08:42.000Z",
+          "updatedAt": "2026-06-05T15:08:42.000Z",
+          "uid": "35240-71a4fb8e-717a-475f-99ab-04b2302a5d61"
+        }
+      ],
+      "id": "94b7f2bb-6ef5-4b65-b62c-9b375d5b0021",
+      "createdAt": "2026-06-05T15:08:42.000Z",
+      "updatedAt": "2026-06-05T15:08:42.000Z",
+      "uid": "35240-94b7f2bb-6ef5-4b65-b62c-9b375d5b0021"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.figma.com"
+    }
+  ]
+}

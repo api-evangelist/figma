@@ -1,0 +1,387 @@
+{
+  "info": {
+    "_postman_id": "b4d72933-0432-41d9-accf-9924f4e26590",
+    "name": "Figma Payments API",
+    "description": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do\nthat.\n\nContact Support:\n Email: support@figma.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:08:46.000Z",
+    "updatedAt": "2026-06-05T15:08:46.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-b4d72933-0432-41d9-accf-9924f4e26590"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "payments",
+          "item": [
+            {
+              "name": "Figma Get Payments",
+              "id": "bff1d70b-ac9d-4d62-a499-f74363bbcaa8",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/payments?plugin_payment_token=<string>&user_id=<number>&community_file_id=<number>&plugin_id=<number>&widget_id=<number>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "payments"
+                  ],
+                  "query": [
+                    {
+                      "description": "Short-lived token returned from \"getPluginPaymentTokenAsync\" in the plugin payments API and used to authenticate to this endpoint. Read more about generating this token through \"Calling the Payments REST API from a plugin or widget\" below.",
+                      "key": "plugin_payment_token",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "The ID of the user to query payment information about. You can get the user ID by having the user OAuth2 to the Figma REST API.",
+                      "key": "user_id",
+                      "value": "<number>"
+                    },
+                    {
+                      "description": "The ID of the Community file to query a user's payment information on. You can get the Community file ID from the file's Community page (look for the number after \"file/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\".",
+                      "key": "community_file_id",
+                      "value": "<number>"
+                    },
+                    {
+                      "description": "The ID of the plugin to query a user's payment information on. You can get the plugin ID from the plugin's manifest, or from the plugin's Community page (look for the number after \"plugin/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\".",
+                      "key": "plugin_id",
+                      "value": "<number>"
+                    },
+                    {
+                      "description": "The ID of the widget to query a user's payment information on. You can get the widget ID from the widget's manifest, or from the widget's Community page (look for the number after \"widget/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\".",
+                      "key": "widget_id",
+                      "value": "<number>"
+                    }
+                  ]
+                },
+                "description": "There are two methods to query for a user's payment information on a plugin, widget, or Community file. The first method, using plugin payment tokens, is typically used when making queries from a plugin's or widget's code. The second method, providing a user ID and resource ID, is typically used when making queries from anywhere else.\nNote that you can only query for resources that you own. In most cases, this means that you can only query resources that you originally created."
+              },
+              "response": [
+                {
+                  "id": "8ca1d846-4a76-457d-ac95-dc6b50b07ea0",
+                  "name": "Response from the GET /v1/payments endpoint.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/payments?plugin_payment_token=<string>&user_id=<number>&community_file_id=<number>&plugin_id=<number>&widget_id=<number>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "payments"
+                      ],
+                      "query": [
+                        {
+                          "description": "Short-lived token returned from \"getPluginPaymentTokenAsync\" in the plugin payments API and used to authenticate to this endpoint. Read more about generating this token through \"Calling the Payments REST API from a plugin or widget\" below.",
+                          "key": "plugin_payment_token",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The ID of the user to query payment information about. You can get the user ID by having the user OAuth2 to the Figma REST API.",
+                          "key": "user_id",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "The ID of the Community file to query a user's payment information on. You can get the Community file ID from the file's Community page (look for the number after \"file/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\".",
+                          "key": "community_file_id",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "The ID of the plugin to query a user's payment information on. You can get the plugin ID from the plugin's manifest, or from the plugin's Community page (look for the number after \"plugin/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\".",
+                          "key": "plugin_id",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "The ID of the widget to query a user's payment information on. You can get the widget ID from the widget's manifest, or from the widget's Community page (look for the number after \"widget/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\".",
+                          "key": "widget_id",
+                          "value": "<number>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": 200,\n  \"error\": false,\n  \"meta\": {\n    \"user_id\": \"<string>\",\n    \"resource_id\": \"<string>\",\n    \"resource_type\": \"WIDGET\",\n    \"payment_status\": \"NOT_SUPPORTED\",\n    \"date_of_purchase\": \"<dateTime>\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:08:46.000Z",
+                  "updatedAt": "2026-06-05T15:08:46.000Z",
+                  "uid": "35240-8ca1d846-4a76-457d-ac95-dc6b50b07ea0"
+                },
+                {
+                  "id": "3a63cffb-b7d8-4143-a98b-7fa0beda95c2",
+                  "name": "Token is missing or incorrect.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/payments?plugin_payment_token=<string>&user_id=<number>&community_file_id=<number>&plugin_id=<number>&widget_id=<number>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "payments"
+                      ],
+                      "query": [
+                        {
+                          "description": "Short-lived token returned from \"getPluginPaymentTokenAsync\" in the plugin payments API and used to authenticate to this endpoint. Read more about generating this token through \"Calling the Payments REST API from a plugin or widget\" below.",
+                          "key": "plugin_payment_token",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The ID of the user to query payment information about. You can get the user ID by having the user OAuth2 to the Figma REST API.",
+                          "key": "user_id",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "The ID of the Community file to query a user's payment information on. You can get the Community file ID from the file's Community page (look for the number after \"file/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\".",
+                          "key": "community_file_id",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "The ID of the plugin to query a user's payment information on. You can get the plugin ID from the plugin's manifest, or from the plugin's Community page (look for the number after \"plugin/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\".",
+                          "key": "plugin_id",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "The ID of the widget to query a user's payment information on. You can get the widget ID from the widget's manifest, or from the widget's Community page (look for the number after \"widget/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\".",
+                          "key": "widget_id",
+                          "value": "<number>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"message\": \"<string>\",\n  \"status\": \"<number>\"\n}",
+                  "createdAt": "2026-06-05T15:08:46.000Z",
+                  "updatedAt": "2026-06-05T15:08:46.000Z",
+                  "uid": "35240-3a63cffb-b7d8-4143-a98b-7fa0beda95c2"
+                },
+                {
+                  "id": "fe84d8c0-e53c-4038-b84f-d1bc2e5268e0",
+                  "name": "In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/payments?plugin_payment_token=<string>&user_id=<number>&community_file_id=<number>&plugin_id=<number>&widget_id=<number>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "payments"
+                      ],
+                      "query": [
+                        {
+                          "description": "Short-lived token returned from \"getPluginPaymentTokenAsync\" in the plugin payments API and used to authenticate to this endpoint. Read more about generating this token through \"Calling the Payments REST API from a plugin or widget\" below.",
+                          "key": "plugin_payment_token",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The ID of the user to query payment information about. You can get the user ID by having the user OAuth2 to the Figma REST API.",
+                          "key": "user_id",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "The ID of the Community file to query a user's payment information on. You can get the Community file ID from the file's Community page (look for the number after \"file/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\".",
+                          "key": "community_file_id",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "The ID of the plugin to query a user's payment information on. You can get the plugin ID from the plugin's manifest, or from the plugin's Community page (look for the number after \"plugin/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\".",
+                          "key": "plugin_id",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "The ID of the widget to query a user's payment information on. You can get the widget ID from the widget's manifest, or from the widget's Community page (look for the number after \"widget/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\".",
+                          "key": "widget_id",
+                          "value": "<number>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"message\": \"<string>\",\n  \"status\": \"<number>\"\n}",
+                  "createdAt": "2026-06-05T15:08:46.000Z",
+                  "updatedAt": "2026-06-05T15:08:46.000Z",
+                  "uid": "35240-fe84d8c0-e53c-4038-b84f-d1bc2e5268e0"
+                },
+                {
+                  "id": "1545e1b2-a6ae-42fe-8386-74403288c7e3",
+                  "name": "An internal server error occurred.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/payments?plugin_payment_token=<string>&user_id=<number>&community_file_id=<number>&plugin_id=<number>&widget_id=<number>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "payments"
+                      ],
+                      "query": [
+                        {
+                          "description": "Short-lived token returned from \"getPluginPaymentTokenAsync\" in the plugin payments API and used to authenticate to this endpoint. Read more about generating this token through \"Calling the Payments REST API from a plugin or widget\" below.",
+                          "key": "plugin_payment_token",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The ID of the user to query payment information about. You can get the user ID by having the user OAuth2 to the Figma REST API.",
+                          "key": "user_id",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "The ID of the Community file to query a user's payment information on. You can get the Community file ID from the file's Community page (look for the number after \"file/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\".",
+                          "key": "community_file_id",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "The ID of the plugin to query a user's payment information on. You can get the plugin ID from the plugin's manifest, or from the plugin's Community page (look for the number after \"plugin/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\".",
+                          "key": "plugin_id",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "The ID of the widget to query a user's payment information on. You can get the widget ID from the widget's manifest, or from the widget's Community page (look for the number after \"widget/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\".",
+                          "key": "widget_id",
+                          "value": "<number>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": true,\n  \"message\": \"<string>\",\n  \"status\": \"<number>\"\n}",
+                  "createdAt": "2026-06-05T15:08:46.000Z",
+                  "updatedAt": "2026-06-05T15:08:46.000Z",
+                  "uid": "35240-1545e1b2-a6ae-42fe-8386-74403288c7e3"
+                }
+              ],
+              "createdAt": "2026-06-05T15:08:46.000Z",
+              "updatedAt": "2026-06-05T15:08:46.000Z",
+              "uid": "35240-bff1d70b-ac9d-4d62-a499-f74363bbcaa8"
+            }
+          ],
+          "id": "a6324c2d-862b-4cf5-a2fa-832af9e97c88",
+          "createdAt": "2026-06-05T15:08:46.000Z",
+          "updatedAt": "2026-06-05T15:08:46.000Z",
+          "uid": "35240-a6324c2d-862b-4cf5-a2fa-832af9e97c88"
+        }
+      ],
+      "id": "b65956df-6144-4b1a-be14-bb0cf0c150d9",
+      "createdAt": "2026-06-05T15:08:46.000Z",
+      "updatedAt": "2026-06-05T15:08:46.000Z",
+      "uid": "35240-b65956df-6144-4b1a-be14-bb0cf0c150d9"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.figma.com"
+    }
+  ]
+}
