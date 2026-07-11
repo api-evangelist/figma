@@ -1,0 +1,52 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/figma-activity-logs-api-openapi.yml, openapi/figma-analytics-api-openapi.yml,
+  openapi/figma-api-openapi.yml, openapi/figma-component-sets-api-openapi.yml, openapi/figma-dev-resources-api-openapi.yml,
+  openapi/figma-files-api-openapi.yml, openapi/figma-images-api-openapi.yml, openapi/figma-me-api-openapi.yml,
+  openapi/figma-payments-api-openapi.yml, openapi/figma-projects-api-openapi.yml, openapi/figma-rest-api-openapi.yml,
+  openapi/figma-styles-api-openapi.yml ...
+summary:
+  types:
+  - http
+  - oauth2
+  oauth2_flows:
+  - authorizationCode
+schemes:
+- name: OrgOAuth2
+  type: oauth2
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.figma.com/oauth
+    tokenUrl: https://api.figma.com/v1/oauth/token
+    scopes: 1
+  sources:
+  - openapi/figma-activity-logs-api-openapi.yml
+  - openapi/figma-analytics-api-openapi.yml
+  - openapi/figma-api-openapi.yml
+  - openapi/figma-component-sets-api-openapi.yml
+  - openapi/figma-dev-resources-api-openapi.yml
+  - openapi/figma-files-api-openapi.yml
+  - openapi/figma-images-api-openapi.yml
+  - openapi/figma-me-api-openapi.yml
+  - openapi/figma-projects-api-openapi.yml
+  - openapi/figma-rest-api-openapi.yml
+  - openapi/figma-styles-api-openapi.yml
+  - openapi/figma-teams-api-openapi.yml
+- name: PersonalAccessToken
+  type: http
+  scheme: bearer
+  bearerFormat: Figma Personal Access Token
+  description: Personal Access Token for authentication
+  sources:
+  - openapi/figma-analytics-api-openapi.yml
+  - openapi/figma-api-openapi.yml
+  - openapi/figma-component-sets-api-openapi.yml
+  - openapi/figma-dev-resources-api-openapi.yml
+  - openapi/figma-files-api-openapi.yml
+  - openapi/figma-images-api-openapi.yml
+  - openapi/figma-me-api-openapi.yml
+  - openapi/figma-payments-api-openapi.yml
+  - openapi/figma-projects-api-openapi.yml
+  - openapi/figma-rest-api-openapi.yml
+  - openapi/figma-styles-api-openapi.yml
+  - openapi/figma-teams-api-openapi.yml

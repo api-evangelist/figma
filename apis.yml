@@ -660,6 +660,12 @@ apis:
   - type: Documentation
     url: https://developers.figma.com/docs/rest-api/library-analytics-endpoints/
 common:
+- type: VulnerabilityDisclosure
+  url: security/figma-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/figma-domain-security.yml
+- type: Authentication
+  url: authentication/figma-authentication.yml
 - type: OAuthScopes
   url: scopes/figma-scopes.yml
 - type: PostmanWorkspace
