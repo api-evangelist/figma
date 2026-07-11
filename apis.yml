@@ -660,6 +660,8 @@ apis:
   - type: Documentation
     url: https://developers.figma.com/docs/rest-api/library-analytics-endpoints/
 common:
+- type: OAuthScopes
+  url: scopes/figma-scopes.yml
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/figma/overview
 - type: Arazzo

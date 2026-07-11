@@ -1,0 +1,147 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/figma-activity-logs-api-openapi.yml, openapi/figma-analytics-api-openapi.yml,
+  openapi/figma-api-openapi.yml, openapi/figma-component-sets-api-openapi.yml, openapi/figma-dev-resources-api-openapi.yml,
+  openapi/figma-files-api-openapi.yml, openapi/figma-images-api-openapi.yml, openapi/figma-me-api-openapi.yml,
+  openapi/figma-projects-api-openapi.yml, openapi/figma-rest-api-openapi.yml, openapi/figma-styles-api-openapi.yml,
+  openapi/figma-teams-api-openapi.yml
+schemes:
+- name: OrgOAuth2
+  source: openapi/figma-activity-logs-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.figma.com/oauth
+    tokenUrl: https://api.figma.com/v1/oauth/token
+- name: OAuth2
+  source: openapi/figma-analytics-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.figma.com/oauth
+    tokenUrl: https://api.figma.com/v1/oauth/token
+- name: OAuth2
+  source: openapi/figma-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.figma.com/oauth
+    tokenUrl: https://api.figma.com/v1/oauth/token
+- name: OAuth2
+  source: openapi/figma-component-sets-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.figma.com/oauth
+    tokenUrl: https://api.figma.com/v1/oauth/token
+- name: OAuth2
+  source: openapi/figma-dev-resources-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.figma.com/oauth
+    tokenUrl: https://api.figma.com/v1/oauth/token
+- name: OAuth2
+  source: openapi/figma-files-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.figma.com/oauth
+    tokenUrl: https://api.figma.com/v1/oauth/token
+- name: OAuth2
+  source: openapi/figma-images-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.figma.com/oauth
+    tokenUrl: https://www.figma.com/api/oauth/token
+- name: OAuth2
+  source: openapi/figma-me-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.figma.com/oauth
+    tokenUrl: https://www.figma.com/api/oauth/token
+- name: OAuth2
+  source: openapi/figma-projects-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.figma.com/oauth
+    tokenUrl: https://www.figma.com/api/oauth/token
+- name: OAuth2
+  source: openapi/figma-rest-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.figma.com/oauth
+    tokenUrl: https://api.figma.com/v1/oauth/token
+  description: OAuth 2.0 authorization code flow for Figma. Applications must be registered
+    on the Figma developer portal.
+- name: OAuth2
+  source: openapi/figma-styles-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.figma.com/oauth
+    tokenUrl: https://www.figma.com/api/oauth/token
+- name: OAuth2
+  source: openapi/figma-teams-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://www.figma.com/oauth
+    tokenUrl: https://www.figma.com/api/oauth/token
+scopes:
+- scope: file_comments:write
+  description: Post and delete comments on files
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/figma-rest-api-openapi.yml
+- scope: file_dev_resources:read
+  description: Read dev resources on files
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/figma-rest-api-openapi.yml
+- scope: file_dev_resources:write
+  description: Write dev resources to files
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/figma-dev-resources-api-openapi.yml
+  - openapi/figma-files-api-openapi.yml
+  - openapi/figma-rest-api-openapi.yml
+- scope: file_variables:read
+  description: Read access to variables in files
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/figma-rest-api-openapi.yml
+- scope: file_variables:write
+  description: Write access to variables in files
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/figma-rest-api-openapi.yml
+- scope: files:read
+  description: Read files
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/figma-api-openapi.yml
+  - openapi/figma-component-sets-api-openapi.yml
+  - openapi/figma-files-api-openapi.yml
+  - openapi/figma-images-api-openapi.yml
+  - openapi/figma-me-api-openapi.yml
+  - openapi/figma-projects-api-openapi.yml
+  - openapi/figma-rest-api-openapi.yml
+  - openapi/figma-styles-api-openapi.yml
+  - openapi/figma-teams-api-openapi.yml
+- scope: library_analytics:read
+  description: Read library analytics
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/figma-analytics-api-openapi.yml
+- scope: org:activity_log_read
+  description: Read organization activity logs
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/figma-activity-logs-api-openapi.yml
+- scope: webhooks:write
+  description: Create and manage webhooks
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/figma-rest-api-openapi.yml
