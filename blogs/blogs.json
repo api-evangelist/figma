@@ -5,7 +5,7 @@
       "source": "https://www.figma.com/blog/feed/atom.xml",
       "feed_url": "https://www.figma.com/blog/feed/atom.xml",
       "title": "",
-      "saved": 8,
+      "saved": 0,
       "method": "feed"
     },
     {
@@ -16,6 +16,6 @@
       "method": "none"
     }
   ],
-  "fetched": "2026-06-27T12:03:07Z",
-  "post_count": 11
+  "fetched": "2026-07-11T11:50:51Z",
+  "post_count": 53
 }
