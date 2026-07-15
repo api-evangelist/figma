@@ -1,0 +1,426 @@
+generated: '2026-07-15'
+method: generated
+source: openapi/figma-activity-logs-api-openapi.yml, openapi/figma-analytics-api-openapi.yml,
+  openapi/figma-api-openapi.yml, openapi/figma-component-sets-api-openapi.yml, openapi/figma-dev-resources-api-openapi.yml,
+  openapi/figma-files-api-openapi.yml, openapi/figma-images-api-openapi.yml, openapi/figma-me-api-openapi.yml,
+  openapi/figma-payments-api-openapi.yml, openapi/figma-projects-api-openapi.yml, openapi/figma-rest-api-openapi.yml,
+  openapi/figma-styles-api-openapi.yml, openapi/figma-teams-api-openapi.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 31
+  by_action_class:
+    connected: 25
+    acting: 6
+  by_consequence:
+    read: 25
+    write: 6
+  human_in_the_loop_required: 0
+operations:
+- path: /v1/activity_logs
+  method: get
+  operationId: getActivityLogs
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - org:activity_log_read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/analytics/libraries/{file_key}/usages
+  method: get
+  operationId: getLibraryAnalyticsUsages
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - library_analytics:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/me
+  method: get
+  operationId: getMe
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/component_sets/{key}
+  method: get
+  operationId: getComponentSet
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/dev_resources
+  method: post
+  operationId: postDevResources
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - file_dev_resources:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/dev_resources
+  method: put
+  operationId: putDevResources
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - file_dev_resources:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/files/{file_key}/dev_resources/{dev_resource_id}
+  method: delete
+  operationId: deleteDevResource
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - file_dev_resources:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/images/{file_key}
+  method: get
+  operationId: getImages
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/me
+  method: get
+  operationId: getMe
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/payments
+  method: get
+  operationId: getPayments
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/projects/{project_id}/files
+  method: get
+  operationId: getProjectFiles
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/files/{file_key}
+  method: get
+  operationId: getFile
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/files/{file_key}/nodes
+  method: get
+  operationId: getFileNodes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/images/{file_key}
+  method: get
+  operationId: getImages
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/files/{file_key}/image_fills
+  method: get
+  operationId: getImageFills
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/files/{file_key}/versions
+  method: get
+  operationId: getFileVersions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/files/{file_key}/comments
+  method: get
+  operationId: getComments
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/files/{file_key}/comments
+  method: post
+  operationId: postComment
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - file_comments:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/files/{file_key}/comments/{comment_id}
+  method: delete
+  operationId: deleteComment
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - file_comments:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/files/{file_key}/comments/{comment_id}/reactions
+  method: get
+  operationId: getCommentReactions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/files/{file_key}/comments/{comment_id}/reactions
+  method: post
+  operationId: postCommentReaction
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - file_comments:write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/teams/{team_id}/components
+  method: get
+  operationId: getTeamComponents
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/files/{file_key}/components
+  method: get
+  operationId: getFileComponents
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/components/{key}
+  method: get
+  operationId: getComponent
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/teams/{team_id}/component_sets
+  method: get
+  operationId: getTeamComponentSets
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/teams/{team_id}/styles
+  method: get
+  operationId: getTeamStyles
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/teams/{team_id}/projects
+  method: get
+  operationId: getTeamProjects
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/projects/{project_id}/files
+  method: get
+  operationId: getProjectFiles
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/me
+  method: get
+  operationId: getMe
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/styles/{key}
+  method: get
+  operationId: getStyle
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/teams/{team_id}/webhooks
+  method: get
+  operationId: getTeamWebhooks
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - files:read
+    token:
+      max-ttl: 3600
+    audit: none

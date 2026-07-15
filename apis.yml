@@ -660,6 +660,8 @@ apis:
   - type: Documentation
     url: https://developers.figma.com/docs/rest-api/library-analytics-endpoints/
 common:
+- type: AgenticAccess
+  url: agentic-access/figma-agentic-access.yml
 - type: VulnerabilityDisclosure
   url: security/figma-vulnerability-disclosure.yml
 - type: DomainSecurity
