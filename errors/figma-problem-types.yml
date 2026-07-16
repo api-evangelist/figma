@@ -1,0 +1,53 @@
+generated: '2026-06-20'
+method: derived
+source: openapi/*-openapi.yml (4xx/5xx responses), json-schema/figma-rest-error-response-schema.json
+format: figma-native
+envelope:
+  description: >-
+    Figma does not use RFC 9457 problem+json. Error responses carry a JSON
+    envelope. Most endpoints return {"error": true, "status": <int>, "message": <string>};
+    some (projects, styles, component-sets) return {"status": <int>, "err": <string>}.
+  fields:
+  - name: error
+    type: boolean
+    note: Always true on error (present on most endpoints).
+  - name: status
+    type: integer
+    note: Mirrors the HTTP status code.
+  - name: message
+    type: string
+    note: Human-readable description (primary variant).
+  - name: err
+    type: string
+    note: Human-readable description (alternate variant on some endpoints).
+problems:
+- status: 400
+  title: Bad Request
+  meaning: Invalid parameters — malformed IDs, unsupported query values, or bad request
+    body.
+  remediation: Validate path/query params and body against the OpenAPI before retrying.
+- status: 401
+  title: Unauthorized
+  meaning: Missing or invalid access token / personal access token.
+  remediation: Provide a valid X-Figma-Token header or OAuth bearer token.
+- status: 403
+  title: Forbidden
+  meaning: Token lacks the required scope or the caller lacks access to the resource
+    (e.g. Enterprise-only Variables/Activity Logs, or a file not shared with the user).
+  remediation: Request the correct OAuth scope; confirm plan tier and resource access.
+- status: 404
+  title: Not Found
+  meaning: The file, node, project, team, component, or comment does not exist or is
+    not visible to the caller.
+  remediation: Verify the key/id and that the resource is shared with the authenticated
+    user.
+- status: 429
+  title: Too Many Requests
+  meaning: Rate limit exceeded (limits vary by endpoint and plan tier).
+  remediation: Back off and retry; honor Retry-After. See lifecycle/figma-lifecycle.yml
+    and https://developers.figma.com/docs/rest-api/rate-limits/.
+- status: 500
+  title: Internal Server Error
+  meaning: Unexpected server-side error.
+  remediation: Retry with backoff; check https://status.figma.com/.
+docs: https://developers.figma.com/docs/rest-api/errors/

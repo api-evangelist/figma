@@ -13,7 +13,7 @@ tags:
 - Prototyping
 - UI/UX
 created: '2023-11-22'
-modified: '2026-05-19'
+modified: '2026-06-20'
 specificationVersion: '0.19'
 type: Index
 apis:
@@ -670,6 +670,61 @@ common:
   url: authentication/figma-authentication.yml
 - type: OAuthScopes
   url: scopes/figma-scopes.yml
+- type: Packages
+  url: packages/figma-packages.yml
+- type: WellKnown
+  url: well-known/figma-well-known.yml
+- type: SecurityTxt
+  url: well-known/figma-security.txt
+- type: MCPServer
+  url: mcp/figma-mcp.yml
+- type: LLMsTxt
+  url: llms/figma-llms.txt
+- type: Conformance
+  url: conformance/figma-conformance.yml
+- type: ErrorCatalog
+  url: errors/figma-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/figma-lifecycle.yml
+- type: TrustCenter
+  url: security/figma-trust-center.yml
+- type: Conventions
+  url: conventions/figma-conventions.yml
+- type: ChangeLog
+  url: changelog/figma-changelog.yml
+  title: Changelog artifact
+- type: CLI
+  url: cli/figma-cli.yml
+- type: Components
+  url: components/figma-components.yml
+- type: DataModel
+  url: data-model/figma-data-model.yml
+- type: Overlay
+  url: overlays/figma-activity-logs-api-overlay.yaml
+- type: Overlay
+  url: overlays/figma-analytics-api-overlay.yaml
+- type: Overlay
+  url: overlays/figma-api-overlay.yaml
+- type: Overlay
+  url: overlays/figma-component-sets-api-overlay.yaml
+- type: Overlay
+  url: overlays/figma-dev-resources-api-overlay.yaml
+- type: Overlay
+  url: overlays/figma-files-api-overlay.yaml
+- type: Overlay
+  url: overlays/figma-images-api-overlay.yaml
+- type: Overlay
+  url: overlays/figma-me-api-overlay.yaml
+- type: Overlay
+  url: overlays/figma-payments-api-overlay.yaml
+- type: Overlay
+  url: overlays/figma-projects-api-overlay.yaml
+- type: Overlay
+  url: overlays/figma-rest-api-overlay.yaml
+- type: Overlay
+  url: overlays/figma-styles-api-overlay.yaml
+- type: Overlay
+  url: overlays/figma-teams-api-overlay.yaml
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/figma/overview
 - type: Arazzo

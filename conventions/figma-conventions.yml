@@ -1,0 +1,47 @@
+generated: '2026-06-20'
+method: searched
+source: https://developers.figma.com/docs/rest-api/, openapi/
+authentication:
+  styles:
+  - name: Personal Access Token
+    transport: header
+    header: X-Figma-Token
+    docs: https://developers.figma.com/docs/rest-api/authentication/
+  - name: OAuth 2.0
+    transport: header
+    header: Authorization
+    scheme: Bearer
+    flow: authorizationCode
+    scopes_ref: scopes/figma-scopes.yml
+  ref: authentication/figma-authentication.yml
+base_url: https://api.figma.com
+version_prefix: /v1
+pagination:
+  style: cursor
+  params: [before, after, page_size]
+  response_field: pagination
+  note: Cursor pagination on team components/component-sets/styles list endpoints;
+    pagination object carries next/prev page cursors. File-tree endpoints are not paginated.
+idempotency:
+  supported: false
+  note: No Idempotency-Key header documented; write surface is small (comments, dev
+    resources, variables).
+error_envelope:
+  ref: errors/figma-problem-types.yml
+  shape: '{error, status, message} (alternate {status, err})'
+  format: figma-native (not RFC 9457)
+rate_limiting:
+  signal: HTTP 429
+  docs: https://developers.figma.com/docs/rest-api/rate-limits/
+  note: Per-endpoint, per-plan limits.
+webhooks:
+  version: v2
+  transport: POST callback with passcode + signature
+  ref: asyncapi/figma-webhooks-asyncapi.yml
+identifiers:
+  file_key: Opaque file key from the file URL (/file/:key or /design/:key).
+  node_id: Colon/hyphen-delimited node id (e.g. 1:2).
+  team_id / project_id: Numeric string ids.
+content_types:
+  request: application/json
+  response: application/json

@@ -1,0 +1,32 @@
+generated: '2026-06-20'
+method: searched
+source: https://developers.figma.com/docs/embeds/
+description: Figma's client-side / embeddable surfaces for bringing live Figma files,
+  FigJam boards, Slides, and prototypes into external websites and apps.
+families:
+- name: Embed Kit 2.0
+  kind: iframe-embed + JavaScript API
+  docs: https://developers.figma.com/docs/embeds/embed-kit-2.0/
+  loader: iframe pointing at embed.figma.com; augment via window.postMessage to the
+    embed origin.
+  urls:
+  - embed.figma.com/design   # Figma design files
+  - embed.figma.com/proto    # prototypes
+  - embed.figma.com/board    # FigJam boards
+  - embed.figma.com/slides   # Figma Slides
+  - embed.figma.com/deck     # Slides presentation view
+  capabilities:
+  - Send/receive events to and from an embedded prototype (postMessage API).
+  - Page/frame selection and view locking.
+  - Open in Dev Mode or Design; light/dark/system theme.
+  - Hide embed UI (except Figma logo).
+  - Storage Access API support when third-party cookies are blocked.
+  example: https://github.com/figma/embed-kit-2.0-example
+- name: Embed API
+  kind: iframe URL builder
+  docs: https://developers.figma.com/docs/embeds/embed-api/
+  loader: Construct an embed URL for a file/prototype and render in an iframe.
+overview: https://www.figma.com/developers/embed
+notes: These are client-side embed surfaces, distinct from server-side packages in
+  packages/. The FigJam Widget API (@figma/widget-typings) produces on-canvas interactive
+  widgets rather than web-embeddable components.

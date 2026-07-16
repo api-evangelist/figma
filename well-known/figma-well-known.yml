@@ -1,0 +1,30 @@
+generated: '2026-06-20'
+method: searched
+hosts:
+- host: https://api.figma.com
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: figma-oauth-authorization-server.json
+    note: RFC 8414 metadata for the Figma MCP OAuth server (scopes_supported mcp:connect).
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://www.figma.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: figma-security.txt
+    note: RFC 9116; points to HackerOne program.
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: figma-openid-configuration.json
+    note: OIDC discovery (issuer https://www.figma.com, ES256).
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: Duplicate of api.figma.com authorization-server metadata (not separately saved).

@@ -1,0 +1,66 @@
+generated: '2026-06-20'
+method: searched
+source: https://www.npmjs.com/~figma
+packages:
+- language: typescript
+  registry: npm
+  name: "@figma/rest-api-spec"
+  version: 0.41.0
+  url: https://www.npmjs.com/package/@figma/rest-api-spec
+  install: npm install @figma/rest-api-spec
+  official: true
+  description: Official OpenAPI specification and generated TypeScript types for the
+    Figma REST API.
+  source: https://github.com/figma/rest-api-spec
+- language: typescript
+  registry: npm
+  name: "@figma/code-connect"
+  version: 1.4.9
+  url: https://www.npmjs.com/package/@figma/code-connect
+  install: npm install @figma/code-connect
+  official: true
+  description: Tool (and CLI, binary `figma`) for connecting design system components
+    in code with a Figma design system.
+  source: https://github.com/figma/code-connect
+- language: typescript
+  registry: npm
+  name: "@figma/plugin-typings"
+  version: 1.131.0
+  url: https://www.npmjs.com/package/@figma/plugin-typings
+  install: npm install --save-dev @figma/plugin-typings
+  official: true
+  description: TypeScript typings for the Figma Plugin API.
+  source: https://github.com/figma/plugin-typings
+- language: typescript
+  registry: npm
+  name: "@figma/widget-typings"
+  version: 1.12.1
+  url: https://www.npmjs.com/package/@figma/widget-typings
+  install: npm install --save-dev @figma/widget-typings
+  official: true
+  description: TypeScript typings for the Figma Widget API (FigJam widgets).
+- language: typescript
+  registry: npm
+  name: "@figma/eslint-plugin-figma-plugins"
+  version: 1.0.0
+  url: https://www.npmjs.com/package/@figma/eslint-plugin-figma-plugins
+  install: npm install --save-dev @figma/eslint-plugin-figma-plugins
+  official: true
+  description: typescript-eslint rules for Figma plugin development.
+community_packages:
+- language: javascript
+  registry: npm
+  name: figma-api
+  url: https://www.npmjs.com/package/figma-api
+  official: false
+  description: Community TypeScript client on top of the official REST API spec (didoo/figma-api).
+- language: javascript
+  registry: npm
+  name: figma-js
+  url: https://www.npmjs.com/package/figma-js
+  official: false
+  description: Community typed REST API client.
+notes: Figma does not publish a first-party ready-made REST client SDK; it publishes
+  the OpenAPI spec + generated TypeScript types (@figma/rest-api-spec) and expects
+  consumers to generate clients. No first-party PyPI/Maven/NuGet/Go/RubyGems/crates
+  package exists (PyPI probe for a first-party client returned 404).

@@ -1,0 +1,78 @@
+generated: '2026-06-20'
+method: searched
+status: published
+source: https://developers.figma.com/docs/figma-mcp-server/
+server:
+  name: figma
+  transport: http
+  url: https://mcp.figma.com/mcp
+  auth:
+    type: oauth2
+    flow: authorizationCode
+    metadata: https://api.figma.com/.well-known/oauth-authorization-server
+    authorization_endpoint: https://www.figma.com/oauth/mcp
+    token_endpoint: https://api.figma.com/v1/oauth/token
+    registration_endpoint: https://api.figma.com/v1/oauth/mcp/register
+    scopes_supported: [mcp:connect]
+    pkce: S256
+  description: Figma's official remote (Dev Mode) MCP server. Provides live Figma design
+    context to AI coding agents. Works on all seats and plans; only clients in the
+    Figma MCP catalog (VS Code, Cursor, Claude Code, etc.) may connect.
+  install:
+    claude_code: claude mcp add --transport http figma https://mcp.figma.com/mcp
+  local_alternative:
+    note: A local/desktop MCP server is also offered via the Figma desktop app.
+    docs: https://developers.figma.com/docs/figma-mcp-server/local-server-installation/
+docs:
+  introduction: https://developers.figma.com/docs/figma-mcp-server/
+  tools_and_prompts: https://developers.figma.com/docs/figma-mcp-server/tools-and-prompts/
+  remote_install: https://developers.figma.com/docs/figma-mcp-server/remote-server-installation/
+  guide_repo: https://github.com/figma/mcp-server-guide
+  announcement: https://www.figma.com/blog/introducing-figma-mcp-server/
+tools:
+- name: add_code_connect_map
+  description: Maps Figma node IDs to corresponding code components.
+- name: create_new_file
+  description: Creates new Figma Design, FigJam, or Slides files.
+- name: download_assets
+  description: Downloads rendered exports and source images from files.
+- name: generate_diagram
+  description: Generates FigJam diagrams from Mermaid syntax.
+- name: generate_figma_design
+  description: Generates design layers from interfaces.
+- name: get_code_connect_map
+  description: Retrieves mappings between Figma nodes and code components.
+- name: get_code_connect_suggestions
+  description: Suggests Code Connect mappings for Figma components.
+- name: get_context_for_code_connect
+  description: Gets context for generating Code Connect templates.
+- name: get_design_context
+  description: Gets design context for layers or selections.
+- name: get_figjam
+  description: Converts FigJam diagrams to XML format.
+- name: get_libraries
+  description: Returns libraries added to or available for a file.
+- name: get_metadata
+  description: Returns sparse XML representation of selection properties.
+- name: get_screenshot
+  description: Takes screenshots of selections.
+- name: get_shader_effect
+  description: Retrieves shader effects and source files.
+- name: get_shader_fill
+  description: Retrieves shader fills and source files.
+- name: get_variable_defs
+  description: Returns variables and styles used in selections.
+- name: list_shader_effects
+  description: Lists shader effects in account library.
+- name: list_shader_fills
+  description: Lists shader fills in account library.
+- name: search_design_system
+  description: Searches design libraries for components and tokens.
+- name: send_code_connect_mappings
+  description: Confirms suggested Code Connect mappings.
+- name: upload_assets
+  description: Uploads PNG, JPG, GIF, and WebP assets to files.
+- name: use_figma
+  description: General-purpose tool for creating and editing Figma objects.
+- name: whoami
+  description: Returns authenticated user identity.

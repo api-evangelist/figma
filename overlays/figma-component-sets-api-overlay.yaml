@@ -1,0 +1,23 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Figma Component Sets API
+  version: 1.0.0
+extends: openapi/figma-component-sets-api-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: figma
+    x-apievangelist-enriched: '2026-06-20'
+    x-apievangelist-artifacts:
+      authentication: authentication/figma-authentication.yml
+      scopes: scopes/figma-scopes.yml
+      errors: errors/figma-problem-types.yml
+      lifecycle: lifecycle/figma-lifecycle.yml
+      conventions: conventions/figma-conventions.yml
+      mcp: mcp/figma-mcp.yml
+- target: $.info
+  update:
+    x-apievangelist-security:
+      trust-center: https://compliance.figma.com/
+      security-txt: well-known/figma-security.txt
+      vulnerability-disclosure: security/figma-vulnerability-disclosure.yml

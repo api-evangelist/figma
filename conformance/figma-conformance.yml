@@ -1,0 +1,48 @@
+generated: '2026-06-20'
+method: derived
+source: openapi/, well-known/figma-oauth-authorization-server.json, docs
+standards:
+- id: oauth2
+  conforms: true
+  evidence: OpenAPI securitySchemes declare oauth2 authorizationCode flow (authorize
+    https://www.figma.com/oauth, token https://api.figma.com/v1/oauth/token).
+- id: oidc
+  conforms: true
+  evidence: /.well-known/openid-configuration published on www.figma.com (issuer, jwks_uri,
+    ES256 id_token signing).
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: true
+  evidence: /.well-known/oauth-authorization-server published on api.figma.com (MCP
+    OAuth, PKCE S256).
+- id: rfc9116-security-txt
+  conforms: true
+  evidence: /.well-known/security.txt served with Contact/Policy/Expires (HackerOne).
+- id: pkce
+  conforms: true
+  evidence: code_challenge_methods_supported [S256] in authorization-server metadata.
+- id: mcp
+  conforms: true
+  evidence: Official remote MCP server at https://mcp.figma.com/mcp with 23 tools.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors use a Figma-native envelope {error, status, message} / {status,
+    err}, not application/problem+json.
+- id: json-api
+  conforms: false
+- id: fhir-r4
+  conforms: false
+- id: fapi
+  conforms: false
+- id: scim
+  conforms: false
+  evidence: SCIM provisioning is offered for Enterprise SSO but no SCIM path is in
+    the harvested OpenAPI.
+- id: odata
+  conforms: false
+- id: cursor-pagination
+  conforms: true
+  evidence: List endpoints (team components/component sets/styles) use before/after
+    cursor params with a pagination object in responses.
+- id: webhooks
+  conforms: true
+  evidence: Webhooks v2 with signed payloads and event types (asyncapi/figma-webhooks-asyncapi.yml).

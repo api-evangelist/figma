@@ -1,0 +1,166 @@
+# Figma Developer Documentation
+
+> Documentation for building on Figma's developer platform. Covers the Plugin API, Widget API, REST API, Code Connect, Figma MCP Server, Figma Make, Figma Sites, and Embed Kit.
+
+Figma is a collaborative design tool used by millions of designers and developers. The developer platform lets you extend Figma with plugins, create interactive on-canvas widgets, build external integrations via the REST API, connect design components to code with Code Connect, and provide Figma context to AI coding agents via the MCP Server.
+
+Choosing the right API:
+
+- **Plugin API**: Build editor extensions that read and write to the currently open Figma file. Plugins run in-browser alongside the editor and are written in JavaScript/HTML. Best for automating design tasks, importing content, or extending the editor UI.
+- **Widget API**: Create interactive objects that live on the Figma or FigJam canvas. Widgets are visible to all file viewers and support multiplayer state. Built with a React-like declarative API using TypeScript and JSX.
+- **REST API**: Access Figma data from external tools, scripts, and apps. Supports reading files, components, variables, comments, and more. Mostly read-only (write access for comments, variables, and dev resources). Uses Personal Access Tokens or OAuth2 for authentication. Base URL: `https://api.figma.com`. Subject to rate limits.
+- **Code Connect**: Bridge your codebase and Figma Dev Mode by mapping design components to code components. Supports React, HTML/Web Components, SwiftUI, Jetpack Compose, and Storybook. Available via CLI or directly in Figma UI.
+- **MCP Server**: Provide Figma design context to AI coding agents via the Model Context Protocol. Supports reading designs, extracting variables, and leveraging Code Connect mappings.
+- **Embeds**: Embed live Figma files and prototypes in external websites and apps using iframes or the Embed Kit JavaScript SDK.
+
+Authentication: The REST API uses Personal Access Tokens (for scripts and personal use) or OAuth2 (for apps that act on behalf of users). Plugin and Widget APIs do not require authentication as they run within the editor context. The MCP Server uses its own authentication flow during setup.
+
+Rate limits: The REST API enforces rate limits that vary by endpoint and plan tier. See the rate limits documentation for details. Plugin and Widget APIs are not rate-limited but are bounded by the editor session.
+
+For comprehensive per-API reference, see:
+
+- [Plugin API llms.txt](https://developers.figma.com/docs/plugins/llms.txt): Full Plugin API guide and reference index
+- [Widget API llms.txt](https://developers.figma.com/docs/widgets/llms.txt): Full Widget API guide and reference index
+- [REST API llms.txt](https://developers.figma.com/docs/rest-api/llms.txt): Full REST API endpoint and type reference
+- [Code Connect llms.txt](https://developers.figma.com/docs/code-connect/llms.txt): Full Code Connect guide index
+- [Developer Docs Home](https://developers.figma.com/): Landing page with overview of all APIs
+- [Compare APIs](https://developers.figma.com/compare-apis/): Side-by-side comparison of Plugin API, Widget API, and REST API
+
+## Code Connect
+
+- [Introduction](https://developers.figma.com/docs/code-connect/): Bridge between your codebase and Figma Dev Mode, connecting repo components to design components
+- [Code Connect UI Setup](https://developers.figma.com/docs/code-connect/code-connect-ui-setup/): Set up Code Connect directly inside Figma with GitHub integration
+- [Code Connect UI with GitHub](https://developers.figma.com/docs/code-connect/code-connect-ui-github/): Configure GitHub repository access for Code Connect UI
+- [Comparing Code Connect UI and CLI](https://developers.figma.com/docs/code-connect/comparing-cc/): Differences between the UI and CLI approaches
+- [CLI Quickstart Guide](https://developers.figma.com/docs/code-connect/quickstart-guide/): Get started with the Code Connect CLI tool
+- [Configuration](https://developers.figma.com/docs/code-connect/api/config-file/): Configure your Code Connect project with figma.config.json
+- [React Integration](https://developers.figma.com/docs/code-connect/react/): Connect React and React Native components to Figma
+- [HTML Integration](https://developers.figma.com/docs/code-connect/html/): Connect Web Components, Angular, and Vue components to Figma
+- [SwiftUI Integration](https://developers.figma.com/docs/code-connect/swiftui/): Connect SwiftUI views to Figma
+- [Compose Integration](https://developers.figma.com/docs/code-connect/compose/): Connect Jetpack Compose components to Figma
+- [Storybook Integration](https://developers.figma.com/docs/code-connect/storybook/): Use Code Connect with Storybook stories
+- [CI/CD](https://developers.figma.com/docs/code-connect/ci-cd/): Automate Code Connect publishing in CI/CD pipelines
+- [Common Issues](https://developers.figma.com/docs/code-connect/common-issues/): Troubleshooting guide for Code Connect
+
+## Figma MCP Server
+
+- [Introduction](https://developers.figma.com/docs/figma-mcp-server/): Overview of the MCP Server for connecting Figma to AI coding agents
+- [Remote Server Installation](https://developers.figma.com/docs/figma-mcp-server/remote-server-installation/): Connect to Figma's hosted MCP endpoint without the desktop app
+- [Local Server Installation](https://developers.figma.com/docs/figma-mcp-server/local-server-installation/): Run the MCP server locally through the Figma desktop app
+- [Tools and Prompts](https://developers.figma.com/docs/figma-mcp-server/tools-and-prompts/): Available MCP tools including get_design_context, get_screenshot, get_metadata, and get_variable_defs
+- [Bringing Make Context to Your Agent](https://developers.figma.com/docs/figma-mcp-server/bringing-make-context-to-your-agent/): Extract code resources from Figma Make files for use in your codebase
+- [Code Connect Integration](https://developers.figma.com/docs/figma-mcp-server/code-connect-integration/): How Code Connect enhances MCP output with real component references
+- [Structure Your Figma File](https://developers.figma.com/docs/figma-mcp-server/structure-figma-file/): Best practices for organizing files to get better code generation
+- [Write Effective Prompts](https://developers.figma.com/docs/figma-mcp-server/write-effective-prompts/): Tips for crafting prompts that produce better AI output
+- [Trigger Specific Tools](https://developers.figma.com/docs/figma-mcp-server/trigger-specific-tools/): Guide to invoking specific MCP tools from your agent
+- [Add Custom Rules](https://developers.figma.com/docs/figma-mcp-server/add-custom-rules/): Add project-specific rules to guide code generation
+- [Avoid Large Frames](https://developers.figma.com/docs/figma-mcp-server/avoid-large-frames/): Performance tips for working with large designs
+- [Rate Limits & Access](https://developers.figma.com/docs/figma-mcp-server/rate-limits-access/): Plan requirements and rate limits for MCP access
+
+## Figma Make
+
+- [Introduction to Figma Make](https://developers.figma.com/docs/code/intro-to-figma-make/): AI-driven prompt-to-code tool for building functional React prototypes and web apps
+- [How to Write Great Prompts](https://developers.figma.com/docs/code/how-to-write-great-prompts/): Best practices for getting better code output from the AI chat
+- [Iterate Your Code with AI](https://developers.figma.com/docs/code/iterate-your-code-with-ai/): Refine and improve generated code through conversation
+- [Working with React](https://developers.figma.com/docs/code/working-with-react/): Use React components and patterns in Figma Make
+- [Working with npm](https://developers.figma.com/docs/code/working-with-npm/): Understand npm packages, dependencies, and package.json in the context of Figma Make
+- [Use Third-Party Libraries](https://developers.figma.com/docs/code/use-packages-and-third-party-libraries/): Add npm packages and external libraries to Make projects
+- [Fetch Data from External APIs](https://developers.figma.com/docs/code/fetch-data-from-external-apis/): Make network requests to external services
+- [Bring your design system package to a Make kit](https://developers.figma.com/docs/code/bring-your-design-system-package/): Import custom design system packages
+- [Write design system guidelines for Make kits](https://developers.figma.com/docs/code/write-design-system-guidelines/): Create guidelines to ensure consistent code generation
+
+## Figma Sites
+
+- [Introduction to Figma Sites](https://developers.figma.com/docs/code/intro-to-figma-sites/): Publish responsive websites directly from Figma with code layers
+- [Create Your First Code Layer](https://developers.figma.com/docs/code/create-your-first-code-layer/): Add interactive React code layers to Figma designs
+- [Share Data Between Layers](https://developers.figma.com/docs/code/share-data-between-layers/): Pass data between code layers and design elements
+- [Embed HTML, CSS, JavaScript](https://developers.figma.com/docs/code/embed-html-css-javascript/): Embed raw HTML, CSS, and JavaScript in Figma Sites
+- [Code Layers, Components, and Instances](https://developers.figma.com/docs/code/code-layers-components-and-instances/): How code layers work with Figma's component system
+- [Props and Variables](https://developers.figma.com/docs/code/props-and-variables/): Pass data between design and code using props and variables
+- [Define Properties](https://developers.figma.com/docs/code/define-properties/): Define custom properties for code components
+- [Cookie Consent Mode](https://developers.figma.com/docs/code/cookie-consent-mode/): Configure cookie consent for published sites
+- [Use Active Breakpoint](https://developers.figma.com/docs/code/use-active-breakpoint/): Access the current responsive breakpoint in code
+- [Use Snapshot](https://developers.figma.com/docs/code/use-snapshot/): Capture and use design snapshots in code layers
+
+## Plugin API
+
+- [Introduction](https://developers.figma.com/docs/plugins/): Overview of building Figma and FigJam plugins with JavaScript and HTML
+- [Prerequisites](https://developers.figma.com/docs/plugins/prerequisites/): Required knowledge and tools for plugin development
+- [Quickstart Guide](https://developers.figma.com/docs/plugins/plugin-quickstart-guide/): Set up your environment and run a sample plugin
+- [How Plugins Run](https://developers.figma.com/docs/plugins/how-plugins-run/): Understand the plugin sandbox, main thread, and UI iframe architecture
+- [Accessing the Document](https://developers.figma.com/docs/plugins/accessing-document/): Navigate and read the Figma document tree of nodes
+- [Editing Properties](https://developers.figma.com/docs/plugins/editing-properties/): Modify node properties like fills, strokes, text, and layout
+- [Creating a User Interface](https://developers.figma.com/docs/plugins/creating-ui/): Build plugin UI with HTML in an iframe
+- [Working with Variables](https://developers.figma.com/docs/plugins/working-with-variables/): Create, read, and bind design variables
+- [Working with Images](https://developers.figma.com/docs/plugins/working-with-images/): Handle image fills, exports, and image data
+- [Making Network Requests](https://developers.figma.com/docs/plugins/making-network-requests/): Fetch external data from within plugins
+- [API Reference](https://developers.figma.com/docs/plugins/api/api-reference/): Complete Plugin API reference with all types, node types, and global objects
+- [Plugin API llms.txt](https://developers.figma.com/docs/plugins/llms.txt): Full index of all Plugin API guides and reference pages
+
+## Widget API
+
+- [Introduction](https://developers.figma.com/docs/widgets/): Overview of building interactive on-canvas widgets for Figma and FigJam
+- [Prerequisites](https://developers.figma.com/docs/widgets/prerequisites/): Required knowledge for widget development
+- [Setup Guide](https://developers.figma.com/docs/widgets/setup-guide/): Set up your widget development environment
+- [How Widgets Run](https://developers.figma.com/docs/widgets/how-widgets-run/): Understand the widget runtime, rendering, and lifecycle
+- [Widget State](https://developers.figma.com/docs/widgets/widget-state/): Manage widget state with useSyncedState and useSyncedMap
+- [Handling User Events](https://developers.figma.com/docs/widgets/handling-user-events/): Respond to clicks, property menu changes, and interactions
+- [Making Network Requests](https://developers.figma.com/docs/widgets/making-network-requests/): Fetch data from external APIs in widgets
+- [API Reference](https://developers.figma.com/docs/widgets/api/api-reference/): Complete Widget API reference with components, hooks, and data types
+- [Widget API llms.txt](https://developers.figma.com/docs/widgets/llms.txt): Full index of all Widget API guides and reference pages
+
+## REST API
+
+- [Introduction](https://developers.figma.com/docs/rest-api/): Overview of Figma's REST API for accessing files, components, users, and more
+- [Authentication](https://developers.figma.com/docs/rest-api/authentication/): Authenticate with Personal Access Tokens or OAuth2
+- [Scopes](https://developers.figma.com/docs/rest-api/scopes/): OAuth scopes for controlling API access levels
+- [Rate Limits](https://developers.figma.com/docs/rest-api/rate-limits/): Rate limit tiers, headers, and best practices
+- [File Endpoints](https://developers.figma.com/docs/rest-api/file-endpoints/): Get file JSON, images, image fills, and node data
+- [File Node Types](https://developers.figma.com/docs/rest-api/file-node-types/): Reference for all node types in the file response
+- [File Property Types](https://developers.figma.com/docs/rest-api/file-property-types/): Reference for paint, effect, layout, and other property types
+- [Comments Endpoints](https://developers.figma.com/docs/rest-api/comments-endpoints/): Create and manage comments and reactions on files
+- [Users Endpoints](https://developers.figma.com/docs/rest-api/users-endpoints/): Get authenticated user information
+- [Version History Endpoints](https://developers.figma.com/docs/rest-api/version-history-endpoints/): Access file version history
+- [Projects Endpoints](https://developers.figma.com/docs/rest-api/projects-endpoints/): List team projects and project files
+- [Component Endpoints](https://developers.figma.com/docs/rest-api/component-endpoints/): Get component and style metadata from team libraries
+- [Variables Introduction](https://developers.figma.com/docs/rest-api/variables/): Overview of the Variables API for design tokens
+- [Variables Endpoints](https://developers.figma.com/docs/rest-api/variables-endpoints/): Get and modify local and published variables
+- [Webhooks Introduction](https://developers.figma.com/docs/rest-api/webhooks/): Subscribe to real-time events for files, projects, and teams
+- [Webhooks Events](https://developers.figma.com/docs/rest-api/webhooks-events/): Reference for all webhook event types
+- [Webhooks Endpoints](https://developers.figma.com/docs/rest-api/webhooks-endpoints/): Create, update, and delete webhook subscriptions
+- [Activity Logs Introduction](https://developers.figma.com/docs/rest-api/activity-logs/): Query audit logs for organization activity
+- [Activity Logs Endpoints](https://developers.figma.com/docs/rest-api/activity-logs-endpoints/): Search and filter activity log events
+- [Dev Resources Introduction](https://developers.figma.com/docs/rest-api/dev-resources/): Manage dev resources attached to design nodes
+- [Dev Resources Endpoints](https://developers.figma.com/docs/rest-api/dev-resources-endpoints/): Create, update, and delete dev resources
+- [Library Analytics Introduction](https://developers.figma.com/docs/rest-api/library-analytics-intro/): Get usage data for design system libraries
+- [Library Analytics Endpoints](https://developers.figma.com/docs/rest-api/library-analytics-endpoints/): Query library component and style usage
+- [Payments Introduction](https://developers.figma.com/docs/rest-api/payments/): Manage payments for plugins and community resources
+- [Payments Endpoints](https://developers.figma.com/docs/rest-api/payments-endpoints/): Check payment status and manage subscriptions
+- [Discovery Introduction](https://developers.figma.com/docs/rest-api/discovery/): Access text events and content discovery data
+- [Discovery Endpoints](https://developers.figma.com/docs/rest-api/discovery-endpoints/): Search and filter text events
+- [SCIM Introduction](https://developers.figma.com/docs/rest-api/scim/): Manage users and groups via SCIM provisioning
+- [SCIM Endpoints](https://developers.figma.com/docs/rest-api/scim-endpoints/): SCIM API endpoints for user and group management
+- [Errors](https://developers.figma.com/docs/rest-api/errors/): Error codes, messages, and troubleshooting
+- [Changelog](https://developers.figma.com/docs/rest-api/changelog/): History of REST API changes and updates
+- [REST API llms.txt](https://developers.figma.com/docs/rest-api/llms.txt): Full index of all REST API reference pages
+
+## Embeds
+
+- [Overview](https://developers.figma.com/docs/embeds/): Embed live Figma files and prototypes in external websites and apps
+- [Embed Kit 2.0](https://developers.figma.com/docs/embeds/embed-kit-2.0/): JavaScript SDK for advanced embed control and interaction
+- [Security and Access](https://developers.figma.com/docs/embeds/security-access/): Security model and access requirements for embeds
+- [Embed a Figma File](https://developers.figma.com/docs/embeds/embed-figma-file/): Embed a live, interactive Figma file viewer
+- [Embed a Figma Prototype](https://developers.figma.com/docs/embeds/embed-figma-prototype/): Embed interactive prototypes with navigation
+- [Embed API](https://developers.figma.com/docs/embeds/embed-api/): Programmatic control over embedded content via JavaScript
+- [Resources](https://developers.figma.com/docs/embeds/resources/): Additional resources and integration examples
+- [Troubleshooting](https://developers.figma.com/docs/embeds/troubleshooting/): Common issues and solutions for embeds
+
+## Optional
+
+- [Platform Announcements](https://developers.figma.com/docs/updates-to-figmas-developer-platform/): Updates and changes to Figma's developer platform
+- [Plugin Updates](https://developers.figma.com/docs/plugins/updates/): Changelog for Plugin API updates and releases
+- [Widget Updates](https://developers.figma.com/docs/widgets/updates/): Changelog for Widget API updates and releases
+- [Plugin Samples](https://developers.figma.com/docs/plugins/samples/): Example plugin projects and starter code
+- [Widget Samples](https://developers.figma.com/docs/widgets/samples/): Example widget projects and starter code
+- [Plugin Samples on GitHub](https://github.com/figma/plugin-samples): Official plugin sample repository
+- [Widget Samples on GitHub](https://github.com/figma/widget-samples): Official widget sample repository

@@ -1,0 +1,50 @@
+generated: '2026-06-20'
+method: searched
+source: https://developers.figma.com/docs/rest-api/changelog/
+scheme: dated
+current_version: v1
+entries:
+- date: '2026-06-12'
+  type: addition
+  highlights: Added an AI Usage API (Enterprise) returning per-user, per-day AI credit
+    usage.
+- date: '2026-03-25'
+  type: addition
+  highlights: Added an oEmbed API to retrieve oEmbed data for Figma files and published
+    Makes.
+- date: '2026-01-26'
+  type: addition
+  highlights: Added complexStrokeProperties, variableWidthPoints, textPathStartData,
+    and transformModifiers across node types.
+- date: '2026-01-21'
+  type: addition
+  highlights: Discovery API can retrieve text of user-submitted AI prompts (Enterprise
+    Governance+).
+- date: '2025-12-11'
+  type: docs
+  highlights: Token refresh and API URL clarifications for Figma for Government.
+- date: '2025-11-18'
+  type: addition
+  highlights: Documentation for extended variable collections (parent collection references,
+    override capabilities).
+- date: '2025-09-23'
+  type: breaking
+  highlights: New OAuth app publishing requirement and REST API rate limits effective
+    2025-11-17.
+- date: '2025-07-07'
+  type: addition
+  highlights: GET team components page_size max raised to 1000; new grid layout properties.
+- date: '2025-06-27'
+  type: addition
+  highlights: Discovery API introduced (Enterprise, Governance+) for org-wide text events.
+- date: '2025-05-28'
+  type: addition
+  highlights: Webhooks V2 can attach to files and projects; new DEV_MODE_STATUS_UPDATE
+    event.
+- date: '2025-05-16'
+  type: change
+  highlights: OAuth token refresh endpoint migrated to align with OAuth 2.0 spec.
+- date: '2025-05-07'
+  type: addition
+  highlights: Beta TEXT_PATH and TRANSFORM_GROUP node types; TEXTURE, NOISE, PROGRESSIVE,
+    PATTERN effects.

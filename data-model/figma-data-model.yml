@@ -1,0 +1,133 @@
+generated: '2026-06-20'
+method: derived
+source: json-schema/*, openapi/*
+note: Entity-relationship graph derived from the harvested JSON Schemas and OpenAPI
+  response shapes. Figma's file tree is a recursive Node hierarchy (Document -> Canvas
+  -> Frame/Group/... -> leaf nodes).
+entities:
+- name: Team
+  id: team_id (numeric string)
+  relationships:
+  - has_many: Project
+    via: team_id
+  - has_many: PublishedComponent
+    via: team library
+  - has_many: PublishedStyle
+    via: team library
+  - has_many: Webhook
+    via: team_id
+- name: Project
+  id: project_id (numeric string)
+  relationships:
+  - belongs_to: Team
+    via: team_id
+  - has_many: File
+    via: project_id
+- name: File
+  id: file key (opaque string)
+  relationships:
+  - belongs_to: Project
+    via: project_id
+  - has_one: DocumentNode
+    via: document
+  - has_many: Comment
+    via: file key
+  - has_many: Version
+    via: file key
+  - has_many: Component
+    via: components map
+  - has_many: ComponentSet
+    via: component_sets map
+  - has_many: Style
+    via: styles map
+  - has_many: DevResource
+    via: file key
+- name: DocumentNode
+  relationships:
+  - has_many: CanvasNode
+    via: children
+- name: CanvasNode
+  relationships:
+  - belongs_to: DocumentNode
+    via: parent
+  - has_many: Node
+    via: children
+- name: Node
+  note: Recursive; base of Frame, Group, Component, Instance, Text, Vector, etc.
+  relationships:
+  - has_many: Node
+    via: children
+  - has_one: Component
+    via: componentId (instances)
+- name: Component
+  relationships:
+  - belongs_to: File
+    via: file key
+  - belongs_to: ComponentSet
+    via: component_set_id
+  - has_one: FrameInfo
+    via: containing_frame
+  - has_one: User
+    via: user
+- name: ComponentSet
+  relationships:
+  - has_many: Component
+    via: variants
+- name: Style
+  note: FILL | TEXT | EFFECT | GRID style_type.
+  relationships:
+  - belongs_to: File
+    via: file key
+- name: Comment
+  relationships:
+  - belongs_to: File
+    via: file key
+  - has_one: User
+    via: user
+  - has_one: ClientMeta
+    via: client_meta (node/canvas anchor)
+  - has_many: Reaction
+    via: comment_id
+  - belongs_to: Comment
+    via: parent_id (threaded replies)
+- name: Reaction
+  relationships:
+  - belongs_to: Comment
+    via: comment_id
+  - has_one: User
+    via: user
+- name: Version
+  relationships:
+  - belongs_to: File
+    via: file key
+  - has_one: User
+    via: user
+- name: DevResource
+  relationships:
+  - belongs_to: File
+    via: file_key
+  - belongs_to: Node
+    via: node_id
+- name: Webhook
+  note: Webhooks v2; attaches to team, file, or project context.
+  relationships:
+  - belongs_to: Team
+    via: team_id
+- name: Variable
+  note: Enterprise; belongs to a VariableCollection with modes.
+  relationships:
+  - belongs_to: VariableCollection
+    via: variableCollectionId
+  - belongs_to: File
+    via: file key
+- name: User
+  id: user id
+  note: Actor on comments, reactions, versions, components, and the authenticated /me
+    endpoint.
+- name: ActivityLog
+  note: Enterprise org audit event.
+  relationships:
+  - has_one: ActivityLogActor
+    via: actor
+  - has_one: ActivityLogEntity
+    via: entity

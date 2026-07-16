@@ -1,0 +1,39 @@
+generated: '2026-06-20'
+method: searched
+source: https://developers.figma.com/docs/code-connect/cli-reference/
+name: Code Connect CLI
+binary: figma
+package: "@figma/code-connect"
+install:
+- npm install @figma/code-connect
+- npx figma connect <command>
+description: First-party CLI (shipped in @figma/code-connect) for mapping design-system
+  components in code to Figma components (Code Connect). Supports React, HTML/Web Components,
+  SwiftUI, Jetpack Compose, and Storybook.
+auth:
+  flag: -t / --token
+  note: Figma access token (or FIGMA_ACCESS_TOKEN env var).
+commands:
+- command: figma connect create
+  description: Generate a boilerplate Code Connect template file.
+  flags: [--outDir, -c/--config]
+- command: figma connect publish
+  description: Scan for Code Connect files and publish them to Figma.
+  flags: [-r/--dir, -f/--file, -c/--config, --exit-on-unreadable-files, --dry-run,
+    --skip-validation, -l/--label, -b/--batch-size, --force]
+- command: figma connect unpublish
+  description: Remove published Code Connect connections from Figma.
+  flags: [-r/--dir, -f/--file, -c/--config, --exit-on-unreadable-files, --dry-run,
+    --node, -l/--label]
+- command: figma connect parse
+  description: Parse Code Connect files and output them as JSON.
+  flags: [-r/--dir, -f/--file, --outFile, -c/--config, --exit-on-unreadable-files,
+    --dry-run, -l/--label]
+- command: figma connect preview
+  description: Preview rendering in the inspect panel before publishing.
+  flags: [-r/--dir, -c/--config, --output]
+- command: figma connect migrate
+  description: Migrate parser-based Code Connect files to template files.
+  flags: [-r/--dir, -f/--file, --outDir, -c/--config, --javascript, --batch, --include-props]
+global_flags: [-V/--version, -v/--verbose, -t/--token, -h/--help]
+docs: https://developers.figma.com/docs/code-connect/

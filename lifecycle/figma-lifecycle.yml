@@ -1,0 +1,23 @@
+generated: '2026-06-20'
+method: searched
+source: https://developers.figma.com/docs/rest-api/
+versioning:
+  scheme: uri-path
+  current: v1
+  note: REST endpoints are served under /v1/ on https://api.figma.com. The OpenAPI
+    document is versioned separately (info.version 2.0.0 for the aggregate REST spec).
+  docs: https://developers.figma.com/docs/rest-api/
+deprecation:
+  policy_url: https://developers.figma.com/docs/rest-api/changelog/
+  sunset_header: false
+  note: Figma announces API changes and upcoming rate-limit/OAuth changes via the dated
+    changelog rather than RFC 8594 Sunset/Deprecation headers. Example - new REST API
+    rate limits and OAuth app publishing requirements announced 2025-09-23, effective
+    2025-11-17.
+rate_limits:
+  docs: https://developers.figma.com/docs/rest-api/rate-limits/
+  note: Limits vary by endpoint and plan tier; 429 returned on exceed.
+status_page: https://status.figma.com/
+changelog: https://developers.figma.com/docs/rest-api/changelog/
+security_txt_expiry: '2026-10-21T15:25:00.000Z'
+deprecated_operations: []
