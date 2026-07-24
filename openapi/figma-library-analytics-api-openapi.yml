@@ -1,0 +1,326 @@
+openapi: 3.1.0
+info:
+  title: Figma Activity Logs Library Analytics API
+  version: 0.21.0
+  description: 'Figma allows designers to create and prototype their digital experiences -
+
+    together in real-time and in one place - helping them turn their ideas and
+
+    visions into products, faster. Figma''s mission is to make design
+
+    accessible to everyone. The Figma API is one of the ways we aim to do that.'
+  termsOfService: https://www.figma.com/developer-terms/
+  contact:
+    email: support@figma.com
+servers:
+- url: https://api.figma.com
+  description: Figma Production API Server
+tags:
+- name: Library Analytics
+  description: Operations for retrieving library usage and action analytics data
+paths:
+  /v1/analytics/libraries/{file_key}/usages:
+    get:
+      tags:
+      - Library Analytics
+      summary: Figma Get Library Analytics Usage Data
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - library_analytics:read
+      description: Returns a list of library analytics usage data broken down by the requested dimension.
+      operationId: getLibraryAnalyticsUsages
+      x-microcks-operation:
+        dispatcher: FALLBACK
+        dispatcherRules: "{\n  \"dispatcher\": \"FALLBACK\",\n  \"fallback\": \"GetLibraryAnalyticsUsagesSuccessExample\"\n}\n"
+      parameters:
+      - $ref: '#/components/parameters/FileKeyPathParam'
+      - $ref: '#/components/parameters/CursorQueryParam'
+      - $ref: '#/components/parameters/GroupByQueryParam'
+      - $ref: '#/components/parameters/OrderQueryParam'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetLibraryAnalyticsUsagesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
+components:
+  examples:
+    InternalServerErrorExample:
+      summary: Internal server error
+      value:
+        error: true
+        status: 500
+        message: An internal server error occurred
+    BadRequestExample:
+      summary: Bad request error
+      value:
+        error: true
+        status: 400
+        message: 'Invalid parameter: group_by must be ''component'' or ''file'''
+    UnauthorizedExample:
+      summary: Unauthorized error
+      value:
+        error: true
+        status: 401
+        message: Token is missing or incorrect
+    GetLibraryAnalyticsUsagesSuccessExample:
+      summary: Successful library analytics usage response
+      value:
+        components:
+        - componentKey: comp_abc123
+          componentName: Primary Button
+          componentSetKey: compset_xyz789
+          componentSetName: Buttons
+          numInstances: 1542
+          numTeamsUsing: 8
+          numFilesUsing: 45
+        - componentKey: comp_def456
+          componentName: Secondary Button
+          componentSetKey: compset_xyz789
+          componentSetName: Buttons
+          numInstances: 876
+          numTeamsUsing: 6
+          numFilesUsing: 32
+        files:
+        - fileName: Marketing Landing Page
+          teamName: Marketing Design
+          workspaceName: Company Workspace
+          numInstances: 89
+        - fileName: Product Dashboard
+          teamName: Product Design
+          workspaceName: Company Workspace
+          numInstances: 156
+        nextPage: true
+        cursor: eyJwYWdlIjoyfQ==
+    TooManyRequestsExample:
+      summary: Rate limit error
+      value:
+        error: true
+        status: 429
+        message: Rate limit exceeded. Please wait before making another request
+    ForbiddenExample:
+      summary: Forbidden error
+      value:
+        error: true
+        status: 403
+        message: You do not have permission to access analytics for this library
+  responses:
+    ForbiddenErrorResponse:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            ForbiddenExample:
+              $ref: '#/components/examples/ForbiddenExample'
+    BadRequestErrorResponse:
+      description: Bad request. Parameters are invalid or malformed. Please check the input formats.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            BadRequestExample:
+              $ref: '#/components/examples/BadRequestExample'
+    TooManyRequestsErrorResponse:
+      description: API requests may be throttled or rate limited. Please wait a while before attempting the request again.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            TooManyRequestsExample:
+              $ref: '#/components/examples/TooManyRequestsExample'
+    UnauthorizedErrorResponse:
+      description: Token is missing or incorrect.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            UnauthorizedExample:
+              $ref: '#/components/examples/UnauthorizedExample'
+    InternalServerErrorResponse:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            InternalServerErrorExample:
+              $ref: '#/components/examples/InternalServerErrorExample'
+    GetLibraryAnalyticsUsagesResponse:
+      description: Response from the GET /v1/analytics/libraries/{file_key}/usages endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetLibraryAnalyticsUsagesResponseBody'
+          examples:
+            GetLibraryAnalyticsUsagesSuccessExample:
+              $ref: '#/components/examples/GetLibraryAnalyticsUsagesSuccessExample'
+  parameters:
+    FileKeyPathParam:
+      name: file_key
+      in: path
+      description: File key of the library to fetch analytics data for.
+      required: true
+      schema:
+        type: string
+      example: abc123xyz789
+    GroupByQueryParam:
+      name: group_by
+      description: A dimension to group returned analytics data by. Accepts "component" or "file".
+      required: true
+      in: query
+      schema:
+        type: string
+        enum:
+        - component
+        - file
+      example: component
+    CursorQueryParam:
+      name: cursor
+      description: Cursor indicating what page of data to fetch. Obtained from prior API call.
+      in: query
+      schema:
+        type: string
+      example: eyJwYWdlIjoxfQ==
+    OrderQueryParam:
+      name: order
+      description: How to order response rows by number of instances. This param can be either "asc" or "desc" (default).
+      in: query
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+        default: desc
+      example: desc
+  schemas:
+    LibraryAnalyticsUsagesByComponent:
+      type: object
+      description: Library analytics usage data broken down by component.
+      properties:
+        componentKey:
+          type: string
+          description: Unique, stable id of the component.
+          example: example_value
+        componentName:
+          type: string
+          description: Name of the component.
+          example: example_value
+        componentSetKey:
+          type: string
+          description: Unique, stable id of the component set that this component belongs to.
+          example: example_value
+        componentSetName:
+          type: string
+          description: Name of the component set that this component belongs to.
+          example: example_value
+        numInstances:
+          type: number
+          description: The number of instances of the component within the organization.
+          example: 42.5
+        numTeamsUsing:
+          type: number
+          description: The number of teams using the component within the organization.
+          example: 42.5
+        numFilesUsing:
+          type: number
+          description: The number of files using the component within the organization.
+          example: 42.5
+      required:
+      - componentKey
+      - componentName
+      - numInstances
+      - numTeamsUsing
+      - numFilesUsing
+    ErrorResponsePayload:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        error:
+          type: boolean
+          description: For erroneous requests, this value is always `true`.
+          enum:
+          - true
+          example: true
+        status:
+          type: number
+          description: Status code
+          example: 42.5
+        message:
+          type: string
+          description: A string describing the error
+          example: example_value
+      required:
+      - error
+      - status
+      - message
+    LibraryAnalyticsUsagesByFile:
+      type: object
+      description: Library analytics usage data broken down by file.
+      properties:
+        fileName:
+          type: string
+          description: The name of the file using the library.
+          example: example_value
+        teamName:
+          type: string
+          description: The name of the team the file belongs to.
+          example: example_value
+        workspaceName:
+          type: string
+          description: The name of the workspace that the file belongs to.
+          example: example_value
+        numInstances:
+          type: number
+          description: The number of component instances from the library used within the file.
+          example: 42.5
+      required:
+      - fileName
+      - teamName
+      - numInstances
+    GetLibraryAnalyticsUsagesResponseBody:
+      type: object
+      properties:
+        components:
+          description: An array of analytics data when breaking down usage by component.
+          type: array
+          items:
+            $ref: '#/components/schemas/LibraryAnalyticsUsagesByComponent'
+          example: []
+        files:
+          description: An array of analytics data when breaking down usage by file.
+          type: array
+          items:
+            $ref: '#/components/schemas/LibraryAnalyticsUsagesByFile'
+          example: []
+        nextPage:
+          type: boolean
+          description: Whether there is a next page of data that can be fetched.
+          example: true
+        cursor:
+          type: string
+          description: The cursor to use to fetch the next page of data. Not present if nextPage is false.
+          example: example_value
+      required:
+      - nextPage
+  securitySchemes:
+    OrgOAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          scopes:
+            org:activity_log_read: Read organization activity logs

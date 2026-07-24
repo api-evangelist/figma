@@ -1,0 +1,724 @@
+openapi: 3.1.0
+info:
+  title: Figma Activity Logs Components API
+  version: 0.21.0
+  description: 'Figma allows designers to create and prototype their digital experiences -
+
+    together in real-time and in one place - helping them turn their ideas and
+
+    visions into products, faster. Figma''s mission is to make design
+
+    accessible to everyone. The Figma API is one of the ways we aim to do that.'
+  termsOfService: https://www.figma.com/developer-terms/
+  contact:
+    email: support@figma.com
+servers:
+- url: https://api.figma.com
+  description: Figma Production API Server
+tags:
+- name: Components
+  description: Endpoints for querying published components, component sets, and styles from team libraries.
+  externalDocs:
+    description: Component Types Documentation
+    url: https://developers.figma.com/docs/rest-api/component-types/
+paths:
+  /v1/teams/{team_id}/components:
+    get:
+      tags:
+      - Components
+      summary: Figma Get Team Components
+      operationId: getTeamComponents
+      description: Get a paginated list of published components within a team library. The components are returned in order of when they were published.
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
+      parameters:
+      - $ref: '#/components/parameters/TeamIdPathParam'
+      - name: page_size
+        in: query
+        description: Number of items per page. Defaults to 30.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+        example: 10
+      - name: after
+        in: query
+        description: Cursor for paginated results. Use the cursor value from pagination in a previous response.
+        required: false
+        schema:
+          type: number
+        example: 42.5
+      - name: before
+        in: query
+        description: Cursor for paginated results in reverse.
+        required: false
+        schema:
+          type: number
+        example: 42.5
+      responses:
+        '200':
+          description: Successfully retrieved team components.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTeamComponentsResponse'
+              examples:
+                Getteamcomponents200Example:
+                  summary: Default getTeamComponents 200 response
+                  x-microcks-default: true
+                  value:
+                    error: true
+                    status: 10
+                    meta:
+                      components:
+                      - {}
+                      cursor:
+                        before: 42.5
+                        after: 42.5
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v1/files/{file_key}/components:
+    get:
+      tags:
+      - Components
+      summary: Figma Get File Components
+      operationId: getFileComponents
+      description: Get a list of published components within a file library.
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
+      parameters:
+      - $ref: '#/components/parameters/FileKeyPathParam'
+      responses:
+        '200':
+          description: Successfully retrieved file components.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFileComponentsResponse'
+              examples:
+                Getfilecomponents200Example:
+                  summary: Default getFileComponents 200 response
+                  x-microcks-default: true
+                  value:
+                    error: true
+                    status: 10
+                    meta:
+                      components:
+                      - {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v1/components/{key}:
+    get:
+      tags:
+      - Components
+      summary: Figma Get Component
+      operationId: getComponent
+      description: Get metadata on a component by key. This is the unique identifier for a published component that is globally unique across all files.
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
+      parameters:
+      - name: key
+        in: path
+        description: The unique identifier of the component.
+        required: true
+        schema:
+          type: string
+        example: example_value
+      responses:
+        '200':
+          description: Successfully retrieved component.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetComponentResponse'
+              examples:
+                Getcomponent200Example:
+                  summary: Default getComponent 200 response
+                  x-microcks-default: true
+                  value:
+                    error: true
+                    status: 10
+                    meta:
+                      key: example_value
+                      file_key: example_value
+                      node_id: '500123'
+                      thumbnail_url: https://www.example.com
+                      name: Example Title
+                      description: A sample description.
+                      created_at: '2026-01-15T10:30:00Z'
+                      updated_at: '2026-01-15T10:30:00Z'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v1/teams/{team_id}/component_sets:
+    get:
+      tags:
+      - Components
+      summary: Figma Get Team Component Sets
+      operationId: getTeamComponentSets
+      description: Get a paginated list of published component sets within a team library.
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
+      parameters:
+      - $ref: '#/components/parameters/TeamIdPathParam'
+      - name: page_size
+        in: query
+        description: Number of items per page.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+        example: 10
+      - name: after
+        in: query
+        description: Cursor for pagination.
+        required: false
+        schema:
+          type: number
+        example: 42.5
+      - name: before
+        in: query
+        description: Cursor for reverse pagination.
+        required: false
+        schema:
+          type: number
+        example: 42.5
+      responses:
+        '200':
+          description: Successfully retrieved team component sets.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTeamComponentSetsResponse'
+              examples:
+                Getteamcomponentsets200Example:
+                  summary: Default getTeamComponentSets 200 response
+                  x-microcks-default: true
+                  value:
+                    error: true
+                    status: 10
+                    meta:
+                      component_sets:
+                      - {}
+                      cursor:
+                        before: 42.5
+                        after: 42.5
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v1/teams/{team_id}/styles:
+    get:
+      tags:
+      - Components
+      summary: Figma Get Team Styles
+      operationId: getTeamStyles
+      description: Get a paginated list of published styles within a team library.
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
+      parameters:
+      - $ref: '#/components/parameters/TeamIdPathParam'
+      - name: page_size
+        in: query
+        description: Number of items per page.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+        example: 10
+      - name: after
+        in: query
+        description: Cursor for pagination.
+        required: false
+        schema:
+          type: number
+        example: 42.5
+      - name: before
+        in: query
+        description: Cursor for reverse pagination.
+        required: false
+        schema:
+          type: number
+        example: 42.5
+      responses:
+        '200':
+          description: Successfully retrieved team styles.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTeamStylesResponse'
+              examples:
+                Getteamstyles200Example:
+                  summary: Default getTeamStyles 200 response
+                  x-microcks-default: true
+                  value:
+                    error: true
+                    status: 10
+                    meta:
+                      styles:
+                      - {}
+                      cursor:
+                        before: 42.5
+                        after: 42.5
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    User:
+      type: object
+      description: A Figma user account.
+      required:
+      - id
+      - handle
+      - img_url
+      properties:
+        id:
+          type: string
+          description: Unique stable ID of the user.
+          example: abc123
+        handle:
+          type: string
+          description: Display name of the user.
+          example: example_value
+        img_url:
+          type: string
+          format: uri
+          description: URL of the user's profile image.
+          example: https://www.example.com
+        email:
+          type: string
+          format: email
+          description: Email address associated with the user's account.
+          example: user@example.com
+    GetComponentResponse:
+      type: object
+      description: Response from the Get Component endpoint.
+      required:
+      - status
+      - meta
+      properties:
+        error:
+          type: boolean
+          example: true
+        status:
+          type: integer
+          example: 10
+        meta:
+          $ref: '#/components/schemas/PublishedComponent'
+    PublishedComponentSet:
+      type: object
+      description: A published component set from a team or file library.
+      required:
+      - key
+      - file_key
+      - node_id
+      - name
+      - description
+      - created_at
+      - updated_at
+      - user
+      properties:
+        key:
+          type: string
+          description: The globally unique identifier for the component set.
+          example: example_value
+        file_key:
+          type: string
+          description: The key of the Figma file containing the component set.
+          example: example_value
+        node_id:
+          type: string
+          description: The node ID of the component set within the file.
+          example: '500123'
+        thumbnail_url:
+          type: string
+          format: uri
+          description: A URL to a thumbnail image of the component set.
+          example: https://www.example.com
+        name:
+          type: string
+          description: The name of the component set.
+          example: Example Title
+        description:
+          type: string
+          description: The description of the component set.
+          example: A sample description.
+        created_at:
+          type: string
+          format: date-time
+          example: '2026-01-15T10:30:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2026-01-15T10:30:00Z'
+        user:
+          $ref: '#/components/schemas/User'
+        containing_frame:
+          $ref: '#/components/schemas/FrameInfo'
+    FrameInfo:
+      type: object
+      description: Information about the frame containing a component.
+      properties:
+        nodeId:
+          type: string
+          description: The ID of the containing frame node.
+          example: '500123'
+        name:
+          type: string
+          description: The name of the containing frame.
+          example: Example Title
+        backgroundColor:
+          type: string
+          description: The background color of the containing frame.
+          example: example_value
+        pageId:
+          type: string
+          description: The ID of the page containing the frame.
+          example: '500123'
+        pageName:
+          type: string
+          description: The name of the page containing the frame.
+          example: example_value
+    GetTeamComponentSetsResponse:
+      type: object
+      description: Response from the Get Team Component Sets endpoint.
+      required:
+      - status
+      - meta
+      properties:
+        error:
+          type: boolean
+          example: true
+        status:
+          type: integer
+          example: 10
+        meta:
+          type: object
+          properties:
+            component_sets:
+              type: array
+              items:
+                $ref: '#/components/schemas/PublishedComponentSet'
+            cursor:
+              $ref: '#/components/schemas/Pagination'
+          example: example_value
+    GetFileComponentsResponse:
+      type: object
+      description: Response from the Get File Components endpoint.
+      required:
+      - status
+      - meta
+      properties:
+        error:
+          type: boolean
+          example: true
+        status:
+          type: integer
+          example: 10
+        meta:
+          type: object
+          properties:
+            components:
+              type: array
+              items:
+                $ref: '#/components/schemas/PublishedComponent'
+          example: example_value
+    GetTeamStylesResponse:
+      type: object
+      description: Response from the Get Team Styles endpoint.
+      required:
+      - status
+      - meta
+      properties:
+        error:
+          type: boolean
+          example: true
+        status:
+          type: integer
+          example: 10
+        meta:
+          type: object
+          properties:
+            styles:
+              type: array
+              items:
+                $ref: '#/components/schemas/PublishedStyle'
+            cursor:
+              $ref: '#/components/schemas/Pagination'
+          example: example_value
+    ErrorResponse:
+      type: object
+      description: Standard error response from the Figma API.
+      required:
+      - error
+      - status
+      - message
+      properties:
+        error:
+          type: boolean
+          description: Always true for error responses.
+          enum:
+          - true
+          example: true
+        status:
+          type: integer
+          description: The HTTP status code.
+          example: 10
+        message:
+          type: string
+          description: A human-readable description of the error.
+          example: example_value
+    GetTeamComponentsResponse:
+      type: object
+      description: Response from the Get Team Components endpoint.
+      required:
+      - status
+      - meta
+      properties:
+        error:
+          type: boolean
+          example: true
+        status:
+          type: integer
+          example: 10
+        meta:
+          type: object
+          properties:
+            components:
+              type: array
+              items:
+                $ref: '#/components/schemas/PublishedComponent'
+            cursor:
+              $ref: '#/components/schemas/Pagination'
+          example: example_value
+    Pagination:
+      type: object
+      description: Cursor-based pagination metadata.
+      properties:
+        before:
+          type: number
+          description: Cursor value for the page before the current one.
+          example: 42.5
+        after:
+          type: number
+          description: Cursor value for the page after the current one.
+          example: 42.5
+    PublishedStyle:
+      type: object
+      description: A published style from a team or file library.
+      required:
+      - key
+      - file_key
+      - node_id
+      - name
+      - description
+      - style_type
+      - created_at
+      - updated_at
+      - user
+      properties:
+        key:
+          type: string
+          description: The globally unique identifier for the style.
+          example: example_value
+        file_key:
+          type: string
+          description: The key of the Figma file containing the style.
+          example: example_value
+        node_id:
+          type: string
+          description: The node ID of the style within the file.
+          example: '500123'
+        thumbnail_url:
+          type: string
+          format: uri
+          description: A URL to a thumbnail image of the style.
+          example: https://www.example.com
+        name:
+          type: string
+          description: The name of the style.
+          example: Example Title
+        description:
+          type: string
+          description: The description of the style.
+          example: A sample description.
+        style_type:
+          type: string
+          enum:
+          - FILL
+          - TEXT
+          - EFFECT
+          - GRID
+          example: FILL
+        sort_position:
+          type: string
+          description: A user-defined sort position for the style.
+          example: example_value
+        created_at:
+          type: string
+          format: date-time
+          example: '2026-01-15T10:30:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2026-01-15T10:30:00Z'
+        user:
+          $ref: '#/components/schemas/User'
+    PublishedComponent:
+      type: object
+      description: A published component from a team or file library.
+      required:
+      - key
+      - file_key
+      - node_id
+      - name
+      - description
+      - created_at
+      - updated_at
+      - user
+      properties:
+        key:
+          type: string
+          description: The globally unique identifier for the component.
+          example: example_value
+        file_key:
+          type: string
+          description: The key of the Figma file containing the component.
+          example: example_value
+        node_id:
+          type: string
+          description: The node ID of the component within the file.
+          example: '500123'
+        thumbnail_url:
+          type: string
+          format: uri
+          description: A URL to a thumbnail image of the component.
+          example: https://www.example.com
+        name:
+          type: string
+          description: The name of the component.
+          example: Example Title
+        description:
+          type: string
+          description: The description of the component as entered by the publisher.
+          example: A sample description.
+        created_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time when the component was first published.
+          example: '2026-01-15T10:30:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time when the component was last updated.
+          example: '2026-01-15T10:30:00Z'
+        user:
+          $ref: '#/components/schemas/User'
+        containing_frame:
+          $ref: '#/components/schemas/FrameInfo'
+  responses:
+    ForbiddenError:
+      description: The authenticated user does not have the necessary permissions to access this resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFoundError:
+      description: The requested file, project, team, or resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimitError:
+      description: Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    UnauthorizedError:
+      description: Authentication token is missing, invalid, or expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    FileKeyPathParam:
+      name: file_key
+      in: path
+      description: 'The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/...'
+      required: true
+      schema:
+        type: string
+      example: abc123xyz789
+    TeamIdPathParam:
+      name: team_id
+      in: path
+      description: The ID of the team.
+      required: true
+      schema:
+        type: string
+      example: '12345'
+  securitySchemes:
+    OrgOAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          scopes:
+            org:activity_log_read: Read organization activity logs

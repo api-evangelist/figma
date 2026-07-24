@@ -1,12 +1,14 @@
 openapi: 3.1.0
 info:
-  title: Figma Files API
+  title: Figma Activity Logs Files API
   version: 0.21.0
-  description: |-
-    Figma allows designers to create and prototype their digital experiences -
+  description: 'Figma allows designers to create and prototype their digital experiences -
+
     together in real-time and in one place - helping them turn their ideas and
-    visions into products, faster. Figma's mission is to make design
-    accessible to everyone. The Figma API is one of the ways we aim to do that.
+
+    visions into products, faster. Figma''s mission is to make design
+
+    accessible to everyone. The Figma API is one of the ways we aim to do that.'
   termsOfService: https://www.figma.com/developer-terms/
   contact:
     email: support@figma.com
@@ -14,15 +16,12 @@ servers:
 - url: https://api.figma.com
   description: Figma Production API Server
 tags:
-- name: Dev Resources
-  description: Operations for managing dev resources attached to file nodes
 - name: Files
   description: Operations for managing Figma files and their resources
 paths:
   /v1/files/{file_key}/dev_resources/{dev_resource_id}:
     delete:
       tags:
-      - Dev Resources
       - Files
       summary: Figma Delete Dev Resource
       security:
@@ -33,11 +32,7 @@ paths:
       operationId: deleteDevResource
       x-microcks-operation:
         dispatcher: FALLBACK
-        dispatcherRules: |
-          {
-            "dispatcher": "FALLBACK",
-            "fallback": "DeleteDevResourceSuccessExample"
-          }
+        dispatcherRules: "{\n  \"dispatcher\": \"FALLBACK\",\n  \"fallback\": \"DeleteDevResourceSuccessExample\"\n}\n"
       parameters:
       - $ref: '#/components/parameters/FileKeyPathParam'
       - $ref: '#/components/parameters/DevResourceIdPathParam'
@@ -54,513 +49,456 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         '500':
           $ref: '#/components/responses/InternalServerErrorResponse'
+  /v1/images/{file_key}:
+    get:
+      tags:
+      - Files
+      summary: Figma Render Images of File Nodes
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
+      description: 'Renders images from a file.
+
+        If no error occurs, `"images"` will be populated with a map from node IDs to URLs of the rendered images, and `"status"` will be omitted. The image assets will expire after 30 days. Images up to 32 megapixels can be exported. Any images that are larger will be scaled down.
+
+        Important: the image map may contain values that are `null`. This indicates that rendering of that specific node has failed. This may be due to the node id not existing, or other reasons such has the node having no renderable components. It is guaranteed that any node that was requested for rendering will be represented in this map whether or not the render succeeded.
+
+        To render multiple images from the same file, use the `ids` query parameter to specify multiple node ids.
+
+        ``` GET /v1/images/:key?ids=1:2,1:3,1:4 ```
+
+        '
+      operationId: getImages
+      x-microcks-operation:
+        dispatcher: FALLBACK
+        dispatcherRules: "{\n  \"dispatcher\": \"URI_PARTS\",\n  \"dispatcherRules\": \"file_key\"\n}\n"
+        defaultResponse: GetImagesSuccessExample
+      parameters:
+      - $ref: '#/components/parameters/FileKeyPath'
+      - $ref: '#/components/parameters/NodeIdsQuery'
+      - $ref: '#/components/parameters/VersionQuery'
+      - $ref: '#/components/parameters/ScaleQuery'
+      - $ref: '#/components/parameters/FormatQuery'
+      - $ref: '#/components/parameters/SvgOutlineTextQuery'
+      - $ref: '#/components/parameters/SvgIncludeIdQuery'
+      - $ref: '#/components/parameters/SvgIncludeNodeIdQuery'
+      - $ref: '#/components/parameters/SvgSimplifyStrokeQuery'
+      - $ref: '#/components/parameters/ContentsOnlyQuery'
+      - $ref: '#/components/parameters/UseAbsoluteBoundsQuery'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetImagesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse_2'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponse_2'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponse_2'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse_2'
+  /v1/projects/{project_id}/files:
+    get:
+      tags:
+      - Files
+      summary: Figma Get Files in a Project
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
+      description: Get a list of all the Files within the specified project.
+      operationId: getProjectFiles
+      x-microcks-operation:
+        dispatcher: URI_PARTS
+        dispatcherRules: project_id
+        defaultResponse: GetProjectFilesSuccessExample
+      parameters:
+      - $ref: '#/components/parameters/ProjectIdPath'
+      - $ref: '#/components/parameters/BranchDataQuery'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetProjectFilesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse_2'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse_3'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponse_3'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse_3'
+  /v1/files/{file_key}:
+    get:
+      tags:
+      - Files
+      summary: Figma Get File
+      operationId: getFile
+      description: Returns the document tree for a given Figma file. If the file is large, the response may be paginated. The file_key can be found in the Figma file URL after figma.com/file/.
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
+      parameters:
+      - $ref: '#/components/parameters/FileKeyPathParam_2'
+      - name: version
+        in: query
+        description: A specific version ID to get. Omitting this will get the current version.
+        required: false
+        schema:
+          type: string
+        example: example_value
+      - name: ids
+        in: query
+        description: Comma-separated list of nodes that you want to receive. If not set, all nodes are returned.
+        required: false
+        schema:
+          type: string
+        example: example_value
+      - name: depth
+        in: query
+        description: Positive integer representing how deep into the document tree to traverse. For example, setting depth=1 returns only pages.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+        example: 10
+      - name: geometry
+        in: query
+        description: Set to "paths" to export vector data.
+        required: false
+        schema:
+          type: string
+          enum:
+          - paths
+        example: paths
+      - name: plugin_data
+        in: query
+        description: Comma-separated list of plugin IDs or the string "shared" for data present in all plugins.
+        required: false
+        schema:
+          type: string
+        example: example_value
+      - name: branch_data
+        in: query
+        description: Set to true to include branch metadata in the response.
+        required: false
+        schema:
+          type: boolean
+        example: true
+      responses:
+        '200':
+          description: Successfully retrieved the file.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFileResponse'
+              examples:
+                Getfile200Example:
+                  summary: Default getFile 200 response
+                  x-microcks-default: true
+                  value:
+                    name: Example Title
+                    role: owner
+                    lastModified: '2026-01-15T10:30:00Z'
+                    editorType: figma
+                    thumbnailUrl: https://www.example.com
+                    version: example_value
+                    document:
+                      id: abc123
+                      name: Example Title
+                      type: DOCUMENT
+                      children:
+                      - {}
+                    components: example_value
+                    componentSets: example_value
+                    schemaVersion: 10
+                    styles: example_value
+                    mainFileKey: example_value
+                    branches:
+                    - key: example_value
+                      name: Example Title
+                      thumbnail_url: https://www.example.com
+                      last_modified: '2026-01-15T10:30:00Z'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v1/files/{file_key}/nodes:
+    get:
+      tags:
+      - Files
+      summary: Figma Get File Nodes
+      operationId: getFileNodes
+      description: Returns the nodes referenced by ids as a JSON object. The nodes are retrieved from the document referred to by file_key. The node ID and file key for a given node can be parsed from any Figma node URL.
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
+      parameters:
+      - $ref: '#/components/parameters/FileKeyPathParam_2'
+      - name: ids
+        in: query
+        description: Comma-separated list of node IDs to retrieve.
+        required: true
+        schema:
+          type: string
+        example: example_value
+      - name: version
+        in: query
+        description: A specific version ID to get.
+        required: false
+        schema:
+          type: string
+        example: example_value
+      - name: depth
+        in: query
+        description: Positive integer for how deep into the node tree to traverse.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+        example: 10
+      - name: geometry
+        in: query
+        description: Set to "paths" to export vector data.
+        required: false
+        schema:
+          type: string
+          enum:
+          - paths
+        example: paths
+      - name: plugin_data
+        in: query
+        description: Comma-separated list of plugin IDs or "shared".
+        required: false
+        schema:
+          type: string
+        example: example_value
+      responses:
+        '200':
+          description: Successfully retrieved the file nodes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFileNodesResponse'
+              examples:
+                Getfilenodes200Example:
+                  summary: Default getFileNodes 200 response
+                  x-microcks-default: true
+                  value:
+                    name: Example Title
+                    lastModified: '2026-01-15T10:30:00Z'
+                    version: example_value
+                    role: owner
+                    nodes: example_value
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v1/files/{file_key}/image_fills:
+    get:
+      tags:
+      - Files
+      summary: Figma Get Image Fills
+      operationId: getImageFills
+      description: Returns a mapping of image references to URLs of the image contents. Image URLs expire after no more than 14 days.
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
+      parameters:
+      - $ref: '#/components/parameters/FileKeyPathParam_2'
+      responses:
+        '200':
+          description: Successfully retrieved image fill URLs.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetImageFillsResponse'
+              examples:
+                Getimagefills200Example:
+                  summary: Default getImageFills 200 response
+                  x-microcks-default: true
+                  value:
+                    error: true
+                    status: 10
+                    meta:
+                      images: example_value
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /v1/files/{file_key}/versions:
+    get:
+      tags:
+      - Files
+      summary: Figma Get File Version History
+      operationId: getFileVersions
+      description: Returns a list of the version history of a file. The version history consists of versions, auto-save entries, and named versions.
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
+      parameters:
+      - $ref: '#/components/parameters/FileKeyPathParam_2'
+      - name: page_size
+        in: query
+        description: Number of items to return per page. Defaults to 30.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+        example: 10
+      - name: before
+        in: query
+        description: Version ID before which to start listing versions. Used for pagination.
+        required: false
+        schema:
+          type: string
+        example: example_value
+      - name: after
+        in: query
+        description: Version ID after which to start listing versions. Used for pagination.
+        required: false
+        schema:
+          type: string
+        example: example_value
+      responses:
+        '200':
+          description: Successfully retrieved version history.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFileVersionsResponse'
+              examples:
+                Getfileversions200Example:
+                  summary: Default getFileVersions 200 response
+                  x-microcks-default: true
+                  value:
+                    versions:
+                    - id: abc123
+                      created_at: '2026-01-15T10:30:00Z'
+                      label: Example Title
+                      description: A sample description.
+                    pagination:
+                      before: 42.5
+                      after: 42.5
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
-  securitySchemes:
-    PersonalAccessToken:
-      type: http
-      scheme: bearer
-      bearerFormat: Figma Personal Access Token
-      description: Personal Access Token for authentication
-    OAuth2:
-      type: oauth2
-      flows:
-        authorizationCode:
-          authorizationUrl: https://www.figma.com/oauth
-          tokenUrl: https://api.figma.com/v1/oauth/token
-          scopes:
-            file_dev_resources:write: Write dev resources to files
-            files:read: Read files
-  parameters:
-    FileKeyPathParam:
-      name: file_key
-      in: path
-      description: >-
-        The file to delete the dev resource from. This must be a main file
-        key, not a branch key.
-      required: true
-      schema:
-        type: string
-      example: "abc123xyz789"
-    DevResourceIdPathParam:
-      name: dev_resource_id
-      in: path
-      description: The id of the dev resource to delete.
-      required: true
-      schema:
-        type: string
-      example: "dev_res_123456"
-  responses:
-    DeleteDevResourceResponse:
-      description: >-
-        Response from the DELETE /v1/files/{file_key}/dev_resources/{dev_resource_id} endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/DeleteDevResourceResponseBody'
-          examples:
-            DeleteDevResourceSuccessExample:
-              $ref: '#/components/examples/DeleteDevResourceSuccessExample'
-    GetFileResponse:
-      description: Response from the GET /v1/files/{file_key} endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GetFileResponseBody'
-          examples:
-            GetFileSuccessExample:
-              $ref: '#/components/examples/GetFileSuccessExample'
-    GetDevResourcesResponse:
-      description: Response from the GET /v1/files/{file_key}/dev_resources endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GetDevResourcesResponseBody'
-          examples:
-            GetDevResourcesSuccessExample:
-              $ref: '#/components/examples/GetDevResourcesSuccessExample'
-    UnauthorizedErrorResponse:
-      description: Token is missing or incorrect.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            UnauthorizedExample:
-              $ref: '#/components/examples/UnauthorizedExample'
-    ForbiddenErrorResponse:
-      description: >-
-        The request was valid, but the server is refusing action. The user might
-        not have the necessary permissions for a resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            ForbiddenExample:
-              $ref: '#/components/examples/ForbiddenExample'
-    NotFoundErrorResponse:
-      description: The requested file or resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            NotFoundExample:
-              $ref: '#/components/examples/NotFoundExample'
-    TooManyRequestsErrorResponse:
-      description: >-
-        API requests may be throttled or rate limited. Please wait a while
-        before attempting the request again.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            TooManyRequestsExample:
-              $ref: '#/components/examples/TooManyRequestsExample'
-    InternalServerErrorResponse:
-      description: An internal server error occurred.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            InternalServerErrorExample:
-              $ref: '#/components/examples/InternalServerErrorExample'
+  examples:
+    DeleteDevResourceSuccessExample:
+      summary: Successful dev resource deletion
+      value:
+        status: 200
+        error: false
+    NotFoundExample:
+      summary: Not found error
+      value:
+        error: true
+        status: 404
+        message: File or dev resource not found
+    ForbiddenExample:
+      summary: Forbidden error
+      value:
+        error: true
+        status: 403
+        message: You do not have permission to access this file
+    TooManyRequestsExample:
+      summary: Rate limit error
+      value:
+        error: true
+        status: 429
+        message: Rate limit exceeded. Please wait before making another request
+    UnauthorizedExample:
+      summary: Unauthorized error
+      value:
+        error: true
+        status: 401
+        message: Token is missing or incorrect
+    InternalServerErrorExample:
+      summary: Internal server error
+      value:
+        error: true
+        status: 500
+        message: An internal server error occurred
   schemas:
-    DeleteDevResourceResponseBody:
+    GetImagesResponseBody:
       type: object
-      description: Response body for successful dev resource deletion.
+      description: Successful response containing rendered image URLs.
       properties:
-        status:
-          type: number
-          description: The status of the request.
-          enum:
-          - 200
-          example: 200
-        error:
-          type: boolean
-          description: For successful requests, this value is always `false`.
-          enum:
-          - false
-          example: false
-      required:
-      - status
-      - error
-    GetFileResponseBody:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the file as it appears in the editor.
-          example: Example Title
-        role:
-          type: string
-          enum:
-          - owner
-          - editor
-          - viewer
-          description: >-
-            The role of the user making the API request in relation to the file.
-          example: owner
-        lastModified:
-          type: string
-          format: date-time
-          description: The UTC ISO 8601 time at which the file was last modified.
-          example: '2026-01-15T10:30:00Z'
-        editorType:
-          type: string
-          enum:
-          - figma
-          - figjam
-          description: The type of editor associated with this file.
-          example: figma
-        thumbnailUrl:
-          type: string
-          description: A URL to a thumbnail image of the file.
-          example: https://www.example.com
-        version:
-          type: string
-          description: The version number of the file.
+        err:
+          type: 'null'
+          description: For successful requests, this value is always `null`.
           example: example_value
-        document:
-          $ref: '#/components/schemas/DocumentNode'
-        components:
+        images:
           type: object
+          description: A map from node IDs to URLs of the rendered images.
           additionalProperties:
-            $ref: '#/components/schemas/Component'
-          description: A mapping from component IDs to component metadata.
-          example: example_value
-        componentSets:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ComponentSet'
-          description: A mapping from component set IDs to component set metadata.
-          example: example_value
-        schemaVersion:
-          type: number
-          description: The version of the file schema that this file uses.
-          default: 0
-          example: 42.5
-        styles:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/Style'
-          description: A mapping from style IDs to style metadata.
-          example: example_value
-        mainFileKey:
-          type: string
-          description: The key of the main file for this file.
-          example: example_value
-        branches:
-          type: array
-          description: A list of branches for this file.
-          items:
-            $ref: '#/components/schemas/Branch'
-          example: []
-      required:
-      - name
-      - role
-      - lastModified
-      - editorType
-      - version
-      - document
-      - components
-      - componentSets
-      - schemaVersion
-      - styles
-    GetDevResourcesResponseBody:
-      type: object
-      properties:
-        devResources:
-          type: array
-          description: An array of dev resources.
-          items:
-            $ref: '#/components/schemas/DevResource'
-          example: []
-      required:
-      - devResources
-    DocumentNode:
-      type: object
-      description: The root node of the document.
-      properties:
-        id:
-          type: string
-          description: A string uniquely identifying this node within the document.
-          example: abc123
-        name:
-          type: string
-          description: The name given to the node by the user in the tool.
-          example: Example Title
-        type:
-          type: string
-          enum:
-          - DOCUMENT
-          description: The type of the node.
-          example: DOCUMENT
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/CanvasNode'
-          description: An array of canvases attached to the document.
-          example: []
-      required:
-      - id
-      - name
-      - type
-      - children
-    CanvasNode:
-      type: object
-      description: A canvas (page) in the document.
-      properties:
-        id:
-          type: string
-          description: A string uniquely identifying this node within the document.
-          example: abc123
-        name:
-          type: string
-          description: The name given to the node by the user in the tool.
-          example: Example Title
-        type:
-          type: string
-          enum:
-          - CANVAS
-          description: The type of the node.
-          example: CANVAS
-        backgroundColor:
-          $ref: '#/components/schemas/Color'
-        children:
-          type: array
-          items:
-            type: object
-          description: An array of top level layers on the canvas.
-          example: []
-      required:
-      - id
-      - name
-      - type
-    Color:
-      type: object
-      description: An RGBA color.
-      properties:
-        r:
-          type: number
-          description: Red channel value, between 0 and 1.
-          example: 42.5
-        g:
-          type: number
-          description: Green channel value, between 0 and 1.
-          example: 42.5
-        b:
-          type: number
-          description: Blue channel value, between 0 and 1.
-          example: 42.5
-        a:
-          type: number
-          description: Alpha channel value, between 0 and 1.
-          example: 42.5
-      required:
-      - r
-      - g
-      - b
-      - a
-    Component:
-      type: object
-      description: A description of a main component.
-      properties:
-        key:
-          type: string
-          description: The key of the component.
-          example: example_value
-        name:
-          type: string
-          description: Name of the component.
-          example: Example Title
-        description:
-          type: string
-          description: The description of the component as entered in the editor.
-          example: A sample description.
-        componentSetId:
-          type: string
-          description: The ID of the component set if the component belongs to one.
-          example: '500123'
-        documentationLinks:
-          type: array
-          items:
-            $ref: '#/components/schemas/DocumentationLink'
-          description: An array of documentation links attached to this component.
-          example: []
-        remote:
-          type: boolean
-          description: Whether this component is a remote component.
-          example: true
-      required:
-      - key
-      - name
-      - description
-      - documentationLinks
-      - remote
-    ComponentSet:
-      type: object
-      description: A description of a component set.
-      properties:
-        key:
-          type: string
-          description: The key of the component set.
-          example: example_value
-        name:
-          type: string
-          description: Name of the component set.
-          example: Example Title
-        description:
-          type: string
-          description: The description of the component set as entered in the editor.
-          example: A sample description.
-        documentationLinks:
-          type: array
-          items:
-            $ref: '#/components/schemas/DocumentationLink'
-          description: An array of documentation links attached to this component set.
-          example: []
-        remote:
-          type: boolean
-          description: Whether this component set is a remote component set.
-          example: true
-      required:
-      - key
-      - name
-      - description
-    Style:
-      type: object
-      description: A set of properties that can be applied to nodes.
-      properties:
-        key:
-          type: string
-          description: The key of the style.
-          example: example_value
-        name:
-          type: string
-          description: Name of the style.
-          example: Example Title
-        description:
-          type: string
-          description: Description of the style.
-          example: A sample description.
-        remote:
-          type: boolean
-          description: Whether this style is a remote style.
-          example: true
-        styleType:
-          $ref: '#/components/schemas/StyleType'
-      required:
-      - key
-      - name
-      - description
-      - remote
-      - styleType
-    StyleType:
-      type: string
-      description: The type of style.
-      enum:
-      - FILL
-      - TEXT
-      - EFFECT
-      - GRID
-    DocumentationLink:
-      type: object
-      description: A link to documentation.
-      properties:
-        uri:
-          type: string
-          description: The URI of the documentation link.
+            type:
+            - string
+            - 'null'
+            description: A URL to the requested image.
+            format: uri
           example: example_value
       required:
-      - uri
-    Branch:
-      type: object
-      description: Information about a branch of the file.
-      properties:
-        key:
-          type: string
-          description: The key of the branch.
-          example: example_value
-        name:
-          type: string
-          description: The name of the branch.
-          example: Example Title
-        thumbnailUrl:
-          type: string
-          description: A URL to a thumbnail image of the branch.
-          example: https://www.example.com
-        lastModified:
-          type: string
-          format: date-time
-          description: The UTC ISO 8601 time at which the branch was last modified.
-          example: '2026-01-15T10:30:00Z'
-      required:
-      - key
-      - name
-      - thumbnailUrl
-      - lastModified
-    DevResource:
-      type: object
-      description: A dev resource in a file.
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the dev resource.
-          example: abc123
-        name:
-          type: string
-          description: The name of the dev resource.
-          example: Example Title
-        url:
-          type: string
-          description: The URL of the dev resource.
-          example: https://www.example.com
-        fileKey:
-          type: string
-          description: The file key where the dev resource belongs.
-          example: example_value
-        nodeId:
-          type: string
-          description: The target node to attach the dev resource to.
-          example: '500123'
-      required:
-      - id
-      - name
-      - url
-      - fileKey
-      - nodeId
-    User:
-      type: object
-      description: A description of a user.
-      properties:
-        id:
-          type: string
-          description: Unique stable id of the user.
-          example: abc123
-        handle:
-          type: string
-          description: Name of the user.
-          example: example_value
-        imgUrl:
-          type: string
-          description: URL link to the user's profile image.
-          example: https://www.example.com
-      required:
-      - id
-      - handle
-      - imgUrl
+      - err
+      - images
+      example:
+        err: null
+        images:
+          '1:2': https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/abc123
+          '1:3': https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/def456
+          '1:4': null
     Version:
       type: object
-      description: A version of a file.
+      description: A recorded version in the file's version history.
+      required:
+      - id
+      - created_at
+      - label
+      - description
+      - user
       properties:
         id:
           type: string
-          description: Unique identifier for version.
+          description: Unique identifier for the version.
           example: abc123
-        createdAt:
+        created_at:
           type: string
           format: date-time
           description: The UTC ISO 8601 time at which the version was created.
@@ -579,211 +517,407 @@ components:
           example: A sample description.
         user:
           $ref: '#/components/schemas/User'
+    DocumentNode:
+      type: object
+      description: The root node of a Figma document.
       required:
       - id
-      - createdAt
-      - label
-      - description
-      - user
-    Comment:
-      type: object
-      description: A comment or reply left by a user.
+      - name
+      - type
+      - children
       properties:
         id:
           type: string
-          description: Unique identifier for comment.
+          description: A string uniquely identifying this node within the document.
           example: abc123
-        fileKey:
+        name:
           type: string
-          description: The file in which the comment lives.
-          example: example_value
-        parentId:
+          description: The name given to the node by the user in the tool.
+          example: Example Title
+        type:
           type: string
-          description: If present, the id of the comment to which this is the reply.
-          example: '500123'
-        user:
-          $ref: '#/components/schemas/User'
-        createdAt:
-          type: string
-          format: date-time
-          description: The UTC ISO 8601 time at which the comment was left.
-          example: '2026-01-15T10:30:00Z'
-        resolvedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: If set, the UTC ISO 8601 time the comment was resolved.
-          example: '2026-01-15T10:30:00Z'
-        message:
-          type: string
-          description: The content of the comment.
-          example: example_value
-        orderId:
-          type:
-          - string
-          - 'null'
-          description: The number displayed with the comment in the UI.
-          example: '500123'
-        reactions:
+          enum:
+          - DOCUMENT
+          description: The type of the node.
+          example: DOCUMENT
+        children:
           type: array
-          description: An array of reactions to the comment.
+          description: An array of canvases (pages) attached to the document.
           items:
-            $ref: '#/components/schemas/Reaction'
+            $ref: '#/components/schemas/CanvasNode'
+          example: []
+    GetFileNodesResponse:
+      type: object
+      description: Response from the Get File Nodes endpoint.
+      required:
+      - name
+      - lastModified
+      - version
+      - nodes
+      properties:
+        name:
+          type: string
+          description: The name of the file.
+          example: Example Title
+        lastModified:
+          type: string
+          format: date-time
+          example: '2026-01-15T10:30:00Z'
+        version:
+          type: string
+          example: example_value
+        role:
+          type: string
+          enum:
+          - owner
+          - editor
+          - viewer
+          example: owner
+        nodes:
+          type: object
+          description: A mapping from node IDs to node data. Each value contains a document subtree and optionally the component metadata for that node.
+          additionalProperties:
+            type: object
+            properties:
+              document:
+                type: object
+                description: The node subtree.
+              components:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Component'
+              schemaVersion:
+                type: integer
+              styles:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Style'
+          example: example_value
+    InternalServerError_2:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 500
+        required:
+        - status
+      example:
+        status: 500
+        err: Internal server error
+    ProjectFile:
+      type: object
+      description: A file within a project.
+      properties:
+        key:
+          type: string
+          description: The file's key.
+          example: example_value
+        name:
+          type: string
+          description: The file's name.
+          example: Example Title
+        thumbnail_url:
+          type: string
+          description: The file's thumbnail URL.
+          example: https://www.example.com
+        last_modified:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the file was last modified.
+          example: '2026-01-15T10:30:00Z'
+      required:
+      - key
+      - name
+      - last_modified
+      example:
+        key: abc123XYZ789
+        name: Design System Components
+        thumbnail_url: https://s3-alpha.figma.com/thumbnails/abc123-xyz789
+        last_modified: '2024-06-20T10:30:00Z'
+    ErrorResponsePayloadWithErr:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        status:
+          type: number
+          description: Status code
+          example: 42.5
+        err:
+          type: string
+          description: A string describing the error
+          example: example_value
+      required:
+      - status
+      - err
+    GetProjectFilesResponseBody:
+      type: object
+      description: Successful response containing project files.
+      properties:
+        name:
+          type: string
+          description: The project's name.
+          example: Example Title
+        files:
+          type: array
+          description: An array of files.
+          items:
+            $ref: '#/components/schemas/ProjectFile'
           example: []
       required:
-      - id
-      - fileKey
-      - user
-      - createdAt
+      - name
+      - files
+      example:
+        name: Mobile App Design
+        files:
+        - key: abc123XYZ789
+          name: Design System Components
+          thumbnail_url: https://s3-alpha.figma.com/thumbnails/abc123-xyz789
+          last_modified: '2024-06-20T10:30:00Z'
+        - key: def456UVW012
+          name: App Screens
+          thumbnail_url: https://s3-alpha.figma.com/thumbnails/def456-uvw012
+          last_modified: '2024-06-19T15:45:00Z'
+    ErrorResponsePayloadWithMessage:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        error:
+          type: boolean
+          description: For erroneous requests, this value is always `true`.
+          enum:
+          - true
+          example: true
+        status:
+          type: number
+          description: Status code
+          example: 42.5
+        message:
+          type: string
+          description: A string describing the error
+          example: example_value
+      required:
+      - error
+      - status
       - message
-      - reactions
-      - orderId
-    Reaction:
+    ForbiddenError_2:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 403
+        required:
+        - status
+      example:
+        status: 403
+        err: Access denied. You do not have permission to access this project.
+    BadRequestError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayload_2'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 400
+        required:
+        - status
+      example:
+        status: 400
+        err: 'Invalid parameter: scale must be between 0.01 and 4'
+    GetFileVersionsResponse:
       type: object
-      description: A reaction left by a user.
-      properties:
-        user:
-          $ref: '#/components/schemas/User'
-        emoji:
-          type: string
-          description: The emoji used for the reaction.
-          example: example_value
-        createdAt:
-          type: string
-          format: date-time
-          description: The UTC ISO 8601 time at which the reaction was left.
-          example: '2026-01-15T10:30:00Z'
+      description: Response from the Get File Versions endpoint.
       required:
-      - user
-      - emoji
-      - createdAt
-    PublishedComponent:
+      - versions
+      properties:
+        versions:
+          type: array
+          description: An array of version history entries.
+          items:
+            $ref: '#/components/schemas/Version'
+          example: []
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    CanvasNode:
       type: object
-      description: An arrangement of published UI elements.
-      properties:
-        key:
-          type: string
-          description: The unique identifier for the component.
-          example: example_value
-        fileKey:
-          type: string
-          description: The unique identifier of the Figma file that contains the component.
-          example: example_value
-        nodeId:
-          type: string
-          description: The unique identifier of the component node within the Figma file.
-          example: '500123'
-        thumbnailUrl:
-          type: string
-          description: A URL to a thumbnail image of the component.
-          example: https://www.example.com
-        name:
-          type: string
-          description: The name of the component.
-          example: Example Title
-        description:
-          type: string
-          description: The description of the component as entered by the publisher.
-          example: A sample description.
-        createdAt:
-          type: string
-          format: date-time
-          description: The UTC ISO 8601 time when the component was created.
-          example: '2026-01-15T10:30:00Z'
-        updatedAt:
-          type: string
-          format: date-time
-          description: The UTC ISO 8601 time when the component was last updated.
-          example: '2026-01-15T10:30:00Z'
-        user:
-          $ref: '#/components/schemas/User'
-        containingFrame:
-          $ref: '#/components/schemas/FrameInfo'
+      description: A canvas (page) in the Figma document.
       required:
-      - key
-      - fileKey
-      - nodeId
+      - id
       - name
-      - description
-      - createdAt
-      - updatedAt
-      - user
-    PublishedComponentSet:
-      type: object
-      description: A node containing a set of variants of a component.
+      - type
       properties:
-        key:
+        id:
           type: string
-          description: The unique identifier for the component set.
-          example: example_value
-        fileKey:
-          type: string
-          description: The unique identifier of the Figma file that contains the component set.
-          example: example_value
-        nodeId:
-          type: string
-          description: The unique identifier of the component set node within the Figma file.
-          example: '500123'
-        thumbnailUrl:
-          type: string
-          description: A URL to a thumbnail image of the component set.
-          example: https://www.example.com
+          description: A string uniquely identifying this node within the document.
+          example: abc123
         name:
           type: string
-          description: The name of the component set.
+          description: The name given to the page by the user.
           example: Example Title
-        description:
+        type:
           type: string
-          description: The description of the component set as entered by the publisher.
-          example: A sample description.
-        createdAt:
-          type: string
-          format: date-time
-          description: The UTC ISO 8601 time when the component set was created.
-          example: '2026-01-15T10:30:00Z'
-        updatedAt:
-          type: string
-          format: date-time
-          description: The UTC ISO 8601 time when the component set was last updated.
-          example: '2026-01-15T10:30:00Z'
-        user:
-          $ref: '#/components/schemas/User'
-        containingFrame:
-          $ref: '#/components/schemas/FrameInfo'
-      required:
-      - key
-      - fileKey
-      - nodeId
-      - name
-      - description
-      - createdAt
-      - updatedAt
-      - user
-    FrameInfo:
-      type: object
-      description: Information about the containing frame.
-      properties:
-        nodeId:
-          type: string
-          description: The ID of the containing frame.
-          example: '500123'
-        name:
-          type: string
-          description: The name of the containing frame.
-          example: Example Title
+          enum:
+          - CANVAS
+          description: The type of the node.
+          example: CANVAS
         backgroundColor:
+          $ref: '#/components/schemas/Color'
+        children:
+          type: array
+          description: An array of top-level layers on the canvas.
+          items:
+            type: object
+          example: []
+    Branch:
+      type: object
+      description: Information about a branch of a Figma file.
+      required:
+      - key
+      - name
+      - thumbnail_url
+      - last_modified
+      properties:
+        key:
           type: string
-          description: The background color of the containing frame.
+          description: The key of the branch file.
           example: example_value
-        pageId:
+        name:
           type: string
-          description: The ID of the page containing the frame.
+          description: The name of the branch.
+          example: Example Title
+        thumbnail_url:
+          type: string
+          format: uri
+          description: A URL to a thumbnail image of the branch.
+          example: https://www.example.com
+        last_modified:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the branch was last modified.
+          example: '2026-01-15T10:30:00Z'
+    NotFoundError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayload_2'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 404
+        required:
+        - status
+      example:
+        status: 404
+        err: File not found
+    GetImageFillsResponse:
+      type: object
+      description: Response from the Get Image Fills endpoint.
+      properties:
+        error:
+          type: boolean
+          example: true
+        status:
+          type: integer
+          example: 10
+        meta:
+          type: object
+          properties:
+            images:
+              type: object
+              description: A mapping from image references to image download URLs.
+              additionalProperties:
+                type: string
+          example: example_value
+    Pagination:
+      type: object
+      description: Cursor-based pagination metadata.
+      properties:
+        before:
+          type: number
+          description: Cursor value for the page before the current one.
+          example: 42.5
+        after:
+          type: number
+          description: Cursor value for the page after the current one.
+          example: 42.5
+    ForbiddenError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayload_2'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 403
+        required:
+        - status
+      example:
+        status: 403
+        err: Access denied. You do not have permission to access this file.
+    Component:
+      type: object
+      description: Metadata about a main component in a Figma file. Components are reusable design elements.
+      required:
+      - key
+      - name
+      - description
+      - documentationLinks
+      - remote
+      properties:
+        key:
+          type: string
+          description: The globally unique key of the component.
+          example: example_value
+        name:
+          type: string
+          description: Name of the component.
+          example: Example Title
+        description:
+          type: string
+          description: The description of the component as entered in the editor.
+          example: A sample description.
+        componentSetId:
+          type:
+          - string
+          - 'null'
+          description: The ID of the component set this component belongs to, if any.
           example: '500123'
-        pageName:
+        documentationLinks:
+          type: array
+          description: An array of documentation links attached to this component.
+          items:
+            $ref: '#/components/schemas/DocumentationLink'
+          example: []
+        remote:
+          type: boolean
+          description: Whether this component is a remote component that was pulled from an external library.
+          example: true
+    ErrorResponsePayload_2:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        status:
+          type: number
+          description: Status code
+          example: 42.5
+        err:
           type: string
-          description: The name of the page containing the frame.
+          description: A string describing the error
           example: example_value
+      required:
+      - status
+      - err
     ErrorResponsePayload:
       type: object
       description: A response indicating an error occurred.
@@ -806,80 +940,694 @@ components:
       - error
       - status
       - message
-  examples:
-    DeleteDevResourceSuccessExample:
-      summary: Successful dev resource deletion
-      value:
-        status: 200
-        error: false
-    GetFileSuccessExample:
-      summary: Successful file retrieval
-      value:
-        name: "My Design File"
-        role: "editor"
-        lastModified: "2024-01-20T14:45:00Z"
-        editorType: "figma"
-        thumbnailUrl: "https://figma-alpha-api.s3.us-west-2.amazonaws.com/thumbnails/abc123"
-        version: "123456789"
-        document:
-          id: "0:0"
-          name: "Document"
-          type: "DOCUMENT"
-          children:
-          - id: "0:1"
-            name: "Page 1"
-            type: "CANVAS"
-            backgroundColor:
-              r: 1
-              g: 1
-              b: 1
-              a: 1
-            children: []
-        components: {}
-        componentSets: {}
-        schemaVersion: 0
-        styles: {}
-    GetDevResourcesSuccessExample:
-      summary: Successful dev resources retrieval
-      value:
-        devResources:
-        - id: "dev_res_123"
-          name: "Button Component Code"
-          url: "https://github.com/myorg/design-system/blob/main/src/components/Button.tsx"
-          fileKey: "abc123xyz789"
-          nodeId: "1:1"
-        - id: "dev_res_456"
-          name: "Button Storybook"
-          url: "https://storybook.myorg.com/?path=/story/button"
-          fileKey: "abc123xyz789"
-          nodeId: "1:1"
-    UnauthorizedExample:
-      summary: Unauthorized error
-      value:
-        error: true
-        status: 401
-        message: "Token is missing or incorrect"
-    ForbiddenExample:
-      summary: Forbidden error
-      value:
-        error: true
-        status: 403
-        message: "You do not have permission to access this file"
-    NotFoundExample:
-      summary: Not found error
-      value:
-        error: true
-        status: 404
-        message: "File or dev resource not found"
-    TooManyRequestsExample:
-      summary: Rate limit error
-      value:
-        error: true
+    TooManyRequestsError_2:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 429
+        required:
+        - status
+      example:
         status: 429
-        message: "Rate limit exceeded. Please wait before making another request"
-    InternalServerErrorExample:
-      summary: Internal server error
-      value:
+        err: Rate limit exceeded. Please wait before retrying.
+    Color:
+      type: object
+      description: An RGBA color value with channels ranging from 0 to 1.
+      required:
+      - r
+      - g
+      - b
+      - a
+      properties:
+        r:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Red channel value, between 0 and 1.
+          example: 42.5
+        g:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Green channel value, between 0 and 1.
+          example: 42.5
+        b:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Blue channel value, between 0 and 1.
+          example: 42.5
+        a:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Alpha channel value, between 0 and 1.
+          example: 42.5
+    ErrorResponse:
+      type: object
+      description: Standard error response from the Figma API.
+      required:
+      - error
+      - status
+      - message
+      properties:
+        error:
+          type: boolean
+          description: Always true for error responses.
+          enum:
+          - true
+          example: true
+        status:
+          type: integer
+          description: The HTTP status code.
+          example: 10
+        message:
+          type: string
+          description: A human-readable description of the error.
+          example: example_value
+    GetFileResponse:
+      type: object
+      description: Response from the Get File endpoint.
+      required:
+      - name
+      - role
+      - lastModified
+      - editorType
+      - version
+      - document
+      - components
+      - componentSets
+      - schemaVersion
+      - styles
+      properties:
+        name:
+          type: string
+          description: The name of the file as it appears in the editor.
+          example: Example Title
+        role:
+          type: string
+          enum:
+          - owner
+          - editor
+          - viewer
+          description: The role of the requesting user in relation to the file.
+          example: owner
+        lastModified:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the file was last modified.
+          example: '2026-01-15T10:30:00Z'
+        editorType:
+          type: string
+          enum:
+          - figma
+          - figjam
+          description: The type of editor associated with this file.
+          example: figma
+        thumbnailUrl:
+          type: string
+          format: uri
+          description: A URL to a thumbnail image of the file.
+          example: https://www.example.com
+        version:
+          type: string
+          description: The version number of the file.
+          example: example_value
+        document:
+          $ref: '#/components/schemas/DocumentNode'
+        components:
+          type: object
+          description: A mapping from component IDs to component metadata.
+          additionalProperties:
+            $ref: '#/components/schemas/Component'
+          example: example_value
+        componentSets:
+          type: object
+          description: A mapping from component set IDs to component set metadata.
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentSet'
+          example: example_value
+        schemaVersion:
+          type: integer
+          description: The schema version of the file format.
+          example: 10
+        styles:
+          type: object
+          description: A mapping from style IDs to style metadata.
+          additionalProperties:
+            $ref: '#/components/schemas/Style'
+          example: example_value
+        mainFileKey:
+          type: string
+          description: The key of the main file, if this is a branch.
+          example: example_value
+        branches:
+          type: array
+          description: A list of branches for this file.
+          items:
+            $ref: '#/components/schemas/Branch'
+          example: []
+    ComponentSet:
+      type: object
+      description: A component set groups variants of a component together. Useful for organizing different states or configurations of a design element.
+      required:
+      - key
+      - name
+      - description
+      properties:
+        key:
+          type: string
+          description: The globally unique key of the component set.
+          example: example_value
+        name:
+          type: string
+          description: Name of the component set.
+          example: Example Title
+        description:
+          type: string
+          description: The description of the component set as entered in the editor.
+          example: A sample description.
+        documentationLinks:
+          type: array
+          description: Documentation links attached to this component set.
+          items:
+            $ref: '#/components/schemas/DocumentationLink'
+          example: []
+        remote:
+          type: boolean
+          description: Whether this is a remote component set.
+          example: true
+    BadRequestError_2:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithMessage'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 400
+        required:
+        - status
+      example:
         error: true
+        status: 400
+        message: Invalid project ID format
+    InternalServerError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayload_2'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 500
+        required:
+        - status
+      example:
         status: 500
-        message: "An internal server error occurred"
+        err: Internal server error
+    DocumentationLink:
+      type: object
+      description: A link to documentation associated with a component.
+      required:
+      - uri
+      properties:
+        uri:
+          type: string
+          format: uri
+          description: The URI of the documentation link.
+          example: https://www.example.com
+    DeleteDevResourceResponseBody:
+      type: object
+      description: Response body for successful dev resource deletion.
+      properties:
+        status:
+          type: number
+          description: The status of the request.
+          enum:
+          - 200
+          example: 200
+        error:
+          type: boolean
+          description: For successful requests, this value is always `false`.
+          enum:
+          - false
+          example: false
+      required:
+      - status
+      - error
+    TooManyRequestsError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayload_2'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 429
+        required:
+        - status
+      example:
+        status: 429
+        err: Rate limit exceeded. Please wait before retrying.
+    Style:
+      type: object
+      description: A published style that can be applied to nodes in Figma.
+      required:
+      - key
+      - name
+      - description
+      - remote
+      - style_type
+      properties:
+        key:
+          type: string
+          description: The globally unique key of the style.
+          example: example_value
+        name:
+          type: string
+          description: Name of the style.
+          example: Example Title
+        description:
+          type: string
+          description: Description of the style.
+          example: A sample description.
+        remote:
+          type: boolean
+          description: Whether this style is a remote style from an external library.
+          example: true
+        style_type:
+          type: string
+          description: The type of style.
+          enum:
+          - FILL
+          - TEXT
+          - EFFECT
+          - GRID
+          example: FILL
+    User:
+      type: object
+      description: A Figma user account.
+      required:
+      - id
+      - handle
+      - img_url
+      properties:
+        id:
+          type: string
+          description: Unique stable ID of the user.
+          example: abc123
+        handle:
+          type: string
+          description: Display name of the user.
+          example: example_value
+        img_url:
+          type: string
+          format: uri
+          description: URL of the user's profile image.
+          example: https://www.example.com
+        email:
+          type: string
+          format: email
+          description: Email address associated with the user's account.
+          example: user@example.com
+  parameters:
+    FileKeyPathParam:
+      name: file_key
+      in: path
+      description: The file to delete the dev resource from. This must be a main file key, not a branch key.
+      required: true
+      schema:
+        type: string
+      example: abc123xyz789
+    SvgOutlineTextQuery:
+      name: svg_outline_text
+      in: query
+      description: Whether text elements are rendered as outlines (vector paths) or as `<text>` elements in SVGs.
+      schema:
+        type: boolean
+        default: true
+      example: true
+    ProjectIdPath:
+      name: project_id
+      in: path
+      description: ID of the project to list files from
+      required: true
+      schema:
+        type: string
+      example: '12345678'
+    SvgSimplifyStrokeQuery:
+      name: svg_simplify_stroke
+      in: query
+      description: Whether to simplify inside/outside strokes and use stroke attribute if possible instead of `<mask>`.
+      schema:
+        type: boolean
+        default: true
+      example: true
+    UseAbsoluteBoundsQuery:
+      name: use_absolute_bounds
+      in: query
+      description: Use the full dimensions of the node regardless of whether or not it is cropped or the space around it is empty. Use this to export text nodes without cropping.
+      schema:
+        type: boolean
+        default: false
+      example: false
+    FileKeyPath:
+      name: file_key
+      in: path
+      description: File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key.
+      required: true
+      schema:
+        type: string
+      example: abc123XYZ789
+    FileKeyPathParam_2:
+      name: file_key
+      in: path
+      description: 'The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/...'
+      required: true
+      schema:
+        type: string
+      example: abc123xyz789
+    BranchDataQuery:
+      name: branch_data
+      in: query
+      description: Returns branch metadata in the response for each main file with a branch inside the project.
+      schema:
+        type: boolean
+        default: false
+      example: false
+    ContentsOnlyQuery:
+      name: contents_only
+      in: query
+      description: Whether content that overlaps the node should be excluded from rendering. Passing false (i.e., rendering overlaps) may increase processing time, since more of the document must be included in rendering.
+      schema:
+        type: boolean
+        default: true
+      example: true
+    ScaleQuery:
+      name: scale
+      in: query
+      description: A number between 0.01 and 4, the image scaling factor.
+      schema:
+        type: number
+        minimum: 0.01
+        maximum: 4
+      example: 2
+    SvgIncludeNodeIdQuery:
+      name: svg_include_node_id
+      in: query
+      description: Whether to include node id attributes for all SVG elements. Adds the node id to a `data-node-id` attribute of an svg element.
+      schema:
+        type: boolean
+        default: false
+      example: false
+    NodeIdsQuery:
+      name: ids
+      in: query
+      description: A comma separated list of node IDs to render.
+      required: true
+      schema:
+        type: string
+      example: 1:2,1:3,1:4
+    SvgIncludeIdQuery:
+      name: svg_include_id
+      in: query
+      description: Whether to include id attributes for all SVG elements. Adds the layer name to the `id` attribute of an svg element.
+      schema:
+        type: boolean
+        default: false
+      example: false
+    FormatQuery:
+      name: format
+      in: query
+      description: A string enum for the image output format.
+      schema:
+        type: string
+        enum:
+        - jpg
+        - png
+        - svg
+        - pdf
+        default: png
+      example: png
+    DevResourceIdPathParam:
+      name: dev_resource_id
+      in: path
+      description: The id of the dev resource to delete.
+      required: true
+      schema:
+        type: string
+      example: dev_res_123456
+    VersionQuery:
+      name: version
+      in: query
+      description: A specific version ID to get. Omitting this will get the current version of the file.
+      schema:
+        type: string
+      example: '1234567890'
+  responses:
+    UnauthorizedError:
+      description: Authentication token is missing, invalid, or expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequestErrorResponse_2:
+      description: Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequestError_2'
+          examples:
+            BadRequestExample:
+              summary: Invalid project ID error
+              value:
+                error: true
+                status: 400
+                message: Invalid project ID format
+    DeleteDevResourceResponse:
+      description: Response from the DELETE /v1/files/{file_key}/dev_resources/{dev_resource_id} endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeleteDevResourceResponseBody'
+          examples:
+            DeleteDevResourceSuccessExample:
+              $ref: '#/components/examples/DeleteDevResourceSuccessExample'
+    TooManyRequestsErrorResponse_3:
+      description: In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TooManyRequestsError_2'
+          examples:
+            TooManyRequestsExample:
+              summary: Rate limit exceeded error
+              value:
+                status: 429
+                err: Rate limit exceeded. Please wait before retrying.
+    NotFoundError:
+      description: The requested file, project, team, or resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    GetImagesResponse:
+      description: Response from the GET /v1/images/{file_key} endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetImagesResponseBody'
+          examples:
+            GetImagesSuccessExample:
+              summary: Successful image rendering response
+              value:
+                err: null
+                images:
+                  '1:2': https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/abc123
+                  '1:3': https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/def456
+                  '1:4': null
+    InternalServerErrorResponse_3:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InternalServerError_2'
+          examples:
+            InternalServerErrorExample:
+              summary: Internal server error
+              value:
+                status: 500
+                err: Internal server error
+    ForbiddenErrorResponse_3:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ForbiddenError_2'
+          examples:
+            ForbiddenExample:
+              summary: Access denied error
+              value:
+                status: 403
+                err: Access denied. You do not have permission to access this project.
+    ForbiddenErrorResponse:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            ForbiddenExample:
+              $ref: '#/components/examples/ForbiddenExample'
+    GetProjectFilesResponse:
+      description: Response from the GET /v1/projects/{project_id}/files endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetProjectFilesResponseBody'
+          examples:
+            GetProjectFilesSuccessExample:
+              summary: Successful project files response
+              value:
+                name: Mobile App Design
+                files:
+                - key: abc123XYZ789
+                  name: Design System Components
+                  thumbnail_url: https://s3-alpha.figma.com/thumbnails/abc123-xyz789
+                  last_modified: '2024-06-20T10:30:00Z'
+                - key: def456UVW012
+                  name: App Screens
+                  thumbnail_url: https://s3-alpha.figma.com/thumbnails/def456-uvw012
+                  last_modified: '2024-06-19T15:45:00Z'
+    TooManyRequestsErrorResponse_2:
+      description: In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TooManyRequestsError'
+          examples:
+            TooManyRequestsExample:
+              summary: Rate limit exceeded error
+              value:
+                status: 429
+                err: Rate limit exceeded. Please wait before retrying.
+    UnauthorizedErrorResponse:
+      description: Token is missing or incorrect.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            UnauthorizedExample:
+              $ref: '#/components/examples/UnauthorizedExample'
+    InternalServerErrorResponse:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            InternalServerErrorExample:
+              $ref: '#/components/examples/InternalServerErrorExample'
+    ForbiddenErrorResponse_2:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ForbiddenError'
+          examples:
+            ForbiddenExample:
+              summary: Access denied error
+              value:
+                status: 403
+                err: Access denied. You do not have permission to access this file.
+    BadRequestErrorResponse:
+      description: Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequestError'
+          examples:
+            BadRequestExample:
+              summary: Invalid parameter error
+              value:
+                status: 400
+                err: 'Invalid parameter: scale must be between 0.01 and 4'
+    NotFoundErrorResponse_2:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFoundError'
+          examples:
+            NotFoundExample:
+              summary: File not found error
+              value:
+                status: 404
+                err: File not found
+    InternalServerError:
+      description: An unexpected error occurred on the Figma server.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TooManyRequestsErrorResponse:
+      description: API requests may be throttled or rate limited. Please wait a while before attempting the request again.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            TooManyRequestsExample:
+              $ref: '#/components/examples/TooManyRequestsExample'
+    ForbiddenError:
+      description: The authenticated user does not have the necessary permissions to access this resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimitError:
+      description: Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerErrorResponse_2:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InternalServerError'
+          examples:
+            InternalServerErrorExample:
+              summary: Internal server error
+              value:
+                status: 500
+                err: Internal server error
+    NotFoundErrorResponse:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            NotFoundExample:
+              $ref: '#/components/examples/NotFoundExample'
+  securitySchemes:
+    OrgOAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          scopes:
+            org:activity_log_read: Read organization activity logs

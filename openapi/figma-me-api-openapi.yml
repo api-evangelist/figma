@@ -1,30 +1,28 @@
 openapi: 3.1.0
 info:
-  title: Figma Me API
+  title: Figma Activity Logs Me API
   version: 0.21.0
-  description: >-
-    This is the OpenAPI specification for the [Figma REST
-    API](https://www.figma.com/developers/api).
+  description: 'Figma allows designers to create and prototype their digital experiences -
+
+    together in real-time and in one place - helping them turn their ideas and
+
+    visions into products, faster. Figma''s mission is to make design
+
+    accessible to everyone. The Figma API is one of the ways we aim to do that.'
   termsOfService: https://www.figma.com/developer-terms/
   contact:
     email: support@figma.com
-
 servers:
 - url: https://api.figma.com
   description: Figma Production API Server
-
 tags:
 - name: Me
   description: Operations for the currently authenticated user
-
-- name: Users
-  description: Operations for managing and retrieving user information
 paths:
   /v1/me:
     get:
       tags:
       - Me
-      - Users
       summary: Figma Get Current User
       security:
       - PersonalAccessToken: []
@@ -34,7 +32,7 @@ paths:
       operationId: getMe
       x-microcks-operation:
         dispatcher: FALLBACK
-        dispatcherRules: ""
+        dispatcherRules: ''
         defaultResponse: GetMeSuccessExample
       responses:
         '200':
@@ -45,22 +43,7 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         '500':
           $ref: '#/components/responses/InternalServerErrorResponse'
-
 components:
-  securitySchemes:
-    PersonalAccessToken:
-      type: http
-      scheme: bearer
-      description: Personal access token for authentication
-    OAuth2:
-      type: oauth2
-      flows:
-        authorizationCode:
-          authorizationUrl: https://www.figma.com/oauth
-          tokenUrl: https://www.figma.com/api/oauth/token
-          scopes:
-            files:read: Read access to files
-
   schemas:
     User:
       type: object
@@ -83,28 +66,9 @@ components:
       - handle
       - img_url
       example:
-        id: "1234567890"
-        handle: "John Designer"
-        img_url: "https://s3-alpha.figma.com/profile/abc123-xyz789"
-
-    UserWithEmail:
-      allOf:
-      - $ref: '#/components/schemas/User'
-      - type: object
-        properties:
-          email:
-            type: string
-            description: >-
-              Email associated with the user's account. This property is
-              only present on the /v1/me endpoint.
-        required:
-        - email
-      example:
-        id: "1234567890"
-        handle: "John Designer"
-        img_url: "https://s3-alpha.figma.com/profile/abc123-xyz789"
-        email: "john.designer@example.com"
-
+        id: '1234567890'
+        handle: John Designer
+        img_url: https://s3-alpha.figma.com/profile/abc123-xyz789
     ErrorResponsePayload:
       type: object
       description: A response indicating an error occurred.
@@ -120,39 +84,6 @@ components:
       required:
       - status
       - err
-
-    ForbiddenError:
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponsePayload'
-      - type: object
-        properties:
-          status:
-            type: number
-            description: Status code
-            enum:
-            - 403
-        required:
-        - status
-      example:
-        status: 403
-        err: "Invalid token"
-
-    TooManyRequestsError:
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponsePayload'
-      - type: object
-        properties:
-          status:
-            type: number
-            description: Status code
-            enum:
-            - 429
-        required:
-        - status
-      example:
-        status: 429
-        err: "Rate limit exceeded. Please wait before retrying."
-
     InternalServerError:
       allOf:
       - $ref: '#/components/schemas/ErrorResponsePayload'
@@ -167,55 +98,53 @@ components:
         - status
       example:
         status: 500
-        err: "Internal server error"
-
+        err: Internal server error
+    TooManyRequestsError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 429
+        required:
+        - status
+      example:
+        status: 429
+        err: Rate limit exceeded. Please wait before retrying.
+    UserWithEmail:
+      allOf:
+      - $ref: '#/components/schemas/User'
+      - type: object
+        properties:
+          email:
+            type: string
+            description: Email associated with the user's account. This property is only present on the /v1/me endpoint.
+        required:
+        - email
+      example:
+        id: '1234567890'
+        handle: John Designer
+        img_url: https://s3-alpha.figma.com/profile/abc123-xyz789
+        email: john.designer@example.com
+    ForbiddenError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 403
+        required:
+        - status
+      example:
+        status: 403
+        err: Invalid token
   responses:
-    GetMeResponse:
-      description: Response from the GET /v1/me endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UserWithEmail'
-          examples:
-            GetMeSuccessExample:
-              summary: Successful user information response
-              value:
-                id: "1234567890"
-                handle: "John Designer"
-                img_url: "https://s3-alpha.figma.com/profile/abc123-xyz789"
-                email: "john.designer@example.com"
-
-    ForbiddenErrorResponse:
-      description: >-
-        The request was valid, but the server is refusing action. The user might
-        not have the necessary permissions for a resource, or may need an
-        account of some sort.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ForbiddenError'
-          examples:
-            ForbiddenExample:
-              summary: Invalid token error
-              value:
-                status: 403
-                err: "Invalid token"
-
-    TooManyRequestsErrorResponse:
-      description: >-
-        In some cases API requests may be throttled or rate limited. Please wait
-        a while before attempting the request again (typically a minute).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/TooManyRequestsError'
-          examples:
-            TooManyRequestsExample:
-              summary: Rate limit exceeded error
-              value:
-                status: 429
-                err: "Rate limit exceeded. Please wait before retrying."
-
     InternalServerErrorResponse:
       description: An internal server error occurred.
       content:
@@ -227,13 +156,51 @@ components:
               summary: Internal server error
               value:
                 status: 500
-                err: "Internal server error"
-
-  examples:
-    GetMeSuccessExample:
-      summary: Successful user information response
-      value:
-        id: "1234567890"
-        handle: "John Designer"
-        img_url: "https://s3-alpha.figma.com/profile/abc123-xyz789"
-        email: "john.designer@example.com"
+                err: Internal server error
+    TooManyRequestsErrorResponse:
+      description: In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TooManyRequestsError'
+          examples:
+            TooManyRequestsExample:
+              summary: Rate limit exceeded error
+              value:
+                status: 429
+                err: Rate limit exceeded. Please wait before retrying.
+    ForbiddenErrorResponse:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ForbiddenError'
+          examples:
+            ForbiddenExample:
+              summary: Invalid token error
+              value:
+                status: 403
+                err: Invalid token
+    GetMeResponse:
+      description: Response from the GET /v1/me endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserWithEmail'
+          examples:
+            GetMeSuccessExample:
+              summary: Successful user information response
+              value:
+                id: '1234567890'
+                handle: John Designer
+                img_url: https://s3-alpha.figma.com/profile/abc123-xyz789
+                email: john.designer@example.com
+  securitySchemes:
+    OrgOAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          scopes:
+            org:activity_log_read: Read organization activity logs

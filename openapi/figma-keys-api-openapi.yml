@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Figma Activity Logs Styles API
+  title: Figma Activity Logs Keys API
   version: 0.21.0
   description: 'Figma allows designers to create and prototype their digital experiences -
 
@@ -16,13 +16,13 @@ servers:
 - url: https://api.figma.com
   description: Figma Production API Server
 tags:
-- name: Styles
-  description: Operations for managing and retrieving design styles
+- name: Keys
+  description: Operations that use unique style keys for identification
 paths:
   /v1/styles/{key}:
     get:
       tags:
-      - Styles
+      - Keys
       summary: Figma Get Style
       security:
       - PersonalAccessToken: []

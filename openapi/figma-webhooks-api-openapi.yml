@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Figma Activity Logs Teams API
+  title: Figma Activity Logs Webhooks API
   version: 0.21.0
   description: 'Figma allows designers to create and prototype their digital experiences -
 
@@ -16,13 +16,13 @@ servers:
 - url: https://api.figma.com
   description: Figma Production API Server
 tags:
-- name: Teams
-  description: Operations for managing and retrieving team information
+- name: Webhooks
+  description: Operations for managing webhook subscriptions and notifications
 paths:
   /v2/teams/{team_id}/webhooks:
     get:
       tags:
-      - Teams
+      - Webhooks
       summary: Figma Get Team Webhooks
       security:
       - PersonalAccessToken: []

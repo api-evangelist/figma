@@ -1,12 +1,14 @@
 openapi: 3.1.0
 info:
-  title: Figma Dev Resources API
+  title: Figma Activity Logs Dev Resources API
   version: 0.21.0
-  description: |-
-    Figma allows designers to create and prototype their digital experiences -
+  description: 'Figma allows designers to create and prototype their digital experiences -
+
     together in real-time and in one place - helping them turn their ideas and
-    visions into products, faster. Figma's mission is to make design
-    accessible to everyone. The Figma API is one of the ways we aim to do that.
+
+    visions into products, faster. Figma''s mission is to make design
+
+    accessible to everyone. The Figma API is one of the ways we aim to do that.'
   termsOfService: https://www.figma.com/developer-terms/
   contact:
     email: support@figma.com
@@ -26,18 +28,11 @@ paths:
       - PersonalAccessToken: []
       - OAuth2:
         - file_dev_resources:write
-      description: >-
-        Bulk create dev resources across multiple files.
-        Dev resources that are successfully created will show up in the
-        links_created array in the response.
+      description: Bulk create dev resources across multiple files. Dev resources that are successfully created will show up in the links_created array in the response.
       operationId: postDevResources
       x-microcks-operation:
         dispatcher: FALLBACK
-        dispatcherRules: |
-          {
-            "dispatcher": "FALLBACK",
-            "fallback": "PostDevResourcesSuccessExample"
-          }
+        dispatcherRules: "{\n  \"dispatcher\": \"FALLBACK\",\n  \"fallback\": \"PostDevResourcesSuccessExample\"\n}\n"
       requestBody:
         $ref: '#/components/requestBodies/CreateDevResourcesRequestBody'
       responses:
@@ -61,18 +56,11 @@ paths:
       - PersonalAccessToken: []
       - OAuth2:
         - file_dev_resources:write
-      description: >-
-        Bulk update dev resources across multiple files.
-        Ids for dev resources that are successfully updated will show up in the
-        `links_updated` array in the response.
+      description: Bulk update dev resources across multiple files. Ids for dev resources that are successfully updated will show up in the `links_updated` array in the response.
       operationId: putDevResources
       x-microcks-operation:
         dispatcher: FALLBACK
-        dispatcherRules: |
-          {
-            "dispatcher": "FALLBACK",
-            "fallback": "PutDevResourcesSuccessExample"
-          }
+        dispatcherRules: "{\n  \"dispatcher\": \"FALLBACK\",\n  \"fallback\": \"PutDevResourcesSuccessExample\"\n}\n"
       requestBody:
         $ref: '#/components/requestBodies/UpdateDevResourcesRequestBody'
       responses:
@@ -88,32 +76,131 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         '500':
           $ref: '#/components/responses/InternalServerErrorResponse'
+  /v1/files/{file_key}/dev_resources/{dev_resource_id}:
+    delete:
+      tags:
+      - Dev Resources
+      summary: Figma Delete Dev Resource
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - file_dev_resources:write
+      description: Delete a dev resource from a file
+      operationId: deleteDevResource
+      x-microcks-operation:
+        dispatcher: FALLBACK
+        dispatcherRules: "{\n  \"dispatcher\": \"FALLBACK\",\n  \"fallback\": \"DeleteDevResourceSuccessExample\"\n}\n"
+      parameters:
+      - $ref: '#/components/parameters/FileKeyPathParam'
+      - $ref: '#/components/parameters/DevResourceIdPathParam'
+      responses:
+        '200':
+          $ref: '#/components/responses/DeleteDevResourceResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponse'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
 components:
-  securitySchemes:
-    PersonalAccessToken:
-      type: http
-      scheme: bearer
-      bearerFormat: Figma Personal Access Token
-      description: Personal Access Token for authentication
-    OAuth2:
-      type: oauth2
-      flows:
-        authorizationCode:
-          authorizationUrl: https://www.figma.com/oauth
-          tokenUrl: https://api.figma.com/v1/oauth/token
-          scopes:
-            file_dev_resources:write: Write dev resources to files
+  examples:
+    InternalServerErrorExample:
+      summary: Internal server error
+      value:
+        error: true
+        status: 500
+        message: An internal server error occurred
+    DeleteDevResourceSuccessExample:
+      summary: Successful dev resource deletion
+      value:
+        status: 200
+        error: false
+    NotFoundExample:
+      summary: Not found error
+      value:
+        error: true
+        status: 404
+        message: File or dev resource not found
+    PutDevResourcesSuccessExample:
+      summary: Successful update dev resources response
+      value:
+        linksUpdated:
+        - id: dev_res_123
+          name: Updated Button Component
+          url: https://github.com/myorg/design-system/blob/main/src/components/Button/index.tsx
+          fileKey: abc123xyz789
+          nodeId: '1:1'
+        - id: dev_res_456
+          name: Button Documentation
+          url: https://storybook.myorg.com/?path=/story/button
+          fileKey: abc123xyz789
+          nodeId: '1:1'
+        errors: []
+    CreateDevResourcesRequestExample:
+      summary: Create dev resources request
+      value:
+        devResources:
+        - name: Button Component Code
+          url: https://github.com/myorg/design-system/blob/main/src/components/Button.tsx
+          fileKey: abc123xyz789
+          nodeId: '1:1'
+        - name: Button Storybook
+          url: https://storybook.myorg.com/?path=/story/button
+          fileKey: abc123xyz789
+          nodeId: '1:1'
+    BadRequestExample:
+      summary: Bad request error
+      value:
+        error: true
+        status: 400
+        message: 'Invalid parameter: url format is incorrect'
+    UnauthorizedExample:
+      summary: Unauthorized error
+      value:
+        error: true
+        status: 401
+        message: Token is missing or incorrect
+    TooManyRequestsExample:
+      summary: Rate limit error
+      value:
+        error: true
+        status: 429
+        message: Rate limit exceeded. Please wait before making another request
+    ForbiddenExample:
+      summary: Forbidden error
+      value:
+        error: true
+        status: 403
+        message: You do not have permission to modify dev resources for this file
+    UpdateDevResourcesRequestExample:
+      summary: Update dev resources request
+      value:
+        devResources:
+        - id: dev_res_123
+          name: Updated Button Component
+          url: https://github.com/myorg/design-system/blob/main/src/components/Button/index.tsx
+        - id: dev_res_456
+          name: Button Documentation
+    PostDevResourcesSuccessExample:
+      summary: Successful create dev resources response
+      value:
+        linksCreated:
+        - id: dev_res_123
+          name: Button Component Code
+          url: https://github.com/myorg/design-system/blob/main/src/components/Button.tsx
+          fileKey: abc123xyz789
+          nodeId: '1:1'
+        - id: dev_res_456
+          name: Button Storybook
+          url: https://storybook.myorg.com/?path=/story/button
+          fileKey: abc123xyz789
+          nodeId: '1:1'
+        errors: []
   requestBodies:
-    CreateDevResourcesRequestBody:
-      description: A list of dev resources that you want to create.
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CreateDevResourcesRequest'
-          examples:
-            CreateDevResourcesExample:
-              $ref: '#/components/examples/CreateDevResourcesRequestExample'
     UpdateDevResourcesRequestBody:
       description: A list of dev resources that you want to update.
       required: true
@@ -124,7 +211,35 @@ components:
           examples:
             UpdateDevResourcesExample:
               $ref: '#/components/examples/UpdateDevResourcesRequestExample'
+    CreateDevResourcesRequestBody:
+      description: A list of dev resources that you want to create.
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateDevResourcesRequest'
+          examples:
+            CreateDevResourcesExample:
+              $ref: '#/components/examples/CreateDevResourcesRequestExample'
   responses:
+    ForbiddenErrorResponse:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            ForbiddenExample:
+              $ref: '#/components/examples/ForbiddenExample'
+    DeleteDevResourceResponse:
+      description: Response from the DELETE /v1/files/{file_key}/dev_resources/{dev_resource_id} endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeleteDevResourceResponseBody'
+          examples:
+            DeleteDevResourceSuccessExample:
+              $ref: '#/components/examples/DeleteDevResourceSuccessExample'
     PostDevResourcesResponse:
       description: Response from the POST /v1/dev_resources endpoint.
       content:
@@ -134,19 +249,8 @@ components:
           examples:
             PostDevResourcesSuccessExample:
               $ref: '#/components/examples/PostDevResourcesSuccessExample'
-    PutDevResourcesResponse:
-      description: Response from the PUT /v1/dev_resources endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PutDevResourcesResponseBody'
-          examples:
-            PutDevResourcesSuccessExample:
-              $ref: '#/components/examples/PutDevResourcesSuccessExample'
     BadRequestErrorResponse:
-      description: >-
-        Bad request. Parameters are invalid or malformed. Please check the input
-        formats.
+      description: Bad request. Parameters are invalid or malformed. Please check the input formats.
       content:
         application/json:
           schema:
@@ -154,6 +258,24 @@ components:
           examples:
             BadRequestExample:
               $ref: '#/components/examples/BadRequestExample'
+    TooManyRequestsErrorResponse:
+      description: API requests may be throttled or rate limited. Please wait a while before attempting the request again.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            TooManyRequestsExample:
+              $ref: '#/components/examples/TooManyRequestsExample'
+    NotFoundErrorResponse:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            NotFoundExample:
+              $ref: '#/components/examples/NotFoundExample'
     UnauthorizedErrorResponse:
       description: Token is missing or incorrect.
       content:
@@ -163,28 +285,6 @@ components:
           examples:
             UnauthorizedExample:
               $ref: '#/components/examples/UnauthorizedExample'
-    ForbiddenErrorResponse:
-      description: >-
-        The request was valid, but the server is refusing action. The user might
-        not have the necessary permissions for a resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            ForbiddenExample:
-              $ref: '#/components/examples/ForbiddenExample'
-    TooManyRequestsErrorResponse:
-      description: >-
-        API requests may be throttled or rate limited. Please wait a while
-        before attempting the request again.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            TooManyRequestsExample:
-              $ref: '#/components/examples/TooManyRequestsExample'
     InternalServerErrorResponse:
       description: An internal server error occurred.
       content:
@@ -194,6 +294,15 @@ components:
           examples:
             InternalServerErrorExample:
               $ref: '#/components/examples/InternalServerErrorExample'
+    PutDevResourcesResponse:
+      description: Response from the PUT /v1/dev_resources endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PutDevResourcesResponseBody'
+          examples:
+            PutDevResourcesSuccessExample:
+              $ref: '#/components/examples/PutDevResourcesSuccessExample'
   schemas:
     CreateDevResourcesRequest:
       type: object
@@ -206,30 +315,6 @@ components:
           example: []
       required:
       - devResources
-    CreateDevResourceItem:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the dev resource.
-          example: Example Title
-        url:
-          type: string
-          description: The URL of the dev resource.
-          example: https://www.example.com
-        fileKey:
-          type: string
-          description: The file key where the dev resource belongs.
-          example: example_value
-        nodeId:
-          type: string
-          description: The target node to attach the dev resource to.
-          example: '500123'
-      required:
-      - name
-      - url
-      - fileKey
-      - nodeId
     UpdateDevResourcesRequest:
       type: object
       properties:
@@ -241,108 +326,6 @@ components:
           example: []
       required:
       - devResources
-    UpdateDevResourceItem:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the dev resource
-          example: abc123
-        name:
-          type: string
-          description: The name of the dev resource.
-          example: Example Title
-        url:
-          type: string
-          description: The URL of the dev resource.
-          example: https://www.example.com
-      required:
-      - id
-    PostDevResourcesResponseBody:
-      type: object
-      properties:
-        linksCreated:
-          type: array
-          description: An array of links created.
-          items:
-            $ref: '#/components/schemas/DevResource'
-          example: []
-        errors:
-          type: array
-          description: An array of errors.
-          items:
-            $ref: '#/components/schemas/DevResourceCreateError'
-          example: []
-      required:
-      - linksCreated
-    PutDevResourcesResponseBody:
-      type: object
-      properties:
-        linksUpdated:
-          type: array
-          description: An array of links updated.
-          items:
-            $ref: '#/components/schemas/DevResource'
-          example: []
-        errors:
-          type: array
-          description: An array of errors.
-          items:
-            $ref: '#/components/schemas/DevResourceUpdateError'
-          example: []
-      required:
-      - linksUpdated
-    DevResource:
-      type: object
-      description: A dev resource in a file
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the dev resource
-          example: abc123
-        name:
-          type: string
-          description: The name of the dev resource.
-          example: Example Title
-        url:
-          type: string
-          description: The URL of the dev resource.
-          example: https://www.example.com
-        fileKey:
-          type: string
-          description: The file key where the dev resource belongs.
-          example: example_value
-        nodeId:
-          type: string
-          description: The target node to attach the dev resource to.
-          example: '500123'
-      required:
-      - id
-      - name
-      - url
-      - fileKey
-      - nodeId
-    DevResourceCreateError:
-      type: object
-      properties:
-        fileKey:
-          type:
-          - string
-          - 'null'
-          description: The file key.
-          example: example_value
-        nodeId:
-          type:
-          - string
-          - 'null'
-          description: The node id.
-          example: '500123'
-        error:
-          type: string
-          description: The error message.
-          example: example_value
-      required:
-      - error
     DevResourceUpdateError:
       type: object
       properties:
@@ -378,85 +361,174 @@ components:
       - error
       - status
       - message
-  examples:
-    CreateDevResourcesRequestExample:
-      summary: Create dev resources request
-      value:
-        devResources:
-        - name: "Button Component Code"
-          url: "https://github.com/myorg/design-system/blob/main/src/components/Button.tsx"
-          fileKey: "abc123xyz789"
-          nodeId: "1:1"
-        - name: "Button Storybook"
-          url: "https://storybook.myorg.com/?path=/story/button"
-          fileKey: "abc123xyz789"
-          nodeId: "1:1"
-    UpdateDevResourcesRequestExample:
-      summary: Update dev resources request
-      value:
-        devResources:
-        - id: "dev_res_123"
-          name: "Updated Button Component"
-          url: "https://github.com/myorg/design-system/blob/main/src/components/Button/index.tsx"
-        - id: "dev_res_456"
-          name: "Button Documentation"
-    PostDevResourcesSuccessExample:
-      summary: Successful create dev resources response
-      value:
+    PostDevResourcesResponseBody:
+      type: object
+      properties:
         linksCreated:
-        - id: "dev_res_123"
-          name: "Button Component Code"
-          url: "https://github.com/myorg/design-system/blob/main/src/components/Button.tsx"
-          fileKey: "abc123xyz789"
-          nodeId: "1:1"
-        - id: "dev_res_456"
-          name: "Button Storybook"
-          url: "https://storybook.myorg.com/?path=/story/button"
-          fileKey: "abc123xyz789"
-          nodeId: "1:1"
-        errors: []
-    PutDevResourcesSuccessExample:
-      summary: Successful update dev resources response
-      value:
+          type: array
+          description: An array of links created.
+          items:
+            $ref: '#/components/schemas/DevResource'
+          example: []
+        errors:
+          type: array
+          description: An array of errors.
+          items:
+            $ref: '#/components/schemas/DevResourceCreateError'
+          example: []
+      required:
+      - linksCreated
+    CreateDevResourceItem:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the dev resource.
+          example: Example Title
+        url:
+          type: string
+          description: The URL of the dev resource.
+          example: https://www.example.com
+        fileKey:
+          type: string
+          description: The file key where the dev resource belongs.
+          example: example_value
+        nodeId:
+          type: string
+          description: The target node to attach the dev resource to.
+          example: '500123'
+      required:
+      - name
+      - url
+      - fileKey
+      - nodeId
+    DevResource:
+      type: object
+      description: A dev resource in a file
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the dev resource
+          example: abc123
+        name:
+          type: string
+          description: The name of the dev resource.
+          example: Example Title
+        url:
+          type: string
+          description: The URL of the dev resource.
+          example: https://www.example.com
+        fileKey:
+          type: string
+          description: The file key where the dev resource belongs.
+          example: example_value
+        nodeId:
+          type: string
+          description: The target node to attach the dev resource to.
+          example: '500123'
+      required:
+      - id
+      - name
+      - url
+      - fileKey
+      - nodeId
+    PutDevResourcesResponseBody:
+      type: object
+      properties:
         linksUpdated:
-        - id: "dev_res_123"
-          name: "Updated Button Component"
-          url: "https://github.com/myorg/design-system/blob/main/src/components/Button/index.tsx"
-          fileKey: "abc123xyz789"
-          nodeId: "1:1"
-        - id: "dev_res_456"
-          name: "Button Documentation"
-          url: "https://storybook.myorg.com/?path=/story/button"
-          fileKey: "abc123xyz789"
-          nodeId: "1:1"
-        errors: []
-    BadRequestExample:
-      summary: Bad request error
-      value:
-        error: true
-        status: 400
-        message: "Invalid parameter: url format is incorrect"
-    UnauthorizedExample:
-      summary: Unauthorized error
-      value:
-        error: true
-        status: 401
-        message: "Token is missing or incorrect"
-    ForbiddenExample:
-      summary: Forbidden error
-      value:
-        error: true
-        status: 403
-        message: "You do not have permission to modify dev resources for this file"
-    TooManyRequestsExample:
-      summary: Rate limit error
-      value:
-        error: true
-        status: 429
-        message: "Rate limit exceeded. Please wait before making another request"
-    InternalServerErrorExample:
-      summary: Internal server error
-      value:
-        error: true
-        status: 500
-        message: "An internal server error occurred"
+          type: array
+          description: An array of links updated.
+          items:
+            $ref: '#/components/schemas/DevResource'
+          example: []
+        errors:
+          type: array
+          description: An array of errors.
+          items:
+            $ref: '#/components/schemas/DevResourceUpdateError'
+          example: []
+      required:
+      - linksUpdated
+    DeleteDevResourceResponseBody:
+      type: object
+      description: Response body for successful dev resource deletion.
+      properties:
+        status:
+          type: number
+          description: The status of the request.
+          enum:
+          - 200
+          example: 200
+        error:
+          type: boolean
+          description: For successful requests, this value is always `false`.
+          enum:
+          - false
+          example: false
+      required:
+      - status
+      - error
+    UpdateDevResourceItem:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the dev resource
+          example: abc123
+        name:
+          type: string
+          description: The name of the dev resource.
+          example: Example Title
+        url:
+          type: string
+          description: The URL of the dev resource.
+          example: https://www.example.com
+      required:
+      - id
+    DevResourceCreateError:
+      type: object
+      properties:
+        fileKey:
+          type:
+          - string
+          - 'null'
+          description: The file key.
+          example: example_value
+        nodeId:
+          type:
+          - string
+          - 'null'
+          description: The node id.
+          example: '500123'
+        error:
+          type: string
+          description: The error message.
+          example: example_value
+      required:
+      - error
+  parameters:
+    FileKeyPathParam:
+      name: file_key
+      in: path
+      description: The file to delete the dev resource from. This must be a main file key, not a branch key.
+      required: true
+      schema:
+        type: string
+      example: abc123xyz789
+    DevResourceIdPathParam:
+      name: dev_resource_id
+      in: path
+      description: The id of the dev resource to delete.
+      required: true
+      schema:
+        type: string
+      example: dev_res_123456
+  securitySchemes:
+    OrgOAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          scopes:
+            org:activity_log_read: Read organization activity logs

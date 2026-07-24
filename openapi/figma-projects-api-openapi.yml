@@ -1,32 +1,27 @@
 openapi: 3.1.0
 info:
-  title: Figma Projects API
+  title: Figma Activity Logs Projects API
   version: 0.21.0
-  description: |-
-    Figma allows designers to create and prototype their digital experiences -
+  description: 'Figma allows designers to create and prototype their digital experiences -
+
     together in real-time and in one place - helping them turn their ideas and
-    visions into products, faster. Figma's mission is to make design
-    accessible to everyone. The Figma API is one of the ways we aim to do
-    that.
+
+    visions into products, faster. Figma''s mission is to make design
+
+    accessible to everyone. The Figma API is one of the ways we aim to do that.'
   termsOfService: https://www.figma.com/developer-terms/
   contact:
     email: support@figma.com
-
 servers:
 - url: https://api.figma.com
   description: Figma Production API Server
-
 tags:
-- name: Files
-  description: Operations related to Figma file resources
-
 - name: Projects
   description: Operations for managing and retrieving project information
 paths:
   /v1/projects/{project_id}/files:
     get:
       tags:
-      - Files
       - Projects
       summary: Figma Get Files in a Project
       security:
@@ -53,44 +48,147 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         '500':
           $ref: '#/components/responses/InternalServerErrorResponse'
-
+  /v1/teams/{team_id}/projects:
+    get:
+      tags:
+      - Projects
+      summary: Figma Get Team Projects
+      operationId: getTeamProjects
+      description: Lists the projects for a specified team. Only projects visible to the authenticated user are returned.
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
+      parameters:
+      - $ref: '#/components/parameters/TeamIdPathParam'
+      responses:
+        '200':
+          description: Successfully retrieved team projects.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTeamProjectsResponse'
+              examples:
+                Getteamprojects200Example:
+                  summary: Default getTeamProjects 200 response
+                  x-microcks-default: true
+                  value:
+                    name: Example Title
+                    projects:
+                    - id: abc123
+                      name: Example Title
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
-  securitySchemes:
-    PersonalAccessToken:
-      type: http
-      scheme: bearer
-      description: Personal access token for authentication
-    OAuth2:
-      type: oauth2
-      flows:
-        authorizationCode:
-          authorizationUrl: https://www.figma.com/oauth
-          tokenUrl: https://www.figma.com/api/oauth/token
-          scopes:
-            files:read: Read access to files
-
-  parameters:
-    ProjectIdPath:
-      name: project_id
-      in: path
-      description: ID of the project to list files from
-      required: true
-      schema:
-        type: string
-      example: "12345678"
-
-    BranchDataQuery:
-      name: branch_data
-      in: query
-      description: >-
-        Returns branch metadata in the response for each main file with a
-        branch inside the project.
-      schema:
-        type: boolean
-        default: false
-      example: false
-
   schemas:
+    GetTeamProjectsResponse:
+      type: object
+      description: Response from the Get Team Projects endpoint.
+      required:
+      - name
+      - projects
+      properties:
+        name:
+          type: string
+          description: The name of the team.
+          example: Example Title
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+          example: []
+    InternalServerError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 500
+        required:
+        - status
+      example:
+        status: 500
+        err: Internal server error
+    BadRequestError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithMessage'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 400
+        required:
+        - status
+      example:
+        error: true
+        status: 400
+        message: Invalid project ID format
+    ErrorResponse:
+      type: object
+      description: Standard error response from the Figma API.
+      required:
+      - error
+      - status
+      - message
+      properties:
+        error:
+          type: boolean
+          description: Always true for error responses.
+          enum:
+          - true
+          example: true
+        status:
+          type: integer
+          description: The HTTP status code.
+          example: 10
+        message:
+          type: string
+          description: A human-readable description of the error.
+          example: example_value
+    Project:
+      type: object
+      description: A Figma project within a team.
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: The ID of the project.
+          example: abc123
+        name:
+          type: string
+          description: The name of the project.
+          example: Example Title
+    TooManyRequestsError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 429
+        required:
+        - status
+      example:
+        status: 429
+        err: Rate limit exceeded. Please wait before retrying.
     ProjectFile:
       type: object
       description: A file within a project.
@@ -110,19 +208,32 @@ components:
         last_modified:
           type: string
           format: date-time
-          description: >-
-            The UTC ISO 8601 time at which the file was last modified.
+          description: The UTC ISO 8601 time at which the file was last modified.
           example: '2026-01-15T10:30:00Z'
       required:
       - key
       - name
       - last_modified
       example:
-        key: "abc123XYZ789"
-        name: "Design System Components"
-        thumbnail_url: "https://s3-alpha.figma.com/thumbnails/abc123-xyz789"
-        last_modified: "2024-06-20T10:30:00Z"
-
+        key: abc123XYZ789
+        name: Design System Components
+        thumbnail_url: https://s3-alpha.figma.com/thumbnails/abc123-xyz789
+        last_modified: '2024-06-20T10:30:00Z'
+    ErrorResponsePayloadWithErr:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        status:
+          type: number
+          description: Status code
+          example: 42.5
+        err:
+          type: string
+          description: A string describing the error
+          example: example_value
+      required:
+      - status
+      - err
     GetProjectFilesResponseBody:
       type: object
       description: Successful response containing project files.
@@ -141,17 +252,16 @@ components:
       - name
       - files
       example:
-        name: "Mobile App Design"
+        name: Mobile App Design
         files:
-        - key: "abc123XYZ789"
-          name: "Design System Components"
-          thumbnail_url: "https://s3-alpha.figma.com/thumbnails/abc123-xyz789"
-          last_modified: "2024-06-20T10:30:00Z"
-        - key: "def456UVW012"
-          name: "App Screens"
-          thumbnail_url: "https://s3-alpha.figma.com/thumbnails/def456-uvw012"
-          last_modified: "2024-06-19T15:45:00Z"
-
+        - key: abc123XYZ789
+          name: Design System Components
+          thumbnail_url: https://s3-alpha.figma.com/thumbnails/abc123-xyz789
+          last_modified: '2024-06-20T10:30:00Z'
+        - key: def456UVW012
+          name: App Screens
+          thumbnail_url: https://s3-alpha.figma.com/thumbnails/def456-uvw012
+          last_modified: '2024-06-19T15:45:00Z'
     ErrorResponsePayloadWithMessage:
       type: object
       description: A response indicating an error occurred.
@@ -174,40 +284,6 @@ components:
       - error
       - status
       - message
-
-    ErrorResponsePayloadWithErr:
-      type: object
-      description: A response indicating an error occurred.
-      properties:
-        status:
-          type: number
-          description: Status code
-          example: 42.5
-        err:
-          type: string
-          description: A string describing the error
-          example: example_value
-      required:
-      - status
-      - err
-
-    BadRequestError:
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponsePayloadWithMessage'
-      - type: object
-        properties:
-          status:
-            type: number
-            description: Status code
-            enum:
-            - 400
-        required:
-        - status
-      example:
-        error: true
-        status: 400
-        message: "Invalid project ID format"
-
     ForbiddenError:
       allOf:
       - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
@@ -222,68 +298,28 @@ components:
         - status
       example:
         status: 403
-        err: "Access denied. You do not have permission to access this project."
-
-    TooManyRequestsError:
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
-      - type: object
-        properties:
-          status:
-            type: number
-            description: Status code
-            enum:
-            - 429
-        required:
-        - status
-      example:
-        status: 429
-        err: "Rate limit exceeded. Please wait before retrying."
-
-    InternalServerError:
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
-      - type: object
-        properties:
-          status:
-            type: number
-            description: Status code
-            enum:
-            - 500
-        required:
-        - status
-      example:
-        status: 500
-        err: "Internal server error"
-
+        err: Access denied. You do not have permission to access this project.
   responses:
-    GetProjectFilesResponse:
-      description: Response from the GET /v1/projects/{project_id}/files endpoint.
+    ForbiddenErrorResponse:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/GetProjectFilesResponseBody'
+            $ref: '#/components/schemas/ForbiddenError'
           examples:
-            GetProjectFilesSuccessExample:
-              summary: Successful project files response
+            ForbiddenExample:
+              summary: Access denied error
               value:
-                name: "Mobile App Design"
-                files:
-                - key: "abc123XYZ789"
-                  name: "Design System Components"
-                  thumbnail_url: "https://s3-alpha.figma.com/thumbnails/abc123-xyz789"
-                  last_modified: "2024-06-20T10:30:00Z"
-                - key: "def456UVW012"
-                  name: "App Screens"
-                  thumbnail_url: "https://s3-alpha.figma.com/thumbnails/def456-uvw012"
-                  last_modified: "2024-06-19T15:45:00Z"
-
+                status: 403
+                err: Access denied. You do not have permission to access this project.
+    UnauthorizedError:
+      description: Authentication token is missing, invalid, or expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     BadRequestErrorResponse:
-      description: >-
-        Bad request. Parameters are invalid or malformed. Please check the input
-        formats. This error can also happen if the requested resources are too
-        large to complete the request, which results in a timeout. Please reduce
-        the number and size of objects requested.
+      description: Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.
       content:
         application/json:
           schema:
@@ -294,28 +330,35 @@ components:
               value:
                 error: true
                 status: 400
-                message: "Invalid project ID format"
-
-    ForbiddenErrorResponse:
-      description: >-
-        The request was valid, but the server is refusing action. The user might
-        not have the necessary permissions for a resource, or may need an
-        account of some sort.
+                message: Invalid project ID format
+    NotFoundError:
+      description: The requested file, project, team, or resource was not found.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ForbiddenError'
+            $ref: '#/components/schemas/ErrorResponse'
+    GetProjectFilesResponse:
+      description: Response from the GET /v1/projects/{project_id}/files endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetProjectFilesResponseBody'
           examples:
-            ForbiddenExample:
-              summary: Access denied error
+            GetProjectFilesSuccessExample:
+              summary: Successful project files response
               value:
-                status: 403
-                err: "Access denied. You do not have permission to access this project."
-
+                name: Mobile App Design
+                files:
+                - key: abc123XYZ789
+                  name: Design System Components
+                  thumbnail_url: https://s3-alpha.figma.com/thumbnails/abc123-xyz789
+                  last_modified: '2024-06-20T10:30:00Z'
+                - key: def456UVW012
+                  name: App Screens
+                  thumbnail_url: https://s3-alpha.figma.com/thumbnails/def456-uvw012
+                  last_modified: '2024-06-19T15:45:00Z'
     TooManyRequestsErrorResponse:
-      description: >-
-        In some cases API requests may be throttled or rate limited. Please wait
-        a while before attempting the request again (typically a minute).
+      description: In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).
       content:
         application/json:
           schema:
@@ -325,8 +368,19 @@ components:
               summary: Rate limit exceeded error
               value:
                 status: 429
-                err: "Rate limit exceeded. Please wait before retrying."
-
+                err: Rate limit exceeded. Please wait before retrying.
+    ForbiddenError:
+      description: The authenticated user does not have the necessary permissions to access this resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimitError:
+      description: Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     InternalServerErrorResponse:
       description: An internal server error occurred.
       content:
@@ -338,19 +392,38 @@ components:
               summary: Internal server error
               value:
                 status: 500
-                err: "Internal server error"
-
-  examples:
-    GetProjectFilesSuccessExample:
-      summary: Successful project files response
-      value:
-        name: "Mobile App Design"
-        files:
-        - key: "abc123XYZ789"
-          name: "Design System Components"
-          thumbnail_url: "https://s3-alpha.figma.com/thumbnails/abc123-xyz789"
-          last_modified: "2024-06-20T10:30:00Z"
-        - key: "def456UVW012"
-          name: "App Screens"
-          thumbnail_url: "https://s3-alpha.figma.com/thumbnails/def456-uvw012"
-          last_modified: "2024-06-19T15:45:00Z"
+                err: Internal server error
+  parameters:
+    ProjectIdPath:
+      name: project_id
+      in: path
+      description: ID of the project to list files from
+      required: true
+      schema:
+        type: string
+      example: '12345678'
+    TeamIdPathParam:
+      name: team_id
+      in: path
+      description: The ID of the team.
+      required: true
+      schema:
+        type: string
+      example: '12345'
+    BranchDataQuery:
+      name: branch_data
+      in: query
+      description: Returns branch metadata in the response for each main file with a branch inside the project.
+      schema:
+        type: boolean
+        default: false
+      example: false
+  securitySchemes:
+    OrgOAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          scopes:
+            org:activity_log_read: Read organization activity logs

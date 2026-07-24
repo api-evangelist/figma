@@ -1,0 +1,160 @@
+openapi: 3.1.0
+info:
+  title: Figma Activity Logs Users API
+  version: 0.21.0
+  description: 'Figma allows designers to create and prototype their digital experiences -
+
+    together in real-time and in one place - helping them turn their ideas and
+
+    visions into products, faster. Figma''s mission is to make design
+
+    accessible to everyone. The Figma API is one of the ways we aim to do that.'
+  termsOfService: https://www.figma.com/developer-terms/
+  contact:
+    email: support@figma.com
+servers:
+- url: https://api.figma.com
+  description: Figma Production API Server
+tags:
+- name: Users
+  description: Operations related to user information and authentication
+paths:
+  /v1/me:
+    get:
+      tags:
+      - Users
+      summary: Figma Get Current User
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - files:read
+      description: Returns the user information for the currently authenticated user.
+      operationId: getMe
+      x-microcks-operation:
+        dispatcher: FALLBACK
+        dispatcherRules: "{\n  \"dispatcher\": \"FALLBACK\",\n  \"fallback\": \"GetMeSuccessExample\"\n}\n"
+      responses:
+        '200':
+          $ref: '#/components/responses/GetMeResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
+components:
+  examples:
+    InternalServerErrorExample:
+      summary: Internal server error
+      value:
+        status: 500
+        err: An internal server error occurred
+    TooManyRequestsExample:
+      summary: Rate limit error
+      value:
+        status: 429
+        err: Rate limit exceeded. Please wait before making another request
+    ForbiddenExample:
+      summary: Forbidden error
+      value:
+        status: 403
+        err: You do not have permission to access this resource
+    GetMeSuccessExample:
+      summary: Successful user profile response
+      value:
+        id: '1234567890'
+        handle: John Doe
+        imgUrl: https://s3-alpha.figma.com/profile/1234567890
+        email: john.doe@example.com
+  schemas:
+    ErrorResponsePayload:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        status:
+          type: number
+          description: Status code
+          example: 42.5
+        err:
+          type: string
+          description: A string describing the error
+          example: example_value
+      required:
+      - status
+      - err
+    User:
+      type: object
+      description: A description of a user.
+      properties:
+        id:
+          type: string
+          description: Unique stable id of the user.
+          example: abc123
+        handle:
+          type: string
+          description: Name of the user.
+          example: example_value
+        imgUrl:
+          type: string
+          description: URL link to the user's profile image.
+          example: https://www.example.com
+      required:
+      - id
+      - handle
+      - imgUrl
+    GetMeResponseBody:
+      allOf:
+      - $ref: '#/components/schemas/User'
+      - type: object
+        properties:
+          email:
+            type: string
+            description: Email associated with the user's account. This property is only present on the /v1/me endpoint.
+        required:
+        - email
+  responses:
+    InternalServerErrorResponse:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            InternalServerErrorExample:
+              $ref: '#/components/examples/InternalServerErrorExample'
+    TooManyRequestsErrorResponse:
+      description: API requests may be throttled or rate limited. Please wait a while before attempting the request again.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            TooManyRequestsExample:
+              $ref: '#/components/examples/TooManyRequestsExample'
+    ForbiddenErrorResponse:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            ForbiddenExample:
+              $ref: '#/components/examples/ForbiddenExample'
+    GetMeResponse:
+      description: Response from the GET /v1/me endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetMeResponseBody'
+          examples:
+            GetMeSuccessExample:
+              $ref: '#/components/examples/GetMeSuccessExample'
+  securitySchemes:
+    OrgOAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          scopes:
+            org:activity_log_read: Read organization activity logs
