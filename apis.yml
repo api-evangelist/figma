@@ -1276,6 +1276,13 @@ apis:
   - type: Documentation
     url: https://developers.figma.com/docs/rest-api/library-analytics-endpoints/
 common:
+- type: IssueTracker
+  url: https://github.com/figma/rest-api-spec/issues
+- type: ContributionGuide
+  url: https://github.com/figma/rest-api-spec/blob/main/CONTRIBUTING.md
+- type: License
+  name: MIT
+  url: https://github.com/figma/rest-api-spec/blob/main/LICENSE
 - type: AgenticAccess
   url: agentic-access/figma-agentic-access.yml
 - type: VulnerabilityDisclosure
