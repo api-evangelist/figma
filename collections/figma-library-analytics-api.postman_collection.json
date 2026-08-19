@@ -1,26 +1,29 @@
 {
   "item": [
     {
-      "id": "d3178b22-3e91-4f7f-b3cb-18dff6dbbda3",
-      "name": "Activity Logs",
+      "id": "1fa4a71e-97fd-4fcc-aa71-c95fe98e8220",
+      "name": "Library Analytics",
       "description": {
-        "content": "Operations related to retrieving activity logs for an organization",
+        "content": "Operations for retrieving library usage and action analytics data",
         "type": "text/plain"
       },
       "item": [
         {
-          "id": "c6a86376-f15b-45be-863d-5f021b711320",
-          "name": "Figma Get Activity Logs",
+          "id": "a00a694f-d413-48d2-ba7a-e6905383b48d",
+          "name": "Figma Get Library Analytics Usage Data",
           "request": {
-            "name": "Figma Get Activity Logs",
+            "name": "Figma Get Library Analytics Usage Data",
             "description": {
-              "content": "Returns a list of activity log events",
+              "content": "Returns a list of library analytics usage data broken down by the requested dimension.",
               "type": "text/plain"
             },
             "url": {
               "path": [
                 "v1",
-                "activity_logs"
+                "analytics",
+                "libraries",
+                ":file_key",
+                "usages"
               ],
               "host": [
                 "{{baseUrl}}"
@@ -28,36 +31,32 @@
               "query": [
                 {
                   "disabled": false,
-                  "key": "events",
+                  "key": "cursor",
                   "value": "<string>",
-                  "description": "Event type(s) to include in the response. Can have multiple values separated by comma. All events are returned by default."
+                  "description": "Cursor indicating what page of data to fetch. Obtained from prior API call."
                 },
                 {
                   "disabled": false,
-                  "key": "start_time",
-                  "value": "<number>",
-                  "description": "Unix timestamp of the least recent event to include. This param defaults to one year ago if unspecified. Events prior to one year ago are not available."
-                },
-                {
-                  "disabled": false,
-                  "key": "end_time",
-                  "value": "<number>",
-                  "description": "Unix timestamp of the most recent event to include. This param defaults to the current timestamp if unspecified."
-                },
-                {
-                  "disabled": false,
-                  "key": "limit",
-                  "value": "<number>",
-                  "description": "Maximum number of events to return. This param defaults to 1000 if unspecified."
+                  "key": "group_by",
+                  "value": "<string>",
+                  "description": "(Required) A dimension to group returned analytics data by. Accepts \"component\" or \"file\"."
                 },
                 {
                   "disabled": false,
                   "key": "order",
-                  "value": "asc",
-                  "description": "Event order by timestamp. This param can be either \"asc\" (default) or \"desc\"."
+                  "value": "desc",
+                  "description": "How to order response rows by number of instances. This param can be either \"asc\" or \"desc\" (default)."
                 }
               ],
-              "variable": []
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "file_key",
+                  "description": "(Required) File key of the library to fetch analytics data for."
+                }
+              ]
             },
             "header": [
               {
@@ -65,75 +64,49 @@
                 "value": "application/json"
               }
             ],
-            "method": "GET",
-            "auth": {
-              "type": "oauth2",
-              "oauth2": [
-                {
-                  "key": "scope",
-                  "value": "org:activity_log_read"
-                },
-                {
-                  "key": "accessTokenUrl",
-                  "value": "https://api.figma.com/v1/oauth/token"
-                },
-                {
-                  "key": "authUrl",
-                  "value": "https://www.figma.com/oauth"
-                },
-                {
-                  "key": "grant_type",
-                  "value": "authorization_code"
-                }
-              ]
-            }
+            "method": "GET"
           },
           "response": [
             {
-              "id": "808b0536-440b-46f7-b947-52400738449e",
-              "name": "Response from the GET /v1/activity_logs endpoint.",
+              "id": "53a76201-cbe4-4189-89b1-bad1966489cd",
+              "name": "Response from the GET /v1/analytics/libraries/{file_key}/usages endpoint.",
               "originalRequest": {
                 "url": {
                   "path": [
                     "v1",
-                    "activity_logs"
+                    "analytics",
+                    "libraries",
+                    ":file_key",
+                    "usages"
                   ],
                   "host": [
                     "{{baseUrl}}"
                   ],
                   "query": [
                     {
-                      "key": "events",
-                      "value": "file.created,file.deleted"
+                      "key": "cursor",
+                      "value": "eyJwYWdlIjoxfQ=="
                     },
                     {
-                      "key": "start_time",
-                      "value": "1704067200"
-                    },
-                    {
-                      "key": "end_time",
-                      "value": "1706745600"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "100"
+                      "key": "group_by",
+                      "value": "component"
                     },
                     {
                       "key": "order",
                       "value": "desc"
                     }
                   ],
-                  "variable": []
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File key of the library to fetch analytics data for."
+                    }
+                  ]
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: oauth2",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -150,55 +123,50 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"status\": 200,\n  \"error\": false,\n  \"meta\": {\n    \"activityLogs\": [\n      {\n        \"id\": \"evt_123456789\",\n        \"timestamp\": 1706745600,\n        \"actor\": {\n          \"type\": \"user\",\n          \"id\": \"usr_abc123\",\n          \"name\": \"John Doe\",\n          \"email\": \"john.doe@example.com\"\n        },\n        \"action\": {\n          \"type\": \"file.created\",\n          \"details\": {\n            \"fileName\": \"My Design File\"\n          }\n        },\n        \"entity\": {\n          \"type\": \"file\",\n          \"id\": \"file_xyz789\",\n          \"name\": \"My Design File\"\n        },\n        \"context\": {\n          \"clientName\": null,\n          \"ipAddress\": \"192.168.1.100\",\n          \"isFigmaSupportTeamAction\": false,\n          \"orgId\": \"org_123\",\n          \"teamId\": \"team_456\"\n        }\n      }\n    ],\n    \"cursor\": \"eyJsYXN0X2V2ZW50X2lkIjoiZXZ0XzEyMzQ1Njc4OSJ9\",\n    \"nextPage\": true\n  }\n}",
+              "body": "{\n  \"components\": [\n    {\n      \"componentKey\": \"comp_abc123\",\n      \"componentName\": \"Primary Button\",\n      \"componentSetKey\": \"compset_xyz789\",\n      \"componentSetName\": \"Buttons\",\n      \"numInstances\": 1542,\n      \"numTeamsUsing\": 8,\n      \"numFilesUsing\": 45\n    },\n    {\n      \"componentKey\": \"comp_def456\",\n      \"componentName\": \"Secondary Button\",\n      \"componentSetKey\": \"compset_xyz789\",\n      \"componentSetName\": \"Buttons\",\n      \"numInstances\": 876,\n      \"numTeamsUsing\": 6,\n      \"numFilesUsing\": 32\n    }\n  ],\n  \"files\": [\n    {\n      \"fileName\": \"Marketing Landing Page\",\n      \"teamName\": \"Marketing Design\",\n      \"workspaceName\": \"Company Workspace\",\n      \"numInstances\": 89\n    },\n    {\n      \"fileName\": \"Product Dashboard\",\n      \"teamName\": \"Product Design\",\n      \"workspaceName\": \"Company Workspace\",\n      \"numInstances\": 156\n    }\n  ],\n  \"nextPage\": true,\n  \"cursor\": \"eyJwYWdlIjoyfQ==\"\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "6ead341f-786d-408f-aa24-d756f2f57b76",
+              "id": "cbfa97de-3991-4c3e-ac3b-9bbbfb745947",
               "name": "Bad request. Parameters are invalid or malformed. Please check the input formats.",
               "originalRequest": {
                 "url": {
                   "path": [
                     "v1",
-                    "activity_logs"
+                    "analytics",
+                    "libraries",
+                    ":file_key",
+                    "usages"
                   ],
                   "host": [
                     "{{baseUrl}}"
                   ],
                   "query": [
                     {
-                      "key": "events",
-                      "value": "file.created,file.deleted"
+                      "key": "cursor",
+                      "value": "eyJwYWdlIjoxfQ=="
                     },
                     {
-                      "key": "start_time",
-                      "value": "1704067200"
-                    },
-                    {
-                      "key": "end_time",
-                      "value": "1706745600"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "100"
+                      "key": "group_by",
+                      "value": "component"
                     },
                     {
                       "key": "order",
                       "value": "desc"
                     }
                   ],
-                  "variable": []
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File key of the library to fetch analytics data for."
+                    }
+                  ]
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: oauth2",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -215,55 +183,50 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"error\": true,\n  \"status\": 400,\n  \"message\": \"Invalid parameter: start_time must be a valid Unix timestamp\"\n}",
+              "body": "{\n  \"error\": true,\n  \"status\": 400,\n  \"message\": \"Invalid parameter: group_by must be 'component' or 'file'\"\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "719ce7b9-4235-4c4c-a810-aa8b87df9c23",
+              "id": "a04546e3-23b7-4571-8952-daac4d76132d",
               "name": "Token is missing or incorrect.",
               "originalRequest": {
                 "url": {
                   "path": [
                     "v1",
-                    "activity_logs"
+                    "analytics",
+                    "libraries",
+                    ":file_key",
+                    "usages"
                   ],
                   "host": [
                     "{{baseUrl}}"
                   ],
                   "query": [
                     {
-                      "key": "events",
-                      "value": "file.created,file.deleted"
+                      "key": "cursor",
+                      "value": "eyJwYWdlIjoxfQ=="
                     },
                     {
-                      "key": "start_time",
-                      "value": "1704067200"
-                    },
-                    {
-                      "key": "end_time",
-                      "value": "1706745600"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "100"
+                      "key": "group_by",
+                      "value": "component"
                     },
                     {
                       "key": "order",
                       "value": "desc"
                     }
                   ],
-                  "variable": []
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File key of the library to fetch analytics data for."
+                    }
+                  ]
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: oauth2",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -285,50 +248,45 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "61db69c8-fdb6-4914-a394-45a9cbce289a",
+              "id": "eebf4d82-fbf1-40e2-839e-cb051097440e",
               "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.",
               "originalRequest": {
                 "url": {
                   "path": [
                     "v1",
-                    "activity_logs"
+                    "analytics",
+                    "libraries",
+                    ":file_key",
+                    "usages"
                   ],
                   "host": [
                     "{{baseUrl}}"
                   ],
                   "query": [
                     {
-                      "key": "events",
-                      "value": "file.created,file.deleted"
+                      "key": "cursor",
+                      "value": "eyJwYWdlIjoxfQ=="
                     },
                     {
-                      "key": "start_time",
-                      "value": "1704067200"
-                    },
-                    {
-                      "key": "end_time",
-                      "value": "1706745600"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "100"
+                      "key": "group_by",
+                      "value": "component"
                     },
                     {
                       "key": "order",
                       "value": "desc"
                     }
                   ],
-                  "variable": []
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File key of the library to fetch analytics data for."
+                    }
+                  ]
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: oauth2",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -345,55 +303,50 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"error\": true,\n  \"status\": 403,\n  \"message\": \"You do not have permission to access this resource\"\n}",
+              "body": "{\n  \"error\": true,\n  \"status\": 403,\n  \"message\": \"You do not have permission to access analytics for this library\"\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "f24cc4b3-d44a-43ee-8805-cd8bd234bdfd",
+              "id": "6415443e-a3ba-4444-89f0-0832c999b982",
               "name": "API requests may be throttled or rate limited. Please wait a while before attempting the request again.",
               "originalRequest": {
                 "url": {
                   "path": [
                     "v1",
-                    "activity_logs"
+                    "analytics",
+                    "libraries",
+                    ":file_key",
+                    "usages"
                   ],
                   "host": [
                     "{{baseUrl}}"
                   ],
                   "query": [
                     {
-                      "key": "events",
-                      "value": "file.created,file.deleted"
+                      "key": "cursor",
+                      "value": "eyJwYWdlIjoxfQ=="
                     },
                     {
-                      "key": "start_time",
-                      "value": "1704067200"
-                    },
-                    {
-                      "key": "end_time",
-                      "value": "1706745600"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "100"
+                      "key": "group_by",
+                      "value": "component"
                     },
                     {
                       "key": "order",
                       "value": "desc"
                     }
                   ],
-                  "variable": []
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File key of the library to fetch analytics data for."
+                    }
+                  ]
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: oauth2",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -415,50 +368,45 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "916ef2da-4d4b-4102-afd5-663c6cfc9e4f",
+              "id": "3f0c87c0-502e-4d82-b3e7-c2a78cc26a05",
               "name": "An internal server error occurred.",
               "originalRequest": {
                 "url": {
                   "path": [
                     "v1",
-                    "activity_logs"
+                    "analytics",
+                    "libraries",
+                    ":file_key",
+                    "usages"
                   ],
                   "host": [
                     "{{baseUrl}}"
                   ],
                   "query": [
                     {
-                      "key": "events",
-                      "value": "file.created,file.deleted"
+                      "key": "cursor",
+                      "value": "eyJwYWdlIjoxfQ=="
                     },
                     {
-                      "key": "start_time",
-                      "value": "1704067200"
-                    },
-                    {
-                      "key": "end_time",
-                      "value": "1706745600"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "100"
+                      "key": "group_by",
+                      "value": "component"
                     },
                     {
                       "key": "order",
                       "value": "desc"
                     }
                   ],
-                  "variable": []
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File key of the library to fetch analytics data for."
+                    }
+                  ]
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: oauth2",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -498,8 +446,8 @@
     }
   ],
   "info": {
-    "_postman_id": "2ff064e3-b621-48ec-b459-4ab4e00353f4",
-    "name": "Figma Activity Logs API",
+    "_postman_id": "9ccc5013-e0d6-4e20-b102-548c258b1915",
+    "name": "Figma Activity Logs Library Analytics API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
       "content": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do that.\n\nContact Support:\n Email: support@figma.com",

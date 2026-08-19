@@ -1,7 +1,7 @@
 {
   "opencollection": "1.0.0",
   "info": {
-    "name": "Figma Teams API",
+    "name": "Figma Activity Logs Teams API",
     "version": "0.21.0"
   },
   "items": [
@@ -26,11 +26,7 @@
                 "type": "path",
                 "description": "ID of team to get webhooks for"
               }
-            ],
-            "auth": {
-              "type": "bearer",
-              "token": "{{bearerToken}}"
-            }
+            ]
           },
           "docs": "Returns all webhooks registered under the specified team."
         }

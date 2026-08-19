@@ -1,7 +1,7 @@
 {
   "opencollection": "1.0.0",
   "info": {
-    "name": "Figma Component Sets API",
+    "name": "Figma Activity Logs Component Sets API",
     "version": "0.21.0"
   },
   "items": [
@@ -26,11 +26,7 @@
                 "type": "path",
                 "description": "The unique identifier of the component set."
               }
-            ],
-            "auth": {
-              "type": "bearer",
-              "token": "{{bearerToken}}"
-            }
+            ]
           },
           "docs": "Get metadata on a component set by key."
         }

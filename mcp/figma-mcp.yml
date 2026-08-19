@@ -13,11 +13,12 @@ server:
     authorization_endpoint: https://www.figma.com/oauth/mcp
     token_endpoint: https://api.figma.com/v1/oauth/token
     registration_endpoint: https://api.figma.com/v1/oauth/mcp/register
-    scopes_supported: [mcp:connect]
+    scopes_supported:
+    - mcp:connect
     pkce: S256
-  description: Figma's official remote (Dev Mode) MCP server. Provides live Figma design
-    context to AI coding agents. Works on all seats and plans; only clients in the
-    Figma MCP catalog (VS Code, Cursor, Claude Code, etc.) may connect.
+  description: Figma's official remote (Dev Mode) MCP server. Provides live Figma design context to AI
+    coding agents. Works on all seats and plans; only clients in the Figma MCP catalog (VS Code, Cursor,
+    Claude Code, etc.) may connect.
   install:
     claude_code: claude mcp add --transport http figma https://mcp.figma.com/mcp
   local_alternative:
@@ -76,3 +77,10 @@ tools:
   description: General-purpose tool for creating and editing Figma objects.
 - name: whoami
   description: Returns authenticated user identity.
+deployment:
+  mode: remote
+  endpoint: https://mcp.figma.com/mcp
+  verified: probed
+  probe: gated
+  checked: '2026-08-12'
+  source: catalog MCP census

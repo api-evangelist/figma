@@ -1,13 +1,13 @@
 {
   "opencollection": "1.0.0",
   "info": {
-    "name": "Figma Images API",
+    "name": "Figma Activity Logs Images API",
     "version": "0.21.0"
   },
   "items": [
     {
       "info": {
-        "name": "Files",
+        "name": "Images",
         "type": "folder"
       },
       "items": [
@@ -86,11 +86,7 @@
                 "type": "query",
                 "description": "Use the full dimensions of the node regardless of whether or not it is cropped or the space around it is empty. Use this to export text nodes without cropping."
               }
-            ],
-            "auth": {
-              "type": "bearer",
-              "token": "{{bearerToken}}"
-            }
+            ]
           },
           "docs": "Renders images from a file.\nIf no error occurs, `\"images\"` will be populated with a map from node IDs to URLs of the rendered images, and `\"status\"` will be omitted. The image assets will expire after 30 days. Images up to 32 megapixels can be exported. Any images that are larger will be scaled down.\nImportant: the image map may contain values that are `null`. This indicates that rendering of that specific node has failed. This may be due to the node id not existing, or other reasons such has th"
         }

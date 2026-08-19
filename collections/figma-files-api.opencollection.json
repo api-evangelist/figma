@@ -1,13 +1,13 @@
 {
   "opencollection": "1.0.0",
   "info": {
-    "name": "Figma Files API",
+    "name": "Figma Activity Logs Files API",
     "version": "0.21.0"
   },
   "items": [
     {
       "info": {
-        "name": "Dev Resources",
+        "name": "Files",
         "type": "folder"
       },
       "items": [
@@ -32,13 +32,273 @@
                 "type": "path",
                 "description": "The id of the dev resource to delete."
               }
-            ],
-            "auth": {
-              "type": "bearer",
-              "token": "{{bearerToken}}"
-            }
+            ]
           },
           "docs": "Delete a dev resource from a file"
+        },
+        {
+          "info": {
+            "name": "Figma Render Images of File Nodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/images/:file_key",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123XYZ789",
+                "type": "path",
+                "description": "File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+              },
+              {
+                "name": "ids",
+                "value": "1:2,1:3,1:4",
+                "type": "query",
+                "description": "A comma separated list of node IDs to render."
+              },
+              {
+                "name": "version",
+                "value": "1234567890",
+                "type": "query",
+                "description": "A specific version ID to get. Omitting this will get the current version of the file."
+              },
+              {
+                "name": "scale",
+                "value": "2",
+                "type": "query",
+                "description": "A number between 0.01 and 4, the image scaling factor."
+              },
+              {
+                "name": "format",
+                "value": "png",
+                "type": "query",
+                "description": "A string enum for the image output format."
+              },
+              {
+                "name": "svg_outline_text",
+                "value": "true",
+                "type": "query",
+                "description": "Whether text elements are rendered as outlines (vector paths) or as `<text>` elements in SVGs."
+              },
+              {
+                "name": "svg_include_id",
+                "value": "false",
+                "type": "query",
+                "description": "Whether to include id attributes for all SVG elements. Adds the layer name to the `id` attribute of an svg element."
+              },
+              {
+                "name": "svg_include_node_id",
+                "value": "false",
+                "type": "query",
+                "description": "Whether to include node id attributes for all SVG elements. Adds the node id to a `data-node-id` attribute of an svg element."
+              },
+              {
+                "name": "svg_simplify_stroke",
+                "value": "true",
+                "type": "query",
+                "description": "Whether to simplify inside/outside strokes and use stroke attribute if possible instead of `<mask>`."
+              },
+              {
+                "name": "contents_only",
+                "value": "true",
+                "type": "query",
+                "description": "Whether content that overlaps the node should be excluded from rendering. Passing false (i.e., rendering overlaps) may increase processing time, since more of the document must be included in rendering."
+              },
+              {
+                "name": "use_absolute_bounds",
+                "value": "false",
+                "type": "query",
+                "description": "Use the full dimensions of the node regardless of whether or not it is cropped or the space around it is empty. Use this to export text nodes without cropping."
+              }
+            ]
+          },
+          "docs": "Renders images from a file.\nIf no error occurs, `\"images\"` will be populated with a map from node IDs to URLs of the rendered images, and `\"status\"` will be omitted. The image assets will expire after 30 days. Images up to 32 megapixels can be exported. Any images that are larger will be scaled down.\nImportant: the image map may contain values that are `null`. This indicates that rendering of that specific node has failed. This may be due to the node id not existing, or other reasons such has th"
+        },
+        {
+          "info": {
+            "name": "Figma Get Files in a Project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/projects/:project_id/files",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "12345678",
+                "type": "path",
+                "description": "ID of the project to list files from"
+              },
+              {
+                "name": "branch_data",
+                "value": "false",
+                "type": "query",
+                "description": "Returns branch metadata in the response for each main file with a branch inside the project."
+              }
+            ]
+          },
+          "docs": "Get a list of all the Files within the specified project."
+        },
+        {
+          "info": {
+            "name": "Figma Get File",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/files/:file_key",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              },
+              {
+                "name": "version",
+                "value": "example_value",
+                "type": "query",
+                "description": "A specific version ID to get. Omitting this will get the current version."
+              },
+              {
+                "name": "ids",
+                "value": "example_value",
+                "type": "query",
+                "description": "Comma-separated list of nodes that you want to receive. If not set, all nodes are returned."
+              },
+              {
+                "name": "depth",
+                "value": "10",
+                "type": "query",
+                "description": "Positive integer representing how deep into the document tree to traverse. For example, setting depth=1 returns only pages."
+              },
+              {
+                "name": "geometry",
+                "value": "paths",
+                "type": "query",
+                "description": "Set to \"paths\" to export vector data."
+              },
+              {
+                "name": "plugin_data",
+                "value": "example_value",
+                "type": "query",
+                "description": "Comma-separated list of plugin IDs or the string \"shared\" for data present in all plugins."
+              },
+              {
+                "name": "branch_data",
+                "value": "true",
+                "type": "query",
+                "description": "Set to true to include branch metadata in the response."
+              }
+            ]
+          },
+          "docs": "Returns the document tree for a given Figma file. If the file is large, the response may be paginated. The file_key can be found in the Figma file URL after figma.com/file/."
+        },
+        {
+          "info": {
+            "name": "Figma Get File Nodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/files/:file_key/nodes",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              },
+              {
+                "name": "ids",
+                "value": "example_value",
+                "type": "query",
+                "description": "Comma-separated list of node IDs to retrieve."
+              },
+              {
+                "name": "version",
+                "value": "example_value",
+                "type": "query",
+                "description": "A specific version ID to get."
+              },
+              {
+                "name": "depth",
+                "value": "10",
+                "type": "query",
+                "description": "Positive integer for how deep into the node tree to traverse."
+              },
+              {
+                "name": "geometry",
+                "value": "paths",
+                "type": "query",
+                "description": "Set to \"paths\" to export vector data."
+              },
+              {
+                "name": "plugin_data",
+                "value": "example_value",
+                "type": "query",
+                "description": "Comma-separated list of plugin IDs or \"shared\"."
+              }
+            ]
+          },
+          "docs": "Returns the nodes referenced by ids as a JSON object. The nodes are retrieved from the document referred to by file_key. The node ID and file key for a given node can be parsed from any Figma node URL."
+        },
+        {
+          "info": {
+            "name": "Figma Get Image Fills",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/files/:file_key/image_fills",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              }
+            ]
+          },
+          "docs": "Returns a mapping of image references to URLs of the image contents. Image URLs expire after no more than 14 days."
+        },
+        {
+          "info": {
+            "name": "Figma Get File Version History",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/files/:file_key/versions",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              },
+              {
+                "name": "page_size",
+                "value": "10",
+                "type": "query",
+                "description": "Number of items to return per page. Defaults to 30."
+              },
+              {
+                "name": "before",
+                "value": "example_value",
+                "type": "query",
+                "description": "Version ID before which to start listing versions. Used for pagination."
+              },
+              {
+                "name": "after",
+                "value": "example_value",
+                "type": "query",
+                "description": "Version ID after which to start listing versions. Used for pagination."
+              }
+            ]
+          },
+          "docs": "Returns a list of the version history of a file. The version history consists of versions, auto-save entries, and named versions."
         }
       ]
     }

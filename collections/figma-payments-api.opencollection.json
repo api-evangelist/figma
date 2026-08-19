@@ -1,7 +1,7 @@
 {
   "opencollection": "1.0.0",
   "info": {
-    "name": "Figma Payments API",
+    "name": "Figma Activity Logs Payments API",
     "version": "0.21.0"
   },
   "items": [
@@ -50,11 +50,7 @@
                 "type": "query",
                 "description": "The ID of the widget to query a user's payment information on. You can get the widget ID from the widget's manifest, or from the widget's Community page (look for the number after \"widget/\" in the URL). Provide exactly one of \"community_file_id\", \"plugin_id\", or \"widget_id\"."
               }
-            ],
-            "auth": {
-              "type": "bearer",
-              "token": "{{bearerToken}}"
-            }
+            ]
           },
           "docs": "There are two methods to query for a user's payment information on a plugin, widget, or Community file. The first method, using plugin payment tokens, is typically used when making queries from a plugin's or widget's code. The second method, providing a user ID and resource ID, is typically used when making queries from anywhere else.\nNote that you can only query for resources that you own. In most cases, this means that you can only query resources that you originally created."
         }

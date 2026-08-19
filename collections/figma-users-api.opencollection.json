@@ -1,13 +1,13 @@
 {
   "opencollection": "1.0.0",
   "info": {
-    "name": "Figma Activity Logs Me API",
+    "name": "Figma Activity Logs Users API",
     "version": "0.21.0"
   },
   "items": [
     {
       "info": {
-        "name": "Me",
+        "name": "Users",
         "type": "folder"
       },
       "items": [

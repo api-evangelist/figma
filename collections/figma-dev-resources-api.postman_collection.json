@@ -1,7 +1,7 @@
 {
   "item": [
     {
-      "id": "4164fff6-2799-4b34-8699-915982872ac6",
+      "id": "d61f39a1-4541-4e84-b23b-77be24a90f9f",
       "name": "Dev Resources",
       "description": {
         "content": "Operations for managing dev resources attached to design nodes",
@@ -9,7 +9,7 @@
       },
       "item": [
         {
-          "id": "e3eeafcd-7246-4ad6-9863-3b881cce29ce",
+          "id": "0a20cb5c-5db7-4869-a5f7-4351f6a62215",
           "name": "Figma Create Dev Resources",
           "request": {
             "name": "Figma Create Dev Resources",
@@ -39,15 +39,6 @@
               }
             ],
             "method": "POST",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            },
             "body": {
               "mode": "raw",
               "raw": "{\n  \"devResources\": [\n    {\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"url\": \"<string>\",\n      \"fileKey\": \"<string>\",\n      \"nodeId\": \"<string>\"\n    }\n  ]\n}",
@@ -60,7 +51,7 @@
           },
           "response": [
             {
-              "id": "5c3d7d7e-36fd-4573-acb4-801287d576e2",
+              "id": "c38db65a-8cfb-4137-8070-5227a8a7b614",
               "name": "Response from the POST /v1/dev_resources endpoint.",
               "originalRequest": {
                 "url": {
@@ -75,14 +66,6 @@
                   "variable": []
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -104,7 +87,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "e7a4d491-35d7-4615-838c-0ef0f9c74db0",
+              "id": "383f28b4-bad7-4778-8c45-23d12cf4013d",
               "name": "Bad request. Parameters are invalid or malformed. Please check the input formats.",
               "originalRequest": {
                 "url": {
@@ -119,14 +102,6 @@
                   "variable": []
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -148,7 +123,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "97987e0e-82eb-460a-8d5c-3c59d3543016",
+              "id": "5bb7d07d-fdc0-46cc-8c4c-1dd35a5e06a2",
               "name": "Token is missing or incorrect.",
               "originalRequest": {
                 "url": {
@@ -163,14 +138,6 @@
                   "variable": []
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -192,7 +159,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "291bb319-efb5-48b1-8337-150ab73c5c27",
+              "id": "813983bc-954b-4fb3-b98f-17622ca922c5",
               "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.",
               "originalRequest": {
                 "url": {
@@ -207,14 +174,6 @@
                   "variable": []
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -236,7 +195,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "b0c64aba-5abb-4673-84e4-cf5ea224c9c2",
+              "id": "5422e887-97d5-4910-a852-fae7754cdacc",
               "name": "API requests may be throttled or rate limited. Please wait a while before attempting the request again.",
               "originalRequest": {
                 "url": {
@@ -251,14 +210,6 @@
                   "variable": []
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -280,7 +231,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "03e0e1ed-1853-4a35-97ce-130121441d22",
+              "id": "7d90a3c2-d4ea-45a2-b625-d0c077842531",
               "name": "An internal server error occurred.",
               "originalRequest": {
                 "url": {
@@ -295,14 +246,6 @@
                   "variable": []
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -330,7 +273,7 @@
           }
         },
         {
-          "id": "d9a57782-eb7e-4fd4-82a1-5dfaa481dd76",
+          "id": "1a90f850-5e9d-40df-978e-79b23c56eb8d",
           "name": "Figma Update Dev Resources",
           "request": {
             "name": "Figma Update Dev Resources",
@@ -360,15 +303,6 @@
               }
             ],
             "method": "PUT",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            },
             "body": {
               "mode": "raw",
               "raw": "{\n  \"devResources\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"url\": \"<string>\"\n    }\n  ]\n}",
@@ -381,7 +315,7 @@
           },
           "response": [
             {
-              "id": "5864808d-5f5e-44d5-b95f-24adf9bddc37",
+              "id": "2fabf01f-d79d-4424-b85e-4ff3e29d8c2a",
               "name": "Response from the PUT /v1/dev_resources endpoint.",
               "originalRequest": {
                 "url": {
@@ -396,14 +330,6 @@
                   "variable": []
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -425,7 +351,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "407bc95b-a592-4d63-b695-c26f58b606f8",
+              "id": "a7a651c2-1059-4193-b0f6-42cc5a8c7f1a",
               "name": "Bad request. Parameters are invalid or malformed. Please check the input formats.",
               "originalRequest": {
                 "url": {
@@ -440,14 +366,6 @@
                   "variable": []
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -469,7 +387,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "4847256d-b58c-4c07-8470-7b0c1c783d1e",
+              "id": "841f7ac1-eeb3-412d-ae9e-e5f788bcc0a9",
               "name": "Token is missing or incorrect.",
               "originalRequest": {
                 "url": {
@@ -484,14 +402,6 @@
                   "variable": []
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -513,7 +423,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "bde9ab59-9388-460c-9a1c-7c90439060a1",
+              "id": "f2fefef5-78f6-4d25-86f6-42ed4de7fb57",
               "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.",
               "originalRequest": {
                 "url": {
@@ -528,14 +438,6 @@
                   "variable": []
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -557,7 +459,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "85d87fa3-7eff-4304-8528-f98e1d29b691",
+              "id": "1870d074-9787-43aa-b761-53c3af8dad2d",
               "name": "API requests may be throttled or rate limited. Please wait a while before attempting the request again.",
               "originalRequest": {
                 "url": {
@@ -572,14 +474,6 @@
                   "variable": []
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -601,7 +495,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "397a0c2b-a9b8-4522-8475-10fef6b5bb6c",
+              "id": "85c2d0a0-a7db-4690-a02a-571f688bc7bc",
               "name": "An internal server error occurred.",
               "originalRequest": {
                 "url": {
@@ -617,19 +511,388 @@
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
                 ],
                 "method": "PUT",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 500,\n  \"message\": \"An internal server error occurred\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0cb4b66d-db8c-4ff8-89b8-f928a4e9fd06",
+          "name": "Figma Delete Dev Resource",
+          "request": {
+            "name": "Figma Delete Dev Resource",
+            "description": {
+              "content": "Delete a dev resource from a file",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "files",
+                ":file_key",
+                "dev_resources",
+                ":dev_resource_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "file_key",
+                  "description": "(Required) The file to delete the dev resource from. This must be a main file key, not a branch key."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dev_resource_id",
+                  "description": "(Required) The id of the dev resource to delete."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE"
+          },
+          "response": [
+            {
+              "id": "bbf61b11-474a-4a65-9f1d-404a0b634f31",
+              "name": "Response from the DELETE /v1/files/{file_key}/dev_resources/{dev_resource_id} endpoint.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key",
+                    "dev_resources",
+                    ":dev_resource_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The file to delete the dev resource from. This must be a main file key, not a branch key."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dev_resource_id",
+                      "description": "(Required) The id of the dev resource to delete."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 200,\n  \"error\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "97355255-d8b8-4bfa-b2ea-1ef069e0a62a",
+              "name": "Token is missing or incorrect.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key",
+                    "dev_resources",
+                    ":dev_resource_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The file to delete the dev resource from. This must be a main file key, not a branch key."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dev_resource_id",
+                      "description": "(Required) The id of the dev resource to delete."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 401,\n  \"message\": \"Token is missing or incorrect\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b21f53fb-449c-4ee4-8fac-6048a355eb82",
+              "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key",
+                    "dev_resources",
+                    ":dev_resource_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The file to delete the dev resource from. This must be a main file key, not a branch key."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dev_resource_id",
+                      "description": "(Required) The id of the dev resource to delete."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 403,\n  \"message\": \"You do not have permission to modify dev resources for this file\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aeb88135-0def-40f9-ba52-5147caf8a4f1",
+              "name": "The requested file or resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key",
+                    "dev_resources",
+                    ":dev_resource_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The file to delete the dev resource from. This must be a main file key, not a branch key."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dev_resource_id",
+                      "description": "(Required) The id of the dev resource to delete."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 404,\n  \"message\": \"File or dev resource not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7e469571-fbaa-461e-b334-982cf6b5aabb",
+              "name": "API requests may be throttled or rate limited. Please wait a while before attempting the request again.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key",
+                    "dev_resources",
+                    ":dev_resource_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The file to delete the dev resource from. This must be a main file key, not a branch key."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dev_resource_id",
+                      "description": "(Required) The id of the dev resource to delete."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 429,\n  \"message\": \"Rate limit exceeded. Please wait before making another request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f7ae2b8d-6685-42b6-944b-4095fca8f399",
+              "name": "An internal server error occurred.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key",
+                    "dev_resources",
+                    ":dev_resource_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The file to delete the dev resource from. This must be a main file key, not a branch key."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dev_resource_id",
+                      "description": "(Required) The id of the dev resource to delete."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
                 "body": {}
               },
               "status": "Internal Server Error",
@@ -663,8 +926,8 @@
     }
   ],
   "info": {
-    "_postman_id": "fcb47084-8404-405c-9a5b-a59673fcf729",
-    "name": "Figma Dev Resources API",
+    "_postman_id": "c532a668-ba17-4404-9d34-f396e494d372",
+    "name": "Figma Activity Logs Dev Resources API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
       "content": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do that.\n\nContact Support:\n Email: support@figma.com",

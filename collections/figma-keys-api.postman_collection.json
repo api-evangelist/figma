@@ -1,28 +1,27 @@
 {
   "item": [
     {
-      "id": "1de40c65-ee42-4e9e-8590-2672309fff21",
-      "name": "Teams",
+      "id": "9d10e03d-9d6b-4d36-bacb-102ca0d2e344",
+      "name": "Keys",
       "description": {
-        "content": "Operations for managing and retrieving team information",
+        "content": "Operations that use unique style keys for identification",
         "type": "text/plain"
       },
       "item": [
         {
-          "id": "4c58ef73-9783-4b04-9bdd-9af4d2dfbc2a",
-          "name": "Figma Get Team Webhooks",
+          "id": "e54da0ad-0ff9-4e5e-a7d2-f51625ad7972",
+          "name": "Figma Get Style",
           "request": {
-            "name": "Figma Get Team Webhooks",
+            "name": "Figma Get Style",
             "description": {
-              "content": "Returns all webhooks registered under the specified team.",
+              "content": "Get metadata on a style by key.",
               "type": "text/plain"
             },
             "url": {
               "path": [
-                "v2",
-                "teams",
-                ":team_id",
-                "webhooks"
+                "v1",
+                "styles",
+                ":key"
               ],
               "host": [
                 "{{baseUrl}}"
@@ -33,8 +32,8 @@
                   "disabled": false,
                   "type": "any",
                   "value": "<string>",
-                  "key": "team_id",
-                  "description": "(Required) ID of team to get webhooks for"
+                  "key": "key",
+                  "description": "(Required) The unique identifier of the style."
                 }
               ]
             },
@@ -48,15 +47,14 @@
           },
           "response": [
             {
-              "id": "c2fa0f16-0550-45b1-90be-6f550582c8ad",
-              "name": "Response from the GET /v2/teams/{team_id}/webhooks endpoint.",
+              "id": "3ed0cbda-8116-4ba2-bb51-a9421af15275",
+              "name": "Response from the GET /v1/styles/{key} endpoint.",
               "originalRequest": {
                 "url": {
                   "path": [
-                    "v2",
-                    "teams",
-                    ":team_id",
-                    "webhooks"
+                    "v1",
+                    "styles",
+                    ":key"
                   ],
                   "host": [
                     "{{baseUrl}}"
@@ -67,8 +65,8 @@
                       "disabled": false,
                       "type": "any",
                       "value": "<string>",
-                      "key": "team_id",
-                      "description": "(Required) ID of team to get webhooks for"
+                      "key": "key",
+                      "description": "(Required) The unique identifier of the style."
                     }
                   ]
                 },
@@ -89,20 +87,19 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"webhooks\": [\n    {\n      \"id\": \"webhook_abc123xyz789\",\n      \"event_type\": \"FILE_UPDATE\",\n      \"team_id\": \"team_12345678\",\n      \"status\": \"ACTIVE\",\n      \"client_id\": \"oauth_client_xyz\",\n      \"passcode\": \"secret_passcode_123\",\n      \"endpoint\": \"https://api.myapp.com/figma/webhooks\",\n      \"description\": \"Webhook for design file updates\"\n    },\n    {\n      \"id\": \"webhook_def456uvw012\",\n      \"event_type\": \"FILE_COMMENT\",\n      \"team_id\": \"team_12345678\",\n      \"status\": \"PAUSED\",\n      \"client_id\": null,\n      \"passcode\": \"another_passcode_456\",\n      \"endpoint\": \"https://api.myapp.com/figma/comments\",\n      \"description\": null\n    }\n  ]\n}",
+              "body": "{\n  \"status\": 200,\n  \"error\": false,\n  \"meta\": {\n    \"key\": \"style_abc123xyz789\",\n    \"file_key\": \"file_def456uvw012\",\n    \"node_id\": \"1:2\",\n    \"style_type\": \"FILL\",\n    \"thumbnail_url\": \"https://s3-alpha.figma.com/thumbnails/style-abc123\",\n    \"name\": \"Primary Brand Color\",\n    \"description\": \"Main brand color used for primary actions and highlights\",\n    \"created_at\": \"2024-01-15T09:00:00Z\",\n    \"updated_at\": \"2024-06-20T14:30:00Z\",\n    \"user\": {\n      \"id\": \"1234567890\",\n      \"handle\": \"John Designer\",\n      \"img_url\": \"https://s3-alpha.figma.com/profile/abc123-xyz789\"\n    },\n    \"sort_position\": \"a0\"\n  }\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "bde20ee2-8f77-4105-b423-656111cef7f6",
-              "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.",
+              "id": "9749fa3f-7751-48ba-aa8c-6215261017a1",
+              "name": "Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.",
               "originalRequest": {
                 "url": {
                   "path": [
-                    "v2",
-                    "teams",
-                    ":team_id",
-                    "webhooks"
+                    "v1",
+                    "styles",
+                    ":key"
                   ],
                   "host": [
                     "{{baseUrl}}"
@@ -113,8 +110,53 @@
                       "disabled": false,
                       "type": "any",
                       "value": "<string>",
-                      "key": "team_id",
-                      "description": "(Required) ID of team to get webhooks for"
+                      "key": "key",
+                      "description": "(Required) The unique identifier of the style."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"err\": \"Invalid style key format\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "26d6ef98-857c-4e51-bb5c-f7bcb6fbf4c0",
+              "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "styles",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) The unique identifier of the style."
                     }
                   ]
                 },
@@ -135,20 +177,19 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"status\": 403,\n  \"err\": \"Access denied. You do not have permission to access this team's webhooks.\"\n}",
+              "body": "{\n  \"status\": 403,\n  \"err\": \"Access denied. You do not have permission to access this style.\"\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "0f8f0a3b-a74d-4be8-80ee-539c722e6b27",
+              "id": "b799dcb8-96d6-45fd-b707-b0175c323e3d",
               "name": "The requested file or resource was not found.",
               "originalRequest": {
                 "url": {
                   "path": [
-                    "v2",
-                    "teams",
-                    ":team_id",
-                    "webhooks"
+                    "v1",
+                    "styles",
+                    ":key"
                   ],
                   "host": [
                     "{{baseUrl}}"
@@ -159,8 +200,8 @@
                       "disabled": false,
                       "type": "any",
                       "value": "<string>",
-                      "key": "team_id",
-                      "description": "(Required) ID of team to get webhooks for"
+                      "key": "key",
+                      "description": "(Required) The unique identifier of the style."
                     }
                   ]
                 },
@@ -181,20 +222,19 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"status\": 404,\n  \"err\": \"Team not found\"\n}",
+              "body": "{\n  \"error\": true,\n  \"status\": 404,\n  \"message\": \"Style not found\"\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "dc0c2347-e2b7-4003-b26b-bcc374f80a58",
+              "id": "ae6aafff-74ad-42cf-92b8-2bdbd20a8836",
               "name": "In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).",
               "originalRequest": {
                 "url": {
                   "path": [
-                    "v2",
-                    "teams",
-                    ":team_id",
-                    "webhooks"
+                    "v1",
+                    "styles",
+                    ":key"
                   ],
                   "host": [
                     "{{baseUrl}}"
@@ -205,8 +245,8 @@
                       "disabled": false,
                       "type": "any",
                       "value": "<string>",
-                      "key": "team_id",
-                      "description": "(Required) ID of team to get webhooks for"
+                      "key": "key",
+                      "description": "(Required) The unique identifier of the style."
                     }
                   ]
                 },
@@ -232,15 +272,14 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "dbef53bd-2879-4eea-b6bd-d55c754967ec",
+              "id": "bef54f93-5cd2-4469-af9a-6c6f9ec054ec",
               "name": "An internal server error occurred.",
               "originalRequest": {
                 "url": {
                   "path": [
-                    "v2",
-                    "teams",
-                    ":team_id",
-                    "webhooks"
+                    "v1",
+                    "styles",
+                    ":key"
                   ],
                   "host": [
                     "{{baseUrl}}"
@@ -251,8 +290,8 @@
                       "disabled": false,
                       "type": "any",
                       "value": "<string>",
-                      "key": "team_id",
-                      "description": "(Required) ID of team to get webhooks for"
+                      "key": "key",
+                      "description": "(Required) The unique identifier of the style."
                     }
                   ]
                 },
@@ -296,8 +335,8 @@
     }
   ],
   "info": {
-    "_postman_id": "c4bac936-6f91-4bc2-9db6-047aa51ec693",
-    "name": "Figma Activity Logs Teams API",
+    "_postman_id": "53c6851e-bc10-41c1-8feb-4351d282ce48",
+    "name": "Figma Activity Logs Keys API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
       "content": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do that.\n\nContact Support:\n Email: support@figma.com",

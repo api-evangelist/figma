@@ -1,15 +1,15 @@
 {
   "item": [
     {
-      "id": "1de40c65-ee42-4e9e-8590-2672309fff21",
-      "name": "Teams",
+      "id": "bb9f37f0-ccf1-4df9-b4f3-14fa3c150a64",
+      "name": "Webhooks",
       "description": {
-        "content": "Operations for managing and retrieving team information",
+        "content": "Operations for managing webhook subscriptions and notifications",
         "type": "text/plain"
       },
       "item": [
         {
-          "id": "4c58ef73-9783-4b04-9bdd-9af4d2dfbc2a",
+          "id": "68efe9db-59e2-468b-99ff-0e919b3eabe0",
           "name": "Figma Get Team Webhooks",
           "request": {
             "name": "Figma Get Team Webhooks",
@@ -48,7 +48,7 @@
           },
           "response": [
             {
-              "id": "c2fa0f16-0550-45b1-90be-6f550582c8ad",
+              "id": "14f6ad64-2996-4a5f-ae8f-027a3d05ca67",
               "name": "Response from the GET /v2/teams/{team_id}/webhooks endpoint.",
               "originalRequest": {
                 "url": {
@@ -94,7 +94,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "bde20ee2-8f77-4105-b423-656111cef7f6",
+              "id": "ddf8e7b9-00ef-4d6b-84b6-30756920cb35",
               "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.",
               "originalRequest": {
                 "url": {
@@ -140,7 +140,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "0f8f0a3b-a74d-4be8-80ee-539c722e6b27",
+              "id": "2b064718-05ce-4e10-b8e9-aac8e37b2e38",
               "name": "The requested file or resource was not found.",
               "originalRequest": {
                 "url": {
@@ -186,7 +186,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "dc0c2347-e2b7-4003-b26b-bcc374f80a58",
+              "id": "160de9f9-42e2-4975-aaa1-3410d9f35806",
               "name": "In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).",
               "originalRequest": {
                 "url": {
@@ -232,7 +232,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "dbef53bd-2879-4eea-b6bd-d55c754967ec",
+              "id": "df273496-54be-41df-9769-76730d718ed7",
               "name": "An internal server error occurred.",
               "originalRequest": {
                 "url": {
@@ -296,8 +296,8 @@
     }
   ],
   "info": {
-    "_postman_id": "c4bac936-6f91-4bc2-9db6-047aa51ec693",
-    "name": "Figma Activity Logs Teams API",
+    "_postman_id": "b5e66946-6576-4f52-adc9-11d22f916e91",
+    "name": "Figma Activity Logs Webhooks API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
       "content": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do that.\n\nContact Support:\n Email: support@figma.com",

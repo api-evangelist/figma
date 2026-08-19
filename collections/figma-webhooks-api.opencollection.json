@@ -1,34 +1,34 @@
 {
   "opencollection": "1.0.0",
   "info": {
-    "name": "Figma Activity Logs Styles API",
+    "name": "Figma Activity Logs Webhooks API",
     "version": "0.21.0"
   },
   "items": [
     {
       "info": {
-        "name": "Styles",
+        "name": "Webhooks",
         "type": "folder"
       },
       "items": [
         {
           "info": {
-            "name": "Figma Get Style",
+            "name": "Figma Get Team Webhooks",
             "type": "http"
           },
           "http": {
             "method": "GET",
-            "url": "https://api.figma.com/v1/styles/:key",
+            "url": "https://api.figma.com/v2/teams/:team_id/webhooks",
             "params": [
               {
-                "name": "key",
-                "value": "style_abc123xyz789",
+                "name": "team_id",
+                "value": "team_12345678",
                 "type": "path",
-                "description": "The unique identifier of the style."
+                "description": "ID of team to get webhooks for"
               }
             ]
           },
-          "docs": "Get metadata on a style by key."
+          "docs": "Returns all webhooks registered under the specified team."
         }
       ]
     }

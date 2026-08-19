@@ -1,7 +1,7 @@
 {
   "item": [
     {
-      "id": "9c4bcb82-1f3f-43ca-b0d1-1329d6bf0896",
+      "id": "c83326b7-e8ba-4a79-8b78-f39cbed9daf5",
       "name": "Payments",
       "description": {
         "content": "Operations for querying user payment information on plugins, widgets, and Community files",
@@ -9,7 +9,7 @@
       },
       "item": [
         {
-          "id": "1335586c-8d0f-43d0-b6f1-b00f506d773a",
+          "id": "8767028f-8c9e-466f-9c2c-29693b715db0",
           "name": "Figma Get Payments",
           "request": {
             "name": "Figma Get Payments",
@@ -65,20 +65,11 @@
                 "value": "application/json"
               }
             ],
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
+            "method": "GET"
           },
           "response": [
             {
-              "id": "7609ff0e-c294-4a56-b79e-410ab2a164b1",
+              "id": "79f881bc-b73d-4ea1-b4b4-e193e21cbdbe",
               "name": "Response from the GET /v1/payments endpoint.",
               "originalRequest": {
                 "url": {
@@ -115,14 +106,6 @@
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
@@ -143,7 +126,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "e2534ec3-ed80-4a42-b705-ad440a9df780",
+              "id": "7eedc613-536a-43c8-9819-204de3f5be9b",
               "name": "Token is missing or incorrect.",
               "originalRequest": {
                 "url": {
@@ -180,14 +163,6 @@
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
@@ -208,7 +183,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "a614864d-dd4f-4be2-b30c-8c5becc7d540",
+              "id": "5b02e751-efe5-4346-8aaf-ff66b11e384c",
               "name": "In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).",
               "originalRequest": {
                 "url": {
@@ -245,14 +220,6 @@
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
@@ -273,7 +240,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "aa500569-74e7-4e24-a569-82baa08fc9ff",
+              "id": "34f480ae-81a5-4e9a-a8f2-9b38832363a9",
               "name": "An internal server error occurred.",
               "originalRequest": {
                 "url": {
@@ -309,14 +276,6 @@
                   "variable": []
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -356,11 +315,11 @@
     }
   ],
   "info": {
-    "_postman_id": "5b55fe7f-642d-4b1b-b77a-572485f27e85",
-    "name": "Figma Payments API",
+    "_postman_id": "082dbb89-908f-4348-971d-8bd82a48b455",
+    "name": "Figma Activity Logs Payments API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
-      "content": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do\nthat.\n\nContact Support:\n Email: support@figma.com",
+      "content": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do that.\n\nContact Support:\n Email: support@figma.com",
       "type": "text/plain"
     }
   }

@@ -1,15 +1,15 @@
 {
   "item": [
     {
-      "id": "61b54266-5094-4542-80cf-7cc6edad48d6",
-      "name": "Me",
+      "id": "a0448157-4a22-4bd2-94ad-64d530b0202a",
+      "name": "Users",
       "description": {
-        "content": "Operations for the currently authenticated user",
+        "content": "Operations related to user information and authentication",
         "type": "text/plain"
       },
       "item": [
         {
-          "id": "f542cd49-88bf-4668-ac65-ac7732d56047",
+          "id": "fc81e465-eca1-4045-a27a-454b29349ce1",
           "name": "Figma Get Current User",
           "request": {
             "name": "Figma Get Current User",
@@ -38,7 +38,7 @@
           },
           "response": [
             {
-              "id": "3e4c4b1e-396f-4b66-be2c-f4c4a7f27dfd",
+              "id": "895a0cd6-b5c3-46e7-a253-74552fe5bebe",
               "name": "Response from the GET /v1/me endpoint.",
               "originalRequest": {
                 "url": {
@@ -69,13 +69,13 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"id\": \"1234567890\",\n  \"handle\": \"John Designer\",\n  \"img_url\": \"https://s3-alpha.figma.com/profile/abc123-xyz789\",\n  \"email\": \"john.designer@example.com\"\n}",
+              "body": "{\n  \"id\": \"1234567890\",\n  \"handle\": \"John Doe\",\n  \"imgUrl\": \"https://s3-alpha.figma.com/profile/1234567890\",\n  \"email\": \"john.doe@example.com\"\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "2be01c59-eb6b-45d5-8060-c3b0278a628f",
-              "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.",
+              "id": "40209aa6-d4c0-416b-b1c9-0686480c4a7a",
+              "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.",
               "originalRequest": {
                 "url": {
                   "path": [
@@ -105,13 +105,13 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"status\": 403,\n  \"err\": \"Invalid token\"\n}",
+              "body": "{\n  \"status\": 403,\n  \"err\": \"You do not have permission to access this resource\"\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "8a7e2d12-499a-4a22-b26f-b1e05a966c36",
-              "name": "In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).",
+              "id": "a77b54e9-0354-487f-845d-f193e6dedbef",
+              "name": "API requests may be throttled or rate limited. Please wait a while before attempting the request again.",
               "originalRequest": {
                 "url": {
                   "path": [
@@ -141,12 +141,12 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"status\": 429,\n  \"err\": \"Rate limit exceeded. Please wait before retrying.\"\n}",
+              "body": "{\n  \"status\": 429,\n  \"err\": \"Rate limit exceeded. Please wait before making another request\"\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "499d762d-bc03-4cd1-8e50-0ee24c2253be",
+              "id": "798fd22d-25a8-4a5b-9e5f-78b3a631863a",
               "name": "An internal server error occurred.",
               "originalRequest": {
                 "url": {
@@ -177,7 +177,7 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"status\": 500,\n  \"err\": \"Internal server error\"\n}",
+              "body": "{\n  \"status\": 500,\n  \"err\": \"An internal server error occurred\"\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             }
@@ -200,8 +200,8 @@
     }
   ],
   "info": {
-    "_postman_id": "fcc326ee-49e8-431a-a515-02d3bb7cd038",
-    "name": "Figma Activity Logs Me API",
+    "_postman_id": "f9f297e2-6500-4077-a44a-7f3d8272c518",
+    "name": "Figma Activity Logs Users API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
       "content": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do that.\n\nContact Support:\n Email: support@figma.com",

@@ -1,15 +1,15 @@
 {
   "item": [
     {
-      "id": "ed4007b5-2f5f-4838-a015-e9feb599980a",
-      "name": "Dev Resources",
+      "id": "94c5b4a0-1ac1-4fb6-97f1-5f32e8db0fe9",
+      "name": "Files",
       "description": {
-        "content": "Operations for managing dev resources attached to file nodes",
+        "content": "Operations for managing Figma files and their resources",
         "type": "text/plain"
       },
       "item": [
         {
-          "id": "216eac1e-2d08-4c85-95ec-6ad938ab1bb5",
+          "id": "1d1076be-883d-42a6-8590-d9ac42d2f37f",
           "name": "Figma Delete Dev Resource",
           "request": {
             "name": "Figma Delete Dev Resource",
@@ -52,20 +52,11 @@
                 "value": "application/json"
               }
             ],
-            "method": "DELETE",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
+            "method": "DELETE"
           },
           "response": [
             {
-              "id": "f1555936-32eb-4d5b-b1bc-b9bf2b54a798",
+              "id": "85788e5b-6097-4be3-9b70-ec63553274b3",
               "name": "Response from the DELETE /v1/files/{file_key}/dev_resources/{dev_resource_id} endpoint.",
               "originalRequest": {
                 "url": {
@@ -99,14 +90,6 @@
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
@@ -127,7 +110,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "2288fb24-0ac9-44a2-8b52-a25bcd025306",
+              "id": "a131118d-c3a5-456b-a961-f11624bd2a9f",
               "name": "Token is missing or incorrect.",
               "originalRequest": {
                 "url": {
@@ -161,14 +144,6 @@
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
@@ -189,7 +164,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "4640cf89-e9fa-4a48-b519-db1e9a3c0cd3",
+              "id": "1edd27c8-f5a3-45c5-8793-47eeceddd443",
               "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.",
               "originalRequest": {
                 "url": {
@@ -223,14 +198,6 @@
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
@@ -251,7 +218,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "e8932c5b-251a-4320-85d7-cf7b0effe856",
+              "id": "9d2c8a24-74a2-49b3-9c17-4be43a0dd849",
               "name": "The requested file or resource was not found.",
               "originalRequest": {
                 "url": {
@@ -285,14 +252,6 @@
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
@@ -313,7 +272,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "1a2463a2-d6a5-4ce1-993e-0c1e661d6f59",
+              "id": "99e031c9-f105-43d0-acd1-48dbb1eff878",
               "name": "API requests may be throttled or rate limited. Please wait a while before attempting the request again.",
               "originalRequest": {
                 "url": {
@@ -347,14 +306,6 @@
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
@@ -375,7 +326,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "f59fb541-e9b0-4eb0-80f1-1b7f592a1182",
+              "id": "2bb5cb85-9aed-4e31-bdfa-f5732ae3b0d7",
               "name": "An internal server error occurred.",
               "originalRequest": {
                 "url": {
@@ -408,14 +359,6 @@
                   ]
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -441,25 +384,1443 @@
           "protocolProfileBehavior": {
             "disableBodyPruning": true
           }
-        }
-      ],
-      "event": []
-    },
-    {
-      "id": "114fc1e5-2f43-4cac-bb28-8b3fd35627ed",
-      "name": "Files",
-      "description": {
-        "content": "Operations for managing Figma files and their resources",
-        "type": "text/plain"
-      },
-      "item": [
+        },
         {
-          "id": "1304c24b-2442-4ef8-9606-70b0bddc9de5",
-          "name": "Figma Delete Dev Resource",
+          "id": "c29e4eb4-843a-4dd9-a730-6e2dc511a21f",
+          "name": "Figma Render Images of File Nodes",
           "request": {
-            "name": "Figma Delete Dev Resource",
+            "name": "Figma Render Images of File Nodes",
             "description": {
-              "content": "Delete a dev resource from a file",
+              "content": "Renders images from a file.\nIf no error occurs, `\"images\"` will be populated with a map from node IDs to URLs of the rendered images, and `\"status\"` will be omitted. The image assets will expire after 30 days. Images up to 32 megapixels can be exported. Any images that are larger will be scaled down.\nImportant: the image map may contain values that are `null`. This indicates that rendering of that specific node has failed. This may be due to the node id not existing, or other reasons such has the node having no renderable components. It is guaranteed that any node that was requested for rendering will be represented in this map whether or not the render succeeded.\nTo render multiple images from the same file, use the `ids` query parameter to specify multiple node ids.\n``` GET /v1/images/:key?ids=1:2,1:3,1:4 ```\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "images",
+                ":file_key"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>",
+                  "description": "(Required) A comma separated list of node IDs to render."
+                },
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "A specific version ID to get. Omitting this will get the current version of the file."
+                },
+                {
+                  "disabled": false,
+                  "key": "scale",
+                  "value": "<number>",
+                  "description": "A number between 0.01 and 4, the image scaling factor."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "png",
+                  "description": "A string enum for the image output format."
+                },
+                {
+                  "disabled": false,
+                  "key": "svg_outline_text",
+                  "value": "true",
+                  "description": "Whether text elements are rendered as outlines (vector paths) or as `<text>` elements in SVGs."
+                },
+                {
+                  "disabled": false,
+                  "key": "svg_include_id",
+                  "value": "false",
+                  "description": "Whether to include id attributes for all SVG elements. Adds the layer name to the `id` attribute of an svg element."
+                },
+                {
+                  "disabled": false,
+                  "key": "svg_include_node_id",
+                  "value": "false",
+                  "description": "Whether to include node id attributes for all SVG elements. Adds the node id to a `data-node-id` attribute of an svg element."
+                },
+                {
+                  "disabled": false,
+                  "key": "svg_simplify_stroke",
+                  "value": "true",
+                  "description": "Whether to simplify inside/outside strokes and use stroke attribute if possible instead of `<mask>`."
+                },
+                {
+                  "disabled": false,
+                  "key": "contents_only",
+                  "value": "true",
+                  "description": "Whether content that overlaps the node should be excluded from rendering. Passing false (i.e., rendering overlaps) may increase processing time, since more of the document must be included in rendering."
+                },
+                {
+                  "disabled": false,
+                  "key": "use_absolute_bounds",
+                  "value": "false",
+                  "description": "Use the full dimensions of the node regardless of whether or not it is cropped or the space around it is empty. Use this to export text nodes without cropping."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "file_key",
+                  "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "5b26d3ca-87db-4b29-8ca2-144545e6c488",
+              "name": "Response from the GET /v1/images/{file_key} endpoint.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"err\": null,\n  \"images\": {\n    \"1:2\": \"https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/abc123\",\n    \"1:3\": \"https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/def456\",\n    \"1:4\": null\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e0a2f29f-c5a4-4aaf-9cd6-35e83cd98590",
+              "name": "Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"err\": \"Invalid parameter: scale must be between 0.01 and 4\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5d4b021c-24a1-4a05-a73d-d22f9b8e22e8",
+              "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 403,\n  \"err\": \"Access denied. You do not have permission to access this file.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "24bdb770-0f4c-45fa-8c7e-8492ed81c2e4",
+              "name": "The requested file or resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 404,\n  \"err\": \"File not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "83be9b22-b017-429c-af34-31f93d5d311f",
+              "name": "In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 429,\n  \"err\": \"Rate limit exceeded. Please wait before retrying.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ad5f7e2-232a-4287-aaad-9d7ebfe310fb",
+              "name": "An internal server error occurred.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "images",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "1:2,1:3,1:4"
+                    },
+                    {
+                      "key": "version",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "scale",
+                      "value": "2"
+                    },
+                    {
+                      "key": "format",
+                      "value": "png"
+                    },
+                    {
+                      "key": "svg_outline_text",
+                      "value": "true"
+                    },
+                    {
+                      "key": "svg_include_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_include_node_id",
+                      "value": "false"
+                    },
+                    {
+                      "key": "svg_simplify_stroke",
+                      "value": "true"
+                    },
+                    {
+                      "key": "contents_only",
+                      "value": "true"
+                    },
+                    {
+                      "key": "use_absolute_bounds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) File to export images from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 500,\n  \"err\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "45ea0c5f-a0a9-4934-95ea-6c40c87de9d8",
+          "name": "Figma Get Files in a Project",
+          "request": {
+            "name": "Figma Get Files in a Project",
+            "description": {
+              "content": "Get a list of all the Files within the specified project.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "projects",
+                ":project_id",
+                "files"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "branch_data",
+                  "value": "false",
+                  "description": "Returns branch metadata in the response for each main file with a branch inside the project."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) ID of the project to list files from"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "aa7c3b5c-38b5-4779-aeb6-ec7cd5efec07",
+              "name": "Response from the GET /v1/projects/{project_id}/files endpoint.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":project_id",
+                    "files"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "branch_data",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) ID of the project to list files from"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Mobile App Design\",\n  \"files\": [\n    {\n      \"key\": \"abc123XYZ789\",\n      \"name\": \"Design System Components\",\n      \"thumbnail_url\": \"https://s3-alpha.figma.com/thumbnails/abc123-xyz789\",\n      \"last_modified\": \"2024-06-20T10:30:00Z\"\n    },\n    {\n      \"key\": \"def456UVW012\",\n      \"name\": \"App Screens\",\n      \"thumbnail_url\": \"https://s3-alpha.figma.com/thumbnails/def456-uvw012\",\n      \"last_modified\": \"2024-06-19T15:45:00Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4d20fbb5-a77b-4543-8440-1a47c119801f",
+              "name": "Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":project_id",
+                    "files"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "branch_data",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) ID of the project to list files from"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 400,\n  \"message\": \"Invalid project ID format\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "97bd29b9-a500-4f63-8c14-19489bc364ce",
+              "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":project_id",
+                    "files"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "branch_data",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) ID of the project to list files from"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 403,\n  \"err\": \"Access denied. You do not have permission to access this project.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cdb30de7-add1-4489-ad75-dd74c0f9bd48",
+              "name": "In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":project_id",
+                    "files"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "branch_data",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) ID of the project to list files from"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 429,\n  \"err\": \"Rate limit exceeded. Please wait before retrying.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b40cd3ef-e9f4-45ae-a326-018f9389ccf8",
+              "name": "An internal server error occurred.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "projects",
+                    ":project_id",
+                    "files"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "branch_data",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) ID of the project to list files from"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 500,\n  \"err\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c80bb117-4af7-4899-a19a-3a8ca049a62c",
+          "name": "Figma Get File",
+          "request": {
+            "name": "Figma Get File",
+            "description": {
+              "content": "Returns the document tree for a given Figma file. If the file is large, the response may be paginated. The file_key can be found in the Figma file URL after figma.com/file/.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "files",
+                ":file_key"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "A specific version ID to get. Omitting this will get the current version."
+                },
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>",
+                  "description": "Comma-separated list of nodes that you want to receive. If not set, all nodes are returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "depth",
+                  "value": "<integer>",
+                  "description": "Positive integer representing how deep into the document tree to traverse. For example, setting depth=1 returns only pages."
+                },
+                {
+                  "disabled": false,
+                  "key": "geometry",
+                  "value": "<string>",
+                  "description": "Set to \"paths\" to export vector data."
+                },
+                {
+                  "disabled": false,
+                  "key": "plugin_data",
+                  "value": "<string>",
+                  "description": "Comma-separated list of plugin IDs or the string \"shared\" for data present in all plugins."
+                },
+                {
+                  "disabled": false,
+                  "key": "branch_data",
+                  "value": "<boolean>",
+                  "description": "Set to true to include branch metadata in the response."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "file_key",
+                  "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "009798f2-7a67-4738-b6a4-f780dce2a3c6",
+              "name": "Successfully retrieved the file.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "10"
+                    },
+                    {
+                      "key": "geometry",
+                      "value": "paths"
+                    },
+                    {
+                      "key": "plugin_data",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "branch_data",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Example Title\",\n  \"role\": \"owner\",\n  \"lastModified\": \"2026-01-15T10:30:00Z\",\n  \"editorType\": \"figma\",\n  \"thumbnailUrl\": \"https://www.example.com\",\n  \"version\": \"example_value\",\n  \"document\": {\n    \"id\": \"abc123\",\n    \"name\": \"Example Title\",\n    \"type\": \"DOCUMENT\",\n    \"children\": [\n      {}\n    ]\n  },\n  \"components\": \"example_value\",\n  \"componentSets\": \"example_value\",\n  \"schemaVersion\": 10,\n  \"styles\": \"example_value\",\n  \"mainFileKey\": \"example_value\",\n  \"branches\": [\n    {\n      \"key\": \"example_value\",\n      \"name\": \"Example Title\",\n      \"thumbnail_url\": \"https://www.example.com\",\n      \"last_modified\": \"2026-01-15T10:30:00Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "faf4fbdf-677c-4232-bfb5-6c35fbf334bd",
+              "name": "Authentication token is missing, invalid, or expired.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "10"
+                    },
+                    {
+                      "key": "geometry",
+                      "value": "paths"
+                    },
+                    {
+                      "key": "plugin_data",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "branch_data",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"message\": \"example_value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "87931a72-960d-4229-ab7f-7f422cf2c259",
+              "name": "The authenticated user does not have the necessary permissions to access this resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "10"
+                    },
+                    {
+                      "key": "geometry",
+                      "value": "paths"
+                    },
+                    {
+                      "key": "plugin_data",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "branch_data",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"message\": \"example_value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "351c0b16-6bb6-4403-8757-02e557830ec8",
+              "name": "The requested file, project, team, or resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "10"
+                    },
+                    {
+                      "key": "geometry",
+                      "value": "paths"
+                    },
+                    {
+                      "key": "plugin_data",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "branch_data",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"message\": \"example_value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c6898528-7a3d-41bf-9211-b8101d6621d2",
+              "name": "Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "10"
+                    },
+                    {
+                      "key": "geometry",
+                      "value": "paths"
+                    },
+                    {
+                      "key": "plugin_data",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "branch_data",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"message\": \"example_value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2df957fc-43d3-4eb2-8bdc-1c5c84bfdd7b",
+              "name": "An unexpected error occurred on the Figma server.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "10"
+                    },
+                    {
+                      "key": "geometry",
+                      "value": "paths"
+                    },
+                    {
+                      "key": "plugin_data",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "branch_data",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"message\": \"example_value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a1a586ea-9d91-4d06-965c-f128920112de",
+          "name": "Figma Get File Nodes",
+          "request": {
+            "name": "Figma Get File Nodes",
+            "description": {
+              "content": "Returns the nodes referenced by ids as a JSON object. The nodes are retrieved from the document referred to by file_key. The node ID and file key for a given node can be parsed from any Figma node URL.",
               "type": "text/plain"
             },
             "url": {
@@ -467,8 +1828,485 @@
                 "v1",
                 "files",
                 ":file_key",
-                "dev_resources",
-                ":dev_resource_id"
+                "nodes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>",
+                  "description": "(Required) Comma-separated list of node IDs to retrieve."
+                },
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "A specific version ID to get."
+                },
+                {
+                  "disabled": false,
+                  "key": "depth",
+                  "value": "<integer>",
+                  "description": "Positive integer for how deep into the node tree to traverse."
+                },
+                {
+                  "disabled": false,
+                  "key": "geometry",
+                  "value": "<string>",
+                  "description": "Set to \"paths\" to export vector data."
+                },
+                {
+                  "disabled": false,
+                  "key": "plugin_data",
+                  "value": "<string>",
+                  "description": "Comma-separated list of plugin IDs or \"shared\"."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "file_key",
+                  "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "dd3e4c6a-da18-4bc1-a4ec-134b9fafacaa",
+              "name": "Successfully retrieved the file nodes.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key",
+                    "nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "version",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "10"
+                    },
+                    {
+                      "key": "geometry",
+                      "value": "paths"
+                    },
+                    {
+                      "key": "plugin_data",
+                      "value": "example_value"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Example Title\",\n  \"lastModified\": \"2026-01-15T10:30:00Z\",\n  \"version\": \"example_value\",\n  \"role\": \"owner\",\n  \"nodes\": \"example_value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e01f60a9-be12-413a-8a4e-26c6f4ebea87",
+              "name": "Authentication token is missing, invalid, or expired.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key",
+                    "nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "version",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "10"
+                    },
+                    {
+                      "key": "geometry",
+                      "value": "paths"
+                    },
+                    {
+                      "key": "plugin_data",
+                      "value": "example_value"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"message\": \"example_value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "681af92a-796b-41dd-8396-a47bf98986b3",
+              "name": "The authenticated user does not have the necessary permissions to access this resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key",
+                    "nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "version",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "10"
+                    },
+                    {
+                      "key": "geometry",
+                      "value": "paths"
+                    },
+                    {
+                      "key": "plugin_data",
+                      "value": "example_value"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"message\": \"example_value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55ed941f-e91c-40ce-997d-248ae88b8940",
+              "name": "The requested file, project, team, or resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key",
+                    "nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "version",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "10"
+                    },
+                    {
+                      "key": "geometry",
+                      "value": "paths"
+                    },
+                    {
+                      "key": "plugin_data",
+                      "value": "example_value"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"message\": \"example_value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3d85f3bf-9ded-4a4c-97c7-3da0cc166214",
+              "name": "Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key",
+                    "nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "version",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "10"
+                    },
+                    {
+                      "key": "geometry",
+                      "value": "paths"
+                    },
+                    {
+                      "key": "plugin_data",
+                      "value": "example_value"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"message\": \"example_value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a290cb56-cc0f-4600-910c-8a7673976372",
+              "name": "An unexpected error occurred on the Figma server.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key",
+                    "nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "version",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "10"
+                    },
+                    {
+                      "key": "geometry",
+                      "value": "paths"
+                    },
+                    {
+                      "key": "plugin_data",
+                      "value": "example_value"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"message\": \"example_value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "746831ea-5e1a-40dc-a494-01844caef9c1",
+          "name": "Figma Get Image Fills",
+          "request": {
+            "name": "Figma Get Image Fills",
+            "description": {
+              "content": "Returns a mapping of image references to URLs of the image contents. Image URLs expire after no more than 14 days.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "files",
+                ":file_key",
+                "image_fills"
               ],
               "host": [
                 "{{baseUrl}}"
@@ -480,14 +2318,7 @@
                   "type": "any",
                   "value": "<string>",
                   "key": "file_key",
-                  "description": "(Required) The file to delete the dev resource from. This must be a main file key, not a branch key."
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "dev_resource_id",
-                  "description": "(Required) The id of the dev resource to delete."
+                  "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
                 }
               ]
             },
@@ -497,29 +2328,19 @@
                 "value": "application/json"
               }
             ],
-            "method": "DELETE",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
+            "method": "GET"
           },
           "response": [
             {
-              "id": "d3c3f974-fffa-49a3-b9a8-63c503318679",
-              "name": "Response from the DELETE /v1/files/{file_key}/dev_resources/{dev_resource_id} endpoint.",
+              "id": "c408b060-fbd7-4b54-9190-e57cf0d81385",
+              "name": "Successfully retrieved image fill URLs.",
               "originalRequest": {
                 "url": {
                   "path": [
                     "v1",
                     "files",
                     ":file_key",
-                    "dev_resources",
-                    ":dev_resource_id"
+                    "image_fills"
                   ],
                   "host": [
                     "{{baseUrl}}"
@@ -531,32 +2352,17 @@
                       "type": "any",
                       "value": "<string>",
                       "key": "file_key",
-                      "description": "(Required) The file to delete the dev resource from. This must be a main file key, not a branch key."
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "dev_resource_id",
-                      "description": "(Required) The id of the dev resource to delete."
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
                     }
                   ]
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
                 ],
-                "method": "DELETE",
+                "method": "GET",
                 "body": {}
               },
               "status": "OK",
@@ -567,21 +2373,20 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"status\": 200,\n  \"error\": false\n}",
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"meta\": {\n    \"images\": \"example_value\"\n  }\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "12e6cd48-f749-45ab-8f85-1b3192c65b79",
-              "name": "Token is missing or incorrect.",
+              "id": "ff209d1a-4320-4202-987e-cf077a297160",
+              "name": "Authentication token is missing, invalid, or expired.",
               "originalRequest": {
                 "url": {
                   "path": [
                     "v1",
                     "files",
                     ":file_key",
-                    "dev_resources",
-                    ":dev_resource_id"
+                    "image_fills"
                   ],
                   "host": [
                     "{{baseUrl}}"
@@ -593,32 +2398,17 @@
                       "type": "any",
                       "value": "<string>",
                       "key": "file_key",
-                      "description": "(Required) The file to delete the dev resource from. This must be a main file key, not a branch key."
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "dev_resource_id",
-                      "description": "(Required) The id of the dev resource to delete."
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
                     }
                   ]
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
                 ],
-                "method": "DELETE",
+                "method": "GET",
                 "body": {}
               },
               "status": "Unauthorized",
@@ -629,21 +2419,20 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"error\": true,\n  \"status\": 401,\n  \"message\": \"Token is missing or incorrect\"\n}",
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"message\": \"example_value\"\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "b3095f3f-1074-4ee8-bfa7-1d5b00ea195e",
-              "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.",
+              "id": "784ff1cf-f083-41bb-b18d-82d370476dc2",
+              "name": "The requested file, project, team, or resource was not found.",
               "originalRequest": {
                 "url": {
                   "path": [
                     "v1",
                     "files",
                     ":file_key",
-                    "dev_resources",
-                    ":dev_resource_id"
+                    "image_fills"
                   ],
                   "host": [
                     "{{baseUrl}}"
@@ -655,94 +2444,17 @@
                       "type": "any",
                       "value": "<string>",
                       "key": "file_key",
-                      "description": "(Required) The file to delete the dev resource from. This must be a main file key, not a branch key."
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "dev_resource_id",
-                      "description": "(Required) The id of the dev resource to delete."
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
                     }
                   ]
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
                 ],
-                "method": "DELETE",
-                "body": {}
-              },
-              "status": "Forbidden",
-              "code": 403,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": true,\n  \"status\": 403,\n  \"message\": \"You do not have permission to access this file\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "cecb0f75-1964-46a3-bca7-6870205fd6a4",
-              "name": "The requested file or resource was not found.",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "files",
-                    ":file_key",
-                    "dev_resources",
-                    ":dev_resource_id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "file_key",
-                      "description": "(Required) The file to delete the dev resource from. This must be a main file key, not a branch key."
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "dev_resource_id",
-                      "description": "(Required) The id of the dev resource to delete."
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "DELETE",
+                "method": "GET",
                 "body": {}
               },
               "status": "Not Found",
@@ -753,21 +2465,20 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"error\": true,\n  \"status\": 404,\n  \"message\": \"File or dev resource not found\"\n}",
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"message\": \"example_value\"\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "2b8753f8-e179-4c14-9d85-ac5facfe7066",
-              "name": "API requests may be throttled or rate limited. Please wait a while before attempting the request again.",
+              "id": "1a1e056c-db68-4cdc-9984-aff79b3f77d1",
+              "name": "Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.",
               "originalRequest": {
                 "url": {
                   "path": [
                     "v1",
                     "files",
                     ":file_key",
-                    "dev_resources",
-                    ":dev_resource_id"
+                    "image_fills"
                   ],
                   "host": [
                     "{{baseUrl}}"
@@ -779,32 +2490,17 @@
                       "type": "any",
                       "value": "<string>",
                       "key": "file_key",
-                      "description": "(Required) The file to delete the dev resource from. This must be a main file key, not a branch key."
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "dev_resource_id",
-                      "description": "(Required) The id of the dev resource to delete."
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
                     }
                   ]
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
                 ],
-                "method": "DELETE",
+                "method": "GET",
                 "body": {}
               },
               "status": "Too Many Requests",
@@ -815,69 +2511,366 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"error\": true,\n  \"status\": 429,\n  \"message\": \"Rate limit exceeded. Please wait before making another request\"\n}",
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"message\": \"example_value\"\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3494e4cf-af73-4209-8f92-12a4e4610399",
+          "name": "Figma Get File Version History",
+          "request": {
+            "name": "Figma Get File Version History",
+            "description": {
+              "content": "Returns a list of the version history of a file. The version history consists of versions, auto-save entries, and named versions.",
+              "type": "text/plain"
             },
+            "url": {
+              "path": [
+                "v1",
+                "files",
+                ":file_key",
+                "versions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "Number of items to return per page. Defaults to 30."
+                },
+                {
+                  "disabled": false,
+                  "key": "before",
+                  "value": "<string>",
+                  "description": "Version ID before which to start listing versions. Used for pagination."
+                },
+                {
+                  "disabled": false,
+                  "key": "after",
+                  "value": "<string>",
+                  "description": "Version ID after which to start listing versions. Used for pagination."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "file_key",
+                  "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
             {
-              "id": "b54c930c-7f78-42ff-89d2-c960fd4cd65c",
-              "name": "An internal server error occurred.",
+              "id": "52ceef32-65f7-4415-a2b1-b18997b3ed8a",
+              "name": "Successfully retrieved version history.",
               "originalRequest": {
                 "url": {
                   "path": [
                     "v1",
                     "files",
                     ":file_key",
-                    "dev_resources",
-                    ":dev_resource_id"
+                    "versions"
                   ],
                   "host": [
                     "{{baseUrl}}"
                   ],
-                  "query": [],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "before",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "after",
+                      "value": "example_value"
+                    }
+                  ],
                   "variable": [
                     {
                       "disabled": false,
                       "type": "any",
                       "value": "<string>",
                       "key": "file_key",
-                      "description": "(Required) The file to delete the dev resource from. This must be a main file key, not a branch key."
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "dev_resource_id",
-                      "description": "(Required) The id of the dev resource to delete."
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
                     }
                   ]
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
                 ],
-                "method": "DELETE",
+                "method": "GET",
                 "body": {}
               },
-              "status": "Internal Server Error",
-              "code": 500,
+              "status": "OK",
+              "code": 200,
               "header": [
                 {
                   "key": "Content-Type",
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"error\": true,\n  \"status\": 500,\n  \"message\": \"An internal server error occurred\"\n}",
+              "body": "{\n  \"versions\": [\n    {\n      \"id\": \"abc123\",\n      \"created_at\": \"2026-01-15T10:30:00Z\",\n      \"label\": \"Example Title\",\n      \"description\": \"A sample description.\"\n    }\n  ],\n  \"pagination\": {\n    \"before\": 42.5,\n    \"after\": 42.5\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a0a7318a-bd18-4667-b2b9-5c88eff14ecd",
+              "name": "Authentication token is missing, invalid, or expired.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "before",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "after",
+                      "value": "example_value"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"message\": \"example_value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "89141940-9c55-47a4-a0d4-ef46329def1a",
+              "name": "The authenticated user does not have the necessary permissions to access this resource.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "before",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "after",
+                      "value": "example_value"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"message\": \"example_value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f5e153a3-13fd-47f0-b2f3-de4413478a8f",
+              "name": "The requested file, project, team, or resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "before",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "after",
+                      "value": "example_value"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"message\": \"example_value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ce90ef39-5a89-4c04-8adf-32f7cf0df616",
+              "name": "Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "files",
+                    ":file_key",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "10"
+                    },
+                    {
+                      "key": "before",
+                      "value": "example_value"
+                    },
+                    {
+                      "key": "after",
+                      "value": "example_value"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "file_key",
+                      "description": "(Required) The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": true,\n  \"status\": 10,\n  \"message\": \"example_value\"\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             }
@@ -900,8 +2893,8 @@
     }
   ],
   "info": {
-    "_postman_id": "5a80c365-e4d8-457e-889e-105cf33623e3",
-    "name": "Figma Files API",
+    "_postman_id": "2982e21c-1eb5-44f8-b176-99b7b125fd0c",
+    "name": "Figma Activity Logs Files API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
       "content": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do that.\n\nContact Support:\n Email: support@figma.com",

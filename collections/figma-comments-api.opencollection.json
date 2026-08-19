@@ -1,0 +1,151 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Figma Activity Logs Comments API",
+    "version": "0.21.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Comments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Figma Get Comments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/files/:file_key/comments",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              },
+              {
+                "name": "as_md",
+                "value": "true",
+                "type": "query",
+                "description": "If set to true, comment message content will be returned as Markdown instead of plain text."
+              }
+            ]
+          },
+          "docs": "Gets a list of comments left on the file. Comments are returned in order of creation, with the most recent comments first. By default, only root-level comments and their direct replies are returned."
+        },
+        {
+          "info": {
+            "name": "Figma Post Comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.figma.com/v1/files/:file_key/comments",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Posts a new comment on the file. The body of the request should contain the comment text and optionally the position (client_meta) where the comment should be pinned."
+        },
+        {
+          "info": {
+            "name": "Figma Delete Comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.figma.com/v1/files/:file_key/comments/:comment_id",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              },
+              {
+                "name": "comment_id",
+                "value": "500123",
+                "type": "path",
+                "description": "The ID of the comment to delete."
+              }
+            ]
+          },
+          "docs": "Deletes a specific comment. Only the comment creator or file owner can delete a comment."
+        },
+        {
+          "info": {
+            "name": "Figma Get Comment Reactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/files/:file_key/comments/:comment_id/reactions",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              },
+              {
+                "name": "comment_id",
+                "value": "500123",
+                "type": "path",
+                "description": "The ID of the comment."
+              },
+              {
+                "name": "cursor",
+                "value": "example_value",
+                "type": "query",
+                "description": "Cursor for paginated results."
+              }
+            ]
+          },
+          "docs": "Gets a paginated list of reactions for a comment."
+        },
+        {
+          "info": {
+            "name": "Figma Post Comment Reaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.figma.com/v1/files/:file_key/comments/:comment_id/reactions",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              },
+              {
+                "name": "comment_id",
+                "value": "500123",
+                "type": "path",
+                "description": "The ID of the comment."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Posts a reaction to a comment."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

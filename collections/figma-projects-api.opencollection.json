@@ -1,13 +1,13 @@
 {
   "opencollection": "1.0.0",
   "info": {
-    "name": "Figma Projects API",
+    "name": "Figma Activity Logs Projects API",
     "version": "0.21.0"
   },
   "items": [
     {
       "info": {
-        "name": "Files",
+        "name": "Projects",
         "type": "folder"
       },
       "items": [
@@ -32,13 +32,28 @@
                 "type": "query",
                 "description": "Returns branch metadata in the response for each main file with a branch inside the project."
               }
-            ],
-            "auth": {
-              "type": "bearer",
-              "token": "{{bearerToken}}"
-            }
+            ]
           },
           "docs": "Get a list of all the Files within the specified project."
+        },
+        {
+          "info": {
+            "name": "Figma Get Team Projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/teams/:team_id/projects",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID of the team."
+              }
+            ]
+          },
+          "docs": "Lists the projects for a specified team. Only projects visible to the authenticated user are returned."
         }
       ]
     }

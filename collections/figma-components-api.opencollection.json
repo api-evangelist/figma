@@ -1,0 +1,167 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Figma Activity Logs Components API",
+    "version": "0.21.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Components",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Figma Get Team Components",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/teams/:team_id/components",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID of the team."
+              },
+              {
+                "name": "page_size",
+                "value": "10",
+                "type": "query",
+                "description": "Number of items per page. Defaults to 30."
+              },
+              {
+                "name": "after",
+                "value": "42.5",
+                "type": "query",
+                "description": "Cursor for paginated results. Use the cursor value from pagination in a previous response."
+              },
+              {
+                "name": "before",
+                "value": "42.5",
+                "type": "query",
+                "description": "Cursor for paginated results in reverse."
+              }
+            ]
+          },
+          "docs": "Get a paginated list of published components within a team library. The components are returned in order of when they were published."
+        },
+        {
+          "info": {
+            "name": "Figma Get File Components",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/files/:file_key/components",
+            "params": [
+              {
+                "name": "file_key",
+                "value": "abc123xyz789",
+                "type": "path",
+                "description": "The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/..."
+              }
+            ]
+          },
+          "docs": "Get a list of published components within a file library."
+        },
+        {
+          "info": {
+            "name": "Figma Get Component",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/components/:key",
+            "params": [
+              {
+                "name": "key",
+                "value": "example_value",
+                "type": "path",
+                "description": "The unique identifier of the component."
+              }
+            ]
+          },
+          "docs": "Get metadata on a component by key. This is the unique identifier for a published component that is globally unique across all files."
+        },
+        {
+          "info": {
+            "name": "Figma Get Team Component Sets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/teams/:team_id/component_sets",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID of the team."
+              },
+              {
+                "name": "page_size",
+                "value": "10",
+                "type": "query",
+                "description": "Number of items per page."
+              },
+              {
+                "name": "after",
+                "value": "42.5",
+                "type": "query",
+                "description": "Cursor for pagination."
+              },
+              {
+                "name": "before",
+                "value": "42.5",
+                "type": "query",
+                "description": "Cursor for reverse pagination."
+              }
+            ]
+          },
+          "docs": "Get a paginated list of published component sets within a team library."
+        },
+        {
+          "info": {
+            "name": "Figma Get Team Styles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.figma.com/v1/teams/:team_id/styles",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "12345",
+                "type": "path",
+                "description": "The ID of the team."
+              },
+              {
+                "name": "page_size",
+                "value": "10",
+                "type": "query",
+                "description": "Number of items per page."
+              },
+              {
+                "name": "after",
+                "value": "42.5",
+                "type": "query",
+                "description": "Cursor for pagination."
+              },
+              {
+                "name": "before",
+                "value": "42.5",
+                "type": "query",
+                "description": "Cursor for reverse pagination."
+              }
+            ]
+          },
+          "docs": "Get a paginated list of published styles within a team library."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

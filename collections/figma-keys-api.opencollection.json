@@ -1,13 +1,13 @@
 {
   "opencollection": "1.0.0",
   "info": {
-    "name": "Figma Activity Logs Styles API",
+    "name": "Figma Activity Logs Keys API",
     "version": "0.21.0"
   },
   "items": [
     {
       "info": {
-        "name": "Styles",
+        "name": "Keys",
         "type": "folder"
       },
       "items": [

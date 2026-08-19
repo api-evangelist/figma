@@ -1,7 +1,7 @@
 {
   "item": [
     {
-      "id": "05bc15bc-95b8-4d8a-9961-b79433804c1c",
+      "id": "543822e8-38a4-4097-a9f5-cf4e8d6313de",
       "name": "Component Sets",
       "description": {
         "content": "Operations related to retrieving component set metadata",
@@ -9,7 +9,7 @@
       },
       "item": [
         {
-          "id": "89466ea7-280c-4719-992c-cefb5e4165b6",
+          "id": "bc4c7f9d-c4f9-4bb0-8299-7100daa61c23",
           "name": "Figma Get Component Set",
           "request": {
             "name": "Figma Get Component Set",
@@ -43,20 +43,11 @@
                 "value": "application/json"
               }
             ],
-            "method": "GET",
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{bearerToken}}"
-                }
-              ]
-            }
+            "method": "GET"
           },
           "response": [
             {
-              "id": "8b5329e5-40d5-4721-b55a-68d4d335b021",
+              "id": "e6d43cc3-47fb-40f8-869e-7f387e8c8c74",
               "name": "Response from the GET /v1/component_sets/{key} endpoint.",
               "originalRequest": {
                 "url": {
@@ -81,14 +72,6 @@
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
@@ -109,7 +92,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "a090af28-fadf-49d9-b756-4ce1e04418cc",
+              "id": "19b9101f-a608-48a9-9ad3-93d138507087",
               "name": "Bad request. Parameters are invalid or malformed. Please check the input formats.",
               "originalRequest": {
                 "url": {
@@ -134,14 +117,6 @@
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
@@ -162,7 +137,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "f473a140-501a-4c1b-b889-2697d4198e56",
+              "id": "4838faf8-009e-4559-8c77-5c0e0348cbbd",
               "name": "The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.",
               "originalRequest": {
                 "url": {
@@ -187,14 +162,6 @@
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
@@ -215,7 +182,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "479d08ca-ab27-423c-9ae1-b259e9690659",
+              "id": "ae9d2f6b-3655-4bf6-b455-b6ce69120c3f",
               "name": "The requested file or resource was not found.",
               "originalRequest": {
                 "url": {
@@ -240,14 +207,6 @@
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
@@ -268,7 +227,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "b4ab3532-5655-43a8-9e49-7521d93ea72d",
+              "id": "627f0157-f858-4685-97b5-815a15dec9cf",
               "name": "API requests may be throttled or rate limited. Please wait a while before attempting the request again.",
               "originalRequest": {
                 "url": {
@@ -293,14 +252,6 @@
                 },
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
-                  {
                     "key": "Accept",
                     "value": "application/json"
                   }
@@ -321,7 +272,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "69c9bc0f-10dd-4a88-ad94-5f66b4a43c5a",
+              "id": "397825df-e94a-4401-8f1e-65276cc322ae",
               "name": "An internal server error occurred.",
               "originalRequest": {
                 "url": {
@@ -345,14 +296,6 @@
                   ]
                 },
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
@@ -392,8 +335,8 @@
     }
   ],
   "info": {
-    "_postman_id": "5532da96-002b-44e0-9b1c-6942ae5006e0",
-    "name": "Figma Component Sets API",
+    "_postman_id": "30e12036-248d-4b58-a276-80b16ef24b7d",
+    "name": "Figma Activity Logs Component Sets API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
       "content": "Figma allows designers to create and prototype their digital experiences -\ntogether in real-time and in one place - helping them turn their ideas and\nvisions into products, faster. Figma's mission is to make design\naccessible to everyone. The Figma API is one of the ways we aim to do that.\n\nContact Support:\n Email: support@figma.com",
