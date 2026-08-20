@@ -40,6 +40,9 @@ apis:
   humanURL: https://developers.figma.com/docs/rest-api/file-endpoints/
   tags:
   - Dev Resources
+  - File
+  tags_raw:
+  - Dev Resources
   - Files
   properties:
   - type: OpenAPI
@@ -100,6 +103,10 @@ apis:
   humanURL: https://developers.figma.com/docs/rest-api/file-endpoints/
   tags:
   - Export
+  - Image
+  - Rendering
+  tags_raw:
+  - Export
   - Images
   - Rendering
   properties:
@@ -132,6 +139,9 @@ apis:
   baseURL: https://api.figma.com
   humanURL: https://developers.figma.com/docs/rest-api/file-endpoints/
   tags:
+  - Team
+  - Webhook
+  tags_raw:
   - Teams
   - Webhooks
   properties:
@@ -167,6 +177,9 @@ apis:
   baseURL: https://api.figma.com
   humanURL: https://developers.figma.com/docs/rest-api/projects-types/
   tags:
+  - File
+  - Project
+  tags_raw:
   - Files
   - Projects
   properties:
@@ -200,6 +213,9 @@ apis:
   baseURL: https://api.figma.com
   humanURL: https://developers.figma.com/docs/rest-api/users-endpoints/
   tags:
+  - Authentication
+  - User
+  tags_raw:
   - Authentication
   - Users
   properties:
@@ -993,6 +1009,8 @@ apis:
   humanURL: https://www.figma.com/developers
   baseURL: https://api.figma.com
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -1137,6 +1155,8 @@ apis:
   humanURL: https://www.figma.com/developers
   baseURL: https://api.figma.com
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
