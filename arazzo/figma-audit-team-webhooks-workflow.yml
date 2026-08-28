@@ -15,10 +15,10 @@ info:
     bearer credential declared on each operation's security requirement.
   version: 1.0.0
 sourceDescriptions:
-- name: figmaRestApi
-  url: ../openapi/figma-rest-api-openapi.yml
+- name: meApi
+  url: ../openapi/figma-me-api-openapi.yml
   type: openapi
-- name: figmaTeamsApi
+- name: teamsApi
   url: ../openapi/figma-teams-api-openapi.yml
   type: openapi
 workflows:

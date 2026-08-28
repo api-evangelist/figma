@@ -13,8 +13,11 @@ info:
     operation's security requirement.
   version: 1.0.0
 sourceDescriptions:
-- name: figmaRestApi
-  url: ../openapi/figma-rest-api-openapi.yml
+- name: filesApi
+  url: ../openapi/figma-files-api-openapi.yml
+  type: openapi
+- name: projectsApi
+  url: ../openapi/figma-projects-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: snapshot-team-project-versions

@@ -12,8 +12,8 @@ info:
     bearer credential declared on each operation's security requirement.
   version: 1.0.0
 sourceDescriptions:
-- name: figmaRestApi
-  url: ../openapi/figma-rest-api-openapi.yml
+- name: commentsApi
+  url: ../openapi/figma-comments-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: post-and-verify-comment

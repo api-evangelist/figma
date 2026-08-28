@@ -13,8 +13,11 @@ info:
     token bearer credential declared on each operation's security requirement.
   version: 1.0.0
 sourceDescriptions:
-- name: figmaRestApi
-  url: ../openapi/figma-rest-api-openapi.yml
+- name: componentsApi
+  url: ../openapi/figma-components-api-openapi.yml
+  type: openapi
+- name: filesApi
+  url: ../openapi/figma-files-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: audit-team-component

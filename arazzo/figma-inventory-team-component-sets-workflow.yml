@@ -14,11 +14,11 @@ info:
     bearer credential declared on each operation's security requirement.
   version: 1.0.0
 sourceDescriptions:
-- name: figmaRestApi
-  url: ../openapi/figma-rest-api-openapi.yml
-  type: openapi
-- name: figmaComponentSetsApi
+- name: componentSetsApi
   url: ../openapi/figma-component-sets-api-openapi.yml
+  type: openapi
+- name: componentsApi
+  url: ../openapi/figma-components-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: inventory-team-component-sets

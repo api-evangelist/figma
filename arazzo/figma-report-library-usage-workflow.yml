@@ -16,11 +16,11 @@ info:
     security requirement.
   version: 1.0.0
 sourceDescriptions:
-- name: figmaRestApi
-  url: ../openapi/figma-rest-api-openapi.yml
+- name: filesApi
+  url: ../openapi/figma-files-api-openapi.yml
   type: openapi
-- name: figmaAnalyticsApi
-  url: ../openapi/figma-analytics-api-openapi.yml
+- name: libraryAnalyticsApi
+  url: ../openapi/figma-library-analytics-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: report-library-usage
