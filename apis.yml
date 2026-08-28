@@ -3,6 +3,20 @@ name: Figma
 description: Figma is a collaborative interface design tool with a comprehensive REST
   API for accessing and manipulating design files, projects, and teams.
 url: https://raw.githubusercontent.com/api-evangelist/figma/refs/heads/main/apis.yml
+deliveryModel:
+  model: open-core
+  license: MIT
+  open_source: true
+  commercial: true
+  callable_host: true
+  label: Open core · an OSS project plus a commercial hosted product
+  confidence: high
+  source:
+  - license
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
@@ -1296,6 +1310,9 @@ apis:
   - type: Documentation
     url: https://developers.figma.com/docs/rest-api/library-analytics-endpoints/
 common:
+- type: CapabilityMap
+  url: capabilities/figma-capability-edges.yml
+  name: Figma Business Capability Map
 - type: IssueTracker
   url: https://github.com/figma/rest-api-spec/issues
 - type: ContributionGuide
