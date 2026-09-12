@@ -1310,6 +1310,8 @@ apis:
   - type: Documentation
     url: https://developers.figma.com/docs/rest-api/library-analytics-endpoints/
 common:
+- type: Website
+  url: https://www.figma.com/
 - type: CapabilityMap
   url: capabilities/figma-capability-edges.yml
   name: Figma Business Capability Map
