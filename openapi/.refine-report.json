@@ -1,44 +1,53 @@
 {
   "provider": "figma",
   "sources": [
+    "_original/figma-analytics-api-openapi.yml",
+    "_original/figma-rest-api-openapi.yml",
     "figma-activity-logs-api-openapi.yml",
-    "figma-comments-api-openapi.yml",
     "figma-component-sets-api-openapi.yml",
-    "figma-components-api-openapi.yml",
     "figma-dev-resources-api-openapi.yml",
-    "figma-files-api-openapi.yml",
-    "figma-images-api-openapi.yml",
     "figma-keys-api-openapi.yml",
-    "figma-library-analytics-api-openapi.yml",
-    "figma-me-api-openapi.yml",
     "figma-payments-api-openapi.yml",
-    "figma-projects-api-openapi.yml",
-    "figma-styles-api-openapi.yml",
-    "figma-teams-api-openapi.yml",
-    "figma-users-api-openapi.yml",
-    "figma-webhooks-api-openapi.yml"
+    "figma-teams-api-openapi.yml"
   ],
   "outputs": [
-    "figma-activity-logs-api-openapi.yml",
-    "figma-comments-api-openapi.yml",
-    "figma-component-sets-api-openapi.yml",
-    "figma-components-api-openapi.yml",
-    "figma-dev-resources-api-openapi.yml",
-    "figma-files-api-openapi.yml",
-    "figma-images-api-openapi.yml",
-    "figma-keys-api-openapi.yml",
     "figma-library-analytics-api-openapi.yml",
-    "figma-me-api-openapi.yml",
-    "figma-payments-api-openapi.yml",
+    "figma-comments-api-openapi.yml",
+    "figma-components-api-openapi.yml",
+    "figma-files-api-openapi.yml",
     "figma-projects-api-openapi.yml",
-    "figma-styles-api-openapi.yml",
-    "figma-teams-api-openapi.yml",
     "figma-users-api-openapi.yml",
-    "figma-webhooks-api-openapi.yml"
+    "figma-activity-logs-api-openapi.yml",
+    "figma-component-sets-api-openapi.yml",
+    "figma-dev-resources-api-openapi.yml",
+    "figma-keys-api-openapi.yml",
+    "figma-payments-api-openapi.yml",
+    "figma-teams-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
-  "warnings": [],
-  "notes": [],
-  "skipped": []
+  "warnings": [
+    "figma-activity-logs-api-openapi.yml: previously refined output kept for 1 operation(s) no archived document covers (e.g. /v1/activity_logs get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "figma-component-sets-api-openapi.yml: previously refined output kept for 1 operation(s) no archived document covers (e.g. /v1/component_sets/{key} get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "figma-dev-resources-api-openapi.yml: previously refined output kept for 3 operation(s) no archived document covers (e.g. /v1/dev_resources post, /v1/dev_resources put, /v1/files/{file_key}/dev_resources/{dev_resource_id} delete); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "figma-keys-api-openapi.yml: previously refined output kept for 1 operation(s) no archived document covers (e.g. /v1/styles/{key} get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "figma-payments-api-openapi.yml: previously refined output kept for 1 operation(s) no archived document covers (e.g. /v1/payments get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "figma-teams-api-openapi.yml: previously refined output kept for 1 operation(s) no archived document covers (e.g. /v2/teams/{team_id}/webhooks get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth."
+  ],
+  "notes": [
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "figma-analytics-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "figma-rest-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "_original/figma-api-openapi.yml: archived document superseded by a larger archived document",
+    "figma-comments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "figma-components-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "figma-files-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "figma-library-analytics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "figma-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "figma-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

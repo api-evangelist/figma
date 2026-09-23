@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Figma Activity Logs Teams API
   version: 0.21.0
@@ -49,6 +49,68 @@ paths:
           $ref: '#/components/responses/InternalServerErrorResponse'
 components:
   schemas:
+    InternalServerError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 500
+        required:
+        - status
+      example:
+        status: 500
+        err: Internal server error
+    TooManyRequestsError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 429
+        required:
+        - status
+      example:
+        status: 429
+        err: Rate limit exceeded. Please wait before retrying.
+    NotFoundError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 404
+        required:
+        - status
+      example:
+        status: 404
+        err: Team not found
+    WebhookV2Event:
+      type: string
+      description: The event type that triggers the webhook.
+      enum:
+      - FILE_UPDATE
+      - FILE_DELETE
+      - FILE_VERSION_UPDATE
+      - LIBRARY_PUBLISH
+      - FILE_COMMENT
+      example: FILE_UPDATE
+    WebhookV2Status:
+      type: string
+      description: The current status of the webhook.
+      enum:
+      - ACTIVE
+      - PAUSED
+      example: ACTIVE
     ErrorResponsePayload:
       type: object
       description: A response indicating an error occurred.
@@ -64,16 +126,51 @@ components:
       required:
       - status
       - err
-    WebhookV2Event:
-      type: string
-      description: The event type that triggers the webhook.
-      enum:
-      - FILE_UPDATE
-      - FILE_DELETE
-      - FILE_VERSION_UPDATE
-      - LIBRARY_PUBLISH
-      - FILE_COMMENT
-      example: FILE_UPDATE
+    ForbiddenError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 403
+        required:
+        - status
+      example:
+        status: 403
+        err: Access denied. You do not have permission to access this team's webhooks.
+    GetTeamWebhooksResponseBody:
+      type: object
+      description: Successful response containing team webhooks.
+      properties:
+        webhooks:
+          type: array
+          description: An array of webhooks.
+          items:
+            $ref: '#/components/schemas/WebhookV2'
+          example: []
+      required:
+      - webhooks
+      example:
+        webhooks:
+        - id: webhook_abc123xyz789
+          event_type: FILE_UPDATE
+          team_id: team_12345678
+          status: ACTIVE
+          client_id: oauth_client_xyz
+          passcode: secret_passcode_123
+          endpoint: https://api.myapp.com/figma/webhooks
+          description: Webhook for design file updates
+        - id: webhook_def456uvw012
+          event_type: FILE_COMMENT
+          team_id: team_12345678
+          status: PAUSED
+          client_id: null
+          passcode: another_passcode_456
+          endpoint: https://api.myapp.com/figma/comments
+          description: null
     WebhookV2:
       type: object
       description: A description of an HTTP webhook (from Figma back to your application)
@@ -128,104 +225,55 @@ components:
         passcode: secret_passcode_123
         endpoint: https://api.myapp.com/figma/webhooks
         description: Webhook for design file updates
-    TooManyRequestsError:
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponsePayload'
-      - type: object
-        properties:
-          status:
-            type: number
-            description: Status code
-            enum:
-            - 429
-        required:
-        - status
-      example:
-        status: 429
-        err: Rate limit exceeded. Please wait before retrying.
-    NotFoundError:
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponsePayload'
-      - type: object
-        properties:
-          status:
-            type: number
-            description: Status code
-            enum:
-            - 404
-        required:
-        - status
-      example:
-        status: 404
-        err: Team not found
-    GetTeamWebhooksResponseBody:
-      type: object
-      description: Successful response containing team webhooks.
-      properties:
-        webhooks:
-          type: array
-          description: An array of webhooks.
-          items:
-            $ref: '#/components/schemas/WebhookV2'
-          example: []
-      required:
-      - webhooks
-      example:
-        webhooks:
-        - id: webhook_abc123xyz789
-          event_type: FILE_UPDATE
-          team_id: team_12345678
-          status: ACTIVE
-          client_id: oauth_client_xyz
-          passcode: secret_passcode_123
-          endpoint: https://api.myapp.com/figma/webhooks
-          description: Webhook for design file updates
-        - id: webhook_def456uvw012
-          event_type: FILE_COMMENT
-          team_id: team_12345678
-          status: PAUSED
-          client_id: null
-          passcode: another_passcode_456
-          endpoint: https://api.myapp.com/figma/comments
-          description: null
-    InternalServerError:
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponsePayload'
-      - type: object
-        properties:
-          status:
-            type: number
-            description: Status code
-            enum:
-            - 500
-        required:
-        - status
-      example:
-        status: 500
-        err: Internal server error
-    WebhookV2Status:
-      type: string
-      description: The current status of the webhook.
-      enum:
-      - ACTIVE
-      - PAUSED
-      example: ACTIVE
-    ForbiddenError:
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponsePayload'
-      - type: object
-        properties:
-          status:
-            type: number
-            description: Status code
-            enum:
-            - 403
-        required:
-        - status
-      example:
-        status: 403
-        err: Access denied. You do not have permission to access this team's webhooks.
+  parameters:
+    TeamIdPath:
+      name: team_id
+      in: path
+      description: ID of team to get webhooks for
+      required: true
+      schema:
+        type: string
+      example: team_12345678
   responses:
+    NotFoundErrorResponse:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFoundError'
+          examples:
+            NotFoundExample:
+              summary: Team not found error
+              value:
+                status: 404
+                err: Team not found
+    GetTeamWebhooksResponse:
+      description: Response from the GET /v2/teams/{team_id}/webhooks endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetTeamWebhooksResponseBody'
+          examples:
+            GetTeamWebhooksSuccessExample:
+              summary: Successful team webhooks response
+              value:
+                webhooks:
+                - id: webhook_abc123xyz789
+                  event_type: FILE_UPDATE
+                  team_id: team_12345678
+                  status: ACTIVE
+                  client_id: oauth_client_xyz
+                  passcode: secret_passcode_123
+                  endpoint: https://api.myapp.com/figma/webhooks
+                  description: Webhook for design file updates
+                - id: webhook_def456uvw012
+                  event_type: FILE_COMMENT
+                  team_id: team_12345678
+                  status: PAUSED
+                  client_id: null
+                  passcode: another_passcode_456
+                  endpoint: https://api.myapp.com/figma/comments
+                  description: null
     InternalServerErrorResponse:
       description: An internal server error occurred.
       content:
@@ -262,54 +310,6 @@ components:
               value:
                 status: 403
                 err: Access denied. You do not have permission to access this team's webhooks.
-    GetTeamWebhooksResponse:
-      description: Response from the GET /v2/teams/{team_id}/webhooks endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GetTeamWebhooksResponseBody'
-          examples:
-            GetTeamWebhooksSuccessExample:
-              summary: Successful team webhooks response
-              value:
-                webhooks:
-                - id: webhook_abc123xyz789
-                  event_type: FILE_UPDATE
-                  team_id: team_12345678
-                  status: ACTIVE
-                  client_id: oauth_client_xyz
-                  passcode: secret_passcode_123
-                  endpoint: https://api.myapp.com/figma/webhooks
-                  description: Webhook for design file updates
-                - id: webhook_def456uvw012
-                  event_type: FILE_COMMENT
-                  team_id: team_12345678
-                  status: PAUSED
-                  client_id: null
-                  passcode: another_passcode_456
-                  endpoint: https://api.myapp.com/figma/comments
-                  description: null
-    NotFoundErrorResponse:
-      description: The requested file or resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/NotFoundError'
-          examples:
-            NotFoundExample:
-              summary: Team not found error
-              value:
-                status: 404
-                err: Team not found
-  parameters:
-    TeamIdPath:
-      name: team_id
-      in: path
-      description: ID of team to get webhooks for
-      required: true
-      schema:
-        type: string
-      example: team_12345678
   securitySchemes:
     OrgOAuth2:
       type: oauth2
