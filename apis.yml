@@ -364,8 +364,6 @@ apis:
     url: json-ld/figma-context.jsonld
   - type: Documentation
     url: https://developers.figma.com/docs/rest-api/
-  - type: GraphQL
-    url: graphql/figma-graphql.md
   - type: JSONSchema
     url: json-schema/figma-rest-get-file-response-schema.json
   - type: JSONSchema
@@ -509,8 +507,6 @@ apis:
     url: json-ld/figma-context.jsonld
   - type: Documentation
     url: https://developers.figma.com/docs/rest-api/
-  - type: GraphQL
-    url: graphql/figma-graphql.md
   - type: JSONSchema
     url: json-schema/figma-rest-get-file-response-schema.json
   - type: JSONSchema
@@ -653,8 +649,6 @@ apis:
     url: json-ld/figma-context.jsonld
   - type: Documentation
     url: https://developers.figma.com/docs/rest-api/
-  - type: GraphQL
-    url: graphql/figma-graphql.md
   - type: JSONSchema
     url: json-schema/figma-rest-get-file-response-schema.json
   - type: JSONSchema
@@ -797,8 +791,6 @@ apis:
     url: json-ld/figma-context.jsonld
   - type: Documentation
     url: https://developers.figma.com/docs/rest-api/
-  - type: GraphQL
-    url: graphql/figma-graphql.md
   - type: JSONSchema
     url: json-schema/figma-rest-get-file-response-schema.json
   - type: JSONSchema
@@ -943,8 +935,6 @@ apis:
     url: json-ld/figma-context.jsonld
   - type: Documentation
     url: https://developers.figma.com/docs/rest-api/
-  - type: GraphQL
-    url: graphql/figma-graphql.md
   - type: JSONSchema
     url: json-schema/figma-rest-get-file-response-schema.json
   - type: JSONSchema
