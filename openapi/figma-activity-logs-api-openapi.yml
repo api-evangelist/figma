@@ -52,74 +52,7 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerErrorResponse'
 components:
-  parameters:
-    EndTimeQueryParam:
-      name: end_time
-      description: Unix timestamp of the most recent event to include. This param defaults to the current timestamp if unspecified.
-      in: query
-      schema:
-        type: number
-      example: 1706745600
-    OrderQueryParam:
-      name: order
-      description: Event order by timestamp. This param can be either "asc" (default) or "desc".
-      in: query
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-        default: asc
-      example: desc
-    EventsQueryParam:
-      name: events
-      description: Event type(s) to include in the response. Can have multiple values separated by comma. All events are returned by default.
-      in: query
-      schema:
-        type: string
-      example: file.created,file.deleted
-    StartTimeQueryParam:
-      name: start_time
-      description: Unix timestamp of the least recent event to include. This param defaults to one year ago if unspecified. Events prior to one year ago are not available.
-      in: query
-      schema:
-        type: number
-      example: 1704067200
-    LimitQueryParam:
-      name: limit
-      description: Maximum number of events to return. This param defaults to 1000 if unspecified.
-      in: query
-      schema:
-        type: number
-      example: 100
   responses:
-    GetActivityLogsResponse:
-      description: Response from the GET /v1/activity_logs endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GetActivityLogsResponseBody'
-          examples:
-            GetActivityLogsSuccessExample:
-              $ref: '#/components/examples/GetActivityLogsSuccessExample'
-    ForbiddenErrorResponse:
-      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            ForbiddenExample:
-              $ref: '#/components/examples/ForbiddenExample'
-    BadRequestErrorResponse:
-      description: Bad request. Parameters are invalid or malformed. Please check the input formats.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            BadRequestExample:
-              $ref: '#/components/examples/BadRequestExample'
     TooManyRequestsErrorResponse:
       description: API requests may be throttled or rate limited. Please wait a while before attempting the request again.
       content:
@@ -129,6 +62,15 @@ components:
           examples:
             TooManyRequestsExample:
               $ref: '#/components/examples/TooManyRequestsExample'
+    BadRequestErrorResponse:
+      description: Bad request. Parameters are invalid or malformed. Please check the input formats.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            BadRequestExample:
+              $ref: '#/components/examples/BadRequestExample'
     InternalServerErrorResponse:
       description: An internal server error occurred.
       content:
@@ -138,6 +80,15 @@ components:
           examples:
             InternalServerErrorExample:
               $ref: '#/components/examples/InternalServerErrorExample'
+    ForbiddenErrorResponse:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            ForbiddenExample:
+              $ref: '#/components/examples/ForbiddenExample'
     UnauthorizedErrorResponse:
       description: Token is missing or incorrect.
       content:
@@ -147,7 +98,210 @@ components:
           examples:
             UnauthorizedExample:
               $ref: '#/components/examples/UnauthorizedExample'
+    GetActivityLogsResponse:
+      description: Response from the GET /v1/activity_logs endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetActivityLogsResponseBody'
+          examples:
+            GetActivityLogsSuccessExample:
+              $ref: '#/components/examples/GetActivityLogsSuccessExample'
   schemas:
+    ErrorResponsePayload:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        error:
+          type: boolean
+          description: For erroneous requests, this value is always `true`.
+          enum:
+          - true
+          example: true
+        status:
+          type: number
+          description: Status code
+          example: 42.5
+        message:
+          type: string
+          description: A string describing the error
+          example: example_value
+      required:
+      - error
+      - status
+      - message
+    ActivityLogOrgEntity:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - org
+          example: org
+        id:
+          type: string
+          example: abc123
+        name:
+          type: string
+          example: Example Title
+      required:
+      - type
+      - id
+    ActivityLogEntity:
+      description: The resource the actor took the action on.
+      oneOf:
+      - $ref: '#/components/schemas/ActivityLogUserEntity'
+      - $ref: '#/components/schemas/ActivityLogFileEntity'
+      - $ref: '#/components/schemas/ActivityLogProjectEntity'
+      - $ref: '#/components/schemas/ActivityLogTeamEntity'
+      - $ref: '#/components/schemas/ActivityLogOrgEntity'
+      discriminator:
+        propertyName: type
+        mapping:
+          user: '#/components/schemas/ActivityLogUserEntity'
+          file: '#/components/schemas/ActivityLogFileEntity'
+          project: '#/components/schemas/ActivityLogProjectEntity'
+          team: '#/components/schemas/ActivityLogTeamEntity'
+          org: '#/components/schemas/ActivityLogOrgEntity'
+    ActivityLogAction:
+      type: object
+      description: The task or activity the actor performed.
+      properties:
+        type:
+          type: string
+          description: The type of the action.
+          example: example_value
+        details:
+          type:
+          - object
+          - 'null'
+          description: Metadata of the action.
+          additionalProperties: true
+          example: example_value
+      required:
+      - type
+      - details
+    ActivityLogContext:
+      type: object
+      description: Contextual information about the event.
+      properties:
+        clientName:
+          type:
+          - string
+          - 'null'
+          description: The third-party application that triggered the event.
+          example: example_value
+        ipAddress:
+          type: string
+          description: The IP address from of the client that sent the event request.
+          example: example_value
+        isFigmaSupportTeamAction:
+          type: boolean
+          description: If Figma's Support team triggered the event.
+          example: true
+        orgId:
+          type: string
+          description: The id of the organization where the event took place.
+          example: '500123'
+        teamId:
+          type:
+          - string
+          - 'null'
+          description: The id of the team where the event took place.
+          example: '500123'
+      required:
+      - clientName
+      - ipAddress
+      - isFigmaSupportTeamAction
+      - orgId
+      - teamId
+    ActivityLogActor:
+      type:
+      - object
+      - 'null'
+      description: The user who performed the action.
+      properties:
+        type:
+          type: string
+          description: The type of the user.
+          enum:
+          - user
+          example: user
+        id:
+          type: string
+          description: The ID of the user.
+          example: abc123
+        name:
+          type: string
+          description: The name of the user.
+          example: Example Title
+        email:
+          type: string
+          description: The email of the user.
+          example: user@example.com
+      required:
+      - name
+    ActivityLog:
+      type: object
+      description: An event returned by the Activity Logs API.
+      properties:
+        id:
+          type: string
+          description: The ID of the event.
+          example: abc123
+        timestamp:
+          type: number
+          description: The timestamp of the event in seconds since the Unix epoch.
+          example: 42.5
+        actor:
+          $ref: '#/components/schemas/ActivityLogActor'
+        action:
+          $ref: '#/components/schemas/ActivityLogAction'
+        entity:
+          $ref: '#/components/schemas/ActivityLogEntity'
+        context:
+          $ref: '#/components/schemas/ActivityLogContext'
+      required:
+      - id
+      - timestamp
+      - actor
+      - action
+      - entity
+      - context
+    ActivityLogFileEntity:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - file
+          example: file
+        id:
+          type: string
+          example: abc123
+        name:
+          type: string
+          example: Example Title
+      required:
+      - type
+      - id
+    ActivityLogTeamEntity:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - team
+          example: team
+        id:
+          type: string
+          example: abc123
+        name:
+          type: string
+          example: Example Title
+      required:
+      - type
+      - id
     ActivityLogsMeta:
       type: object
       properties:
@@ -185,74 +339,6 @@ components:
       required:
       - type
       - id
-    ActivityLogContext:
-      type: object
-      description: Contextual information about the event.
-      properties:
-        clientName:
-          type:
-          - string
-          - 'null'
-          description: The third-party application that triggered the event.
-          example: example_value
-        ipAddress:
-          type: string
-          description: The IP address from of the client that sent the event request.
-          example: example_value
-        isFigmaSupportTeamAction:
-          type: boolean
-          description: If Figma's Support team triggered the event.
-          example: true
-        orgId:
-          type: string
-          description: The id of the organization where the event took place.
-          example: '500123'
-        teamId:
-          type:
-          - string
-          - 'null'
-          description: The id of the team where the event took place.
-          example: '500123'
-      required:
-      - clientName
-      - ipAddress
-      - isFigmaSupportTeamAction
-      - orgId
-      - teamId
-    ActivityLogOrgEntity:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - org
-          example: org
-        id:
-          type: string
-          example: abc123
-        name:
-          type: string
-          example: Example Title
-      required:
-      - type
-      - id
-    ActivityLogFileEntity:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - file
-          example: file
-        id:
-          type: string
-          example: abc123
-        name:
-          type: string
-          example: Example Title
-      required:
-      - type
-      - id
     GetActivityLogsResponseBody:
       type: object
       properties:
@@ -274,66 +360,6 @@ components:
       - status
       - error
       - meta
-    ActivityLogTeamEntity:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - team
-          example: team
-        id:
-          type: string
-          example: abc123
-        name:
-          type: string
-          example: Example Title
-      required:
-      - type
-      - id
-    ActivityLog:
-      type: object
-      description: An event returned by the Activity Logs API.
-      properties:
-        id:
-          type: string
-          description: The ID of the event.
-          example: abc123
-        timestamp:
-          type: number
-          description: The timestamp of the event in seconds since the Unix epoch.
-          example: 42.5
-        actor:
-          $ref: '#/components/schemas/ActivityLogActor'
-        action:
-          $ref: '#/components/schemas/ActivityLogAction'
-        entity:
-          $ref: '#/components/schemas/ActivityLogEntity'
-        context:
-          $ref: '#/components/schemas/ActivityLogContext'
-      required:
-      - id
-      - timestamp
-      - actor
-      - action
-      - entity
-      - context
-    ActivityLogEntity:
-      description: The resource the actor took the action on.
-      oneOf:
-      - $ref: '#/components/schemas/ActivityLogUserEntity'
-      - $ref: '#/components/schemas/ActivityLogFileEntity'
-      - $ref: '#/components/schemas/ActivityLogProjectEntity'
-      - $ref: '#/components/schemas/ActivityLogTeamEntity'
-      - $ref: '#/components/schemas/ActivityLogOrgEntity'
-      discriminator:
-        propertyName: type
-        mapping:
-          user: '#/components/schemas/ActivityLogUserEntity'
-          file: '#/components/schemas/ActivityLogFileEntity'
-          project: '#/components/schemas/ActivityLogProjectEntity'
-          team: '#/components/schemas/ActivityLogTeamEntity'
-          org: '#/components/schemas/ActivityLogOrgEntity'
     ActivityLogUserEntity:
       type: object
       properties:
@@ -354,72 +380,6 @@ components:
       required:
       - type
       - id
-    ActivityLogActor:
-      type:
-      - object
-      - 'null'
-      description: The user who performed the action.
-      properties:
-        type:
-          type: string
-          description: The type of the user.
-          enum:
-          - user
-          example: user
-        id:
-          type: string
-          description: The ID of the user.
-          example: abc123
-        name:
-          type: string
-          description: The name of the user.
-          example: Example Title
-        email:
-          type: string
-          description: The email of the user.
-          example: user@example.com
-      required:
-      - name
-    ActivityLogAction:
-      type: object
-      description: The task or activity the actor performed.
-      properties:
-        type:
-          type: string
-          description: The type of the action.
-          example: example_value
-        details:
-          type:
-          - object
-          - 'null'
-          description: Metadata of the action.
-          additionalProperties: true
-          example: example_value
-      required:
-      - type
-      - details
-    ErrorResponsePayload:
-      type: object
-      description: A response indicating an error occurred.
-      properties:
-        error:
-          type: boolean
-          description: For erroneous requests, this value is always `true`.
-          enum:
-          - true
-          example: true
-        status:
-          type: number
-          description: Status code
-          example: 42.5
-        message:
-          type: string
-          description: A string describing the error
-          example: example_value
-      required:
-      - error
-      - status
-      - message
   examples:
     UnauthorizedExample:
       summary: Unauthorized error
@@ -427,30 +387,6 @@ components:
         error: true
         status: 401
         message: Token is missing or incorrect
-    BadRequestExample:
-      summary: Bad request error
-      value:
-        error: true
-        status: 400
-        message: 'Invalid parameter: start_time must be a valid Unix timestamp'
-    ForbiddenExample:
-      summary: Forbidden error
-      value:
-        error: true
-        status: 403
-        message: You do not have permission to access this resource
-    TooManyRequestsExample:
-      summary: Rate limit error
-      value:
-        error: true
-        status: 429
-        message: Rate limit exceeded. Please wait before making another request
-    InternalServerErrorExample:
-      summary: Internal server error
-      value:
-        error: true
-        status: 500
-        message: An internal server error occurred
     GetActivityLogsSuccessExample:
       summary: Successful activity logs response
       value:
@@ -481,6 +417,70 @@ components:
               teamId: team_456
           cursor: eyJsYXN0X2V2ZW50X2lkIjoiZXZ0XzEyMzQ1Njc4OSJ9
           nextPage: true
+    ForbiddenExample:
+      summary: Forbidden error
+      value:
+        error: true
+        status: 403
+        message: You do not have permission to access this resource
+    BadRequestExample:
+      summary: Bad request error
+      value:
+        error: true
+        status: 400
+        message: 'Invalid parameter: start_time must be a valid Unix timestamp'
+    TooManyRequestsExample:
+      summary: Rate limit error
+      value:
+        error: true
+        status: 429
+        message: Rate limit exceeded. Please wait before making another request
+    InternalServerErrorExample:
+      summary: Internal server error
+      value:
+        error: true
+        status: 500
+        message: An internal server error occurred
+  parameters:
+    EventsQueryParam:
+      name: events
+      description: Event type(s) to include in the response. Can have multiple values separated by comma. All events are returned by default.
+      in: query
+      schema:
+        type: string
+      example: file.created,file.deleted
+    OrderQueryParam:
+      name: order
+      description: Event order by timestamp. This param can be either "asc" (default) or "desc".
+      in: query
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+        default: asc
+      example: desc
+    StartTimeQueryParam:
+      name: start_time
+      description: Unix timestamp of the least recent event to include. This param defaults to one year ago if unspecified. Events prior to one year ago are not available.
+      in: query
+      schema:
+        type: number
+      example: 1704067200
+    LimitQueryParam:
+      name: limit
+      description: Maximum number of events to return. This param defaults to 1000 if unspecified.
+      in: query
+      schema:
+        type: number
+      example: 100
+    EndTimeQueryParam:
+      name: end_time
+      description: Unix timestamp of the most recent event to include. This param defaults to the current timestamp if unspecified.
+      in: query
+      schema:
+        type: number
+      example: 1706745600
   securitySchemes:
     OrgOAuth2:
       type: oauth2

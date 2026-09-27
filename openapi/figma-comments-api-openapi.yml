@@ -314,63 +314,59 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    ForbiddenError:
-      description: The authenticated user does not have the necessary permissions to access this resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    RateLimitError:
-      description: Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    UnauthorizedError:
-      description: Authentication token is missing, invalid, or expired.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFoundError:
-      description: The requested file, project, team, or resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-  parameters:
-    FileKeyPathParam:
-      name: file_key
-      in: path
-      description: 'The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/...'
-      required: true
-      schema:
-        type: string
-      example: abc123xyz789
   schemas:
-    ErrorResponse:
+    SuccessResponse:
       type: object
-      description: Standard error response from the Figma API.
-      required:
-      - error
-      - status
-      - message
+      description: Generic success response.
       properties:
         error:
           type: boolean
-          description: Always true for error responses.
           enum:
-          - true
-          example: true
+          - false
+          example: false
         status:
           type: integer
-          description: The HTTP status code.
-          example: 10
-        message:
+          enum:
+          - 200
+          example: 200
+    User:
+      type: object
+      description: A Figma user account.
+      required:
+      - id
+      - handle
+      - img_url
+      properties:
+        id:
           type: string
-          description: A human-readable description of the error.
+          description: Unique stable ID of the user.
+          example: abc123
+        handle:
+          type: string
+          description: Display name of the user.
           example: example_value
+        img_url:
+          type: string
+          format: uri
+          description: URL of the user's profile image.
+          example: https://www.example.com
+        email:
+          type: string
+          format: email
+          description: Email address associated with the user's account.
+          example: user@example.com
+    GetCommentsResponse:
+      type: object
+      description: Response from the Get Comments endpoint.
+      required:
+      - comments
+      properties:
+        comments:
+          type: array
+          description: An array of comments on the file.
+          items:
+            $ref: '#/components/schemas/Comment'
+          example: []
     Comment:
       type: object
       description: A comment or reply left by a user on a Figma file. Comments can be pinned to specific locations on the canvas.
@@ -429,34 +425,47 @@ components:
           items:
             $ref: '#/components/schemas/Reaction'
           example: []
-    PostCommentRequest:
+    Reaction:
       type: object
-      description: Request body for posting a new comment.
+      description: An emoji reaction left on a comment.
       required:
+      - user
+      - emoji
+      - created_at
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        emoji:
+          type: string
+          description: The emoji used for the reaction.
+          example: example_value
+        created_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the reaction was left.
+          example: '2026-01-15T10:30:00Z'
+    ErrorResponse:
+      type: object
+      description: Standard error response from the Figma API.
+      required:
+      - error
+      - status
       - message
       properties:
+        error:
+          type: boolean
+          description: Always true for error responses.
+          enum:
+          - true
+          example: true
+        status:
+          type: integer
+          description: The HTTP status code.
+          example: 10
         message:
           type: string
-          description: The text content of the comment.
+          description: A human-readable description of the error.
           example: example_value
-        comment_id:
-          type: string
-          description: The comment to reply to, if any. This must be a root comment. Creating a reply to a reply is not supported.
-          example: '500123'
-        client_meta:
-          $ref: '#/components/schemas/ClientMeta'
-    GetCommentsResponse:
-      type: object
-      description: Response from the Get Comments endpoint.
-      required:
-      - comments
-      properties:
-        comments:
-          type: array
-          description: An array of comments on the file.
-          items:
-            $ref: '#/components/schemas/Comment'
-          example: []
     GetReactionsResponse:
       type: object
       description: Response from the Get Reactions endpoint.
@@ -474,32 +483,6 @@ components:
             cursor:
               type: string
           example: example_value
-    User:
-      type: object
-      description: A Figma user account.
-      required:
-      - id
-      - handle
-      - img_url
-      properties:
-        id:
-          type: string
-          description: Unique stable ID of the user.
-          example: abc123
-        handle:
-          type: string
-          description: Display name of the user.
-          example: example_value
-        img_url:
-          type: string
-          format: uri
-          description: URL of the user's profile image.
-          example: https://www.example.com
-        email:
-          type: string
-          format: email
-          description: Email address associated with the user's account.
-          example: user@example.com
     ClientMeta:
       type: object
       description: Position metadata for a pinned comment. Describes where the comment marker is located on the canvas.
@@ -525,39 +508,56 @@ components:
             y:
               type: number
           example: example_value
-    SuccessResponse:
+    PostCommentRequest:
       type: object
-      description: Generic success response.
-      properties:
-        error:
-          type: boolean
-          enum:
-          - false
-          example: false
-        status:
-          type: integer
-          enum:
-          - 200
-          example: 200
-    Reaction:
-      type: object
-      description: An emoji reaction left on a comment.
+      description: Request body for posting a new comment.
       required:
-      - user
-      - emoji
-      - created_at
+      - message
       properties:
-        user:
-          $ref: '#/components/schemas/User'
-        emoji:
+        message:
           type: string
-          description: The emoji used for the reaction.
+          description: The text content of the comment.
           example: example_value
-        created_at:
+        comment_id:
           type: string
-          format: date-time
-          description: The UTC ISO 8601 time at which the reaction was left.
-          example: '2026-01-15T10:30:00Z'
+          description: The comment to reply to, if any. This must be a root comment. Creating a reply to a reply is not supported.
+          example: '500123'
+        client_meta:
+          $ref: '#/components/schemas/ClientMeta'
+  parameters:
+    FileKeyPathParam:
+      name: file_key
+      in: path
+      description: 'The key of the Figma file. This can be found in the URL of the file: figma.com/file/{file_key}/...'
+      required: true
+      schema:
+        type: string
+      example: abc123xyz789
+  responses:
+    UnauthorizedError:
+      description: Authentication token is missing, invalid, or expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ForbiddenError:
+      description: The authenticated user does not have the necessary permissions to access this resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimitError:
+      description: Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFoundError:
+      description: The requested file, project, team, or resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     PersonalAccessToken:
       type: http
