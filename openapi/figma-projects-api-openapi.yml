@@ -122,6 +122,53 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    ProjectFile:
+      type: object
+      description: A file within a Figma project.
+      required:
+      - key
+      - name
+      - last_modified
+      properties:
+        key:
+          type: string
+          description: The file key.
+          example: example_value
+        name:
+          type: string
+          description: The name of the file.
+          example: Example Title
+        thumbnail_url:
+          type: string
+          format: uri
+          description: A URL to a thumbnail image of the file.
+          example: https://www.example.com
+        last_modified:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the file was last modified.
+          example: '2026-01-15T10:30:00Z'
+        branches:
+          type: array
+          description: Branches of this file, if branch_data was requested.
+          items:
+            $ref: '#/components/schemas/Branch'
+          example: []
+    Project:
+      type: object
+      description: A Figma project within a team.
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: The ID of the project.
+          example: abc123
+        name:
+          type: string
+          description: The name of the project.
+          example: Example Title
     GetProjectFilesResponse:
       type: object
       description: Response from the Get Project Files endpoint.
@@ -138,48 +185,6 @@ components:
           items:
             $ref: '#/components/schemas/ProjectFile'
           example: []
-    Branch:
-      type: object
-      description: Information about a branch of a Figma file.
-      required:
-      - key
-      - name
-      - thumbnail_url
-      - last_modified
-      properties:
-        key:
-          type: string
-          description: The key of the branch file.
-          example: example_value
-        name:
-          type: string
-          description: The name of the branch.
-          example: Example Title
-        thumbnail_url:
-          type: string
-          format: uri
-          description: A URL to a thumbnail image of the branch.
-          example: https://www.example.com
-        last_modified:
-          type: string
-          format: date-time
-          description: The UTC ISO 8601 time at which the branch was last modified.
-          example: '2026-01-15T10:30:00Z'
-    Project:
-      type: object
-      description: A Figma project within a team.
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-          description: The ID of the project.
-          example: abc123
-        name:
-          type: string
-          description: The name of the project.
-          example: Example Title
     GetTeamProjectsResponse:
       type: object
       description: Response from the Get Team Projects endpoint.
@@ -218,59 +223,54 @@ components:
           type: string
           description: A human-readable description of the error.
           example: example_value
-    ProjectFile:
+    Branch:
       type: object
-      description: A file within a Figma project.
+      description: Information about a branch of a Figma file.
       required:
       - key
       - name
+      - thumbnail_url
       - last_modified
       properties:
         key:
           type: string
-          description: The file key.
+          description: The key of the branch file.
           example: example_value
         name:
           type: string
-          description: The name of the file.
+          description: The name of the branch.
           example: Example Title
         thumbnail_url:
           type: string
           format: uri
-          description: A URL to a thumbnail image of the file.
+          description: A URL to a thumbnail image of the branch.
           example: https://www.example.com
         last_modified:
           type: string
           format: date-time
-          description: The UTC ISO 8601 time at which the file was last modified.
+          description: The UTC ISO 8601 time at which the branch was last modified.
           example: '2026-01-15T10:30:00Z'
-        branches:
-          type: array
-          description: Branches of this file, if branch_data was requested.
-          items:
-            $ref: '#/components/schemas/Branch'
-          example: []
   responses:
-    UnauthorizedError:
-      description: Authentication token is missing, invalid, or expired.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    ForbiddenError:
-      description: The authenticated user does not have the necessary permissions to access this resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     RateLimitError:
       description: Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    UnauthorizedError:
+      description: Authentication token is missing, invalid, or expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     NotFoundError:
       description: The requested file, project, team, or resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ForbiddenError:
+      description: The authenticated user does not have the necessary permissions to access this resource.
       content:
         application/json:
           schema:

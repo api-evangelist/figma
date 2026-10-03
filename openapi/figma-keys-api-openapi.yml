@@ -51,6 +51,45 @@ paths:
           $ref: '#/components/responses/InternalServerErrorResponse'
 components:
   schemas:
+    User:
+      type: object
+      description: A description of a user.
+      properties:
+        id:
+          type: string
+          description: Unique stable id of the user.
+          example: abc123
+        handle:
+          type: string
+          description: Name of the user.
+          example: example_value
+        img_url:
+          type: string
+          description: URL link to the user's profile image.
+          example: https://www.example.com
+      required:
+      - id
+      - handle
+      - img_url
+      example:
+        id: '1234567890'
+        handle: John Designer
+        img_url: https://s3-alpha.figma.com/profile/abc123-xyz789
+    BadRequestError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 400
+        required:
+        - status
+      example:
+        status: 400
+        err: Invalid style key format
     PublishedStyle:
       type: object
       description: A set of published properties that can be applied to nodes.
@@ -123,6 +162,21 @@ components:
           handle: John Designer
           img_url: https://s3-alpha.figma.com/profile/abc123-xyz789
         sort_position: a0
+    TooManyRequestsError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 429
+        required:
+        - status
+      example:
+        status: 429
+        err: Rate limit exceeded. Please wait before retrying.
     GetStyleResponseBody:
       type: object
       description: Successful response containing style metadata.
@@ -163,21 +217,21 @@ components:
             handle: John Designer
             img_url: https://s3-alpha.figma.com/profile/abc123-xyz789
           sort_position: a0
-    ErrorResponsePayloadWithErr:
-      type: object
-      description: A response indicating an error occurred.
-      properties:
-        status:
-          type: number
-          description: Status code
-          example: 42.5
-        err:
-          type: string
-          description: A string describing the error
-          example: example_value
-      required:
-      - status
-      - err
+    InternalServerError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 500
+        required:
+        - status
+      example:
+        status: 500
+        err: Internal server error
     ForbiddenError:
       allOf:
       - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
@@ -193,6 +247,30 @@ components:
       example:
         status: 403
         err: Access denied. You do not have permission to access this style.
+    ErrorResponsePayloadWithErr:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        status:
+          type: number
+          description: Status code
+          example: 42.5
+        err:
+          type: string
+          description: A string describing the error
+          example: example_value
+      required:
+      - status
+      - err
+    StyleType:
+      type: string
+      description: The type of style.
+      enum:
+      - FILL
+      - TEXT
+      - EFFECT
+      - GRID
+      example: FILL
     ErrorResponsePayloadWithMessage:
       type: object
       description: A response indicating an error occurred.
@@ -215,75 +293,6 @@ components:
       - error
       - status
       - message
-    User:
-      type: object
-      description: A description of a user.
-      properties:
-        id:
-          type: string
-          description: Unique stable id of the user.
-          example: abc123
-        handle:
-          type: string
-          description: Name of the user.
-          example: example_value
-        img_url:
-          type: string
-          description: URL link to the user's profile image.
-          example: https://www.example.com
-      required:
-      - id
-      - handle
-      - img_url
-      example:
-        id: '1234567890'
-        handle: John Designer
-        img_url: https://s3-alpha.figma.com/profile/abc123-xyz789
-    BadRequestError:
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
-      - type: object
-        properties:
-          status:
-            type: number
-            description: Status code
-            enum:
-            - 400
-        required:
-        - status
-      example:
-        status: 400
-        err: Invalid style key format
-    InternalServerError:
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
-      - type: object
-        properties:
-          status:
-            type: number
-            description: Status code
-            enum:
-            - 500
-        required:
-        - status
-      example:
-        status: 500
-        err: Internal server error
-    TooManyRequestsError:
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
-      - type: object
-        properties:
-          status:
-            type: number
-            description: Status code
-            enum:
-            - 429
-        required:
-        - status
-      example:
-        status: 429
-        err: Rate limit exceeded. Please wait before retrying.
     NotFoundError:
       allOf:
       - $ref: '#/components/schemas/ErrorResponsePayloadWithMessage'
@@ -300,15 +309,6 @@ components:
         error: true
         status: 404
         message: Style not found
-    StyleType:
-      type: string
-      description: The type of style.
-      enum:
-      - FILL
-      - TEXT
-      - EFFECT
-      - GRID
-      example: FILL
   responses:
     TooManyRequestsErrorResponse:
       description: In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).
@@ -322,31 +322,6 @@ components:
               value:
                 status: 429
                 err: Rate limit exceeded. Please wait before retrying.
-    NotFoundErrorResponse:
-      description: The requested file or resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/NotFoundError'
-          examples:
-            NotFoundExample:
-              summary: Style not found error
-              value:
-                error: true
-                status: 404
-                message: Style not found
-    ForbiddenErrorResponse:
-      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ForbiddenError'
-          examples:
-            ForbiddenExample:
-              summary: Access denied error
-              value:
-                status: 403
-                err: Access denied. You do not have permission to access this style.
     BadRequestErrorResponse:
       description: Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.
       content:
@@ -398,6 +373,31 @@ components:
                     handle: John Designer
                     img_url: https://s3-alpha.figma.com/profile/abc123-xyz789
                   sort_position: a0
+    NotFoundErrorResponse:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFoundError'
+          examples:
+            NotFoundExample:
+              summary: Style not found error
+              value:
+                error: true
+                status: 404
+                message: Style not found
+    ForbiddenErrorResponse:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ForbiddenError'
+          examples:
+            ForbiddenExample:
+              summary: Access denied error
+              value:
+                status: 403
+                err: Access denied. You do not have permission to access this style.
   parameters:
     StyleKeyPath:
       name: key

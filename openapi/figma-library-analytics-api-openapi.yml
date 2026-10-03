@@ -48,84 +48,7 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerErrorResponse'
 components:
-  responses:
-    TooManyRequestsErrorResponse:
-      description: API requests may be throttled or rate limited. Please wait a while before attempting the request again.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            TooManyRequestsExample:
-              $ref: '#/components/examples/TooManyRequestsExample'
-    BadRequestErrorResponse:
-      description: Bad request. Parameters are invalid or malformed. Please check the input formats.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            BadRequestExample:
-              $ref: '#/components/examples/BadRequestExample'
-    InternalServerErrorResponse:
-      description: An internal server error occurred.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            InternalServerErrorExample:
-              $ref: '#/components/examples/InternalServerErrorExample'
-    GetLibraryAnalyticsUsagesResponse:
-      description: Response from the GET /v1/analytics/libraries/{file_key}/usages endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GetLibraryAnalyticsUsagesResponseBody'
-          examples:
-            GetLibraryAnalyticsUsagesSuccessExample:
-              $ref: '#/components/examples/GetLibraryAnalyticsUsagesSuccessExample'
-    ForbiddenErrorResponse:
-      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            ForbiddenExample:
-              $ref: '#/components/examples/ForbiddenExample'
-    UnauthorizedErrorResponse:
-      description: Token is missing or incorrect.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            UnauthorizedExample:
-              $ref: '#/components/examples/UnauthorizedExample'
   schemas:
-    ErrorResponsePayload:
-      type: object
-      description: A response indicating an error occurred.
-      properties:
-        error:
-          type: boolean
-          description: For erroneous requests, this value is always `true`.
-          enum:
-          - true
-          example: true
-        status:
-          type: number
-          description: Status code
-          example: 42.5
-        message:
-          type: string
-          description: A string describing the error
-          example: example_value
-      required:
-      - error
-      - status
-      - message
     LibraryAnalyticsUsagesByFile:
       type: object
       description: Library analytics usage data broken down by file.
@@ -150,6 +73,28 @@ components:
       - fileName
       - teamName
       - numInstances
+    ErrorResponsePayload:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        error:
+          type: boolean
+          description: For erroneous requests, this value is always `true`.
+          enum:
+          - true
+          example: true
+        status:
+          type: number
+          description: Status code
+          example: 42.5
+        message:
+          type: string
+          description: A string describing the error
+          example: example_value
+      required:
+      - error
+      - status
+      - message
     LibraryAnalyticsUsagesByComponent:
       type: object
       description: Library analytics usage data broken down by component.
@@ -213,25 +158,124 @@ components:
           example: example_value
       required:
       - nextPage
+  responses:
+    TooManyRequestsErrorResponse:
+      description: API requests may be throttled or rate limited. Please wait a while before attempting the request again.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            TooManyRequestsExample:
+              $ref: '#/components/examples/TooManyRequestsExample'
+    BadRequestErrorResponse:
+      description: Bad request. Parameters are invalid or malformed. Please check the input formats.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            BadRequestExample:
+              $ref: '#/components/examples/BadRequestExample'
+    GetLibraryAnalyticsUsagesResponse:
+      description: Response from the GET /v1/analytics/libraries/{file_key}/usages endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetLibraryAnalyticsUsagesResponseBody'
+          examples:
+            GetLibraryAnalyticsUsagesSuccessExample:
+              $ref: '#/components/examples/GetLibraryAnalyticsUsagesSuccessExample'
+    InternalServerErrorResponse:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            InternalServerErrorExample:
+              $ref: '#/components/examples/InternalServerErrorExample'
+    ForbiddenErrorResponse:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            ForbiddenExample:
+              $ref: '#/components/examples/ForbiddenExample'
+    UnauthorizedErrorResponse:
+      description: Token is missing or incorrect.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            UnauthorizedExample:
+              $ref: '#/components/examples/UnauthorizedExample'
+  parameters:
+    FileKeyPathParam:
+      name: file_key
+      in: path
+      description: File key of the library to fetch analytics data for.
+      required: true
+      schema:
+        type: string
+      example: abc123xyz789
+    GroupByQueryParam:
+      name: group_by
+      description: A dimension to group returned analytics data by. Accepts "component" or "file".
+      required: true
+      in: query
+      schema:
+        type: string
+        enum:
+        - component
+        - file
+      example: component
+    CursorQueryParam:
+      name: cursor
+      description: Cursor indicating what page of data to fetch. Obtained from prior API call.
+      in: query
+      schema:
+        type: string
+      example: eyJwYWdlIjoxfQ==
+    OrderQueryParam:
+      name: order
+      description: How to order response rows by number of instances. This param can be either "asc" or "desc" (default).
+      in: query
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+        default: desc
+      example: desc
   examples:
-    UnauthorizedExample:
-      summary: Unauthorized error
-      value:
-        error: true
-        status: 401
-        message: Token is missing or incorrect
-    ForbiddenExample:
-      summary: Forbidden error
-      value:
-        error: true
-        status: 403
-        message: You do not have permission to access analytics for this library
     BadRequestExample:
       summary: Bad request error
       value:
         error: true
         status: 400
         message: 'Invalid parameter: group_by must be ''component'' or ''file'''
+    InternalServerErrorExample:
+      summary: Internal server error
+      value:
+        error: true
+        status: 500
+        message: An internal server error occurred
+    ForbiddenExample:
+      summary: Forbidden error
+      value:
+        error: true
+        status: 403
+        message: You do not have permission to access analytics for this library
+    UnauthorizedExample:
+      summary: Unauthorized error
+      value:
+        error: true
+        status: 401
+        message: Token is missing or incorrect
     GetLibraryAnalyticsUsagesSuccessExample:
       summary: Successful library analytics usage response
       value:
@@ -267,50 +311,6 @@ components:
         error: true
         status: 429
         message: Rate limit exceeded. Please wait before making another request
-    InternalServerErrorExample:
-      summary: Internal server error
-      value:
-        error: true
-        status: 500
-        message: An internal server error occurred
-  parameters:
-    OrderQueryParam:
-      name: order
-      description: How to order response rows by number of instances. This param can be either "asc" or "desc" (default).
-      in: query
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-        default: desc
-      example: desc
-    FileKeyPathParam:
-      name: file_key
-      in: path
-      description: File key of the library to fetch analytics data for.
-      required: true
-      schema:
-        type: string
-      example: abc123xyz789
-    GroupByQueryParam:
-      name: group_by
-      description: A dimension to group returned analytics data by. Accepts "component" or "file".
-      required: true
-      in: query
-      schema:
-        type: string
-        enum:
-        - component
-        - file
-      example: component
-    CursorQueryParam:
-      name: cursor
-      description: Cursor indicating what page of data to fetch. Obtained from prior API call.
-      in: query
-      schema:
-        type: string
-      example: eyJwYWdlIjoxfQ==
   securitySchemes:
     PersonalAccessToken:
       type: http
