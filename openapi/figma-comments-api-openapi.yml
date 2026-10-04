@@ -315,6 +315,25 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Reaction:
+      type: object
+      description: An emoji reaction left on a comment.
+      required:
+      - user
+      - emoji
+      - created_at
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        emoji:
+          type: string
+          description: The emoji used for the reaction.
+          example: example_value
+        created_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the reaction was left.
+          example: '2026-01-15T10:30:00Z'
     User:
       type: object
       description: A Figma user account.
@@ -341,6 +360,59 @@ components:
           format: email
           description: Email address associated with the user's account.
           example: user@example.com
+    ClientMeta:
+      type: object
+      description: Position metadata for a pinned comment. Describes where the comment marker is located on the canvas.
+      properties:
+        x:
+          type: number
+          description: X coordinate of the comment pin.
+          example: 42.5
+        y:
+          type: number
+          description: Y coordinate of the comment pin.
+          example: 42.5
+        node_id:
+          type: string
+          description: The node ID the comment is pinned to.
+          example: '500123'
+        node_offset:
+          type: object
+          description: Offset from the node origin.
+          properties:
+            x:
+              type: number
+            y:
+              type: number
+          example: example_value
+    PostCommentRequest:
+      type: object
+      description: Request body for posting a new comment.
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: The text content of the comment.
+          example: example_value
+        comment_id:
+          type: string
+          description: The comment to reply to, if any. This must be a root comment. Creating a reply to a reply is not supported.
+          example: '500123'
+        client_meta:
+          $ref: '#/components/schemas/ClientMeta'
+    GetCommentsResponse:
+      type: object
+      description: Response from the Get Comments endpoint.
+      required:
+      - comments
+      properties:
+        comments:
+          type: array
+          description: An array of comments on the file.
+          items:
+            $ref: '#/components/schemas/Comment'
+          example: []
     GetReactionsResponse:
       type: object
       description: Response from the Get Reactions endpoint.
@@ -372,78 +444,6 @@ components:
           enum:
           - 200
           example: 200
-    ClientMeta:
-      type: object
-      description: Position metadata for a pinned comment. Describes where the comment marker is located on the canvas.
-      properties:
-        x:
-          type: number
-          description: X coordinate of the comment pin.
-          example: 42.5
-        y:
-          type: number
-          description: Y coordinate of the comment pin.
-          example: 42.5
-        node_id:
-          type: string
-          description: The node ID the comment is pinned to.
-          example: '500123'
-        node_offset:
-          type: object
-          description: Offset from the node origin.
-          properties:
-            x:
-              type: number
-            y:
-              type: number
-          example: example_value
-    GetCommentsResponse:
-      type: object
-      description: Response from the Get Comments endpoint.
-      required:
-      - comments
-      properties:
-        comments:
-          type: array
-          description: An array of comments on the file.
-          items:
-            $ref: '#/components/schemas/Comment'
-          example: []
-    PostCommentRequest:
-      type: object
-      description: Request body for posting a new comment.
-      required:
-      - message
-      properties:
-        message:
-          type: string
-          description: The text content of the comment.
-          example: example_value
-        comment_id:
-          type: string
-          description: The comment to reply to, if any. This must be a root comment. Creating a reply to a reply is not supported.
-          example: '500123'
-        client_meta:
-          $ref: '#/components/schemas/ClientMeta'
-    Reaction:
-      type: object
-      description: An emoji reaction left on a comment.
-      required:
-      - user
-      - emoji
-      - created_at
-      properties:
-        user:
-          $ref: '#/components/schemas/User'
-        emoji:
-          type: string
-          description: The emoji used for the reaction.
-          example: example_value
-        created_at:
-          type: string
-          format: date-time
-          description: The UTC ISO 8601 time at which the reaction was left.
-          example: '2026-01-15T10:30:00Z'
     Comment:
       type: object
       description: A comment or reply left by a user on a Figma file. Comments can be pinned to specific locations on the canvas.

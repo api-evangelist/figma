@@ -412,55 +412,111 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    RateLimitError:
+      description: Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    UnauthorizedError:
+      description: Authentication token is missing, invalid, or expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerError:
+      description: An unexpected error occurred on the Figma server.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ForbiddenError:
+      description: The authenticated user does not have the necessary permissions to access this resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFoundError:
+      description: The requested file, project, team, or resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    ComponentSet:
+    User:
       type: object
-      description: A component set groups variants of a component together. Useful for organizing different states or configurations of a design element.
+      description: A Figma user account.
       required:
-      - key
-      - name
-      - description
+      - id
+      - handle
+      - img_url
       properties:
-        key:
+        id:
           type: string
-          description: The globally unique key of the component set.
+          description: Unique stable ID of the user.
+          example: abc123
+        handle:
+          type: string
+          description: Display name of the user.
           example: example_value
-        name:
+        img_url:
           type: string
-          description: Name of the component set.
-          example: Example Title
-        description:
+          format: uri
+          description: URL of the user's profile image.
+          example: https://www.example.com
+        email:
           type: string
-          description: The description of the component set as entered in the editor.
-          example: A sample description.
-        documentationLinks:
-          type: array
-          description: Documentation links attached to this component set.
-          items:
-            $ref: '#/components/schemas/DocumentationLink'
-          example: []
-        remote:
-          type: boolean
-          description: Whether this is a remote component set.
-          example: true
-    GetImagesResponse:
+          format: email
+          description: Email address associated with the user's account.
+          example: user@example.com
+    GetFileVersionsResponse:
       type: object
-      description: Response from the Get Images endpoint.
+      description: Response from the Get File Versions endpoint.
+      required:
+      - versions
       properties:
-        err:
-          type:
-          - string
-          - 'null'
-          description: If present, indicates an error rendering the images.
-          example: example_value
-        images:
-          type: object
-          description: A mapping from node IDs to URLs of the rendered images. Image URLs expire after 14 days.
-          additionalProperties:
-            type:
-            - string
-            - 'null'
-          example: example_value
+        versions:
+          type: array
+          description: An array of version history entries.
+          items:
+            $ref: '#/components/schemas/Version'
+          example: []
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    Color:
+      type: object
+      description: An RGBA color value with channels ranging from 0 to 1.
+      required:
+      - r
+      - g
+      - b
+      - a
+      properties:
+        r:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Red channel value, between 0 and 1.
+          example: 42.5
+        g:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Green channel value, between 0 and 1.
+          example: 42.5
+        b:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Blue channel value, between 0 and 1.
+          example: 42.5
+        a:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Alpha channel value, between 0 and 1.
+          example: 42.5
     GetFileResponse:
       type: object
       description: Response from the Get File endpoint.
@@ -543,6 +599,24 @@ components:
           items:
             $ref: '#/components/schemas/Branch'
           example: []
+    GetImagesResponse:
+      type: object
+      description: Response from the Get Images endpoint.
+      properties:
+        err:
+          type:
+          - string
+          - 'null'
+          description: If present, indicates an error rendering the images.
+          example: example_value
+        images:
+          type: object
+          description: A mapping from node IDs to URLs of the rendered images. Image URLs expire after 14 days.
+          additionalProperties:
+            type:
+            - string
+            - 'null'
+          example: example_value
     Component:
       type: object
       description: Metadata about a main component in a Figma file. Components are reusable design elements.
@@ -581,58 +655,6 @@ components:
           type: boolean
           description: Whether this component is a remote component that was pulled from an external library.
           example: true
-    GetImageFillsResponse:
-      type: object
-      description: Response from the Get Image Fills endpoint.
-      properties:
-        error:
-          type: boolean
-          example: true
-        status:
-          type: integer
-          example: 10
-        meta:
-          type: object
-          properties:
-            images:
-              type: object
-              description: A mapping from image references to image download URLs.
-              additionalProperties:
-                type: string
-          example: example_value
-    Color:
-      type: object
-      description: An RGBA color value with channels ranging from 0 to 1.
-      required:
-      - r
-      - g
-      - b
-      - a
-      properties:
-        r:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: Red channel value, between 0 and 1.
-          example: 42.5
-        g:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: Green channel value, between 0 and 1.
-          example: 42.5
-        b:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: Blue channel value, between 0 and 1.
-          example: 42.5
-        a:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: Alpha channel value, between 0 and 1.
-          example: 42.5
     CanvasNode:
       type: object
       description: A canvas (page) in the Figma document.
@@ -663,6 +685,148 @@ components:
           items:
             type: object
           example: []
+    ComponentSet:
+      type: object
+      description: A component set groups variants of a component together. Useful for organizing different states or configurations of a design element.
+      required:
+      - key
+      - name
+      - description
+      properties:
+        key:
+          type: string
+          description: The globally unique key of the component set.
+          example: example_value
+        name:
+          type: string
+          description: Name of the component set.
+          example: Example Title
+        description:
+          type: string
+          description: The description of the component set as entered in the editor.
+          example: A sample description.
+        documentationLinks:
+          type: array
+          description: Documentation links attached to this component set.
+          items:
+            $ref: '#/components/schemas/DocumentationLink'
+          example: []
+        remote:
+          type: boolean
+          description: Whether this is a remote component set.
+          example: true
+    DocumentationLink:
+      type: object
+      description: A link to documentation associated with a component.
+      required:
+      - uri
+      properties:
+        uri:
+          type: string
+          format: uri
+          description: The URI of the documentation link.
+          example: https://www.example.com
+    GetFileNodesResponse:
+      type: object
+      description: Response from the Get File Nodes endpoint.
+      required:
+      - name
+      - lastModified
+      - version
+      - nodes
+      properties:
+        name:
+          type: string
+          description: The name of the file.
+          example: Example Title
+        lastModified:
+          type: string
+          format: date-time
+          example: '2026-01-15T10:30:00Z'
+        version:
+          type: string
+          example: example_value
+        role:
+          type: string
+          enum:
+          - owner
+          - editor
+          - viewer
+          example: owner
+        nodes:
+          type: object
+          description: A mapping from node IDs to node data. Each value contains a document subtree and optionally the component metadata for that node.
+          additionalProperties:
+            type: object
+            properties:
+              document:
+                type: object
+                description: The node subtree.
+              components:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Component'
+              schemaVersion:
+                type: integer
+              styles:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Style'
+          example: example_value
+    GetImageFillsResponse:
+      type: object
+      description: Response from the Get Image Fills endpoint.
+      properties:
+        error:
+          type: boolean
+          example: true
+        status:
+          type: integer
+          example: 10
+        meta:
+          type: object
+          properties:
+            images:
+              type: object
+              description: A mapping from image references to image download URLs.
+              additionalProperties:
+                type: string
+          example: example_value
+    Style:
+      type: object
+      description: A published style that can be applied to nodes in Figma.
+      required:
+      - key
+      - name
+      - description
+      - remote
+      - style_type
+      properties:
+        key:
+          type: string
+          description: The globally unique key of the style.
+          example: example_value
+        name:
+          type: string
+          description: Name of the style.
+          example: Example Title
+        description:
+          type: string
+          description: Description of the style.
+          example: A sample description.
+        remote:
+          type: boolean
+          description: Whether this style is a remote style from an external library.
+          example: true
+        style_type:
+          type: string
+          description: The type of style.
+          enum:
+          - FILL
+          - TEXT
+          - EFFECT
+          - GRID
+          example: FILL
     ErrorResponse:
       type: object
       description: Standard error response from the Figma API.
@@ -685,84 +849,6 @@ components:
           type: string
           description: A human-readable description of the error.
           example: example_value
-    DocumentationLink:
-      type: object
-      description: A link to documentation associated with a component.
-      required:
-      - uri
-      properties:
-        uri:
-          type: string
-          format: uri
-          description: The URI of the documentation link.
-          example: https://www.example.com
-    GetFileVersionsResponse:
-      type: object
-      description: Response from the Get File Versions endpoint.
-      required:
-      - versions
-      properties:
-        versions:
-          type: array
-          description: An array of version history entries.
-          items:
-            $ref: '#/components/schemas/Version'
-          example: []
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-    Branch:
-      type: object
-      description: Information about a branch of a Figma file.
-      required:
-      - key
-      - name
-      - thumbnail_url
-      - last_modified
-      properties:
-        key:
-          type: string
-          description: The key of the branch file.
-          example: example_value
-        name:
-          type: string
-          description: The name of the branch.
-          example: Example Title
-        thumbnail_url:
-          type: string
-          format: uri
-          description: A URL to a thumbnail image of the branch.
-          example: https://www.example.com
-        last_modified:
-          type: string
-          format: date-time
-          description: The UTC ISO 8601 time at which the branch was last modified.
-          example: '2026-01-15T10:30:00Z'
-    User:
-      type: object
-      description: A Figma user account.
-      required:
-      - id
-      - handle
-      - img_url
-      properties:
-        id:
-          type: string
-          description: Unique stable ID of the user.
-          example: abc123
-        handle:
-          type: string
-          description: Display name of the user.
-          example: example_value
-        img_url:
-          type: string
-          format: uri
-          description: URL of the user's profile image.
-          example: https://www.example.com
-        email:
-          type: string
-          format: email
-          description: Email address associated with the user's account.
-          example: user@example.com
     DocumentNode:
       type: object
       description: The root node of a Figma document.
@@ -825,41 +911,6 @@ components:
           example: A sample description.
         user:
           $ref: '#/components/schemas/User'
-    Style:
-      type: object
-      description: A published style that can be applied to nodes in Figma.
-      required:
-      - key
-      - name
-      - description
-      - remote
-      - style_type
-      properties:
-        key:
-          type: string
-          description: The globally unique key of the style.
-          example: example_value
-        name:
-          type: string
-          description: Name of the style.
-          example: Example Title
-        description:
-          type: string
-          description: Description of the style.
-          example: A sample description.
-        remote:
-          type: boolean
-          description: Whether this style is a remote style from an external library.
-          example: true
-        style_type:
-          type: string
-          description: The type of style.
-          enum:
-          - FILL
-          - TEXT
-          - EFFECT
-          - GRID
-          example: FILL
     Pagination:
       type: object
       description: Cursor-based pagination metadata.
@@ -872,84 +923,33 @@ components:
           type: number
           description: Cursor value for the page after the current one.
           example: 42.5
-    GetFileNodesResponse:
+    Branch:
       type: object
-      description: Response from the Get File Nodes endpoint.
+      description: Information about a branch of a Figma file.
       required:
+      - key
       - name
-      - lastModified
-      - version
-      - nodes
+      - thumbnail_url
+      - last_modified
       properties:
+        key:
+          type: string
+          description: The key of the branch file.
+          example: example_value
         name:
           type: string
-          description: The name of the file.
+          description: The name of the branch.
           example: Example Title
-        lastModified:
+        thumbnail_url:
+          type: string
+          format: uri
+          description: A URL to a thumbnail image of the branch.
+          example: https://www.example.com
+        last_modified:
           type: string
           format: date-time
+          description: The UTC ISO 8601 time at which the branch was last modified.
           example: '2026-01-15T10:30:00Z'
-        version:
-          type: string
-          example: example_value
-        role:
-          type: string
-          enum:
-          - owner
-          - editor
-          - viewer
-          example: owner
-        nodes:
-          type: object
-          description: A mapping from node IDs to node data. Each value contains a document subtree and optionally the component metadata for that node.
-          additionalProperties:
-            type: object
-            properties:
-              document:
-                type: object
-                description: The node subtree.
-              components:
-                type: object
-                additionalProperties:
-                  $ref: '#/components/schemas/Component'
-              schemaVersion:
-                type: integer
-              styles:
-                type: object
-                additionalProperties:
-                  $ref: '#/components/schemas/Style'
-          example: example_value
-  responses:
-    NotFoundError:
-      description: The requested file, project, team, or resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    UnauthorizedError:
-      description: Authentication token is missing, invalid, or expired.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    InternalServerError:
-      description: An unexpected error occurred on the Figma server.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    RateLimitError:
-      description: Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    ForbiddenError:
-      description: The authenticated user does not have the necessary permissions to access this resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     FileKeyPathParam:
       name: file_key

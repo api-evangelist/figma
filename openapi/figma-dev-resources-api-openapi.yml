@@ -107,99 +107,6 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerErrorResponse'
 components:
-  examples:
-    PostDevResourcesSuccessExample:
-      summary: Successful create dev resources response
-      value:
-        linksCreated:
-        - id: dev_res_123
-          name: Button Component Code
-          url: https://github.com/myorg/design-system/blob/main/src/components/Button.tsx
-          fileKey: abc123xyz789
-          nodeId: '1:1'
-        - id: dev_res_456
-          name: Button Storybook
-          url: https://storybook.myorg.com/?path=/story/button
-          fileKey: abc123xyz789
-          nodeId: '1:1'
-        errors: []
-    DeleteDevResourceSuccessExample:
-      summary: Successful dev resource deletion
-      value:
-        status: 200
-        error: false
-    NotFoundExample:
-      summary: Not found error
-      value:
-        error: true
-        status: 404
-        message: File or dev resource not found
-    BadRequestExample:
-      summary: Bad request error
-      value:
-        error: true
-        status: 400
-        message: 'Invalid parameter: url format is incorrect'
-    TooManyRequestsExample:
-      summary: Rate limit error
-      value:
-        error: true
-        status: 429
-        message: Rate limit exceeded. Please wait before making another request
-    InternalServerErrorExample:
-      summary: Internal server error
-      value:
-        error: true
-        status: 500
-        message: An internal server error occurred
-    ForbiddenExample:
-      summary: Forbidden error
-      value:
-        error: true
-        status: 403
-        message: You do not have permission to modify dev resources for this file
-    UpdateDevResourcesRequestExample:
-      summary: Update dev resources request
-      value:
-        devResources:
-        - id: dev_res_123
-          name: Updated Button Component
-          url: https://github.com/myorg/design-system/blob/main/src/components/Button/index.tsx
-        - id: dev_res_456
-          name: Button Documentation
-    UnauthorizedExample:
-      summary: Unauthorized error
-      value:
-        error: true
-        status: 401
-        message: Token is missing or incorrect
-    PutDevResourcesSuccessExample:
-      summary: Successful update dev resources response
-      value:
-        linksUpdated:
-        - id: dev_res_123
-          name: Updated Button Component
-          url: https://github.com/myorg/design-system/blob/main/src/components/Button/index.tsx
-          fileKey: abc123xyz789
-          nodeId: '1:1'
-        - id: dev_res_456
-          name: Button Documentation
-          url: https://storybook.myorg.com/?path=/story/button
-          fileKey: abc123xyz789
-          nodeId: '1:1'
-        errors: []
-    CreateDevResourcesRequestExample:
-      summary: Create dev resources request
-      value:
-        devResources:
-        - name: Button Component Code
-          url: https://github.com/myorg/design-system/blob/main/src/components/Button.tsx
-          fileKey: abc123xyz789
-          nodeId: '1:1'
-        - name: Button Storybook
-          url: https://storybook.myorg.com/?path=/story/button
-          fileKey: abc123xyz789
-          nodeId: '1:1'
   schemas:
     UpdateDevResourceItem:
       type: object
@@ -218,23 +125,25 @@ components:
           example: https://www.example.com
       required:
       - id
-    PutDevResourcesResponseBody:
+    DeleteDevResourceResponseBody:
       type: object
+      description: Response body for successful dev resource deletion.
       properties:
-        linksUpdated:
-          type: array
-          description: An array of links updated.
-          items:
-            $ref: '#/components/schemas/DevResource'
-          example: []
-        errors:
-          type: array
-          description: An array of errors.
-          items:
-            $ref: '#/components/schemas/DevResourceUpdateError'
-          example: []
+        status:
+          type: number
+          description: The status of the request.
+          enum:
+          - 200
+          example: 200
+        error:
+          type: boolean
+          description: For successful requests, this value is always `false`.
+          enum:
+          - false
+          example: false
       required:
-      - linksUpdated
+      - status
+      - error
     DevResourceCreateError:
       type: object
       properties:
@@ -256,6 +165,40 @@ components:
           example: example_value
       required:
       - error
+    PutDevResourcesResponseBody:
+      type: object
+      properties:
+        linksUpdated:
+          type: array
+          description: An array of links updated.
+          items:
+            $ref: '#/components/schemas/DevResource'
+          example: []
+        errors:
+          type: array
+          description: An array of errors.
+          items:
+            $ref: '#/components/schemas/DevResourceUpdateError'
+          example: []
+      required:
+      - linksUpdated
+    PostDevResourcesResponseBody:
+      type: object
+      properties:
+        linksCreated:
+          type: array
+          description: An array of links created.
+          items:
+            $ref: '#/components/schemas/DevResource'
+          example: []
+        errors:
+          type: array
+          description: An array of errors.
+          items:
+            $ref: '#/components/schemas/DevResourceCreateError'
+          example: []
+      required:
+      - linksCreated
     DevResource:
       type: object
       description: A dev resource in a file
@@ -286,6 +229,39 @@ components:
       - url
       - fileKey
       - nodeId
+    UpdateDevResourcesRequest:
+      type: object
+      properties:
+        devResources:
+          type: array
+          description: An array of dev resources to update.
+          items:
+            $ref: '#/components/schemas/UpdateDevResourceItem'
+          example: []
+      required:
+      - devResources
+    ErrorResponsePayload:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        error:
+          type: boolean
+          description: For erroneous requests, this value is always `true`.
+          enum:
+          - true
+          example: true
+        status:
+          type: number
+          description: Status code
+          example: 42.5
+        message:
+          type: string
+          description: A string describing the error
+          example: example_value
+      required:
+      - error
+      - status
+      - message
     CreateDevResourceItem:
       type: object
       properties:
@@ -310,28 +286,6 @@ components:
       - url
       - fileKey
       - nodeId
-    ErrorResponsePayload:
-      type: object
-      description: A response indicating an error occurred.
-      properties:
-        error:
-          type: boolean
-          description: For erroneous requests, this value is always `true`.
-          enum:
-          - true
-          example: true
-        status:
-          type: number
-          description: Status code
-          example: 42.5
-        message:
-          type: string
-          description: A string describing the error
-          example: example_value
-      required:
-      - error
-      - status
-      - message
     DevResourceUpdateError:
       type: object
       properties:
@@ -345,17 +299,6 @@ components:
           example: example_value
       required:
       - error
-    UpdateDevResourcesRequest:
-      type: object
-      properties:
-        devResources:
-          type: array
-          description: An array of dev resources to update.
-          items:
-            $ref: '#/components/schemas/UpdateDevResourceItem'
-          example: []
-      required:
-      - devResources
     CreateDevResourcesRequest:
       type: object
       properties:
@@ -367,52 +310,121 @@ components:
           example: []
       required:
       - devResources
-    DeleteDevResourceResponseBody:
-      type: object
-      description: Response body for successful dev resource deletion.
-      properties:
-        status:
-          type: number
-          description: The status of the request.
-          enum:
-          - 200
-          example: 200
-        error:
-          type: boolean
-          description: For successful requests, this value is always `false`.
-          enum:
-          - false
-          example: false
-      required:
-      - status
-      - error
-    PostDevResourcesResponseBody:
-      type: object
-      properties:
+  examples:
+    TooManyRequestsExample:
+      summary: Rate limit error
+      value:
+        error: true
+        status: 429
+        message: Rate limit exceeded. Please wait before making another request
+    InternalServerErrorExample:
+      summary: Internal server error
+      value:
+        error: true
+        status: 500
+        message: An internal server error occurred
+    UnauthorizedExample:
+      summary: Unauthorized error
+      value:
+        error: true
+        status: 401
+        message: Token is missing or incorrect
+    PutDevResourcesSuccessExample:
+      summary: Successful update dev resources response
+      value:
+        linksUpdated:
+        - id: dev_res_123
+          name: Updated Button Component
+          url: https://github.com/myorg/design-system/blob/main/src/components/Button/index.tsx
+          fileKey: abc123xyz789
+          nodeId: '1:1'
+        - id: dev_res_456
+          name: Button Documentation
+          url: https://storybook.myorg.com/?path=/story/button
+          fileKey: abc123xyz789
+          nodeId: '1:1'
+        errors: []
+    BadRequestExample:
+      summary: Bad request error
+      value:
+        error: true
+        status: 400
+        message: 'Invalid parameter: url format is incorrect'
+    DeleteDevResourceSuccessExample:
+      summary: Successful dev resource deletion
+      value:
+        status: 200
+        error: false
+    ForbiddenExample:
+      summary: Forbidden error
+      value:
+        error: true
+        status: 403
+        message: You do not have permission to modify dev resources for this file
+    PostDevResourcesSuccessExample:
+      summary: Successful create dev resources response
+      value:
         linksCreated:
-          type: array
-          description: An array of links created.
-          items:
-            $ref: '#/components/schemas/DevResource'
-          example: []
-        errors:
-          type: array
-          description: An array of errors.
-          items:
-            $ref: '#/components/schemas/DevResourceCreateError'
-          example: []
-      required:
-      - linksCreated
-  responses:
-    TooManyRequestsErrorResponse:
-      description: API requests may be throttled or rate limited. Please wait a while before attempting the request again.
+        - id: dev_res_123
+          name: Button Component Code
+          url: https://github.com/myorg/design-system/blob/main/src/components/Button.tsx
+          fileKey: abc123xyz789
+          nodeId: '1:1'
+        - id: dev_res_456
+          name: Button Storybook
+          url: https://storybook.myorg.com/?path=/story/button
+          fileKey: abc123xyz789
+          nodeId: '1:1'
+        errors: []
+    UpdateDevResourcesRequestExample:
+      summary: Update dev resources request
+      value:
+        devResources:
+        - id: dev_res_123
+          name: Updated Button Component
+          url: https://github.com/myorg/design-system/blob/main/src/components/Button/index.tsx
+        - id: dev_res_456
+          name: Button Documentation
+    NotFoundExample:
+      summary: Not found error
+      value:
+        error: true
+        status: 404
+        message: File or dev resource not found
+    CreateDevResourcesRequestExample:
+      summary: Create dev resources request
+      value:
+        devResources:
+        - name: Button Component Code
+          url: https://github.com/myorg/design-system/blob/main/src/components/Button.tsx
+          fileKey: abc123xyz789
+          nodeId: '1:1'
+        - name: Button Storybook
+          url: https://storybook.myorg.com/?path=/story/button
+          fileKey: abc123xyz789
+          nodeId: '1:1'
+  requestBodies:
+    CreateDevResourcesRequestBody:
+      description: A list of dev resources that you want to create.
+      required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
+            $ref: '#/components/schemas/CreateDevResourcesRequest'
           examples:
-            TooManyRequestsExample:
-              $ref: '#/components/examples/TooManyRequestsExample'
+            CreateDevResourcesExample:
+              $ref: '#/components/examples/CreateDevResourcesRequestExample'
+    UpdateDevResourcesRequestBody:
+      description: A list of dev resources that you want to update.
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateDevResourcesRequest'
+          examples:
+            UpdateDevResourcesExample:
+              $ref: '#/components/examples/UpdateDevResourcesRequestExample'
+  responses:
     DeleteDevResourceResponse:
       description: Response from the DELETE /v1/files/{file_key}/dev_resources/{dev_resource_id} endpoint.
       content:
@@ -422,6 +434,15 @@ components:
           examples:
             DeleteDevResourceSuccessExample:
               $ref: '#/components/examples/DeleteDevResourceSuccessExample'
+    TooManyRequestsErrorResponse:
+      description: API requests may be throttled or rate limited. Please wait a while before attempting the request again.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            TooManyRequestsExample:
+              $ref: '#/components/examples/TooManyRequestsExample'
     PutDevResourcesResponse:
       description: Response from the PUT /v1/dev_resources endpoint.
       content:
@@ -431,15 +452,6 @@ components:
           examples:
             PutDevResourcesSuccessExample:
               $ref: '#/components/examples/PutDevResourcesSuccessExample'
-    NotFoundErrorResponse:
-      description: The requested file or resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            NotFoundExample:
-              $ref: '#/components/examples/NotFoundExample'
     BadRequestErrorResponse:
       description: Bad request. Parameters are invalid or malformed. Please check the input formats.
       content:
@@ -449,24 +461,6 @@ components:
           examples:
             BadRequestExample:
               $ref: '#/components/examples/BadRequestExample'
-    InternalServerErrorResponse:
-      description: An internal server error occurred.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            InternalServerErrorExample:
-              $ref: '#/components/examples/InternalServerErrorExample'
-    PostDevResourcesResponse:
-      description: Response from the POST /v1/dev_resources endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PostDevResourcesResponseBody'
-          examples:
-            PostDevResourcesSuccessExample:
-              $ref: '#/components/examples/PostDevResourcesSuccessExample'
     ForbiddenErrorResponse:
       description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.
       content:
@@ -476,6 +470,33 @@ components:
           examples:
             ForbiddenExample:
               $ref: '#/components/examples/ForbiddenExample'
+    PostDevResourcesResponse:
+      description: Response from the POST /v1/dev_resources endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PostDevResourcesResponseBody'
+          examples:
+            PostDevResourcesSuccessExample:
+              $ref: '#/components/examples/PostDevResourcesSuccessExample'
+    InternalServerErrorResponse:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            InternalServerErrorExample:
+              $ref: '#/components/examples/InternalServerErrorExample'
+    NotFoundErrorResponse:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayload'
+          examples:
+            NotFoundExample:
+              $ref: '#/components/examples/NotFoundExample'
     UnauthorizedErrorResponse:
       description: Token is missing or incorrect.
       content:
@@ -502,27 +523,6 @@ components:
       schema:
         type: string
       example: dev_res_123456
-  requestBodies:
-    UpdateDevResourcesRequestBody:
-      description: A list of dev resources that you want to update.
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UpdateDevResourcesRequest'
-          examples:
-            UpdateDevResourcesExample:
-              $ref: '#/components/examples/UpdateDevResourcesRequestExample'
-    CreateDevResourcesRequestBody:
-      description: A list of dev resources that you want to create.
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CreateDevResourcesRequest'
-          examples:
-            CreateDevResourcesExample:
-              $ref: '#/components/examples/CreateDevResourcesRequestExample'
   securitySchemes:
     OrgOAuth2:
       type: oauth2

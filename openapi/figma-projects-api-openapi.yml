@@ -154,6 +154,33 @@ components:
           items:
             $ref: '#/components/schemas/Branch'
           example: []
+    Branch:
+      type: object
+      description: Information about a branch of a Figma file.
+      required:
+      - key
+      - name
+      - thumbnail_url
+      - last_modified
+      properties:
+        key:
+          type: string
+          description: The key of the branch file.
+          example: example_value
+        name:
+          type: string
+          description: The name of the branch.
+          example: Example Title
+        thumbnail_url:
+          type: string
+          format: uri
+          description: A URL to a thumbnail image of the branch.
+          example: https://www.example.com
+        last_modified:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the branch was last modified.
+          example: '2026-01-15T10:30:00Z'
     Project:
       type: object
       description: A Figma project within a team.
@@ -185,22 +212,6 @@ components:
           items:
             $ref: '#/components/schemas/ProjectFile'
           example: []
-    GetTeamProjectsResponse:
-      type: object
-      description: Response from the Get Team Projects endpoint.
-      required:
-      - name
-      - projects
-      properties:
-        name:
-          type: string
-          description: The name of the team.
-          example: Example Title
-        projects:
-          type: array
-          items:
-            $ref: '#/components/schemas/Project'
-          example: []
     ErrorResponse:
       type: object
       description: Standard error response from the Figma API.
@@ -223,33 +234,22 @@ components:
           type: string
           description: A human-readable description of the error.
           example: example_value
-    Branch:
+    GetTeamProjectsResponse:
       type: object
-      description: Information about a branch of a Figma file.
+      description: Response from the Get Team Projects endpoint.
       required:
-      - key
       - name
-      - thumbnail_url
-      - last_modified
+      - projects
       properties:
-        key:
-          type: string
-          description: The key of the branch file.
-          example: example_value
         name:
           type: string
-          description: The name of the branch.
+          description: The name of the team.
           example: Example Title
-        thumbnail_url:
-          type: string
-          format: uri
-          description: A URL to a thumbnail image of the branch.
-          example: https://www.example.com
-        last_modified:
-          type: string
-          format: date-time
-          description: The UTC ISO 8601 time at which the branch was last modified.
-          example: '2026-01-15T10:30:00Z'
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+          example: []
   responses:
     RateLimitError:
       description: Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.

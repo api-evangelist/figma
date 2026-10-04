@@ -59,6 +59,19 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    RateLimitError:
+      description: Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    UnauthorizedError:
+      description: Authentication token is missing, invalid, or expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
     User:
       type: object
@@ -108,19 +121,6 @@ components:
           type: string
           description: A human-readable description of the error.
           example: example_value
-  responses:
-    RateLimitError:
-      description: Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    UnauthorizedError:
-      description: Authentication token is missing, invalid, or expired.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     PersonalAccessToken:
       type: http
