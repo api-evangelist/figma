@@ -1049,6 +1049,10 @@ apis:
   - type: Documentation
     url: https://developers.figma.com/docs/rest-api/library-analytics-endpoints/
 common:
+- type: Plans
+  url: plans/figma-plans-pricing.yml
+- type: FinOps
+  url: finops/figma-finops.yml
 - type: Website
   url: https://www.figma.com/
 - type: CapabilityMap
