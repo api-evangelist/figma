@@ -49,17 +49,68 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerErrorResponse'
 components:
+  responses:
+    GetComponentSetResponse:
+      description: Response from the GET /v1/component_sets/{key} endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetComponentSetResponseBody'
+          examples:
+            GetComponentSetSuccessExample:
+              $ref: '#/components/examples/GetComponentSetSuccessExample'
+    ForbiddenErrorResponse:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+          examples:
+            ForbiddenExample:
+              $ref: '#/components/examples/ForbiddenExample'
+    InternalServerErrorResponse:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+          examples:
+            InternalServerErrorExample:
+              $ref: '#/components/examples/InternalServerErrorExample'
+    TooManyRequestsErrorResponse:
+      description: API requests may be throttled or rate limited. Please wait a while before attempting the request again.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+          examples:
+            TooManyRequestsExample:
+              $ref: '#/components/examples/TooManyRequestsExample'
+    NotFoundErrorResponse:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayloadWithError'
+          examples:
+            NotFoundExample:
+              $ref: '#/components/examples/NotFoundExample'
+    BadRequestErrorResponse:
+      description: Bad request. Parameters are invalid or malformed. Please check the input formats.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
+          examples:
+            BadRequestExample:
+              $ref: '#/components/examples/BadRequestExample'
   examples:
-    TooManyRequestsExample:
-      summary: Rate limit error
+    NotFoundExample:
+      summary: Not found error
       value:
-        status: 429
-        err: Rate limit exceeded. Please wait before making another request
-    InternalServerErrorExample:
-      summary: Internal server error
-      value:
-        status: 500
-        err: An internal server error occurred
+        error: true
+        status: 404
+        message: Component set not found
     GetComponentSetSuccessExample:
       summary: Successful component set response
       value:
@@ -84,23 +135,51 @@ components:
             backgroundColor: '#FFFFFF'
             pageId: 0:0
             pageName: Design System
-    BadRequestExample:
-      summary: Bad request error
-      value:
-        status: 400
-        err: 'Invalid parameter: key format is incorrect'
     ForbiddenExample:
       summary: Forbidden error
       value:
         status: 403
         err: You do not have permission to access this component set
-    NotFoundExample:
-      summary: Not found error
+    TooManyRequestsExample:
+      summary: Rate limit error
       value:
-        error: true
-        status: 404
-        message: Component set not found
+        status: 429
+        err: Rate limit exceeded. Please wait before making another request
+    BadRequestExample:
+      summary: Bad request error
+      value:
+        status: 400
+        err: 'Invalid parameter: key format is incorrect'
+    InternalServerErrorExample:
+      summary: Internal server error
+      value:
+        status: 500
+        err: An internal server error occurred
   schemas:
+    FrameInfo:
+      type: object
+      description: Information about the containing frame.
+      properties:
+        nodeId:
+          type: string
+          description: The ID of the containing frame.
+          example: '500123'
+        name:
+          type: string
+          description: The name of the containing frame.
+          example: Example Title
+        backgroundColor:
+          type: string
+          description: The background color of the containing frame.
+          example: example_value
+        pageId:
+          type: string
+          description: The ID of the page containing the frame.
+          example: '500123'
+        pageName:
+          type: string
+          description: The name of the page containing the frame.
+          example: example_value
     User:
       type: object
       description: A description of a user.
@@ -136,73 +215,6 @@ components:
       required:
       - status
       - err
-    ErrorResponsePayloadWithError:
-      type: object
-      description: A response indicating an error occurred.
-      properties:
-        error:
-          type: boolean
-          description: For erroneous requests, this value is always `true`.
-          enum:
-          - true
-          example: true
-        status:
-          type: number
-          description: Status code
-          example: 42.5
-        message:
-          type: string
-          description: A string describing the error
-          example: example_value
-      required:
-      - error
-      - status
-      - message
-    GetComponentSetResponseBody:
-      type: object
-      properties:
-        status:
-          type: number
-          description: The status of the request.
-          enum:
-          - 200
-          example: 200
-        error:
-          type: boolean
-          description: For successful requests, this value is always `false`.
-          enum:
-          - false
-          example: false
-        meta:
-          $ref: '#/components/schemas/PublishedComponentSet'
-      required:
-      - status
-      - error
-      - meta
-    FrameInfo:
-      type: object
-      description: Information about the containing frame.
-      properties:
-        nodeId:
-          type: string
-          description: The ID of the containing frame.
-          example: '500123'
-        name:
-          type: string
-          description: The name of the containing frame.
-          example: Example Title
-        backgroundColor:
-          type: string
-          description: The background color of the containing frame.
-          example: example_value
-        pageId:
-          type: string
-          description: The ID of the page containing the frame.
-          example: '500123'
-        pageName:
-          type: string
-          description: The name of the page containing the frame.
-          example: example_value
     PublishedComponentSet:
       type: object
       description: A node containing a set of variants of a component.
@@ -254,61 +266,49 @@ components:
       - createdAt
       - updatedAt
       - user
-  responses:
-    TooManyRequestsErrorResponse:
-      description: API requests may be throttled or rate limited. Please wait a while before attempting the request again.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
-          examples:
-            TooManyRequestsExample:
-              $ref: '#/components/examples/TooManyRequestsExample'
-    BadRequestErrorResponse:
-      description: Bad request. Parameters are invalid or malformed. Please check the input formats.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
-          examples:
-            BadRequestExample:
-              $ref: '#/components/examples/BadRequestExample'
-    GetComponentSetResponse:
-      description: Response from the GET /v1/component_sets/{key} endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GetComponentSetResponseBody'
-          examples:
-            GetComponentSetSuccessExample:
-              $ref: '#/components/examples/GetComponentSetSuccessExample'
-    ForbiddenErrorResponse:
-      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
-          examples:
-            ForbiddenExample:
-              $ref: '#/components/examples/ForbiddenExample'
-    InternalServerErrorResponse:
-      description: An internal server error occurred.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayloadWithErr'
-          examples:
-            InternalServerErrorExample:
-              $ref: '#/components/examples/InternalServerErrorExample'
-    NotFoundErrorResponse:
-      description: The requested file or resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayloadWithError'
-          examples:
-            NotFoundExample:
-              $ref: '#/components/examples/NotFoundExample'
+    ErrorResponsePayloadWithError:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        error:
+          type: boolean
+          description: For erroneous requests, this value is always `true`.
+          enum:
+          - true
+          example: true
+        status:
+          type: number
+          description: Status code
+          example: 42.5
+        message:
+          type: string
+          description: A string describing the error
+          example: example_value
+      required:
+      - error
+      - status
+      - message
+    GetComponentSetResponseBody:
+      type: object
+      properties:
+        status:
+          type: number
+          description: The status of the request.
+          enum:
+          - 200
+          example: 200
+        error:
+          type: boolean
+          description: For successful requests, this value is always `false`.
+          enum:
+          - false
+          example: false
+        meta:
+          $ref: '#/components/schemas/PublishedComponentSet'
+      required:
+      - status
+      - error
+      - meta
   parameters:
     ComponentSetKeyPathParam:
       name: key

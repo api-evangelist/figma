@@ -122,6 +122,38 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    GetTeamProjectsResponse:
+      type: object
+      description: Response from the Get Team Projects endpoint.
+      required:
+      - name
+      - projects
+      properties:
+        name:
+          type: string
+          description: The name of the team.
+          example: Example Title
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+          example: []
+    GetProjectFilesResponse:
+      type: object
+      description: Response from the Get Project Files endpoint.
+      required:
+      - name
+      - files
+      properties:
+        name:
+          type: string
+          description: The name of the project.
+          example: Example Title
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectFile'
+          example: []
     ProjectFile:
       type: object
       description: A file within a Figma project.
@@ -154,6 +186,28 @@ components:
           items:
             $ref: '#/components/schemas/Branch'
           example: []
+    ErrorResponse:
+      type: object
+      description: Standard error response from the Figma API.
+      required:
+      - error
+      - status
+      - message
+      properties:
+        error:
+          type: boolean
+          description: Always true for error responses.
+          enum:
+          - true
+          example: true
+        status:
+          type: integer
+          description: The HTTP status code.
+          example: 10
+        message:
+          type: string
+          description: A human-readable description of the error.
+          example: example_value
     Branch:
       type: object
       description: Information about a branch of a Figma file.
@@ -196,63 +250,15 @@ components:
           type: string
           description: The name of the project.
           example: Example Title
-    GetProjectFilesResponse:
-      type: object
-      description: Response from the Get Project Files endpoint.
-      required:
-      - name
-      - files
-      properties:
-        name:
-          type: string
-          description: The name of the project.
-          example: Example Title
-        files:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProjectFile'
-          example: []
-    ErrorResponse:
-      type: object
-      description: Standard error response from the Figma API.
-      required:
-      - error
-      - status
-      - message
-      properties:
-        error:
-          type: boolean
-          description: Always true for error responses.
-          enum:
-          - true
-          example: true
-        status:
-          type: integer
-          description: The HTTP status code.
-          example: 10
-        message:
-          type: string
-          description: A human-readable description of the error.
-          example: example_value
-    GetTeamProjectsResponse:
-      type: object
-      description: Response from the Get Team Projects endpoint.
-      required:
-      - name
-      - projects
-      properties:
-        name:
-          type: string
-          description: The name of the team.
-          example: Example Title
-        projects:
-          type: array
-          items:
-            $ref: '#/components/schemas/Project'
-          example: []
   responses:
-    RateLimitError:
-      description: Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.
+    NotFoundError:
+      description: The requested file, project, team, or resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ForbiddenError:
+      description: The authenticated user does not have the necessary permissions to access this resource.
       content:
         application/json:
           schema:
@@ -263,14 +269,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    NotFoundError:
-      description: The requested file, project, team, or resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    ForbiddenError:
-      description: The authenticated user does not have the necessary permissions to access this resource.
+    RateLimitError:
+      description: Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.
       content:
         application/json:
           schema:

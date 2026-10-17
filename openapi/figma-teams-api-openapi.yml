@@ -48,6 +48,82 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerErrorResponse'
 components:
+  responses:
+    TooManyRequestsErrorResponse:
+      description: In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TooManyRequestsError'
+          examples:
+            TooManyRequestsExample:
+              summary: Rate limit exceeded error
+              value:
+                status: 429
+                err: Rate limit exceeded. Please wait before retrying.
+    ForbiddenErrorResponse:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ForbiddenError'
+          examples:
+            ForbiddenExample:
+              summary: Access denied error
+              value:
+                status: 403
+                err: Access denied. You do not have permission to access this team's webhooks.
+    InternalServerErrorResponse:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InternalServerError'
+          examples:
+            InternalServerErrorExample:
+              summary: Internal server error
+              value:
+                status: 500
+                err: Internal server error
+    NotFoundErrorResponse:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFoundError'
+          examples:
+            NotFoundExample:
+              summary: Team not found error
+              value:
+                status: 404
+                err: Team not found
+    GetTeamWebhooksResponse:
+      description: Response from the GET /v2/teams/{team_id}/webhooks endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetTeamWebhooksResponseBody'
+          examples:
+            GetTeamWebhooksSuccessExample:
+              summary: Successful team webhooks response
+              value:
+                webhooks:
+                - id: webhook_abc123xyz789
+                  event_type: FILE_UPDATE
+                  team_id: team_12345678
+                  status: ACTIVE
+                  client_id: oauth_client_xyz
+                  passcode: secret_passcode_123
+                  endpoint: https://api.myapp.com/figma/webhooks
+                  description: Webhook for design file updates
+                - id: webhook_def456uvw012
+                  event_type: FILE_COMMENT
+                  team_id: team_12345678
+                  status: PAUSED
+                  client_id: null
+                  passcode: another_passcode_456
+                  endpoint: https://api.myapp.com/figma/comments
+                  description: null
   schemas:
     InternalServerError:
       allOf:
@@ -150,6 +226,21 @@ components:
       example:
         status: 403
         err: Access denied. You do not have permission to access this team's webhooks.
+    NotFoundError:
+      allOf:
+      - $ref: '#/components/schemas/ErrorResponsePayload'
+      - type: object
+        properties:
+          status:
+            type: number
+            description: Status code
+            enum:
+            - 404
+        required:
+        - status
+      example:
+        status: 404
+        err: Team not found
     TooManyRequestsError:
       allOf:
       - $ref: '#/components/schemas/ErrorResponsePayload'
@@ -165,6 +256,21 @@ components:
       example:
         status: 429
         err: Rate limit exceeded. Please wait before retrying.
+    ErrorResponsePayload:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        status:
+          type: number
+          description: Status code
+          example: 42.5
+        err:
+          type: string
+          description: A string describing the error
+          example: example_value
+      required:
+      - status
+      - err
     GetTeamWebhooksResponseBody:
       type: object
       description: Successful response containing team webhooks.
@@ -195,112 +301,6 @@ components:
           passcode: another_passcode_456
           endpoint: https://api.myapp.com/figma/comments
           description: null
-    NotFoundError:
-      allOf:
-      - $ref: '#/components/schemas/ErrorResponsePayload'
-      - type: object
-        properties:
-          status:
-            type: number
-            description: Status code
-            enum:
-            - 404
-        required:
-        - status
-      example:
-        status: 404
-        err: Team not found
-    ErrorResponsePayload:
-      type: object
-      description: A response indicating an error occurred.
-      properties:
-        status:
-          type: number
-          description: Status code
-          example: 42.5
-        err:
-          type: string
-          description: A string describing the error
-          example: example_value
-      required:
-      - status
-      - err
-  responses:
-    ForbiddenErrorResponse:
-      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ForbiddenError'
-          examples:
-            ForbiddenExample:
-              summary: Access denied error
-              value:
-                status: 403
-                err: Access denied. You do not have permission to access this team's webhooks.
-    TooManyRequestsErrorResponse:
-      description: In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/TooManyRequestsError'
-          examples:
-            TooManyRequestsExample:
-              summary: Rate limit exceeded error
-              value:
-                status: 429
-                err: Rate limit exceeded. Please wait before retrying.
-    NotFoundErrorResponse:
-      description: The requested file or resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/NotFoundError'
-          examples:
-            NotFoundExample:
-              summary: Team not found error
-              value:
-                status: 404
-                err: Team not found
-    GetTeamWebhooksResponse:
-      description: Response from the GET /v2/teams/{team_id}/webhooks endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GetTeamWebhooksResponseBody'
-          examples:
-            GetTeamWebhooksSuccessExample:
-              summary: Successful team webhooks response
-              value:
-                webhooks:
-                - id: webhook_abc123xyz789
-                  event_type: FILE_UPDATE
-                  team_id: team_12345678
-                  status: ACTIVE
-                  client_id: oauth_client_xyz
-                  passcode: secret_passcode_123
-                  endpoint: https://api.myapp.com/figma/webhooks
-                  description: Webhook for design file updates
-                - id: webhook_def456uvw012
-                  event_type: FILE_COMMENT
-                  team_id: team_12345678
-                  status: PAUSED
-                  client_id: null
-                  passcode: another_passcode_456
-                  endpoint: https://api.myapp.com/figma/comments
-                  description: null
-    InternalServerErrorResponse:
-      description: An internal server error occurred.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/InternalServerError'
-          examples:
-            InternalServerErrorExample:
-              summary: Internal server error
-              value:
-                status: 500
-                err: Internal server error
   parameters:
     TeamIdPath:
       name: team_id

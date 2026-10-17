@@ -321,6 +321,29 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    GetTeamStylesResponse:
+      type: object
+      description: Response from the Get Team Styles endpoint.
+      required:
+      - status
+      - meta
+      properties:
+        error:
+          type: boolean
+          example: true
+        status:
+          type: integer
+          example: 10
+        meta:
+          type: object
+          properties:
+            styles:
+              type: array
+              items:
+                $ref: '#/components/schemas/PublishedStyle'
+            cursor:
+              $ref: '#/components/schemas/Pagination'
+          example: example_value
     FrameInfo:
       type: object
       description: Information about the frame containing a component.
@@ -344,6 +367,72 @@ components:
         pageName:
           type: string
           description: The name of the page containing the frame.
+          example: example_value
+    GetFileComponentsResponse:
+      type: object
+      description: Response from the Get File Components endpoint.
+      required:
+      - status
+      - meta
+      properties:
+        error:
+          type: boolean
+          example: true
+        status:
+          type: integer
+          example: 10
+        meta:
+          type: object
+          properties:
+            components:
+              type: array
+              items:
+                $ref: '#/components/schemas/PublishedComponent'
+          example: example_value
+    ErrorResponse:
+      type: object
+      description: Standard error response from the Figma API.
+      required:
+      - error
+      - status
+      - message
+      properties:
+        error:
+          type: boolean
+          description: Always true for error responses.
+          enum:
+          - true
+          example: true
+        status:
+          type: integer
+          description: The HTTP status code.
+          example: 10
+        message:
+          type: string
+          description: A human-readable description of the error.
+          example: example_value
+    GetTeamComponentSetsResponse:
+      type: object
+      description: Response from the Get Team Component Sets endpoint.
+      required:
+      - status
+      - meta
+      properties:
+        error:
+          type: boolean
+          example: true
+        status:
+          type: integer
+          example: 10
+        meta:
+          type: object
+          properties:
+            component_sets:
+              type: array
+              items:
+                $ref: '#/components/schemas/PublishedComponentSet'
+            cursor:
+              $ref: '#/components/schemas/Pagination'
           example: example_value
     User:
       type: object
@@ -371,9 +460,61 @@ components:
           format: email
           description: Email address associated with the user's account.
           example: user@example.com
-    GetTeamComponentSetsResponse:
+    PublishedComponent:
       type: object
-      description: Response from the Get Team Component Sets endpoint.
+      description: A published component from a team or file library.
+      required:
+      - key
+      - file_key
+      - node_id
+      - name
+      - description
+      - created_at
+      - updated_at
+      - user
+      properties:
+        key:
+          type: string
+          description: The globally unique identifier for the component.
+          example: example_value
+        file_key:
+          type: string
+          description: The key of the Figma file containing the component.
+          example: example_value
+        node_id:
+          type: string
+          description: The node ID of the component within the file.
+          example: '500123'
+        thumbnail_url:
+          type: string
+          format: uri
+          description: A URL to a thumbnail image of the component.
+          example: https://www.example.com
+        name:
+          type: string
+          description: The name of the component.
+          example: Example Title
+        description:
+          type: string
+          description: The description of the component as entered by the publisher.
+          example: A sample description.
+        created_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time when the component was first published.
+          example: '2026-01-15T10:30:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time when the component was last updated.
+          example: '2026-01-15T10:30:00Z'
+        user:
+          $ref: '#/components/schemas/User'
+        containing_frame:
+          $ref: '#/components/schemas/FrameInfo'
+    GetTeamComponentsResponse:
+      type: object
+      description: Response from the Get Team Components endpoint.
       required:
       - status
       - meta
@@ -387,10 +528,10 @@ components:
         meta:
           type: object
           properties:
-            component_sets:
+            components:
               type: array
               items:
-                $ref: '#/components/schemas/PublishedComponentSet'
+                $ref: '#/components/schemas/PublishedComponent'
             cursor:
               $ref: '#/components/schemas/Pagination'
           example: example_value
@@ -444,6 +585,21 @@ components:
           $ref: '#/components/schemas/User'
         containing_frame:
           $ref: '#/components/schemas/FrameInfo'
+    GetComponentResponse:
+      type: object
+      description: Response from the Get Component endpoint.
+      required:
+      - status
+      - meta
+      properties:
+        error:
+          type: boolean
+          example: true
+        status:
+          type: integer
+          example: 10
+        meta:
+          $ref: '#/components/schemas/PublishedComponent'
     Pagination:
       type: object
       description: Cursor-based pagination metadata.
@@ -456,102 +612,6 @@ components:
           type: number
           description: Cursor value for the page after the current one.
           example: 42.5
-    GetFileComponentsResponse:
-      type: object
-      description: Response from the Get File Components endpoint.
-      required:
-      - status
-      - meta
-      properties:
-        error:
-          type: boolean
-          example: true
-        status:
-          type: integer
-          example: 10
-        meta:
-          type: object
-          properties:
-            components:
-              type: array
-              items:
-                $ref: '#/components/schemas/PublishedComponent'
-          example: example_value
-    GetTeamStylesResponse:
-      type: object
-      description: Response from the Get Team Styles endpoint.
-      required:
-      - status
-      - meta
-      properties:
-        error:
-          type: boolean
-          example: true
-        status:
-          type: integer
-          example: 10
-        meta:
-          type: object
-          properties:
-            styles:
-              type: array
-              items:
-                $ref: '#/components/schemas/PublishedStyle'
-            cursor:
-              $ref: '#/components/schemas/Pagination'
-          example: example_value
-    PublishedComponent:
-      type: object
-      description: A published component from a team or file library.
-      required:
-      - key
-      - file_key
-      - node_id
-      - name
-      - description
-      - created_at
-      - updated_at
-      - user
-      properties:
-        key:
-          type: string
-          description: The globally unique identifier for the component.
-          example: example_value
-        file_key:
-          type: string
-          description: The key of the Figma file containing the component.
-          example: example_value
-        node_id:
-          type: string
-          description: The node ID of the component within the file.
-          example: '500123'
-        thumbnail_url:
-          type: string
-          format: uri
-          description: A URL to a thumbnail image of the component.
-          example: https://www.example.com
-        name:
-          type: string
-          description: The name of the component.
-          example: Example Title
-        description:
-          type: string
-          description: The description of the component as entered by the publisher.
-          example: A sample description.
-        created_at:
-          type: string
-          format: date-time
-          description: The UTC ISO 8601 time when the component was first published.
-          example: '2026-01-15T10:30:00Z'
-        updated_at:
-          type: string
-          format: date-time
-          description: The UTC ISO 8601 time when the component was last updated.
-          example: '2026-01-15T10:30:00Z'
-        user:
-          $ref: '#/components/schemas/User'
-        containing_frame:
-          $ref: '#/components/schemas/FrameInfo'
     PublishedStyle:
       type: object
       description: A published style from a team or file library.
@@ -613,91 +673,6 @@ components:
           example: '2026-01-15T10:30:00Z'
         user:
           $ref: '#/components/schemas/User'
-    GetTeamComponentsResponse:
-      type: object
-      description: Response from the Get Team Components endpoint.
-      required:
-      - status
-      - meta
-      properties:
-        error:
-          type: boolean
-          example: true
-        status:
-          type: integer
-          example: 10
-        meta:
-          type: object
-          properties:
-            components:
-              type: array
-              items:
-                $ref: '#/components/schemas/PublishedComponent'
-            cursor:
-              $ref: '#/components/schemas/Pagination'
-          example: example_value
-    GetComponentResponse:
-      type: object
-      description: Response from the Get Component endpoint.
-      required:
-      - status
-      - meta
-      properties:
-        error:
-          type: boolean
-          example: true
-        status:
-          type: integer
-          example: 10
-        meta:
-          $ref: '#/components/schemas/PublishedComponent'
-    ErrorResponse:
-      type: object
-      description: Standard error response from the Figma API.
-      required:
-      - error
-      - status
-      - message
-      properties:
-        error:
-          type: boolean
-          description: Always true for error responses.
-          enum:
-          - true
-          example: true
-        status:
-          type: integer
-          description: The HTTP status code.
-          example: 10
-        message:
-          type: string
-          description: A human-readable description of the error.
-          example: example_value
-  responses:
-    RateLimitError:
-      description: Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    UnauthorizedError:
-      description: Authentication token is missing, invalid, or expired.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFoundError:
-      description: The requested file, project, team, or resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    ForbiddenError:
-      description: The authenticated user does not have the necessary permissions to access this resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     FileKeyPathParam:
       name: file_key
@@ -715,6 +690,31 @@ components:
       schema:
         type: string
       example: '12345'
+  responses:
+    NotFoundError:
+      description: The requested file, project, team, or resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ForbiddenError:
+      description: The authenticated user does not have the necessary permissions to access this resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    UnauthorizedError:
+      description: Authentication token is missing, invalid, or expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimitError:
+      description: Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     PersonalAccessToken:
       type: http
