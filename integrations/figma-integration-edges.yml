@@ -2,11 +2,18 @@ generated: '2026-10-14'
 method: searched
 checked:
 - google-workspace/integrations/google-workspace-integration-edges.yml
+- https://api.nuget.org/v3
+- https://crates.io/api/v1
 - https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/
 - https://github.com/n8n-io/n8n/tree/860f1273ebd73fabbd668cbec2c49ed9b48a286d/packages/nodes-base/nodes/
 - https://marketplace.atlassian.com/
 - https://marketplace.visualstudio.com/vscode
+- https://proxy.golang.org
+- https://pypi.org/pypi
 - https://registry.modelcontextprotocol.io/v0/servers
+- https://registry.npmjs.org
+- https://repo1.maven.org/maven2
+- https://rubygems.org/api/v1
 - https://zapier.com/api/v4/apps/
 - microsoft-teams/integrations/microsoft-teams-integration-edges.yml
 - okta/integrations/okta-integration-edges.yml
@@ -249,6 +256,63 @@ edges:
   detected: '2026-10-18'
   detected_by: mirror-platform-listings.py
   category: Zoom app
+- partner_name: npm registry
+  partner: npm
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (JavaScript/TypeScript)
+  evidence: https://www.npmjs.com/package/@figma/code-connect
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@figma/code-connect'
+      version: 2.0.2
+      released: '2026-10-14'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@figma/code-connect
+      repo_leg: github-org:figma
+      publisher_leg: email:figma.com
+      matched_by: domain
+    - name: '@figma/plugin-typings'
+      version: 1.142.0
+      released: '2026-10-16'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@figma/plugin-typings
+      repo_leg: github-org:figma
+      publisher_leg: email:figma.com
+      matched_by: domain
+    - name: '@figma/rest-api-spec'
+      version: 0.45.0
+      released: '2026-10-16'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@figma/rest-api-spec
+      repo_leg: github-org:figma
+      publisher_leg: email:figma.com
+      matched_by: domain
+    - name: '@figma/widget-typings'
+      version: 1.13.0
+      released: '2026-09-10'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@figma/widget-typings
+      repo_leg: github-org:figma
+      publisher_leg: email:figma.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
 source:
 - https://marketplace.atlassian.com/
 - https://marketplace.visualstudio.com/vscode
