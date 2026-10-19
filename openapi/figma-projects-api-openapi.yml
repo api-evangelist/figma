@@ -1,308 +1,389 @@
 openapi: 3.2.0
 info:
-  title: Figma REST Projects API
-  version: 2.0.0
-  description: The Figma REST API provides programmatic access to Figma files, comments, components, and related resources. It enables developers to read and interact with design data, export assets, manage comments and reactions, and query published components and styles from team libraries. Authentication is done via personal access tokens or OAuth 2.0.
+  title: Figma Projects API
+  version: 0.45.0
+  description: 'This is the OpenAPI specification for the Figma REST API.
+
+
+    Note: we are releasing the OpenAPI specification as a beta given the large surface area and complexity of the REST API. If you notice any inaccuracies with the specification, please file an issue.'
   termsOfService: https://www.figma.com/developer-terms/
   contact:
-    name: Figma Developer Support
-    url: https://www.figma.com/developers
     email: support@figma.com
-  license:
-    name: Figma Developer Terms
-    url: https://www.figma.com/developer-terms/
-  externalDocs:
-    description: Figma REST API Documentation
-    url: https://developers.figma.com/docs/rest-api/
 servers:
 - url: https://api.figma.com
-  description: Figma Production API Server
 tags:
 - name: Projects
-  description: Endpoints for listing team projects and project files.
+  description: Get information about projects and files in teams.
   externalDocs:
-    description: Projects Documentation
-    url: https://developers.figma.com/docs/rest-api/projects-types/
+    description: Project endpoints documentation
+    url: https://developers.figma.com/docs/rest-api/projects-endpoints/
 paths:
   /v1/teams/{team_id}/projects:
     get:
       tags:
       - Projects
-      summary: Figma Get Team Projects
-      operationId: getTeamProjects
-      description: Lists the projects for a specified team. Only projects visible to the authenticated user are returned.
+      summary: '[Deprecated] Get projects in a team'
+      deprecated: true
       security:
       - PersonalAccessToken: []
+      - PlanAccessToken: []
       - OAuth2:
+        - projects:read
         - files:read
+      description: 'Deprecated in favor of Get top-level folders in a team. You can use this endpoint to get a list of the top-level Projects (now called "folders") within the specified team. This will only return projects visible to the authenticated user or owner of the developer token. Note: it is not currently possible to programmatically obtain the team id of a user just from a token. To obtain a team id, navigate to a team page of a team you are a part of. The team id will be present in the URL after the word team and before your team name.'
+      operationId: getTeamProjects
       parameters:
-      - $ref: '#/components/parameters/TeamIdPathParam'
+      - name: team_id
+        in: path
+        description: ID of the team to list projects from
+        required: true
+        schema:
+          type: string
       responses:
         '200':
-          description: Successfully retrieved team projects.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetTeamProjectsResponse'
-              examples:
-                Getteamprojects200Example:
-                  summary: Default getTeamProjects 200 response
-                  x-microcks-default: true
-                  value:
-                    name: Example Title
-                    projects:
-                    - id: abc123
-                      name: Example Title
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: '#/components/responses/GetTeamProjectsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrorBoolean'
         '403':
-          $ref: '#/components/responses/ForbiddenError'
-        '404':
-          $ref: '#/components/responses/NotFoundError'
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
         '429':
-          $ref: '#/components/responses/RateLimitError'
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrMessage'
+  /v1/projects/{project_id}/meta:
+    get:
+      tags:
+      - Projects
+      summary: '[Deprecated] Get project metadata'
+      deprecated: true
+      security:
+      - PersonalAccessToken: []
+      - PlanAccessToken: []
+      - OAuth2:
+        - project_metadata:read
+      description: Deprecated in favor of Get folder metadata. Get metadata for a project (now called a "folder").
+      operationId: getProjectMeta
+      parameters:
+      - name: project_id
+        in: path
+        description: ID of the project to get metadata for.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/GetProjectMetaResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrMessage'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrMessage'
   /v1/projects/{project_id}/files:
     get:
       tags:
       - Projects
-      summary: Figma Get Project Files
-      operationId: getProjectFiles
-      description: Lists the files in a given project.
+      summary: '[Deprecated] Get files in a project'
+      deprecated: true
       security:
       - PersonalAccessToken: []
+      - PlanAccessToken: []
       - OAuth2:
+        - projects:read
         - files:read
+      description: Deprecated in favor of Get files in a folder. Get a list of all the Files within the specified project (now called a "folder").
+      operationId: getProjectFiles
       parameters:
       - name: project_id
         in: path
-        description: The ID of the project to list files from.
+        description: ID of the project to list files from
         required: true
         schema:
           type: string
-        example: '500123'
       - name: branch_data
         in: query
-        description: Set to true to include branch metadata.
-        required: false
+        description: Returns branch metadata in the response for each main file with a branch inside the project.
         schema:
           type: boolean
-        example: true
+          default: false
       responses:
         '200':
-          description: Successfully retrieved project files.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetProjectFilesResponse'
-              examples:
-                Getprojectfiles200Example:
-                  summary: Default getProjectFiles 200 response
-                  x-microcks-default: true
-                  value:
-                    name: Example Title
-                    files:
-                    - key: example_value
-                      name: Example Title
-                      thumbnail_url: https://www.example.com
-                      last_modified: '2026-01-15T10:30:00Z'
-                      branches: {}
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: '#/components/responses/GetProjectFilesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrorBoolean'
         '403':
-          $ref: '#/components/responses/ForbiddenError'
-        '404':
-          $ref: '#/components/responses/NotFoundError'
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
         '429':
-          $ref: '#/components/responses/RateLimitError'
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrMessage'
 components:
-  schemas:
-    GetTeamProjectsResponse:
-      type: object
-      description: Response from the Get Team Projects endpoint.
-      required:
-      - name
-      - projects
-      properties:
-        name:
-          type: string
-          description: The name of the team.
-          example: Example Title
-        projects:
-          type: array
-          items:
-            $ref: '#/components/schemas/Project'
-          example: []
+  responses:
+    GetProjectMetaResponse:
+      description: Response from the GET /v1/projects/{project_id}/meta endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                description: The unique identifier of the project.
+              name:
+                type: string
+                description: The name of the project.
+              thumbnail_url:
+                type:
+                - string
+                - 'null'
+                description: A URL to a thumbnail image of the project. May be null if the project has no files.
+              file_count:
+                type: integer
+                description: The number of files in the project.
+              updated_at:
+                type: string
+                format: date-time
+                description: The UTC ISO 8601 time at which the project was last updated.
+              created_at:
+                type: string
+                format: date-time
+                description: The UTC ISO 8601 time at which the project was created.
+            required:
+            - id
+            - name
+            - thumbnail_url
+            - file_count
+            - updated_at
+            - created_at
+    InternalServerErrorResponseWithErrMessage:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 500
+              required:
+              - status
     GetProjectFilesResponse:
-      type: object
-      description: Response from the Get Project Files endpoint.
-      required:
-      - name
-      - files
-      properties:
-        name:
-          type: string
-          description: The name of the project.
-          example: Example Title
-        files:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProjectFile'
-          example: []
-    ProjectFile:
-      type: object
-      description: A file within a Figma project.
-      required:
-      - key
-      - name
-      - last_modified
-      properties:
-        key:
-          type: string
-          description: The file key.
-          example: example_value
-        name:
-          type: string
-          description: The name of the file.
-          example: Example Title
-        thumbnail_url:
-          type: string
-          format: uri
-          description: A URL to a thumbnail image of the file.
-          example: https://www.example.com
-        last_modified:
-          type: string
-          format: date-time
-          description: The UTC ISO 8601 time at which the file was last modified.
-          example: '2026-01-15T10:30:00Z'
-        branches:
-          type: array
-          description: Branches of this file, if branch_data was requested.
-          items:
-            $ref: '#/components/schemas/Branch'
-          example: []
-    ErrorResponse:
-      type: object
-      description: Standard error response from the Figma API.
-      required:
-      - error
-      - status
-      - message
-      properties:
-        error:
-          type: boolean
-          description: Always true for error responses.
-          enum:
-          - true
-          example: true
-        status:
-          type: integer
-          description: The HTTP status code.
-          example: 10
-        message:
-          type: string
-          description: A human-readable description of the error.
-          example: example_value
-    Branch:
-      type: object
-      description: Information about a branch of a Figma file.
-      required:
-      - key
-      - name
-      - thumbnail_url
-      - last_modified
-      properties:
-        key:
-          type: string
-          description: The key of the branch file.
-          example: example_value
-        name:
-          type: string
-          description: The name of the branch.
-          example: Example Title
-        thumbnail_url:
-          type: string
-          format: uri
-          description: A URL to a thumbnail image of the branch.
-          example: https://www.example.com
-        last_modified:
-          type: string
-          format: date-time
-          description: The UTC ISO 8601 time at which the branch was last modified.
-          example: '2026-01-15T10:30:00Z'
+      description: Response from the GET /v1/projects/{project_id}/files endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The project's name.
+              files:
+                type: array
+                description: An array of files.
+                items:
+                  type: object
+                  properties:
+                    key:
+                      type: string
+                      description: The file's key.
+                    name:
+                      type: string
+                      description: The file's name.
+                    thumbnail_url:
+                      type: string
+                      description: The file's thumbnail URL.
+                    last_modified:
+                      type: string
+                      format: date-time
+                      description: The UTC ISO 8601 time at which the file was last modified.
+                  required:
+                  - key
+                  - name
+                  - last_modified
+            required:
+            - name
+            - files
+    TooManyRequestsErrorResponseWithErrMessage:
+      description: In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 429
+              required:
+              - status
+    ForbiddenErrorResponseWithErrMessage:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 403
+              required:
+              - status
+    GetTeamProjectsResponse:
+      description: Response from the GET /v1/teams/{team_id}/projects endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The team's name.
+              projects:
+                type: array
+                description: An array of projects.
+                items:
+                  $ref: '#/components/schemas/Project'
+            required:
+            - name
+            - projects
+    NotFoundErrorResponseWithErrMessage:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 404
+              required:
+              - status
+    BadRequestErrorResponseWithErrorBoolean:
+      description: Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 400
+              required:
+              - status
+  schemas:
     Project:
       type: object
-      description: A Figma project within a team.
-      required:
-      - id
-      - name
+      description: A Project can be identified by both the Project name, and the Project ID.
       properties:
         id:
           type: string
           description: The ID of the project.
-          example: abc123
         name:
           type: string
           description: The name of the project.
-          example: Example Title
-  responses:
-    NotFoundError:
-      description: The requested file, project, team, or resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    ForbiddenError:
-      description: The authenticated user does not have the necessary permissions to access this resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    UnauthorizedError:
-      description: Authentication token is missing, invalid, or expired.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    RateLimitError:
-      description: Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-  parameters:
-    TeamIdPathParam:
-      name: team_id
-      in: path
-      description: The ID of the team.
-      required: true
-      schema:
-        type: string
-      example: '12345'
+      required:
+      - id
+      - name
+    ErrorResponsePayloadWithErrorBoolean:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        error:
+          type: boolean
+          description: For erroneous requests, this value is always `true`.
+          enum:
+          - true
+        status:
+          type: number
+          description: Status code
+        message:
+          type: string
+          description: A string describing the error
+      required:
+      - error
+      - status
+      - message
+    ErrorResponsePayloadWithErrMessage:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        status:
+          type: number
+          description: Status code
+        err:
+          type: string
+          description: A string describing the error
+      required:
+      - status
+      - err
   securitySchemes:
     PersonalAccessToken:
-      type: http
-      scheme: bearer
-      bearerFormat: Figma Personal Access Token
-      description: Personal access tokens can be generated from the Figma account settings page. They provide full access to the Figma REST API on behalf of the user.
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    PlanAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
     OAuth2:
       type: oauth2
-      description: OAuth 2.0 authorization code flow for Figma. Applications must be registered on the Figma developer portal.
       flows:
         authorizationCode:
           authorizationUrl: https://www.figma.com/oauth
           tokenUrl: https://api.figma.com/v1/oauth/token
           refreshUrl: https://api.figma.com/v1/oauth/refresh
           scopes:
-            files:read: Read access to files the user can view
-            file_variables:read: Read access to variables in files
-            file_variables:write: Write access to variables in files
-            file_comments:write: Post and delete comments on files
-            file_dev_resources:read: Read dev resources on files
-            file_dev_resources:write: Write dev resources on files
-            webhooks:write: Create and manage webhooks
+            current_user:read: Read your name, email, and profile image.
+            file_comments:read: Read the comments for files.
+            file_comments:write: Post and delete comments and comment reactions in files.
+            file_content:read: Read the contents of files, such as nodes and the editor type.
+            file_dev_resources:read: Read dev resources in files.
+            file_dev_resources:write: Write to dev resources in files.
+            file_metadata:read: Read metadata of files.
+            file_variables:read: 'Read variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_variables:write: 'Write to variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_versions:read: Read the version history for files you can access.
+            files:read: Deprecated. Read files, projects, users, versions, comments, components & styles, and webhooks.
+            library_analytics:read: Read library analytics data.
+            library_assets:read: Read data of individual published components and styles.
+            library_content:read: Read published components and styles of files.
+            project_metadata:read: Read metadata of projects.
+            projects:read: List projects and files in projects.
+            folders:read: List folders and files in folders.
+            folder_metadata:read: Read metadata of folders.
+            team_library_content:read: Read published components and styles of teams.
+            webhooks:read: Read metadata of webhooks.
+            webhooks:write: Create and manage webhooks.
+    OrgOAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            org:activity_log_read: Read activity logs in the organization.
+externalDocs:
+  description: Figma REST API Documentation
+  url: https://developers.figma.com/docs/rest-api/

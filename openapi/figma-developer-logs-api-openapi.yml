@@ -1,0 +1,408 @@
+openapi: 3.2.0
+info:
+  title: Figma Developer Logs API
+  version: 0.45.0
+  description: 'This is the OpenAPI specification for the Figma REST API.
+
+
+    Note: we are releasing the OpenAPI specification as a beta given the large surface area and complexity of the REST API. If you notice any inaccuracies with the specification, please file an issue.'
+  termsOfService: https://www.figma.com/developer-terms/
+  contact:
+    email: support@figma.com
+servers:
+- url: https://api.figma.com
+tags:
+- name: Developer Logs
+  description: Get developer logs for REST API and MCP server requests in an organization.
+  externalDocs:
+    description: Developer log endpoints documentation
+    url: https://developers.figma.com/docs/rest-api/developer-logs-endpoints/
+paths:
+  /v1/developer_logs:
+    post:
+      tags:
+      - Developer Logs
+      summary: Get developer logs
+      security:
+      - PlanAccessToken: []
+      description: Returns a list of developer log entries for REST API and MCP server requests made within the organization. This endpoint requires a plan access token with the `org:developer_log_read` scope.
+      operationId: getDeveloperLogs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token_type:
+                  type: string
+                  description: Filter by the type of token used for authentication.
+                  enum:
+                  - plan_access_token
+                  - developer_token
+                  - oauth_token
+                token:
+                  type: string
+                  description: Filter by token value(s). Multiple values can be separated by commas.
+                token_name:
+                  type: string
+                  description: Filter by token name prefix(es). Multiple values can be separated by commas.
+                user_email:
+                  type: string
+                  description: Filter by user email prefix(es). Multiple values can be separated by commas.
+                ip_address:
+                  type: string
+                  description: Filter by IP address prefix(es). Multiple values can be separated by commas.
+                event_source:
+                  type: string
+                  description: Filter by event source.
+                  enum:
+                  - rest_api
+                  - mcp_server
+                date_range:
+                  type: string
+                  description: Filter by date range.
+                  enum:
+                  - last_24h
+                  - last_7d
+                  - last_30d
+                  default: last_30d
+                limit:
+                  type: integer
+                  description: Maximum number of entries to return.
+                  minimum: 1
+                  maximum: 100
+                  default: 25
+                cursor:
+                  type: string
+                  description: A cursor returned from a previous request, used for pagination.
+      responses:
+        '200':
+          $ref: '#/components/responses/PostDeveloperLogsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrorBoolean'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponseWithErrorBoolean'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrorBoolean'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrorBoolean'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrorBoolean'
+components:
+  responses:
+    TooManyRequestsErrorResponseWithErrorBoolean:
+      description: In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 429
+              required:
+              - status
+    ForbiddenErrorResponseWithErrorBoolean:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 403
+              required:
+              - status
+    InternalServerErrorResponseWithErrorBoolean:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 500
+              required:
+              - status
+    UnauthorizedErrorResponseWithErrorBoolean:
+      description: Token is missing or incorrect.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 401
+              required:
+              - status
+    PostDeveloperLogsResponse:
+      description: Response from the POST /v1/developer_logs endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                enum:
+                - 200
+                description: The response status code.
+              error:
+                type: boolean
+                enum:
+                - false
+                description: For successful requests, this value is always `false`.
+              meta:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    description: An array of developer log entries sorted by timestamp in descending order.
+                    items:
+                      $ref: '#/components/schemas/DeveloperLog'
+                  cursor:
+                    type:
+                    - string
+                    - 'null'
+                    description: A cursor for pagination. Pass this value as the `cursor` parameter in the next request to retrieve the next page of results. `null` when there are no more results.
+                  has_more:
+                    type: boolean
+                    description: Whether there are more results available after this page.
+                required:
+                - items
+                - has_more
+            required:
+            - status
+            - error
+            - meta
+    BadRequestErrorResponseWithErrorBoolean:
+      description: Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 400
+              required:
+              - status
+  schemas:
+    DeveloperLogContext:
+      type: object
+      description: Context about the request.
+      properties:
+        ip_address:
+          type: string
+          description: The IP address of the client that made the request.
+        city:
+          type:
+          - string
+          - 'null'
+          description: The city of the client, if available.
+        country_region:
+          type:
+          - string
+          - 'null'
+          description: The region of the client, if available.
+        country:
+          type:
+          - string
+          - 'null'
+          description: The country of the client, if available.
+      required:
+      - ip_address
+    DeveloperLogAction:
+      type: object
+      description: The API endpoint or tool that was called.
+      properties:
+        event_name:
+          type: string
+          description: The route path (for REST API requests) or tool name (for MCP server calls).
+        event_source:
+          type: string
+          description: The source of the event.
+          enum:
+          - rest_api
+          - mcp_server
+      required:
+      - event_name
+      - event_source
+    DeveloperLogActor:
+      type: object
+      description: The token used and associated user for the request.
+      properties:
+        user_id:
+          type:
+          - string
+          - 'null'
+          description: The ID of the user who made the request; null for requests made with plan access tokens, as there is no associated user.
+        user_name:
+          type:
+          - string
+          - 'null'
+          description: The name of the user who made the request; null for requests made with plan access tokens, as there is no associated user.
+        user_email:
+          type:
+          - string
+          - 'null'
+          description: The email of the user who made the request; null for requests made with plan access tokens, as there is no associated user.
+        token_name:
+          type: string
+          description: The name of the token, or the OAuth app name for OAuth tokens.
+        token_type:
+          type: string
+          description: The type of token used for authentication.
+          enum:
+          - developer_token
+          - plan_access_token
+          - oauth_token
+      required:
+      - token_name
+      - token_type
+    ErrorResponsePayloadWithErrorBoolean:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        error:
+          type: boolean
+          description: For erroneous requests, this value is always `true`.
+          enum:
+          - true
+        status:
+          type: number
+          description: Status code
+        message:
+          type: string
+          description: A string describing the error
+      required:
+      - error
+      - status
+      - message
+    DeveloperLogResource:
+      type: object
+      description: The resource accessed by the request.
+      properties:
+        id_or_key:
+          type:
+          - string
+          - 'null'
+          description: The ID or key of the resource. For files this is the file key; for teams and projects this is the numeric ID. Null for requests without an associated resources (e.g. activity logs).
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the resource; null for requests without an associated resource (e.g. activity logs).
+        type:
+          type:
+          - string
+          - 'null'
+          description: The type of resource; null for requests without an associated resource (e.g. activity logs).
+          enum:
+          - file
+          - team
+          - project
+          - null
+        org_id:
+          type: string
+          description: The ID of the organization associated with the request (e.g. that owns the resource).
+      required:
+      - org_id
+    DeveloperLog:
+      type: object
+      description: A log entry from the Developer Log, representing a REST API or MCP server request.
+      properties:
+        uuid:
+          type: string
+          description: The unique identifier of the log entry.
+        timestamp:
+          type: string
+          description: The ISO 8601 timestamp of when the request was made.
+        action:
+          $ref: '#/components/schemas/DeveloperLogAction'
+        actor:
+          $ref: '#/components/schemas/DeveloperLogActor'
+        resource:
+          $ref: '#/components/schemas/DeveloperLogResource'
+        context:
+          $ref: '#/components/schemas/DeveloperLogContext'
+      required:
+      - uuid
+      - timestamp
+      - action
+      - actor
+      - resource
+      - context
+  securitySchemes:
+    PersonalAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    PlanAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            current_user:read: Read your name, email, and profile image.
+            file_comments:read: Read the comments for files.
+            file_comments:write: Post and delete comments and comment reactions in files.
+            file_content:read: Read the contents of files, such as nodes and the editor type.
+            file_dev_resources:read: Read dev resources in files.
+            file_dev_resources:write: Write to dev resources in files.
+            file_metadata:read: Read metadata of files.
+            file_variables:read: 'Read variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_variables:write: 'Write to variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_versions:read: Read the version history for files you can access.
+            files:read: Deprecated. Read files, projects, users, versions, comments, components & styles, and webhooks.
+            library_analytics:read: Read library analytics data.
+            library_assets:read: Read data of individual published components and styles.
+            library_content:read: Read published components and styles of files.
+            project_metadata:read: Read metadata of projects.
+            projects:read: List projects and files in projects.
+            folders:read: List folders and files in folders.
+            folder_metadata:read: Read metadata of folders.
+            team_library_content:read: Read published components and styles of teams.
+            webhooks:read: Read metadata of webhooks.
+            webhooks:write: Create and manage webhooks.
+    OrgOAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            org:activity_log_read: Read activity logs in the organization.
+externalDocs:
+  description: Figma REST API Documentation
+  url: https://developers.figma.com/docs/rest-api/

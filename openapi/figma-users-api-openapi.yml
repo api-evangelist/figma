@@ -1,145 +1,186 @@
 openapi: 3.2.0
 info:
-  title: Figma REST Users API
-  version: 2.0.0
-  description: The Figma REST API provides programmatic access to Figma files, comments, components, and related resources. It enables developers to read and interact with design data, export assets, manage comments and reactions, and query published components and styles from team libraries. Authentication is done via personal access tokens or OAuth 2.0.
+  title: Figma Users API
+  version: 0.45.0
+  description: 'This is the OpenAPI specification for the Figma REST API.
+
+
+    Note: we are releasing the OpenAPI specification as a beta given the large surface area and complexity of the REST API. If you notice any inaccuracies with the specification, please file an issue.'
   termsOfService: https://www.figma.com/developer-terms/
   contact:
-    name: Figma Developer Support
-    url: https://www.figma.com/developers
     email: support@figma.com
-  license:
-    name: Figma Developer Terms
-    url: https://www.figma.com/developer-terms/
-  externalDocs:
-    description: Figma REST API Documentation
-    url: https://developers.figma.com/docs/rest-api/
 servers:
 - url: https://api.figma.com
-  description: Figma Production API Server
 tags:
 - name: Users
-  description: Endpoints for retrieving information about the authenticated user.
+  description: Get information about the currently authenticated user.
   externalDocs:
-    description: Users Endpoints Documentation
+    description: User endpoints documentation
     url: https://developers.figma.com/docs/rest-api/users-endpoints/
 paths:
   /v1/me:
     get:
       tags:
       - Users
-      summary: Figma Get Current User
-      operationId: getMe
-      description: Returns the user information for the currently authenticated user.
+      summary: Get current user
       security:
       - PersonalAccessToken: []
       - OAuth2:
+        - current_user:read
         - files:read
+      description: Returns the user information for the currently authenticated user.
+      operationId: getMe
       responses:
         '200':
-          description: Successfully retrieved user information.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-              examples:
-                Getme200Example:
-                  summary: Default getMe 200 response
-                  x-microcks-default: true
-                  value:
-                    id: abc123
-                    handle: example_value
-                    img_url: https://www.example.com
-                    email: user@example.com
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: '#/components/responses/GetMeResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
         '429':
-          $ref: '#/components/responses/RateLimitError'
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrMessage'
 components:
   responses:
-    UnauthorizedError:
-      description: Authentication token is missing, invalid, or expired.
+    InternalServerErrorResponseWithErrMessage:
+      description: An internal server error occurred.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    RateLimitError:
-      description: Rate limit exceeded. The Figma API enforces rate limits on a per-user, per-app basis. Retry after the period indicated in the Retry-After header.
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 500
+              required:
+              - status
+    TooManyRequestsErrorResponseWithErrMessage:
+      description: In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 429
+              required:
+              - status
+    ForbiddenErrorResponseWithErrMessage:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 403
+              required:
+              - status
+    GetMeResponse:
+      description: Response from the GET /v1/me endpoint.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/User'
+            - type: object
+              properties:
+                email:
+                  type: string
+                  description: Email associated with the user's account. This property is only present on the /v1/me endpoint.
+              required:
+              - email
   schemas:
     User:
       type: object
-      description: A Figma user account.
+      description: A description of a user.
+      properties:
+        id:
+          type: string
+          description: Unique stable id of the user.
+        handle:
+          type: string
+          description: Name of the user.
+        img_url:
+          type: string
+          description: URL link to the user's profile image.
       required:
       - id
       - handle
       - img_url
-      properties:
-        id:
-          type: string
-          description: Unique stable ID of the user.
-          example: abc123
-        handle:
-          type: string
-          description: Display name of the user.
-          example: example_value
-        img_url:
-          type: string
-          format: uri
-          description: URL of the user's profile image.
-          example: https://www.example.com
-        email:
-          type: string
-          format: email
-          description: Email address associated with the user's account.
-          example: user@example.com
-    ErrorResponse:
+    ErrorResponsePayloadWithErrMessage:
       type: object
-      description: Standard error response from the Figma API.
-      required:
-      - error
-      - status
-      - message
+      description: A response indicating an error occurred.
       properties:
-        error:
-          type: boolean
-          description: Always true for error responses.
-          enum:
-          - true
-          example: true
         status:
-          type: integer
-          description: The HTTP status code.
-          example: 10
-        message:
+          type: number
+          description: Status code
+        err:
           type: string
-          description: A human-readable description of the error.
-          example: example_value
+          description: A string describing the error
+      required:
+      - status
+      - err
   securitySchemes:
     PersonalAccessToken:
-      type: http
-      scheme: bearer
-      bearerFormat: Figma Personal Access Token
-      description: Personal access tokens can be generated from the Figma account settings page. They provide full access to the Figma REST API on behalf of the user.
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    PlanAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
     OAuth2:
       type: oauth2
-      description: OAuth 2.0 authorization code flow for Figma. Applications must be registered on the Figma developer portal.
       flows:
         authorizationCode:
           authorizationUrl: https://www.figma.com/oauth
           tokenUrl: https://api.figma.com/v1/oauth/token
           refreshUrl: https://api.figma.com/v1/oauth/refresh
           scopes:
-            files:read: Read access to files the user can view
-            file_variables:read: Read access to variables in files
-            file_variables:write: Write access to variables in files
-            file_comments:write: Post and delete comments on files
-            file_dev_resources:read: Read dev resources on files
-            file_dev_resources:write: Write dev resources on files
-            webhooks:write: Create and manage webhooks
+            current_user:read: Read your name, email, and profile image.
+            file_comments:read: Read the comments for files.
+            file_comments:write: Post and delete comments and comment reactions in files.
+            file_content:read: Read the contents of files, such as nodes and the editor type.
+            file_dev_resources:read: Read dev resources in files.
+            file_dev_resources:write: Write to dev resources in files.
+            file_metadata:read: Read metadata of files.
+            file_variables:read: 'Read variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_variables:write: 'Write to variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_versions:read: Read the version history for files you can access.
+            files:read: Deprecated. Read files, projects, users, versions, comments, components & styles, and webhooks.
+            library_analytics:read: Read library analytics data.
+            library_assets:read: Read data of individual published components and styles.
+            library_content:read: Read published components and styles of files.
+            project_metadata:read: Read metadata of projects.
+            projects:read: List projects and files in projects.
+            folders:read: List folders and files in folders.
+            folder_metadata:read: Read metadata of folders.
+            team_library_content:read: Read published components and styles of teams.
+            webhooks:read: Read metadata of webhooks.
+            webhooks:write: Create and manage webhooks.
+    OrgOAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            org:activity_log_read: Read activity logs in the organization.
+externalDocs:
+  description: Figma REST API Documentation
+  url: https://developers.figma.com/docs/rest-api/

@@ -1,0 +1,12 @@
+{
+ "url": "https://raw.githubusercontent.com/figma/rest-api-spec/HEAD/openapi/openapi.yaml",
+ "final": "https://raw.githubusercontent.com/figma/rest-api-spec/HEAD/openapi/openapi.yaml",
+ "status": 200,
+ "content_type": "text/plain; charset=utf-8",
+ "bytes": 403270,
+ "sha256": "8afa2b1680b5244316778c91aa35b4fa544460c76ea772ed0ea33140535ac1b8",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "re-archived: the provider's current document replaced a stale archive (roadmap#793); the old files are in openapi/_superseded/2026-10-19-stale"
+}

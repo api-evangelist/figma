@@ -1,0 +1,276 @@
+openapi: 3.2.0
+info:
+  title: Figma O Embed API
+  version: 0.45.0
+  description: 'This is the OpenAPI specification for the Figma REST API.
+
+
+    Note: we are releasing the OpenAPI specification as a beta given the large surface area and complexity of the REST API. If you notice any inaccuracies with the specification, please file an issue.'
+  termsOfService: https://www.figma.com/developer-terms/
+  contact:
+    email: support@figma.com
+servers:
+- url: https://api.figma.com
+tags:
+- name: o Embed
+  description: Get oEmbed data for Figma files and published Makes.
+  externalDocs:
+    description: oEmbed endpoint documentation
+    url: https://developers.figma.com/docs/rest-api/oembed-endpoints/
+paths:
+  /v1/oembed:
+    get:
+      tags:
+      - o Embed
+      summary: Get oEmbed data
+      description: Returns oEmbed data for a Figma file or published Make site URL, following the oEmbed specification.
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - file_metadata:read
+      operationId: getOEmbed
+      parameters:
+      - name: url
+        in: query
+        description: The URL of the Figma file or published Make site to retrieve oEmbed data for.
+        required: true
+        schema:
+          type: string
+      - name: maxwidth
+        in: query
+        description: Maximum width of the embed in pixels. Defaults to 800. The response width will be adjusted to maintain a 16:9 aspect ratio with maxheight.
+        schema:
+          type: integer
+          default: 800
+      - name: maxheight
+        in: query
+        description: Maximum height of the embed in pixels. Defaults to 450. The response height will be adjusted to maintain a 16:9 aspect ratio with maxwidth.
+        schema:
+          type: integer
+          default: 450
+      responses:
+        '200':
+          $ref: '#/components/responses/GetOEmbedResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrorBoolean'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrMessage'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '501':
+          $ref: '#/components/responses/NotImplementedErrorResponseWithErrMessage'
+components:
+  responses:
+    GetOEmbedResponse:
+      description: Response from the GET /v1/oembed endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              version:
+                type: string
+                description: The oEmbed specification version. Always "1.0".
+              type:
+                type: string
+                description: The oEmbed response type. Always "rich".
+              title:
+                type: string
+                description: The title of the Figma file or published Make site.
+              key:
+                type: string
+                description: The key of the Figma file. Not present for published Makes
+              url:
+                type: string
+                description: The canonical URL of the resource.
+              provider_name:
+                type: string
+                description: The name of the content provider. Always "Figma" or "Make".
+              provider_url:
+                type: string
+                description: The URL of the content provider's website. Always "https://www.figma.com".
+              cache_age:
+                type: integer
+                description: Suggested cache lifetime for this response in seconds. Always 3600.
+              width:
+                type: integer
+                description: Width of the embed in pixels.
+              height:
+                type: integer
+                description: Height of the embed in pixels.
+              html:
+                type: string
+                description: The HTML for embedding the file. Contains an iframe pointing to the Figma embed URL.
+              is_published_site:
+                type: boolean
+                description: Only present and "true" when the resource is a published Make.
+              folder_name:
+                type: string
+                description: The name of the folder containing the file, if the file resides in a folder.
+              thumbnail_url:
+                type: string
+                description: URL of a thumbnail image for the file.
+              thumbnail_width:
+                type: integer
+                description: Width of the thumbnail image in pixels.
+              thumbnail_height:
+                type: integer
+                description: Height of the thumbnail image in pixels.
+            required:
+            - version
+            - type
+            - title
+            - url
+            - provider_name
+            - provider_url
+            - cache_age
+            - width
+            - height
+            - html
+    NotImplementedErrorResponseWithErrMessage:
+      description: The server does not support the functionality required to fulfill the request.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 501
+              required:
+              - status
+    TooManyRequestsErrorResponseWithErrMessage:
+      description: In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 429
+              required:
+              - status
+    NotFoundErrorResponseWithErrMessage:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 404
+              required:
+              - status
+    BadRequestErrorResponseWithErrorBoolean:
+      description: Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 400
+              required:
+              - status
+  schemas:
+    ErrorResponsePayloadWithErrorBoolean:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        error:
+          type: boolean
+          description: For erroneous requests, this value is always `true`.
+          enum:
+          - true
+        status:
+          type: number
+          description: Status code
+        message:
+          type: string
+          description: A string describing the error
+      required:
+      - error
+      - status
+      - message
+    ErrorResponsePayloadWithErrMessage:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        status:
+          type: number
+          description: Status code
+        err:
+          type: string
+          description: A string describing the error
+      required:
+      - status
+      - err
+  securitySchemes:
+    PersonalAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    PlanAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            current_user:read: Read your name, email, and profile image.
+            file_comments:read: Read the comments for files.
+            file_comments:write: Post and delete comments and comment reactions in files.
+            file_content:read: Read the contents of files, such as nodes and the editor type.
+            file_dev_resources:read: Read dev resources in files.
+            file_dev_resources:write: Write to dev resources in files.
+            file_metadata:read: Read metadata of files.
+            file_variables:read: 'Read variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_variables:write: 'Write to variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_versions:read: Read the version history for files you can access.
+            files:read: Deprecated. Read files, projects, users, versions, comments, components & styles, and webhooks.
+            library_analytics:read: Read library analytics data.
+            library_assets:read: Read data of individual published components and styles.
+            library_content:read: Read published components and styles of files.
+            project_metadata:read: Read metadata of projects.
+            projects:read: List projects and files in projects.
+            folders:read: List folders and files in folders.
+            folder_metadata:read: Read metadata of folders.
+            team_library_content:read: Read published components and styles of teams.
+            webhooks:read: Read metadata of webhooks.
+            webhooks:write: Create and manage webhooks.
+    OrgOAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            org:activity_log_read: Read activity logs in the organization.
+externalDocs:
+  description: Figma REST API Documentation
+  url: https://developers.figma.com/docs/rest-api/

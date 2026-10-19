@@ -1,0 +1,418 @@
+openapi: 3.2.0
+info:
+  title: Figma Comment Reactions API
+  version: 0.45.0
+  description: 'This is the OpenAPI specification for the Figma REST API.
+
+
+    Note: we are releasing the OpenAPI specification as a beta given the large surface area and complexity of the REST API. If you notice any inaccuracies with the specification, please file an issue.'
+  termsOfService: https://www.figma.com/developer-terms/
+  contact:
+    email: support@figma.com
+servers:
+- url: https://api.figma.com
+tags:
+- name: Comment Reactions
+  description: Interact with reactions to file comments.
+  externalDocs:
+    description: Comment endpoints documentation
+    url: https://developers.figma.com/docs/rest-api/comments-endpoints/
+paths:
+  /v1/files/{file_key}/comments/{comment_id}/reactions:
+    get:
+      tags:
+      - Comment Reactions
+      summary: Get reactions for a comment
+      security:
+      - PersonalAccessToken: []
+      - PlanAccessToken: []
+      - OAuth2:
+        - file_comments:read
+        - files:read
+      description: Gets a paginated list of reactions left on the comment.
+      operationId: getCommentReactions
+      parameters:
+      - name: file_key
+        in: path
+        description: File to get comment containing reactions from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key.
+        required: true
+        schema:
+          type: string
+      - name: comment_id
+        in: path
+        description: ID of comment to get reactions from.
+        required: true
+        schema:
+          type: string
+      - name: cursor
+        in: query
+        description: Cursor for pagination, retrieved from the response of the previous call.
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/GetCommentReactionsResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrMessage'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrMessage'
+    post:
+      tags:
+      - Comment Reactions
+      summary: Add a reaction to a comment
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - file_comments:write
+      description: Posts a new comment reaction on a file comment.
+      operationId: postCommentReaction
+      parameters:
+      - name: file_key
+        in: path
+        description: File to post comment reactions to. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key.
+        required: true
+        schema:
+          type: string
+      - name: comment_id
+        in: path
+        description: ID of comment to react to.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Reaction to post.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                emoji:
+                  $ref: '#/components/schemas/Emoji'
+              required:
+              - emoji
+      responses:
+        '200':
+          $ref: '#/components/responses/PostCommentReactionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrorBoolean'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrMessage'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrMessage'
+    delete:
+      tags:
+      - Comment Reactions
+      summary: Delete a reaction
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - file_comments:write
+      description: Deletes a specific comment reaction. Only the person who made the reaction is allowed to delete it.
+      operationId: deleteCommentReaction
+      parameters:
+      - name: file_key
+        in: path
+        description: File to delete comment reaction from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key.
+        required: true
+        schema:
+          type: string
+      - name: comment_id
+        in: path
+        description: ID of comment to delete reaction from.
+        required: true
+        schema:
+          type: string
+      - name: emoji
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/Emoji'
+      responses:
+        '200':
+          $ref: '#/components/responses/DeleteCommentReactionResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrMessage'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrMessage'
+components:
+  schemas:
+    ResponsePagination:
+      type: object
+      description: If pagination is needed due to the length of the response, identifies the next and previous pages.
+      properties:
+        prev_page:
+          type: string
+          description: A URL that calls the previous page of the response.
+        next_page:
+          type: string
+          description: A URL that calls the next page of the response.
+    Emoji:
+      type: string
+      description: The emoji type of reaction as shortcode (e.g. `:heart:`, `:+1::skin-tone-2:`). The list of accepted emoji shortcodes can be found in [this file](https://raw.githubusercontent.com/missive/emoji-mart/main/packages/emoji-mart-data/sets/14/native.json) under the top-level emojis and aliases fields, with optional skin tone modifiers when applicable.
+    User:
+      type: object
+      description: A description of a user.
+      properties:
+        id:
+          type: string
+          description: Unique stable id of the user.
+        handle:
+          type: string
+          description: Name of the user.
+        img_url:
+          type: string
+          description: URL link to the user's profile image.
+      required:
+      - id
+      - handle
+      - img_url
+    ErrorResponsePayloadWithErrorBoolean:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        error:
+          type: boolean
+          description: For erroneous requests, this value is always `true`.
+          enum:
+          - true
+        status:
+          type: number
+          description: Status code
+        message:
+          type: string
+          description: A string describing the error
+      required:
+      - error
+      - status
+      - message
+    ErrorResponsePayloadWithErrMessage:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        status:
+          type: number
+          description: Status code
+        err:
+          type: string
+          description: A string describing the error
+      required:
+      - status
+      - err
+    Reaction:
+      type: object
+      description: A reaction left by a user.
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+          description: The user who left the reaction.
+        emoji:
+          $ref: '#/components/schemas/Emoji'
+        created_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the reaction was left.
+      required:
+      - user
+      - emoji
+      - created_at
+  responses:
+    PostCommentReactionResponse:
+      description: Response from the POST /v1/files/{file_key}/comments/{comment_id}/reactions endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                description: The status of the request.
+                enum:
+                - 200
+              error:
+                type: boolean
+                description: For successful requests, this value is always `false`.
+                enum:
+                - false
+            required:
+            - status
+            - error
+    InternalServerErrorResponseWithErrMessage:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 500
+              required:
+              - status
+    DeleteCommentReactionResponse:
+      description: Response from the DELETE /v1/files/{file_key}/comments/{comment_id}/reactions endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                description: The status of the request.
+                enum:
+                - 200
+              error:
+                type: boolean
+                description: For successful requests, this value is always `false`.
+                enum:
+                - false
+            required:
+            - status
+            - error
+    TooManyRequestsErrorResponseWithErrMessage:
+      description: In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 429
+              required:
+              - status
+    ForbiddenErrorResponseWithErrMessage:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 403
+              required:
+              - status
+    GetCommentReactionsResponse:
+      description: Response from the GET /v1/files/{file_key}/comments/{comment_id}/reactions endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reactions:
+                type: array
+                description: An array of reactions.
+                items:
+                  $ref: '#/components/schemas/Reaction'
+              pagination:
+                $ref: '#/components/schemas/ResponsePagination'
+            required:
+            - reactions
+            - pagination
+    NotFoundErrorResponseWithErrMessage:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 404
+              required:
+              - status
+    BadRequestErrorResponseWithErrorBoolean:
+      description: Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 400
+              required:
+              - status
+  securitySchemes:
+    PersonalAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    PlanAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            current_user:read: Read your name, email, and profile image.
+            file_comments:read: Read the comments for files.
+            file_comments:write: Post and delete comments and comment reactions in files.
+            file_content:read: Read the contents of files, such as nodes and the editor type.
+            file_dev_resources:read: Read dev resources in files.
+            file_dev_resources:write: Write to dev resources in files.
+            file_metadata:read: Read metadata of files.
+            file_variables:read: 'Read variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_variables:write: 'Write to variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_versions:read: Read the version history for files you can access.
+            files:read: Deprecated. Read files, projects, users, versions, comments, components & styles, and webhooks.
+            library_analytics:read: Read library analytics data.
+            library_assets:read: Read data of individual published components and styles.
+            library_content:read: Read published components and styles of files.
+            project_metadata:read: Read metadata of projects.
+            projects:read: List projects and files in projects.
+            folders:read: List folders and files in folders.
+            folder_metadata:read: Read metadata of folders.
+            team_library_content:read: Read published components and styles of teams.
+            webhooks:read: Read metadata of webhooks.
+            webhooks:write: Create and manage webhooks.
+    OrgOAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            org:activity_log_read: Read activity logs in the organization.
+externalDocs:
+  description: Figma REST API Documentation
+  url: https://developers.figma.com/docs/rest-api/

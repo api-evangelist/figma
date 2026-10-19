@@ -1,114 +1,275 @@
 openapi: 3.2.0
 info:
   title: Figma Activity Logs API
-  version: 0.21.0
-  description: 'Figma allows designers to create and prototype their digital experiences -
+  version: 0.45.0
+  description: 'This is the OpenAPI specification for the Figma REST API.
 
-    together in real-time and in one place - helping them turn their ideas and
 
-    visions into products, faster. Figma''s mission is to make design
-
-    accessible to everyone. The Figma API is one of the ways we aim to do that.'
+    Note: we are releasing the OpenAPI specification as a beta given the large surface area and complexity of the REST API. If you notice any inaccuracies with the specification, please file an issue.'
   termsOfService: https://www.figma.com/developer-terms/
   contact:
     email: support@figma.com
 servers:
 - url: https://api.figma.com
-  description: Figma Production API Server
 tags:
 - name: Activity Logs
-  description: Operations related to retrieving activity logs for an organization
+  description: Get activity logs as an organization admin.
+  externalDocs:
+    description: Activity log endpoints documentation
+    url: https://developers.figma.com/docs/rest-api/activity-logs-endpoints/
 paths:
   /v1/activity_logs:
     get:
       tags:
       - Activity Logs
-      summary: Figma Get Activity Logs
+      summary: Get activity logs
       security:
+      - PlanAccessToken: []
       - OrgOAuth2:
         - org:activity_log_read
       description: Returns a list of activity log events
       operationId: getActivityLogs
-      x-microcks-operation:
-        dispatcher: FALLBACK
-        dispatcherRules: "{\n  \"dispatcher\": \"FALLBACK\",\n  \"fallback\": \"GetActivityLogsSuccessExample\"\n}\n"
       parameters:
-      - $ref: '#/components/parameters/EventsQueryParam'
-      - $ref: '#/components/parameters/StartTimeQueryParam'
-      - $ref: '#/components/parameters/EndTimeQueryParam'
-      - $ref: '#/components/parameters/LimitQueryParam'
-      - $ref: '#/components/parameters/OrderQueryParam'
+      - name: events
+        description: Event type(s) to include in the response. Can have multiple values separated by comma. All events are returned by default.
+        in: query
+        schema:
+          type: string
+      - name: start_time
+        description: Unix timestamp of the least recent event to include. This param defaults to one year ago if unspecified.
+        in: query
+        schema:
+          type: number
+      - name: end_time
+        description: Unix timestamp of the most recent event to include. This param defaults to the current timestamp if unspecified.
+        in: query
+        schema:
+          type: number
+      - name: limit
+        description: Maximum number of events to return. This param defaults to 1000 if unspecified.
+        in: query
+        schema:
+          type: number
+      - name: order
+        description: Event order by timestamp. This param can be either "asc" (default) or "desc".
+        in: query
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: asc
       responses:
         '200':
           $ref: '#/components/responses/GetActivityLogsResponse'
         '400':
-          $ref: '#/components/responses/BadRequestErrorResponse'
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrorBoolean'
         '401':
-          $ref: '#/components/responses/UnauthorizedErrorResponse'
+          $ref: '#/components/responses/UnauthorizedErrorResponseWithErrorBoolean'
         '403':
-          $ref: '#/components/responses/ForbiddenErrorResponse'
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrorBoolean'
         '429':
-          $ref: '#/components/responses/TooManyRequestsErrorResponse'
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrorBoolean'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrorBoolean'
 components:
-  responses:
-    GetActivityLogsResponse:
-      description: Response from the GET /v1/activity_logs endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GetActivityLogsResponseBody'
-          examples:
-            GetActivityLogsSuccessExample:
-              $ref: '#/components/examples/GetActivityLogsSuccessExample'
-    ForbiddenErrorResponse:
-      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            ForbiddenExample:
-              $ref: '#/components/examples/ForbiddenExample'
-    InternalServerErrorResponse:
-      description: An internal server error occurred.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            InternalServerErrorExample:
-              $ref: '#/components/examples/InternalServerErrorExample'
-    TooManyRequestsErrorResponse:
-      description: API requests may be throttled or rate limited. Please wait a while before attempting the request again.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            TooManyRequestsExample:
-              $ref: '#/components/examples/TooManyRequestsExample'
-    BadRequestErrorResponse:
-      description: Bad request. Parameters are invalid or malformed. Please check the input formats.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            BadRequestExample:
-              $ref: '#/components/examples/BadRequestExample'
-    UnauthorizedErrorResponse:
-      description: Token is missing or incorrect.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponsePayload'
-          examples:
-            UnauthorizedExample:
-              $ref: '#/components/examples/UnauthorizedExample'
   schemas:
-    ErrorResponsePayload:
+    ActivityLogFileEntity:
+      type: object
+      description: A Figma Design or FigJam file
+      properties:
+        type:
+          type: string
+          description: The type of entity.
+          enum:
+          - file
+        key:
+          type: string
+          description: Unique identifier of the file.
+        name:
+          type: string
+          description: Name of the file.
+        editor_type:
+          type: string
+          description: Indicates if the object is a file on Figma Design or FigJam.
+          enum:
+          - figma
+          - figjam
+        link_access:
+          $ref: '#/components/schemas/LinkAccess'
+          description: Access policy for users who have the link to the file.
+        proto_link_access:
+          type: string
+          description: Access policy for users who have the link to the file's prototype.
+          enum:
+          - view
+          - org_view
+          - inherit
+      required:
+      - type
+      - key
+      - name
+      - editor_type
+      - link_access
+      - proto_link_access
+    ActivityLogFileRepoEntity:
+      type: object
+      description: A file branch that diverges from and can be merged back into the main file
+      properties:
+        type:
+          type: string
+          description: The type of entity.
+          enum:
+          - file_repo
+        id:
+          type: string
+          description: Unique identifier of the file branch.
+        name:
+          type: string
+          description: Name of the file.
+        main_file_key:
+          type: string
+          description: Key of the main file.
+      required:
+      - type
+      - id
+      - name
+      - main_file_key
+    ActivityLogOrgEntity:
+      type: object
+      description: A Figma organization
+      properties:
+        type:
+          type: string
+          description: The type of entity.
+          enum:
+          - org
+        id:
+          type: string
+          description: Unique identifier of the organization.
+        name:
+          type: string
+          description: Name of the organization.
+      required:
+      - type
+      - id
+      - name
+    LinkAccess:
+      type: string
+      description: Access policy for users who have the link to the resource.
+      enum:
+      - view
+      - edit
+      - org_view
+      - org_edit
+      - inherit
+    ActivityLogPluginEntity:
+      type: object
+      description: A Figma plugin
+      properties:
+        type:
+          type: string
+          description: The type of entity.
+          enum:
+          - plugin
+        id:
+          type: string
+          description: Unique identifier of the plugin.
+        name:
+          type: string
+          description: Name of the plugin.
+        editor_type:
+          type: string
+          description: Indicates if the object is a plugin is available on Figma Design or FigJam.
+          enum:
+          - figma
+          - figjam
+      required:
+      - type
+      - id
+      - name
+      - editor_type
+    ActivityLogWorkspaceEntity:
+      type: object
+      description: Part of the organizational hierarchy of managing files and users within Figma, only available on the Enterprise Plan
+      properties:
+        type:
+          type: string
+          description: The type of entity.
+          enum:
+          - workspace
+        id:
+          type: string
+          description: Unique identifier of the workspace.
+        name:
+          type: string
+          description: Name of the workspace.
+      required:
+      - type
+      - id
+      - name
+    ActivityLogProjectEntity:
+      type: object
+      description: A project that a collection of Figma files are grouped under
+      properties:
+        type:
+          type: string
+          description: The type of entity.
+          enum:
+          - project
+        id:
+          type: string
+          description: Unique identifier of the project.
+        name:
+          type: string
+          description: Name of the project.
+      required:
+      - type
+      - id
+      - name
+    ActivityLogUserEntity:
+      type: object
+      description: A Figma user
+      properties:
+        type:
+          type: string
+          description: The type of entity.
+          enum:
+          - user
+        id:
+          type: string
+          description: Unique stable id of the user.
+        name:
+          type: string
+          description: Name of the user.
+        email:
+          type: string
+          description: Email associated with the user's account.
+      required:
+      - type
+      - id
+      - name
+      - email
+    ActivityLogTeamEntity:
+      type: object
+      description: A Figma team that contains multiple users and projects
+      properties:
+        type:
+          type: string
+          description: The type of entity.
+          enum:
+          - team
+        id:
+          type: string
+          description: Unique identifier of the team.
+        name:
+          type: string
+          description: Name of the team.
+      required:
+      - type
+      - id
+      - name
+    ErrorResponsePayloadWithErrorBoolean:
       type: object
       description: A response indicating an error occurred.
       properties:
@@ -117,225 +278,16 @@ components:
           description: For erroneous requests, this value is always `true`.
           enum:
           - true
-          example: true
         status:
           type: number
           description: Status code
-          example: 42.5
         message:
           type: string
           description: A string describing the error
-          example: example_value
       required:
       - error
       - status
       - message
-    ActivityLogActor:
-      type:
-      - object
-      - 'null'
-      description: The user who performed the action.
-      properties:
-        type:
-          type: string
-          description: The type of the user.
-          enum:
-          - user
-          example: user
-        id:
-          type: string
-          description: The ID of the user.
-          example: abc123
-        name:
-          type: string
-          description: The name of the user.
-          example: Example Title
-        email:
-          type: string
-          description: The email of the user.
-          example: user@example.com
-      required:
-      - name
-    GetActivityLogsResponseBody:
-      type: object
-      properties:
-        status:
-          type: number
-          enum:
-          - 200
-          description: The response status code.
-          example: 200
-        error:
-          type: boolean
-          enum:
-          - false
-          description: For successful requests, this value is always `false`.
-          example: false
-        meta:
-          $ref: '#/components/schemas/ActivityLogsMeta'
-      required:
-      - status
-      - error
-      - meta
-    ActivityLogTeamEntity:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - team
-          example: team
-        id:
-          type: string
-          example: abc123
-        name:
-          type: string
-          example: Example Title
-      required:
-      - type
-      - id
-    ActivityLogUserEntity:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - user
-          example: user
-        id:
-          type: string
-          example: abc123
-        name:
-          type: string
-          example: Example Title
-        email:
-          type: string
-          example: user@example.com
-      required:
-      - type
-      - id
-    ActivityLogEntity:
-      description: The resource the actor took the action on.
-      oneOf:
-      - $ref: '#/components/schemas/ActivityLogUserEntity'
-      - $ref: '#/components/schemas/ActivityLogFileEntity'
-      - $ref: '#/components/schemas/ActivityLogProjectEntity'
-      - $ref: '#/components/schemas/ActivityLogTeamEntity'
-      - $ref: '#/components/schemas/ActivityLogOrgEntity'
-      discriminator:
-        propertyName: type
-        mapping:
-          user: '#/components/schemas/ActivityLogUserEntity'
-          file: '#/components/schemas/ActivityLogFileEntity'
-          project: '#/components/schemas/ActivityLogProjectEntity'
-          team: '#/components/schemas/ActivityLogTeamEntity'
-          org: '#/components/schemas/ActivityLogOrgEntity'
-    ActivityLogsMeta:
-      type: object
-      properties:
-        activityLogs:
-          type: array
-          description: An array of activity logs sorted by timestamp in ascending order by default.
-          items:
-            $ref: '#/components/schemas/ActivityLog'
-          example: []
-        cursor:
-          type: string
-          description: Encodes the last event (the most recent event)
-          example: example_value
-        nextPage:
-          type: boolean
-          description: Whether there is a next page of events
-          example: true
-      required:
-      - activityLogs
-      - nextPage
-    ActivityLogContext:
-      type: object
-      description: Contextual information about the event.
-      properties:
-        clientName:
-          type:
-          - string
-          - 'null'
-          description: The third-party application that triggered the event.
-          example: example_value
-        ipAddress:
-          type: string
-          description: The IP address from of the client that sent the event request.
-          example: example_value
-        isFigmaSupportTeamAction:
-          type: boolean
-          description: If Figma's Support team triggered the event.
-          example: true
-        orgId:
-          type: string
-          description: The id of the organization where the event took place.
-          example: '500123'
-        teamId:
-          type:
-          - string
-          - 'null'
-          description: The id of the team where the event took place.
-          example: '500123'
-      required:
-      - clientName
-      - ipAddress
-      - isFigmaSupportTeamAction
-      - orgId
-      - teamId
-    ActivityLogAction:
-      type: object
-      description: The task or activity the actor performed.
-      properties:
-        type:
-          type: string
-          description: The type of the action.
-          example: example_value
-        details:
-          type:
-          - object
-          - 'null'
-          description: Metadata of the action.
-          additionalProperties: true
-          example: example_value
-      required:
-      - type
-      - details
-    ActivityLogFileEntity:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - file
-          example: file
-        id:
-          type: string
-          example: abc123
-        name:
-          type: string
-          example: Example Title
-      required:
-      - type
-      - id
-    ActivityLogOrgEntity:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - org
-          example: org
-        id:
-          type: string
-          example: abc123
-        name:
-          type: string
-          example: Example Title
-      required:
-      - type
-      - id
     ActivityLog:
       type: object
       description: An event returned by the Activity Logs API.
@@ -343,19 +295,100 @@ components:
         id:
           type: string
           description: The ID of the event.
-          example: abc123
         timestamp:
           type: number
           description: The timestamp of the event in seconds since the Unix epoch.
-          example: 42.5
         actor:
-          $ref: '#/components/schemas/ActivityLogActor'
+          type:
+          - object
+          - 'null'
+          description: The user who performed the action.
+          properties:
+            type:
+              type: string
+              description: The type of the user.
+              enum:
+              - user
+            id:
+              type: string
+              description: The ID of the user.
+            name:
+              type: string
+              description: The name of the user. For SCIM events, the value is "SCIM Provider". For official support actions, the value is "Figma Support".
+            email:
+              type: string
+              description: The email of the user.
+          required:
+          - name
         action:
-          $ref: '#/components/schemas/ActivityLogAction'
+          type: object
+          description: The task or activity the actor performed.
+          properties:
+            type:
+              type: string
+              description: The type of the action.
+            details:
+              type:
+              - object
+              - 'null'
+              description: Metadata of the action. Each action type supports its own metadata attributes.
+              additionalProperties: true
+          required:
+          - type
+          - details
         entity:
-          $ref: '#/components/schemas/ActivityLogEntity'
+          description: The resource the actor took the action on. It can be a user, file, project or other resource types.
+          oneOf:
+          - $ref: '#/components/schemas/ActivityLogUserEntity'
+          - $ref: '#/components/schemas/ActivityLogFileEntity'
+          - $ref: '#/components/schemas/ActivityLogFileRepoEntity'
+          - $ref: '#/components/schemas/ActivityLogProjectEntity'
+          - $ref: '#/components/schemas/ActivityLogTeamEntity'
+          - $ref: '#/components/schemas/ActivityLogWorkspaceEntity'
+          - $ref: '#/components/schemas/ActivityLogOrgEntity'
+          - $ref: '#/components/schemas/ActivityLogPluginEntity'
+          - $ref: '#/components/schemas/ActivityLogWidgetEntity'
+          discriminator:
+            propertyName: type
+            mapping:
+              user: '#/components/schemas/ActivityLogUserEntity'
+              file: '#/components/schemas/ActivityLogFileEntity'
+              file_repo: '#/components/schemas/ActivityLogFileRepoEntity'
+              project: '#/components/schemas/ActivityLogProjectEntity'
+              team: '#/components/schemas/ActivityLogTeamEntity'
+              workspace: '#/components/schemas/ActivityLogWorkspaceEntity'
+              org: '#/components/schemas/ActivityLogOrgEntity'
+              plugin: '#/components/schemas/ActivityLogPluginEntity'
+              widget: '#/components/schemas/ActivityLogWidgetEntity'
         context:
-          $ref: '#/components/schemas/ActivityLogContext'
+          type: object
+          description: Contextual information about the event.
+          properties:
+            client_name:
+              type:
+              - string
+              - 'null'
+              description: The third-party application that triggered the event, if applicable.
+            ip_address:
+              type: string
+              description: The IP address from of the client that sent the event request.
+            is_figma_support_team_action:
+              type: boolean
+              description: If Figma's Support team triggered the event. This is either true or false.
+            org_id:
+              type: string
+              description: The id of the organization where the event took place.
+            team_id:
+              type:
+              - string
+              - 'null'
+              description: The id of the team where the event took place -- if this took place in a specific team.
+          required:
+          - client_name
+          - ip_address
+          - is_figma_support_team_action
+          - org_id
+          - team_id
       required:
       - id
       - timestamp
@@ -363,130 +396,191 @@ components:
       - action
       - entity
       - context
-    ActivityLogProjectEntity:
+    ActivityLogWidgetEntity:
       type: object
+      description: A Figma widget
       properties:
         type:
           type: string
+          description: The type of entity.
           enum:
-          - project
-          example: project
+          - widget
         id:
           type: string
-          example: abc123
+          description: Unique identifier of the widget.
         name:
           type: string
-          example: Example Title
+          description: Name of the widget.
+        editor_type:
+          type: string
+          description: Indicates if the object is a widget available on Figma Design or FigJam.
+          enum:
+          - figma
+          - figjam
       required:
       - type
       - id
-  parameters:
-    OrderQueryParam:
-      name: order
-      description: Event order by timestamp. This param can be either "asc" (default) or "desc".
-      in: query
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-        default: asc
-      example: desc
-    StartTimeQueryParam:
-      name: start_time
-      description: Unix timestamp of the least recent event to include. This param defaults to one year ago if unspecified. Events prior to one year ago are not available.
-      in: query
-      schema:
-        type: number
-      example: 1704067200
-    EndTimeQueryParam:
-      name: end_time
-      description: Unix timestamp of the most recent event to include. This param defaults to the current timestamp if unspecified.
-      in: query
-      schema:
-        type: number
-      example: 1706745600
-    LimitQueryParam:
-      name: limit
-      description: Maximum number of events to return. This param defaults to 1000 if unspecified.
-      in: query
-      schema:
-        type: number
-      example: 100
-    EventsQueryParam:
-      name: events
-      description: Event type(s) to include in the response. Can have multiple values separated by comma. All events are returned by default.
-      in: query
-      schema:
-        type: string
-      example: file.created,file.deleted
-  examples:
-    UnauthorizedExample:
-      summary: Unauthorized error
-      value:
-        error: true
-        status: 401
-        message: Token is missing or incorrect
-    ForbiddenExample:
-      summary: Forbidden error
-      value:
-        error: true
-        status: 403
-        message: You do not have permission to access this resource
-    TooManyRequestsExample:
-      summary: Rate limit error
-      value:
-        error: true
-        status: 429
-        message: Rate limit exceeded. Please wait before making another request
-    BadRequestExample:
-      summary: Bad request error
-      value:
-        error: true
-        status: 400
-        message: 'Invalid parameter: start_time must be a valid Unix timestamp'
-    InternalServerErrorExample:
-      summary: Internal server error
-      value:
-        error: true
-        status: 500
-        message: An internal server error occurred
-    GetActivityLogsSuccessExample:
-      summary: Successful activity logs response
-      value:
-        status: 200
-        error: false
-        meta:
-          activityLogs:
-          - id: evt_123456789
-            timestamp: 1706745600
-            actor:
-              type: user
-              id: usr_abc123
-              name: John Doe
-              email: john.doe@example.com
-            action:
-              type: file.created
-              details:
-                fileName: My Design File
-            entity:
-              type: file
-              id: file_xyz789
-              name: My Design File
-            context:
-              clientName: null
-              ipAddress: 192.168.1.100
-              isFigmaSupportTeamAction: false
-              orgId: org_123
-              teamId: team_456
-          cursor: eyJsYXN0X2V2ZW50X2lkIjoiZXZ0XzEyMzQ1Njc4OSJ9
-          nextPage: true
+      - name
+      - editor_type
+  responses:
+    ForbiddenErrorResponseWithErrorBoolean:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 403
+              required:
+              - status
+    TooManyRequestsErrorResponseWithErrorBoolean:
+      description: In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 429
+              required:
+              - status
+    InternalServerErrorResponseWithErrorBoolean:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 500
+              required:
+              - status
+    UnauthorizedErrorResponseWithErrorBoolean:
+      description: Token is missing or incorrect.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 401
+              required:
+              - status
+    BadRequestErrorResponseWithErrorBoolean:
+      description: Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 400
+              required:
+              - status
+    GetActivityLogsResponse:
+      description: Response from the GET /v1/activity_logs endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                enum:
+                - 200
+                description: The response status code.
+              error:
+                type: boolean
+                enum:
+                - false
+                description: For successful requests, this value is always `false`.
+              meta:
+                type: object
+                properties:
+                  activity_logs:
+                    type: array
+                    description: An array of activity logs sorted by timestamp in ascending order by default.
+                    items:
+                      $ref: '#/components/schemas/ActivityLog'
+                  cursor:
+                    type: string
+                    description: Encodes the last event (the most recent event)
+                  next_page:
+                    type: boolean
+                    description: Whether there is a next page of events
   securitySchemes:
+    PersonalAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    PlanAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            current_user:read: Read your name, email, and profile image.
+            file_comments:read: Read the comments for files.
+            file_comments:write: Post and delete comments and comment reactions in files.
+            file_content:read: Read the contents of files, such as nodes and the editor type.
+            file_dev_resources:read: Read dev resources in files.
+            file_dev_resources:write: Write to dev resources in files.
+            file_metadata:read: Read metadata of files.
+            file_variables:read: 'Read variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_variables:write: 'Write to variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_versions:read: Read the version history for files you can access.
+            files:read: Deprecated. Read files, projects, users, versions, comments, components & styles, and webhooks.
+            library_analytics:read: Read library analytics data.
+            library_assets:read: Read data of individual published components and styles.
+            library_content:read: Read published components and styles of files.
+            project_metadata:read: Read metadata of projects.
+            projects:read: List projects and files in projects.
+            folders:read: List folders and files in folders.
+            folder_metadata:read: Read metadata of folders.
+            team_library_content:read: Read published components and styles of teams.
+            webhooks:read: Read metadata of webhooks.
+            webhooks:write: Create and manage webhooks.
     OrgOAuth2:
       type: oauth2
       flows:
         authorizationCode:
           authorizationUrl: https://www.figma.com/oauth
           tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
           scopes:
-            org:activity_log_read: Read organization activity logs
+            org:activity_log_read: Read activity logs in the organization.
+externalDocs:
+  description: Figma REST API Documentation
+  url: https://developers.figma.com/docs/rest-api/

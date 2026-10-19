@@ -1,0 +1,1175 @@
+openapi: 3.2.0
+info:
+  title: Figma Variables API
+  version: 0.45.0
+  description: 'This is the OpenAPI specification for the Figma REST API.
+
+
+    Note: we are releasing the OpenAPI specification as a beta given the large surface area and complexity of the REST API. If you notice any inaccuracies with the specification, please file an issue.'
+  termsOfService: https://www.figma.com/developer-terms/
+  contact:
+    email: support@figma.com
+servers:
+- url: https://api.figma.com
+tags:
+- name: Variables
+  description: Interact with variables in an Enterprise organization.
+  externalDocs:
+    description: Variables endpoints documentation
+    url: https://developers.figma.com/docs/rest-api/variables-endpoints/
+paths:
+  /v1/files/{file_key}/variables/local:
+    get:
+      tags:
+      - Variables
+      summary: Get local variables
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - file_variables:read
+      description: '**This API is available to full members of Enterprise orgs.**
+
+
+        The `GET /v1/files/:file_key/variables/local` endpoint lets you enumerate local variables created in the file and remote variables used in the file. Remote variables are referenced by their `subscribed_id`.
+
+
+        As a part of the Variables related API additions, the `GET /v1/files/:file_key` endpoint now returns a `boundVariables` property, containing the `variableId` of the bound variable. The `GET /v1/files/:file_key/variables/local` endpoint can be used to get the full variable or variable collection object.
+
+
+        Note that `GET /v1/files/:file_key/variables/published` does not return modes. Instead, you will need to use the `GET /v1/files/:file_key/variables/local` endpoint, in the same file, to examine the mode values.'
+      operationId: getLocalVariables
+      parameters:
+      - name: file_key
+        in: path
+        description: File to get variables from. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/GetLocalVariablesResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponseWithErrorBoolean'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrorBoolean'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrorBoolean'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrorBoolean'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrorBoolean'
+  /v1/files/{file_key}/variables/published:
+    get:
+      tags:
+      - Variables
+      summary: Get published variables
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - file_variables:read
+      description: '**This API is available to full members of Enterprise orgs.**
+
+
+        The `GET /v1/files/:file_key/variables/published` endpoint returns the variables that are published from the given file.
+
+
+        The response for this endpoint contains some key differences compared to the `GET /v1/files/:file_key/variables/local` endpoint:
+
+
+        - Each variable and variable collection contains a `subscribed_id`.
+
+        - Modes are omitted for published variable collections
+
+
+        Published variables have two ids: an id that is assigned in the file where it is created (`id`), and an id that is used by subscribing files (`subscribed_id`). The `id` and `key` are stable over the lifetime of the variable. The `subscribed_id` changes every time the variable is modified and published. The same is true for variable collections.
+
+
+        The `updatedAt` fields are ISO 8601 timestamps that indicate the last time that a change to a variable was published. For variable collections, this timestamp will change any time a variable in the collection is changed.'
+      operationId: getPublishedVariables
+      parameters:
+      - name: file_key
+        in: path
+        description: File to get variables from. This must be a main file key, not a branch key, as it is not possible to publish from branches.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/GetPublishedVariablesResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponseWithErrorBoolean'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrorBoolean'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrorBoolean'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrorBoolean'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrorBoolean'
+  /v1/files/{file_key}/variables:
+    post:
+      tags:
+      - Variables
+      summary: Create/modify/delete variables
+      security:
+      - PersonalAccessToken: []
+      - OAuth2:
+        - file_variables:write
+      description: '**This API is available to full members of Enterprise orgs with Editor seats.**
+
+
+        The `POST /v1/files/:file_key/variables` endpoint lets you bulk create, update, and delete variables and variable collections.
+
+
+        The request body supports the following 4 top-level arrays. Changes from these arrays will be applied in the below order, and within each array, by array order.
+
+
+        - **variableCollections**: For creating, updating, and deleting variable collections
+
+        - **variableModes**: For creating, updating, and deleting modes within variable collections
+
+        - Each collection can have a maximum of 40 modes
+
+        - Mode names cannot be longer than 40 characters
+
+        - **variables**: For creating, updating, and deleting variables
+
+        - Each collection can have a maximum of 5000 variables
+
+        - Variable names must be unique within a collection and cannot contain certain special characters such as `.{}`
+
+        - **variableModeValues**: For setting a variable value under a specific mode.
+
+        - When setting aliases, a variable cannot be aliased to itself or form an alias cycle
+
+        - Color variables can use a composed color value with `color` and `opacity` fields. At least one field must be a variable alias.
+
+
+        Temporary ids can be used to reference an object later in the same POST request body. They can be used at create time in the `id` property of variable collections, modes, variables, and in the `initialModeId` property of variable collections. They are scoped to a single request body, and must be unique within the body. The mapping of temporary ids to real ids is returned in the response.
+
+
+        This endpoint has the following key behaviors:
+
+
+        - The request body must be 4MB or less.
+
+        - Must include an `action` property for collections, modes, and variables to tell the API whether to create, update, or delete the object.
+
+        - When creating a collection, mode, or variable, you can include a temporary `id` that can be referenced in dependent objects in the same request. For example, you can create a new collection with the id `"my_new_collection"`. You can then set `variableCollectionId` to `"my_new_collection"` in new modes or variables. Temporary ids must be unique in the request body.
+
+        - New collections always come with one mode. You can reference this mode by setting `initialModeId` to a temporary id in the request body. This is useful if you want to set values for variables in the mode in the `variableModeValues` array.
+
+        - The `tempIdToRealId` array returns a mapping of the temporary ids in the request, to the real ids of the newly created objects.
+
+        - When adding new modes or variables, default variable values will be applied, consistent with what happens in the UI.
+
+        - Everything to be created, updated, and deleted in the request body is treated as one atomic operation. If there is any validation failure, you will get a 400 status code response, and no changes will be persisted.
+
+        - You will not be able to update remote variables or variable collections. You can only update variables in the file where they were originally created.'
+      operationId: postVariables
+      parameters:
+      - name: file_key
+        in: path
+        description: File to modify variables in. This can be a file key or branch key. Use `GET /v1/files/:key` with the `branch_data` query param to get the branch key.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              minProperties: 1
+              properties:
+                variableCollections:
+                  type: array
+                  description: For creating, updating, and deleting variable collections.
+                  items:
+                    $ref: '#/components/schemas/VariableCollectionChange'
+                variableModes:
+                  type: array
+                  description: For creating, updating, and deleting modes within variable collections.
+                  items:
+                    $ref: '#/components/schemas/VariableModeChange'
+                variables:
+                  type: array
+                  description: For creating, updating, and deleting variables.
+                  items:
+                    $ref: '#/components/schemas/VariableChange'
+                variableModeValues:
+                  type: array
+                  description: For setting a specific value, given a variable and a mode.
+                  items:
+                    $ref: '#/components/schemas/VariableModeValue'
+      responses:
+        '200':
+          $ref: '#/components/responses/PostVariablesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrorBoolean'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponseWithErrorBoolean'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrorBoolean'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrorBoolean'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrorBoolean'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrorBoolean'
+components:
+  schemas:
+    VariableModeValue:
+      type: object
+      description: An object that represents a value for a given mode of a variable. All properties are required.
+      properties:
+        variableId:
+          type: string
+          description: The target variable. You can use the temporary id of a variable.
+        modeId:
+          type: string
+          description: Must correspond to a mode in the variable collection that contains the target variable.
+        value:
+          $ref: '#/components/schemas/VariableValue'
+      required:
+      - variableId
+      - modeId
+      - value
+    VariableCollectionChange:
+      oneOf:
+      - $ref: '#/components/schemas/VariableCollectionCreate'
+      - $ref: '#/components/schemas/VariableCollectionUpdate'
+      - $ref: '#/components/schemas/VariableCollectionDelete'
+      discriminator:
+        propertyName: action
+        mapping:
+          CREATE: '#/components/schemas/VariableCollectionCreate'
+          UPDATE: '#/components/schemas/VariableCollectionUpdate'
+          DELETE: '#/components/schemas/VariableCollectionDelete'
+    VariableModeCreate:
+      type: object
+      description: An object that contains details about creating a `VariableMode`.
+      properties:
+        action:
+          type: string
+          description: The action to perform for the variable mode.
+          enum:
+          - CREATE
+        id:
+          type: string
+          description: A temporary id for this variable mode.
+        name:
+          type: string
+          description: The name of this variable mode.
+        variableCollectionId:
+          type: string
+          description: The variable collection that will contain the mode. You can use the temporary id of a variable collection. New modes cannot be created on extended collections.
+      required:
+      - action
+      - name
+      - variableCollectionId
+    VariableComposedColor:
+      description: A color with an independently authored opacity.
+      oneOf:
+      - type: object
+        properties:
+          color:
+            oneOf:
+            - $ref: '#/components/schemas/RGB'
+            - $ref: '#/components/schemas/RGBA'
+          opacity:
+            $ref: '#/components/schemas/VariableAlias'
+        required:
+        - color
+        - opacity
+      - type: object
+        properties:
+          color:
+            $ref: '#/components/schemas/VariableAlias'
+          opacity:
+            oneOf:
+            - type: number
+            - $ref: '#/components/schemas/VariableAlias'
+        required:
+        - color
+        - opacity
+    RGB:
+      type: object
+      description: An RGB color
+      properties:
+        r:
+          type: number
+          description: Red channel value, between 0 and 1.
+          minimum: 0
+          maximum: 1
+        g:
+          type: number
+          description: Green channel value, between 0 and 1.
+          minimum: 0
+          maximum: 1
+        b:
+          type: number
+          description: Blue channel value, between 0 and 1.
+          minimum: 0
+          maximum: 1
+      required:
+      - r
+      - g
+      - b
+    PublishedVariableCollection:
+      type: object
+      description: A grouping of related Variable objects each with the same modes.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of this variable collection.
+        subscribed_id:
+          type: string
+          description: The ID of the variable collection that is used by subscribing files. This ID changes every time the variable collection is modified and published.
+        name:
+          type: string
+          description: The name of this variable collection.
+        key:
+          type: string
+          description: The key of this variable collection.
+        updatedAt:
+          type: string
+          format: date-time
+          description: 'The UTC ISO 8601 time at which the variable collection was last updated.
+
+
+            This timestamp will change any time a variable in the collection is changed.'
+      required:
+      - id
+      - subscribed_id
+      - name
+      - key
+      - updatedAt
+    VariableCreate:
+      type: object
+      description: An object that contains details about creating a `Variable`.
+      properties:
+        action:
+          type: string
+          description: The action to perform for the variable.
+          enum:
+          - CREATE
+        id:
+          type: string
+          description: A temporary id for this variable.
+        name:
+          type: string
+          description: The name of this variable.
+        variableCollectionId:
+          type: string
+          description: The variable collection that will contain the variable. You can use the temporary id of a variable collection.
+        resolvedType:
+          $ref: '#/components/schemas/VariableResolvedDataType'
+          description: The resolved type of the variable.
+        description:
+          type: string
+          description: The description of this variable.
+        hiddenFromPublishing:
+          type: boolean
+          description: Whether this variable is hidden when publishing the current file as a library.
+          default: false
+        scopes:
+          type: array
+          description: An array of scopes in the UI where this variable is shown. Setting this property will show/hide this variable in the variable picker UI for different fields.
+          items:
+            $ref: '#/components/schemas/VariableScope'
+        codeSyntax:
+          $ref: '#/components/schemas/VariableCodeSyntax'
+      required:
+      - action
+      - name
+      - variableCollectionId
+      - resolvedType
+    VariableModeChange:
+      oneOf:
+      - $ref: '#/components/schemas/VariableModeCreate'
+      - $ref: '#/components/schemas/VariableModeUpdate'
+      - $ref: '#/components/schemas/VariableModeDelete'
+      discriminator:
+        propertyName: action
+        mapping:
+          CREATE: '#/components/schemas/VariableModeCreate'
+          UPDATE: '#/components/schemas/VariableModeUpdate'
+          DELETE: '#/components/schemas/VariableModeDelete'
+    VariableModeDelete:
+      type: object
+      description: An object that contains details about deleting a `VariableMode`.
+      properties:
+        action:
+          type: string
+          description: The action to perform for the variable mode.
+          enum:
+          - DELETE
+        id:
+          type: string
+          description: The id of the variable mode to delete. Modes cannot be deleted on extended collections unless its parent mode has been deleted.
+      required:
+      - action
+      - id
+    RGBA:
+      type: object
+      description: An RGBA color
+      properties:
+        r:
+          type: number
+          description: Red channel value, between 0 and 1.
+          minimum: 0
+          maximum: 1
+        g:
+          type: number
+          description: Green channel value, between 0 and 1.
+          minimum: 0
+          maximum: 1
+        b:
+          type: number
+          description: Blue channel value, between 0 and 1.
+          minimum: 0
+          maximum: 1
+        a:
+          type: number
+          description: Alpha channel value, between 0 and 1.
+          minimum: 0
+          maximum: 1
+      required:
+      - r
+      - g
+      - b
+      - a
+    VariableValue:
+      description: The value for the variable. The value must match the variable's type. If setting to a variable alias, the alias must resolve to this type. If overriding a value, the value type must match the variable's type. If removing an overridden value, the value must be `null`.
+      oneOf:
+      - type: boolean
+      - type: number
+      - type: string
+      - $ref: '#/components/schemas/RGB'
+      - $ref: '#/components/schemas/RGBA'
+      - $ref: '#/components/schemas/VariableAlias'
+      - $ref: '#/components/schemas/VariableComposedColor'
+      - type: 'null'
+    PublishedVariable:
+      type: object
+      description: A Variable is a single design token that defines values for each of the modes in its VariableCollection. These values can be applied to various kinds of design properties.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of this variable.
+        subscribed_id:
+          type: string
+          description: The ID of the variable that is used by subscribing files. This ID changes every time the variable is modified and published.
+        name:
+          type: string
+          description: The name of this variable.
+        key:
+          type: string
+          description: The key of this variable.
+        variableCollectionId:
+          type: string
+          description: The id of the variable collection that contains this variable.
+        resolvedDataType:
+          $ref: '#/components/schemas/VariableResolvedDataType'
+          description: The resolved type of the variable.
+        updatedAt:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time at which the variable was last updated.
+      required:
+      - id
+      - subscribed_id
+      - name
+      - key
+      - variableCollectionId
+      - resolvedDataType
+      - updatedAt
+    VariableCodeSyntax:
+      type: object
+      description: An object containing platform-specific code syntax definitions for a variable. All platforms are optional.
+      properties:
+        WEB:
+          type: string
+        ANDROID:
+          type: string
+        iOS:
+          type: string
+    VariableUpdate:
+      type: object
+      description: An object that contains details about updating a `Variable`.
+      properties:
+        action:
+          type: string
+          description: The action to perform for the variable.
+          enum:
+          - UPDATE
+        id:
+          type: string
+          description: The id of the variable to update.
+        name:
+          type: string
+          description: The name of this variable.
+        description:
+          type: string
+          description: The description of this variable.
+        hiddenFromPublishing:
+          type: boolean
+          description: Whether this variable is hidden when publishing the current file as a library.
+          default: false
+        scopes:
+          type: array
+          description: An array of scopes in the UI where this variable is shown. Setting this property will show/hide this variable in the variable picker UI for different fields.
+          items:
+            $ref: '#/components/schemas/VariableScope'
+        codeSyntax:
+          $ref: '#/components/schemas/VariableCodeSyntax'
+      required:
+      - action
+      - id
+    VariableScope:
+      type: string
+      enum:
+      - ALL_SCOPES
+      - TEXT_CONTENT
+      - CORNER_RADIUS
+      - WIDTH_HEIGHT
+      - GAP
+      - ALL_FILLS
+      - FRAME_FILL
+      - SHAPE_FILL
+      - TEXT_FILL
+      - STROKE_COLOR
+      - STROKE_FLOAT
+      - EFFECT_FLOAT
+      - EFFECT_COLOR
+      - OPACITY
+      - COLOR_OPACITY
+      - FONT_FAMILY
+      - FONT_STYLE
+      - FONT_WEIGHT
+      - FONT_SIZE
+      - LINE_HEIGHT
+      - LETTER_SPACING
+      - PARAGRAPH_SPACING
+      - PARAGRAPH_INDENT
+      - FONT_VARIATIONS
+      description: 'Scopes allow a variable to be shown or hidden in the variable picker for various fields. This declutters the Figma UI if you have a large number of variables. Variable scopes are currently supported on `FLOAT`, `STRING`, and `COLOR` variables.
+
+
+        `ALL_SCOPES` is a special scope that means that the variable will be shown in the variable picker for all variable fields. If `ALL_SCOPES` is set, no additional scopes can be set.
+
+
+        `ALL_FILLS` is a special scope that means that the variable will be shown in the variable picker for all fill fields. If `ALL_FILLS` is set, no additional fill scopes can be set.
+
+
+        Valid scopes for `FLOAT` variables:
+
+        - `ALL_SCOPES`
+
+        - `TEXT_CONTENT`
+
+        - `WIDTH_HEIGHT`
+
+        - `GAP`
+
+        - `STROKE_FLOAT`
+
+        - `EFFECT_FLOAT`
+
+        - `OPACITY`
+
+        - `COLOR_OPACITY`
+
+        - `FONT_WEIGHT`
+
+        - `FONT_SIZE`
+
+        - `LINE_HEIGHT`
+
+        - `LETTER_SPACING`
+
+        - `PARAGRAPH_SPACING`
+
+        - `PARAGRAPH_INDENT`
+
+
+        `OPACITY` corresponds to layer opacity, while `COLOR_OPACITY` corresponds to the opacity channel of a color.
+
+
+        Valid scopes for `STRING` variables:
+
+        - `ALL_SCOPES`
+
+        - `TEXT_CONTENT`
+
+        - `FONT_FAMILY`
+
+        - `FONT_STYLE`
+
+
+        Valid scopes for `COLOR` variables:
+
+        - `ALL_SCOPES`
+
+        - `ALL_FILLS`
+
+        - `FRAME_FILL`
+
+        - `SHAPE_FILL`
+
+        - `TEXT_FILL`
+
+        - `STROKE_COLOR`
+
+        - `EFFECT_COLOR`'
+    VariableCollectionDelete:
+      type: object
+      description: An object that contains details about deleting a `VariableCollection`.
+      properties:
+        action:
+          type: string
+          description: The action to perform for the variable collection.
+          enum:
+          - DELETE
+        id:
+          type: string
+          description: The id of the variable collection to delete.
+      required:
+      - action
+      - id
+    VariableCollectionCreate:
+      type: object
+      description: An object that contains details about creating a `VariableCollection`.
+      properties:
+        action:
+          type: string
+          description: The action to perform for the variable collection.
+          enum:
+          - CREATE
+        id:
+          type: string
+          description: A temporary id for this variable collection.
+        name:
+          type: string
+          description: The name of this variable collection.
+        initialModeId:
+          type: string
+          description: The initial mode refers to the mode that is created by default. You can set a temporary id here, in order to reference this mode later in this request.
+        hiddenFromPublishing:
+          type: boolean
+          description: Whether this variable collection is hidden when publishing the current file as a library.
+          default: false
+        parentVariableCollectionId:
+          type: string
+          description: The id of the parent variable collection that this variable collection is extending from.
+        initialModeIdToParentModeIdMapping:
+          type: object
+          description: Maps inherited modes from the parent variable collection to the initial mode ids on the extended variable collection.
+          additionalProperties:
+            type: string
+      required:
+      - action
+      - name
+    VariableModeUpdate:
+      type: object
+      description: An object that contains details about updating a `VariableMode`.
+      properties:
+        action:
+          type: string
+          description: The action to perform for the variable mode.
+          enum:
+          - UPDATE
+        id:
+          type: string
+          description: The id of the variable mode to update.
+        name:
+          type: string
+          description: The name of this variable mode.
+        variableCollectionId:
+          type: string
+          description: The variable collection that contains the mode. Modes cannot be updated on extended collections.
+      required:
+      - action
+      - id
+      - variableCollectionId
+    VariableAlias:
+      type: object
+      description: Contains a variable alias
+      properties:
+        type:
+          type: string
+          enum:
+          - VARIABLE_ALIAS
+        id:
+          type: string
+          description: The id of the variable that the current variable is aliased to. This variable can be a local or remote variable, and both can be retrieved via the GET /v1/files/:file_key/variables/local endpoint.
+      required:
+      - type
+      - id
+    VariableCollectionUpdate:
+      type: object
+      description: An object that contains details about updating a `VariableCollection`.
+      properties:
+        action:
+          type: string
+          description: The action to perform for the variable collection.
+          enum:
+          - UPDATE
+        id:
+          type: string
+          description: The id of the variable collection to update.
+        name:
+          type: string
+          description: The name of this variable collection.
+        hiddenFromPublishing:
+          type: boolean
+          description: Whether this variable collection is hidden when publishing the current file as a library.
+          default: false
+      required:
+      - action
+      - id
+    ErrorResponsePayloadWithErrorBoolean:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        error:
+          type: boolean
+          description: For erroneous requests, this value is always `true`.
+          enum:
+          - true
+        status:
+          type: number
+          description: Status code
+        message:
+          type: string
+          description: A string describing the error
+      required:
+      - error
+      - status
+      - message
+    VariableResolvedDataType:
+      type: string
+      description: Defines the types of data a VariableData object can eventually equal
+      enum:
+      - BOOLEAN
+      - FLOAT
+      - STRING
+      - COLOR
+    VariableDelete:
+      type: object
+      description: An object that contains details about deleting a `Variable`.
+      properties:
+        action:
+          type: string
+          description: The action to perform for the variable.
+          enum:
+          - DELETE
+        id:
+          type: string
+          description: The id of the variable to delete.
+      required:
+      - action
+      - id
+    LocalVariableCollection:
+      type: object
+      description: A grouping of related Variable objects each with the same modes.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of this variable collection.
+        name:
+          type: string
+          description: The name of this variable collection.
+        key:
+          type: string
+          description: The key of this variable collection.
+        modes:
+          type: array
+          description: The modes of this variable collection.
+          items:
+            type: object
+            properties:
+              modeId:
+                type: string
+                description: The unique identifier of this mode.
+              parentModeId:
+                type: string
+                description: The unique identifier of this mode's parent mode from the parent variable collection. This will be `undefined` if this mode does not inherit from a parent mode.
+              name:
+                type: string
+                description: The name of this mode.
+            required:
+            - modeId
+            - name
+        defaultModeId:
+          type: string
+          description: The id of the default mode.
+        remote:
+          type: boolean
+          description: Whether this variable collection is remote.
+        isExtension:
+          type: boolean
+          description: Whether this variable collection is an extension of another variable collection.
+        parentVariableCollectionId:
+          type: string
+          description: The id of the parent variable collection that this variable collection is an extension of. If this variable collection is not an extension, this value will be `undefined`.
+        rootVariableCollectionId:
+          type: string
+          description: The id of the root variable collection in the extension chain. This is the ID of the original (non-extended) collection at the top of the parent chain. For example, if Collection C extends B which extends A (root), then `rootVariableCollectionId` is A's ID. If this variable collection is not an extension, this value will be `undefined`.
+        variableOverrides:
+          type: object
+          description: The overrides for the variables in this variable collection as a map of variable ids to a map of mode ids to variable values.
+          additionalProperties:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/VariableValue'
+        hiddenFromPublishing:
+          type: boolean
+          description: Whether this variable collection is hidden when publishing the current file as a library.
+          default: false
+        variableIds:
+          type: array
+          description: The ids of the variables in the collection. Note that the order of these variables is roughly the same as what is shown in Figma Design, however it does not account for groups. As a result, the order of these variables may not exactly reflect the exact ordering and grouping shown in the authoring UI.
+          items:
+            type: string
+      required:
+      - id
+      - name
+      - key
+      - modes
+      - defaultModeId
+      - remote
+      - hiddenFromPublishing
+      - variableIds
+    VariableChange:
+      oneOf:
+      - $ref: '#/components/schemas/VariableCreate'
+      - $ref: '#/components/schemas/VariableUpdate'
+      - $ref: '#/components/schemas/VariableDelete'
+      discriminator:
+        propertyName: action
+        mapping:
+          CREATE: '#/components/schemas/VariableCreate'
+          UPDATE: '#/components/schemas/VariableUpdate'
+          DELETE: '#/components/schemas/VariableDelete'
+    LocalVariable:
+      type: object
+      description: A Variable is a single design token that defines values for each of the modes in its VariableCollection. These values can be applied to various kinds of design properties.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of this variable.
+        name:
+          type: string
+          description: The name of this variable.
+        key:
+          type: string
+          description: The key of this variable.
+        variableCollectionId:
+          type: string
+          description: The id of the variable collection that contains this variable.
+        resolvedType:
+          $ref: '#/components/schemas/VariableResolvedDataType'
+          description: The resolved type of the variable.
+        valuesByMode:
+          type: object
+          description: The values for each mode of this variable.
+          additionalProperties:
+            oneOf:
+            - type: boolean
+            - type: number
+            - type: string
+            - $ref: '#/components/schemas/RGBA'
+            - $ref: '#/components/schemas/VariableAlias'
+            - $ref: '#/components/schemas/VariableComposedColor'
+        remote:
+          type: boolean
+          description: Whether this variable is remote.
+        description:
+          type: string
+          description: The description of this variable.
+        hiddenFromPublishing:
+          type: boolean
+          description: 'Whether this variable is hidden when publishing the current file as a library.
+
+
+            If the parent `VariableCollection` is marked as `hiddenFromPublishing`, then this variable will also be hidden from publishing via the UI. `hiddenFromPublishing` is independently toggled for a variable and collection. However, both must be true for a given variable to be publishable.'
+        scopes:
+          type: array
+          description: 'An array of scopes in the UI where this variable is shown. Setting this property will show/hide this variable in the variable picker UI for different fields.
+
+
+            Setting scopes for a variable does not prevent that variable from being bound in other scopes (for example, via the Plugin API). This only limits the variables that are shown in pickers within the Figma UI.'
+          items:
+            $ref: '#/components/schemas/VariableScope'
+        codeSyntax:
+          $ref: '#/components/schemas/VariableCodeSyntax'
+        deletedButReferenced:
+          type: boolean
+          description: Indicates that the variable was deleted in the editor, but the document may still contain references to the variable. References to the variable may exist through bound values or variable aliases.
+          default: false
+      required:
+      - id
+      - name
+      - key
+      - variableCollectionId
+      - resolvedType
+      - valuesByMode
+      - remote
+      - description
+      - hiddenFromPublishing
+      - scopes
+      - codeSyntax
+  responses:
+    BadRequestErrorResponseWithErrorBoolean:
+      description: Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 400
+              required:
+              - status
+    GetLocalVariablesResponse:
+      description: Response from the GET /v1/files/{file_key}/variables/local endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                enum:
+                - 200
+                description: The response status code.
+              error:
+                type: boolean
+                enum:
+                - false
+                description: For successful requests, this value is always `false`.
+              meta:
+                type: object
+                properties:
+                  variables:
+                    type: object
+                    description: A map of variable ids to variables
+                    additionalProperties:
+                      $ref: '#/components/schemas/LocalVariable'
+                  variableCollections:
+                    type: object
+                    description: A map of variable collection ids to variable collections
+                    additionalProperties:
+                      $ref: '#/components/schemas/LocalVariableCollection'
+                required:
+                - variables
+                - variableCollections
+            required:
+            - status
+            - error
+            - meta
+    ForbiddenErrorResponseWithErrorBoolean:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 403
+              required:
+              - status
+    InternalServerErrorResponseWithErrorBoolean:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 500
+              required:
+              - status
+    UnauthorizedErrorResponseWithErrorBoolean:
+      description: Token is missing or incorrect.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 401
+              required:
+              - status
+    NotFoundErrorResponseWithErrorBoolean:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 404
+              required:
+              - status
+    TooManyRequestsErrorResponseWithErrorBoolean:
+      description: In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 429
+              required:
+              - status
+    PostVariablesResponse:
+      description: Response from the POST /v1/files/{file_key}/variables endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                enum:
+                - 200
+                description: The response status code.
+              error:
+                type: boolean
+                enum:
+                - false
+                description: For successful requests, this value is always `false`.
+              meta:
+                type: object
+                properties:
+                  tempIdToRealId:
+                    type: object
+                    description: A map of temporary ids in the request to the real ids of the newly created objects
+                    additionalProperties:
+                      type: string
+                required:
+                - tempIdToRealId
+            required:
+            - status
+            - error
+            - meta
+    GetPublishedVariablesResponse:
+      description: Response from the GET /v1/files/{file_key}/variables/published endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                enum:
+                - 200
+                description: The response status code.
+              error:
+                type: boolean
+                enum:
+                - false
+                description: For successful requests, this value is always `false`.
+              meta:
+                type: object
+                properties:
+                  variables:
+                    type: object
+                    description: A map of variable ids to variables
+                    additionalProperties:
+                      $ref: '#/components/schemas/PublishedVariable'
+                  variableCollections:
+                    type: object
+                    description: A map of variable collection ids to variable collections
+                    additionalProperties:
+                      $ref: '#/components/schemas/PublishedVariableCollection'
+                required:
+                - variables
+                - variableCollections
+            required:
+            - status
+            - error
+            - meta
+  securitySchemes:
+    PersonalAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    PlanAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            current_user:read: Read your name, email, and profile image.
+            file_comments:read: Read the comments for files.
+            file_comments:write: Post and delete comments and comment reactions in files.
+            file_content:read: Read the contents of files, such as nodes and the editor type.
+            file_dev_resources:read: Read dev resources in files.
+            file_dev_resources:write: Write to dev resources in files.
+            file_metadata:read: Read metadata of files.
+            file_variables:read: 'Read variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_variables:write: 'Write to variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_versions:read: Read the version history for files you can access.
+            files:read: Deprecated. Read files, projects, users, versions, comments, components & styles, and webhooks.
+            library_analytics:read: Read library analytics data.
+            library_assets:read: Read data of individual published components and styles.
+            library_content:read: Read published components and styles of files.
+            project_metadata:read: Read metadata of projects.
+            projects:read: List projects and files in projects.
+            folders:read: List folders and files in folders.
+            folder_metadata:read: Read metadata of folders.
+            team_library_content:read: Read published components and styles of teams.
+            webhooks:read: Read metadata of webhooks.
+            webhooks:write: Create and manage webhooks.
+    OrgOAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            org:activity_log_read: Read activity logs in the organization.
+externalDocs:
+  description: Figma REST API Documentation
+  url: https://developers.figma.com/docs/rest-api/

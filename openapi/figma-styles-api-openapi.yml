@@ -1,0 +1,467 @@
+openapi: 3.2.0
+info:
+  title: Figma Styles API
+  version: 0.45.0
+  description: 'This is the OpenAPI specification for the Figma REST API.
+
+
+    Note: we are releasing the OpenAPI specification as a beta given the large surface area and complexity of the REST API. If you notice any inaccuracies with the specification, please file an issue.'
+  termsOfService: https://www.figma.com/developer-terms/
+  contact:
+    email: support@figma.com
+servers:
+- url: https://api.figma.com
+tags:
+- name: Styles
+  description: Get information about published styles.
+  externalDocs:
+    description: Component endpoints documentation
+    url: https://developers.figma.com/docs/rest-api/component-endpoints/
+paths:
+  /v1/teams/{team_id}/styles:
+    get:
+      tags:
+      - Styles
+      summary: Get team styles
+      security:
+      - PersonalAccessToken: []
+      - PlanAccessToken: []
+      - OAuth2:
+        - team_library_content:read
+        - files:read
+      description: Get a paginated list of published styles within a team library.
+      operationId: getTeamStyles
+      parameters:
+      - name: team_id
+        in: path
+        description: Id of the team to list styles from.
+        required: true
+        schema:
+          type: string
+      - name: page_size
+        in: query
+        description: Number of items to return in a paged list of results. Defaults to 30.
+        schema:
+          type: number
+          default: 30
+      - name: after
+        in: query
+        description: Cursor indicating which id after which to start retrieving styles for. Exclusive with before. The cursor value is an internally tracked integer that doesn't correspond to any Ids.
+        schema:
+          type: number
+      - name: before
+        in: query
+        description: Cursor indicating which id before which to start retrieving styles for. Exclusive with after. The cursor value is an internally tracked integer that doesn't correspond to any Ids.
+        schema:
+          type: number
+      responses:
+        '200':
+          $ref: '#/components/responses/GetTeamStylesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrMessage'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrorBoolean'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrMessage'
+  /v1/files/{file_key}/styles:
+    get:
+      tags:
+      - Styles
+      summary: Get file styles
+      security:
+      - PersonalAccessToken: []
+      - PlanAccessToken: []
+      - OAuth2:
+        - library_content:read
+        - files:read
+      description: Get a list of published styles within a file library.
+      operationId: getFileStyles
+      parameters:
+      - name: file_key
+        in: path
+        description: File to list styles from. This must be a main file key, not a branch key, as it is not possible to publish from branches.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/GetFileStylesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrMessage'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrorBoolean'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrMessage'
+  /v1/styles/{key}:
+    get:
+      tags:
+      - Styles
+      summary: Get style
+      security:
+      - PersonalAccessToken: []
+      - PlanAccessToken: []
+      - OAuth2:
+        - library_assets:read
+        - files:read
+      description: Get metadata on a style by key.
+      operationId: getStyle
+      parameters:
+      - name: key
+        in: path
+        description: The unique identifier of the style.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/GetStyleResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrMessage'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrorBoolean'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrMessage'
+components:
+  responses:
+    BadRequestErrorResponseWithErrMessage:
+      description: Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 400
+              required:
+              - status
+    InternalServerErrorResponseWithErrMessage:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 500
+              required:
+              - status
+    GetTeamStylesResponse:
+      description: Response from the GET /v1/teams/{team_id}/styles endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                description: The status of the request.
+                enum:
+                - 200
+              error:
+                type: boolean
+                description: For successful requests, this value is always `false`.
+                enum:
+                - false
+              meta:
+                type: object
+                properties:
+                  styles:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PublishedStyle'
+                  cursor:
+                    $ref: '#/components/schemas/ResponseCursor'
+                required:
+                - styles
+            required:
+            - status
+            - error
+            - meta
+    TooManyRequestsErrorResponseWithErrMessage:
+      description: In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 429
+              required:
+              - status
+    ForbiddenErrorResponseWithErrMessage:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 403
+              required:
+              - status
+    GetStyleResponse:
+      description: Response from the GET /v1/styles/{key} endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                description: The status of the request.
+                enum:
+                - 200
+              error:
+                type: boolean
+                description: For successful requests, this value is always `false`.
+                enum:
+                - false
+              meta:
+                $ref: '#/components/schemas/PublishedStyle'
+            required:
+            - status
+            - error
+            - meta
+    GetFileStylesResponse:
+      description: Response from the GET /v1/files/{file_key}/styles endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                description: The status of the request.
+                enum:
+                - 200
+              error:
+                type: boolean
+                description: For successful requests, this value is always `false`.
+                enum:
+                - false
+              meta:
+                type: object
+                properties:
+                  styles:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PublishedStyle'
+                required:
+                - styles
+            required:
+            - status
+            - error
+            - meta
+    NotFoundErrorResponseWithErrorBoolean:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 404
+              required:
+              - status
+  schemas:
+    User:
+      type: object
+      description: A description of a user.
+      properties:
+        id:
+          type: string
+          description: Unique stable id of the user.
+        handle:
+          type: string
+          description: Name of the user.
+        img_url:
+          type: string
+          description: URL link to the user's profile image.
+      required:
+      - id
+      - handle
+      - img_url
+    ResponseCursor:
+      type: object
+      description: Pagination cursor
+      properties:
+        before:
+          type: number
+        after:
+          type: number
+    StyleType:
+      type: string
+      description: The type of style
+      enum:
+      - FILL
+      - TEXT
+      - EFFECT
+      - GRID
+    ErrorResponsePayloadWithErrorBoolean:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        error:
+          type: boolean
+          description: For erroneous requests, this value is always `true`.
+          enum:
+          - true
+        status:
+          type: number
+          description: Status code
+        message:
+          type: string
+          description: A string describing the error
+      required:
+      - error
+      - status
+      - message
+    PublishedStyle:
+      type: object
+      description: A set of published properties that can be applied to nodes.
+      properties:
+        key:
+          type: string
+          description: The unique identifier for the style
+        file_key:
+          type: string
+          description: The unique identifier of the Figma file that contains the style.
+        node_id:
+          type: string
+          description: ID of the style node within the figma file
+        style_type:
+          $ref: '#/components/schemas/StyleType'
+        thumbnail_url:
+          type: string
+          description: A URL to a thumbnail image of the style.
+        name:
+          type: string
+          description: The name of the style.
+        description:
+          type: string
+          description: The description of the style as entered by the publisher.
+        created_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time when the style was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 time when the style was last updated.
+        user:
+          $ref: '#/components/schemas/User'
+          description: The user who last updated the style.
+        sort_position:
+          type: string
+          description: A user specified order number by which the style can be sorted.
+      required:
+      - key
+      - file_key
+      - node_id
+      - style_type
+      - name
+      - description
+      - created_at
+      - updated_at
+      - user
+      - sort_position
+    ErrorResponsePayloadWithErrMessage:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        status:
+          type: number
+          description: Status code
+        err:
+          type: string
+          description: A string describing the error
+      required:
+      - status
+      - err
+  securitySchemes:
+    PersonalAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    PlanAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            current_user:read: Read your name, email, and profile image.
+            file_comments:read: Read the comments for files.
+            file_comments:write: Post and delete comments and comment reactions in files.
+            file_content:read: Read the contents of files, such as nodes and the editor type.
+            file_dev_resources:read: Read dev resources in files.
+            file_dev_resources:write: Write to dev resources in files.
+            file_metadata:read: Read metadata of files.
+            file_variables:read: 'Read variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_variables:write: 'Write to variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_versions:read: Read the version history for files you can access.
+            files:read: Deprecated. Read files, projects, users, versions, comments, components & styles, and webhooks.
+            library_analytics:read: Read library analytics data.
+            library_assets:read: Read data of individual published components and styles.
+            library_content:read: Read published components and styles of files.
+            project_metadata:read: Read metadata of projects.
+            projects:read: List projects and files in projects.
+            folders:read: List folders and files in folders.
+            folder_metadata:read: Read metadata of folders.
+            team_library_content:read: Read published components and styles of teams.
+            webhooks:read: Read metadata of webhooks.
+            webhooks:write: Create and manage webhooks.
+    OrgOAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            org:activity_log_read: Read activity logs in the organization.
+externalDocs:
+  description: Figma REST API Documentation
+  url: https://developers.figma.com/docs/rest-api/

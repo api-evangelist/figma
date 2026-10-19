@@ -1,0 +1,327 @@
+openapi: 3.2.0
+info:
+  title: Figma AI Usage API
+  version: 0.45.0
+  description: 'This is the OpenAPI specification for the Figma REST API.
+
+
+    Note: we are releasing the OpenAPI specification as a beta given the large surface area and complexity of the REST API. If you notice any inaccuracies with the specification, please file an issue.'
+  termsOfService: https://www.figma.com/developer-terms/
+  contact:
+    email: support@figma.com
+servers:
+- url: https://api.figma.com
+tags:
+- name: AI Usage
+  description: Get per-user, per-day AI credit usage for a plan.
+  externalDocs:
+    description: AI usage endpoints documentation
+    url: https://developers.figma.com/docs/rest-api/ai-usage-endpoints/
+paths:
+  /v1/ai_usage/daily:
+    get:
+      tags:
+      - AI Usage
+      summary: Get daily AI credit usage
+      security:
+      - PlanAccessToken: []
+      description: Returns per-user, per-day AI credit usage for the plan associated with the calling token. This endpoint requires a plan access token with the `org:ai_metering_usage_read` scope.
+      operationId: getAiUsageDaily
+      parameters:
+      - name: start_date
+        description: The first day to include, inclusive, as a `YYYY-MM-DD` calendar date (UTC). Required. Must be on or after `2025-12-01` and no more than 366 days before the current UTC day.
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: end_date
+        description: The last day to include, inclusive, as a `YYYY-MM-DD` calendar date (UTC). Required. Must be on or after `start_date` and the current UTC day or earlier.
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: user_email
+        description: Restrict the results to a single Figma user, identified by email. When omitted, rows for every user in the plan with usage in the range are returned. An email that matches no Figma user returns a 400.
+        in: query
+        schema:
+          type: string
+      - name: limit
+        description: Maximum number of rows to return. This param defaults to 1000 if unspecified, and may not exceed 1000.
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          default: 1000
+      - name: cursor
+        description: An opaque cursor returned from a previous request, used for pagination.
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/GetAiUsageDailyResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrorBoolean'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponseWithErrorBoolean'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrorBoolean'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrorBoolean'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrorBoolean'
+components:
+  schemas:
+    AiUsageDailyRow:
+      type: object
+      description: A single per-user, per-day AI credit usage aggregate for the plan.
+      properties:
+        plan_id:
+          type: string
+          description: The id of the plan the usage belongs to.
+        user_id:
+          type: string
+          description: The id of the Figma user that consumed the credits.
+        user_email:
+          type:
+          - string
+          - 'null'
+          description: The email of the Figma user that consumed the credits, or `null` when the user's email could not be resolved (e.g. a deleted user).
+        day:
+          type: string
+          description: The calendar date (UTC) of the aggregated usage, in `YYYY-MM-DD` format.
+        editor_type:
+          type: string
+          description: The editor the AI action was associated with. `not_applicable` when the underlying AI action had no associated file.
+          enum:
+          - design
+          - figjam
+          - slides
+          - sites
+          - buzz
+          - make
+          - not_applicable
+        seat_credits_sum:
+          type: integer
+          description: The sum of seat-level (per-user-allocated) credits consumed for this day, user, and editor type.
+        plan_credits_sum:
+          type: integer
+          description: The sum of plan-level (shared pool) credits consumed for this day, user, and editor type.
+        workspace_id:
+          type:
+          - string
+          - 'null'
+          description: The id of the workspace the usage was attributed to, or `null` when the usage had no associated workspace.
+        workspace_name:
+          type:
+          - string
+          - 'null'
+          description: The name of the workspace the usage was attributed to, or `null` when the usage had no associated workspace.
+        team_id:
+          type:
+          - string
+          - 'null'
+          description: The id of the team the usage was attributed to, or `null` when the usage had no associated team.
+        team_name:
+          type:
+          - string
+          - 'null'
+          description: The name of the team the usage was attributed to, or `null` when the usage had no associated team.
+        license_group_id:
+          type:
+          - string
+          - 'null'
+          description: The id of the license group the usage was attributed to, or `null` when the usage had no associated license group.
+        license_group_name:
+          type:
+          - string
+          - 'null'
+          description: The name of the license group the usage was attributed to, or `null` when the usage had no associated license group.
+        metering_period_start:
+          type: string
+          description: The start of the plan-scoped metering period this usage belongs to, as an RFC 3339 UTC timestamp (e.g. `2026-05-01T00:00:00Z`).
+        metering_period_end:
+          type: string
+          description: The end of the plan-scoped metering period this usage belongs to, as an RFC 3339 UTC timestamp (e.g. `2026-06-01T00:00:00Z`).
+      required:
+      - plan_id
+      - user_id
+      - day
+      - editor_type
+      - seat_credits_sum
+      - plan_credits_sum
+      - metering_period_start
+      - metering_period_end
+    ErrorResponsePayloadWithErrorBoolean:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        error:
+          type: boolean
+          description: For erroneous requests, this value is always `true`.
+          enum:
+          - true
+        status:
+          type: number
+          description: Status code
+        message:
+          type: string
+          description: A string describing the error
+      required:
+      - error
+      - status
+      - message
+  responses:
+    TooManyRequestsErrorResponseWithErrorBoolean:
+      description: In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 429
+              required:
+              - status
+    ForbiddenErrorResponseWithErrorBoolean:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 403
+              required:
+              - status
+    InternalServerErrorResponseWithErrorBoolean:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 500
+              required:
+              - status
+    UnauthorizedErrorResponseWithErrorBoolean:
+      description: Token is missing or incorrect.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 401
+              required:
+              - status
+    GetAiUsageDailyResponse:
+      description: Response from the GET /v1/ai_usage/daily endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              rows:
+                type: array
+                description: Per-user, per-day AI credit usage aggregates, ordered by `day`, then user, then `editor_type`.
+                items:
+                  $ref: '#/components/schemas/AiUsageDailyRow'
+              next_cursor:
+                type: string
+                description: An opaque cursor to pass as the `cursor` query parameter to fetch the next page. Empty when there are no more pages.
+              has_next_page:
+                type: boolean
+                description: Whether there is a next page of results to fetch.
+            required:
+            - rows
+            - next_cursor
+            - has_next_page
+    BadRequestErrorResponseWithErrorBoolean:
+      description: Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 400
+              required:
+              - status
+  securitySchemes:
+    PersonalAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    PlanAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            current_user:read: Read your name, email, and profile image.
+            file_comments:read: Read the comments for files.
+            file_comments:write: Post and delete comments and comment reactions in files.
+            file_content:read: Read the contents of files, such as nodes and the editor type.
+            file_dev_resources:read: Read dev resources in files.
+            file_dev_resources:write: Write to dev resources in files.
+            file_metadata:read: Read metadata of files.
+            file_variables:read: 'Read variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_variables:write: 'Write to variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_versions:read: Read the version history for files you can access.
+            files:read: Deprecated. Read files, projects, users, versions, comments, components & styles, and webhooks.
+            library_analytics:read: Read library analytics data.
+            library_assets:read: Read data of individual published components and styles.
+            library_content:read: Read published components and styles of files.
+            project_metadata:read: Read metadata of projects.
+            projects:read: List projects and files in projects.
+            folders:read: List folders and files in folders.
+            folder_metadata:read: Read metadata of folders.
+            team_library_content:read: Read published components and styles of teams.
+            webhooks:read: Read metadata of webhooks.
+            webhooks:write: Create and manage webhooks.
+    OrgOAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            org:activity_log_read: Read activity logs in the organization.
+externalDocs:
+  description: Figma REST API Documentation
+  url: https://developers.figma.com/docs/rest-api/

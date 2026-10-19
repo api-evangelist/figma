@@ -1,0 +1,1205 @@
+openapi: 3.2.0
+info:
+  title: Figma Webhooks API
+  version: 0.45.0
+  description: 'This is the OpenAPI specification for the Figma REST API.
+
+
+    Note: we are releasing the OpenAPI specification as a beta given the large surface area and complexity of the REST API. If you notice any inaccuracies with the specification, please file an issue.'
+  termsOfService: https://www.figma.com/developer-terms/
+  contact:
+    email: support@figma.com
+servers:
+- url: https://api.figma.com
+tags:
+- name: Webhooks
+  description: Interact with team webhooks as a team admin.
+  externalDocs:
+    description: Webhook endpoints documentation
+    url: https://developers.figma.com/docs/rest-api/webhooks-endpoints/
+paths:
+  /v2/webhooks:
+    get:
+      tags:
+      - Webhooks
+      summary: Get webhooks by context or plan
+      security:
+      - PersonalAccessToken: []
+      - PlanAccessToken: []
+      - OAuth2:
+        - webhooks:read
+      description: Returns a list of webhooks corresponding to the context or plan provided, if they exist. For plan, the webhooks for all contexts that you have access to will be returned, and theresponse is paginated
+      operationId: getWebhooks
+      parameters:
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Context to create the resource on. Should be "team", "project", or "file".
+      - name: context_id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: The id of the context that you want to get attached webhooks for. If you're using context_id, you cannot use plan_api_id.
+      - name: plan_api_id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: The id of your plan. Use this to get all webhooks for all contexts you have access to. If you're using plan_api_id, you cannot use context or context_id. When you use plan_api_id, the response is paginated.
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: If you're using plan_api_id, this is the cursor to use for pagination. If you're using context or context_id, this parameter is ignored. Provide the next_page or prev_page value from the previous response to get the next or previous page of results.
+      responses:
+        '200':
+          $ref: '#/components/responses/GetWebhooksResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrorBoolean'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
+    post:
+      tags:
+      - Webhooks
+      summary: Create a webhook
+      security:
+      - PersonalAccessToken: []
+      - PlanAccessToken: []
+      - OAuth2:
+        - webhooks:write
+      description: Create a new webhook which will call the specified endpoint when the event triggers. By default, this webhook will automatically send a PING event to the endpoint when it is created. If this behavior is not desired, you can create the webhook and set the status to PAUSED and reactivate it later.
+      operationId: postWebhook
+      requestBody:
+        description: The webhook to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_type:
+                  $ref: '#/components/schemas/WebhookV2Event'
+                team_id:
+                  type: string
+                  description: Team id to receive updates about. This is deprecated, use 'context' and 'context_id' instead.
+                  deprecated: true
+                context:
+                  type: string
+                  description: Context to create the webhook for. Must be "team", "project", or "file".
+                context_id:
+                  type: string
+                  description: The id of the context you want to receive updates about.
+                endpoint:
+                  type: string
+                  description: The HTTP endpoint that will receive a POST request when the event triggers. Max length 2048 characters.
+                passcode:
+                  type: string
+                  description: String that will be passed back to your webhook endpoint to verify that it is being called by Figma. Max length 100 characters.
+                status:
+                  $ref: '#/components/schemas/WebhookV2Status'
+                  description: State of the webhook, including any error state it may be in
+                description:
+                  type: string
+                  description: User provided description or name for the webhook. Max length 150 characters.
+              required:
+              - event_type
+              - endpoint
+              - passcode
+              - context
+              - context_id
+      callbacks:
+        ping:
+          '{$request.body#/endpoint}':
+            post:
+              summary: Ping event
+              description: Triggers when a webhook is created. Used for debugging. Cannot be subscribed to, all webhooks will receive `PING` events.
+              security:
+              - PersonalAccessToken: []
+              - OAuth2:
+                - webhooks:write
+              requestBody:
+                description: The webhook will send a PING event to the endpoint when it is created.
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/WebhookPingPayload'
+              responses:
+                '200':
+                  description: "Your server implementation should return this HTTP status code\n                    if the data was received successfully"
+                '400':
+                  description: If your server returns a non-200 status code, or takes too long, the Figma API will treat this as an error. Figma retries failed requests 3 times with an exponential backoff strategy.
+        fileUpdate:
+          '{$request.body#/endpoint}':
+            post:
+              summary: File update event
+              description: Triggers within 30 minutes of editing inactivity in a file.
+              security:
+              - PersonalAccessToken: []
+              - OAuth2:
+                - webhooks:write
+              requestBody:
+                description: This is useful when you want to stay up-to-date with the contents of a file. For example, you could generate a static website from your Figma document and keep it always up-to-date with this webhook.
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/WebhookFileUpdatePayload'
+              responses:
+                '200':
+                  description: "Your server implementation should return this HTTP status code\n                    if the data was received successfully"
+                '400':
+                  description: If your server returns a non-200 status code, or takes too long, the Figma API will treat this as an error. Figma retries failed requests 3 times with an exponential backoff strategy.
+        fileVersionUpdate:
+          '{$request.body#/endpoint}':
+            post:
+              summary: File version update event
+              description: Triggers whenever a named version is created in the version history of a file.
+              security:
+              - PersonalAccessToken: []
+              - OAuth2:
+                - webhooks:write
+              requestBody:
+                description: This is useful for workflow integrations. For example, suppose you have a Figma document with icon assets. When the design for an asset is updated and ready to publish, you can have a member of the team tag that version in the version history and then use this webhook event to generate and deploy your new asset version.
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/WebhookFileVersionUpdatePayload'
+              responses:
+                '200':
+                  description: "Your server implementation should return this HTTP status code\n                    if the data was received successfully"
+                '400':
+                  description: If your server returns a non-200 status code, or takes too long, the Figma API will treat this as an error. Figma retries failed requests 3 times with an exponential backoff strategy.
+        fileDelete:
+          '{$request.body#/endpoint}':
+            post:
+              summary: File delete event
+              description: Triggers whenever a file has been deleted. If you subscribe to `FILE_UPDATE`, you automatically get these notifications. Note that this does not trigger on all files within a folder, if the folder is deleted.
+              security:
+              - PersonalAccessToken: []
+              - OAuth2:
+                - webhooks:write
+              requestBody:
+                description: Note if a folder is deleted, this event will not trigger for files within the folder.
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/WebhookFileDeletePayload'
+              responses:
+                '200':
+                  description: "Your server implementation should return this HTTP status code\n                    if the data was received successfully"
+                '400':
+                  description: If your server returns a non-200 status code, or takes too long, the Figma API will treat this as an error. Figma retries failed requests 3 times with an exponential backoff strategy.
+        libraryPublish:
+          '{$request.body#/endpoint}':
+            post:
+              summary: Library publish event
+              description: Triggers whenever a library file is published.
+              security:
+              - PersonalAccessToken: []
+              - OAuth2:
+                - webhooks:write
+              requestBody:
+                description: 'This is useful for workflow integrations. This webhook could integrate with Slack, Asana or Jira, notifying designers to modify their assets when new components are published.
+
+
+                  Note: when a library is published, a separate `LIBRARY_PUBLISH` event will be triggered for each type of library asset (components, styles, and variables) that has changes.'
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/WebhookLibraryPublishPayload'
+              responses:
+                '200':
+                  description: "Your server implementation should return this HTTP status code\n                    if the data was received successfully"
+                '400':
+                  description: If your server returns a non-200 status code, or takes too long, the Figma API will treat this as an error. Figma retries failed requests 3 times with an exponential backoff strategy.
+        fileComment:
+          '{$request.body#/endpoint}':
+            post:
+              summary: File comment event
+              description: Triggers when someone comments on a file.
+              security:
+              - PersonalAccessToken: []
+              - OAuth2:
+                - webhooks:write
+              requestBody:
+                description: This webhook could integrate with Asana or Jira and automatically create tasks whenever a user comments. It could also integrate with Slack and notify mentioned users.
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/WebhookFileCommentPayload'
+              responses:
+                '200':
+                  description: "Your server implementation should return this HTTP status code\n                    if the data was received successfully"
+                '400':
+                  description: If your server returns a non-200 status code, or takes too long, the Figma API will treat this as an error. Figma retries failed requests 3 times with an exponential backoff strategy.
+        devModeStatusUpdate:
+          '{$request.body#/endpoint}':
+            post:
+              summary: Dev mode status update event
+              description: Triggers whenever the Dev Mode status for a layer in a file changes.
+              security:
+              - PersonalAccessToken: []
+              - OAuth2:
+                - webhooks:write
+              requestBody:
+                description: This is useful for task management integrations. For example, you could use this webhook to update a task in Jira or Asana when the Dev Mode status of a layer changes.
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/WebhookDevModeStatusUpdatePayload'
+              responses:
+                '200':
+                  description: Your server implementation should return this HTTP status code if the data was received successfully
+                '400':
+                  description: If your server returns a non-200 status code, or takes too long, the Figma API will treat this as an error. Figma retries failed requests 3 times with an exponential backoff strategy.
+      responses:
+        '200':
+          $ref: '#/components/responses/PostWebhookResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrorBoolean'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrMessage'
+  /v2/webhooks/{webhook_id}:
+    get:
+      tags:
+      - Webhooks
+      summary: Get a webhook
+      security:
+      - PersonalAccessToken: []
+      - PlanAccessToken: []
+      - OAuth2:
+        - webhooks:read
+        - files:read
+      description: Get a webhook by ID.
+      operationId: getWebhook
+      parameters:
+      - name: webhook_id
+        in: path
+        description: ID of webhook to get
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/GetWebhookResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrorBoolean'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrorBoolean'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrMessage'
+    put:
+      tags:
+      - Webhooks
+      summary: Update a webhook
+      security:
+      - PersonalAccessToken: []
+      - PlanAccessToken: []
+      - OAuth2:
+        - webhooks:write
+      description: Update a webhook by ID.
+      operationId: putWebhook
+      parameters:
+      - name: webhook_id
+        in: path
+        description: ID of webhook to update
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: The webhook to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_type:
+                  $ref: '#/components/schemas/WebhookV2Event'
+                endpoint:
+                  type: string
+                  description: The HTTP endpoint that will receive a POST request when the event triggers. Max length 2048 characters.
+                passcode:
+                  type: string
+                  description: String that will be passed back to your webhook endpoint to verify that it is being called by Figma. Max length 100 characters.
+                status:
+                  $ref: '#/components/schemas/WebhookV2Status'
+                  description: State of the webhook, including any error state it may be in
+                description:
+                  type: string
+                  description: User provided description or name for the webhook. Max length 150 characters.
+              required:
+              - event_type
+              - team_id
+              - endpoint
+              - passcode
+      responses:
+        '200':
+          $ref: '#/components/responses/PutWebhookResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrorBoolean'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrorBoolean'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrMessage'
+    delete:
+      tags:
+      - Webhooks
+      summary: Delete a webhook
+      security:
+      - PersonalAccessToken: []
+      - PlanAccessToken: []
+      - OAuth2:
+        - webhooks:write
+      description: Deletes the specified webhook. This operation cannot be reversed.
+      operationId: deleteWebhook
+      parameters:
+      - name: webhook_id
+        in: path
+        description: ID of webhook to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/DeleteWebhookResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrorBoolean'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrorBoolean'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrorBoolean'
+  /v2/teams/{team_id}/webhooks:
+    get:
+      tags:
+      - Webhooks
+      summary: '[Deprecated] Get team webhooks'
+      deprecated: true
+      security:
+      - PersonalAccessToken: []
+      - PlanAccessToken: []
+      - OAuth2:
+        - webhooks:read
+        - files:read
+      description: Returns all webhooks registered under the specified team.
+      operationId: getTeamWebhooks
+      parameters:
+      - name: team_id
+        in: path
+        description: ID of team to get webhooks for
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/GetTeamWebhooksResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrMessage'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrMessage'
+  /v2/webhooks/{webhook_id}/requests:
+    get:
+      tags:
+      - Webhooks
+      summary: Get webhook requests
+      security:
+      - PersonalAccessToken: []
+      - PlanAccessToken: []
+      - OAuth2:
+        - webhooks:read
+        - files:read
+      description: Returns all webhook requests sent within the last week. Useful for debugging.
+      operationId: getWebhookRequests
+      parameters:
+      - name: webhook_id
+        in: path
+        description: The id of the webhook subscription you want to see events from
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/GetWebhookRequestsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponseWithErrorBoolean'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponseWithErrMessage'
+        '404':
+          $ref: '#/components/responses/NotFoundErrorResponseWithErrorBoolean'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsErrorResponseWithErrMessage'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponseWithErrorBoolean'
+components:
+  schemas:
+    ResponsePagination:
+      type: object
+      description: If pagination is needed due to the length of the response, identifies the next and previous pages.
+      properties:
+        prev_page:
+          type: string
+          description: A URL that calls the previous page of the response.
+        next_page:
+          type: string
+          description: A URL that calls the next page of the response.
+    WebhookV2Event:
+      type: string
+      description: An enum representing the possible events that a webhook can subscribe to
+      enum:
+      - PING
+      - FILE_UPDATE
+      - FILE_VERSION_UPDATE
+      - FILE_DELETE
+      - LIBRARY_PUBLISH
+      - FILE_COMMENT
+      - DEV_MODE_STATUS_UPDATE
+    User:
+      type: object
+      description: A description of a user.
+      properties:
+        id:
+          type: string
+          description: Unique stable id of the user.
+        handle:
+          type: string
+          description: Name of the user.
+        img_url:
+          type: string
+          description: URL link to the user's profile image.
+      required:
+      - id
+      - handle
+      - img_url
+    WebhookFileCommentPayload:
+      allOf:
+      - $ref: '#/components/schemas/WebhookBasePayload'
+      - type: object
+        properties:
+          event_type:
+            type: string
+            enum:
+            - FILE_COMMENT
+          comment:
+            type: array
+            description: Contents of the comment itself
+            items:
+              $ref: '#/components/schemas/CommentFragment'
+          comment_id:
+            type: string
+            description: Unique identifier for comment
+          created_at:
+            type: string
+            format: date-time
+            description: The UTC ISO 8601 time at which the comment was left
+          file_key:
+            type: string
+            description: The key of the file that was commented on
+          file_name:
+            type: string
+            description: The name of the file that was commented on
+          mentions:
+            type: array
+            description: Users that were mentioned in the comment
+            items:
+              $ref: '#/components/schemas/User'
+          triggered_by:
+            $ref: '#/components/schemas/User'
+            description: The user that made the comment and triggered this event
+        required:
+        - event_type
+        - comment
+        - comment_id
+        - created_at
+        - file_key
+        - file_name
+        - triggered_by
+    WebhookV2Request:
+      type: object
+      description: Information regarding the most recent interactions sent to a webhook endpoint
+      properties:
+        webhook_id:
+          type: string
+          description: The ID of the webhook the requests were sent to
+        request_info:
+          $ref: '#/components/schemas/WebhookV2RequestInfo'
+        response_info:
+          $ref: '#/components/schemas/WebhookV2ResponseInfo'
+        error_msg:
+          type:
+          - string
+          - 'null'
+          description: Error message for this request. NULL if no error occurred
+      required:
+      - webhook_id
+      - request_info
+      - response_info
+      - error_msg
+    LibraryItemData:
+      type: object
+      description: An object representing the library item information in the payload of the `LIBRARY_PUBLISH` event
+      properties:
+        key:
+          type: string
+          description: Unique identifier for the library item
+        name:
+          type: string
+          description: Name of the library item
+      required:
+      - key
+      - name
+    WebhookPingPayload:
+      allOf:
+      - $ref: '#/components/schemas/WebhookBasePayload'
+      - type: object
+        properties:
+          event_type:
+            type: string
+            enum:
+            - PING
+        required:
+        - event_type
+    WebhookFileVersionUpdatePayload:
+      allOf:
+      - $ref: '#/components/schemas/WebhookBasePayload'
+      - type: object
+        properties:
+          event_type:
+            type: string
+            enum:
+            - FILE_VERSION_UPDATE
+          created_at:
+            type: string
+            format: date-time
+            description: UTC ISO 8601 timestamp of when the version was created
+          description:
+            type: string
+            description: Description of the version in the version history
+          file_key:
+            type: string
+            description: The key of the file that was updated
+          file_name:
+            type: string
+            description: The name of the file that was updated
+          triggered_by:
+            $ref: '#/components/schemas/User'
+            description: The user that created the named version and triggered this event
+          version_id:
+            type: string
+            description: ID of the published version
+        required:
+        - event_type
+        - created_at
+        - file_key
+        - file_name
+        - triggered_by
+        - version_id
+    WebhookDevModeStatusUpdatePayload:
+      allOf:
+      - $ref: '#/components/schemas/WebhookBasePayload'
+      - type: object
+        properties:
+          event_type:
+            type: string
+            enum:
+            - DEV_MODE_STATUS_UPDATE
+          file_key:
+            type: string
+            description: The key of the file that was updated
+          file_name:
+            type: string
+            description: The name of the file that was updated
+          node_id:
+            type: string
+            description: The id of the node where the Dev Mode status changed. For example, "43:2"
+          related_links:
+            type: array
+            items:
+              $ref: '#/components/schemas/DevResource'
+            description: An array of related links that have been applied to the layer in the file
+          status:
+            type: string
+            description: The Dev Mode status. Either "NONE", "READY_FOR_DEV", or "COMPLETED"
+          triggered_by:
+            $ref: '#/components/schemas/User'
+            description: The user that made the status change and triggered the event
+        required:
+        - event_type
+        - file_key
+        - file_name
+        - node_id
+        - related_links
+        - status
+        - triggered_by
+    WebhookFileUpdatePayload:
+      allOf:
+      - $ref: '#/components/schemas/WebhookBasePayload'
+      - type: object
+        properties:
+          event_type:
+            type: string
+            enum:
+            - FILE_UPDATE
+          file_key:
+            type: string
+            description: The key of the file that was updated
+          file_name:
+            type: string
+            description: The name of the file that was updated
+        required:
+        - event_type
+        - file_key
+        - file_name
+    CommentFragment:
+      type: object
+      description: An object representing a fragment of a comment left by a user, used in the payload of the `FILE_COMMENT` event. Note only ONE of the fields below will be set
+      properties:
+        text:
+          type: string
+          description: Comment text that is set if a fragment is text based
+        mention:
+          type: string
+          description: User id that is set if a fragment refers to a user mention
+    WebhookV2Status:
+      type: string
+      description: 'An enum representing the possible statuses you can set a webhook to:
+
+        - `ACTIVE`: The webhook is healthy and receive all events
+
+        - `PAUSED`: The webhook is paused and will not receive any events'
+      enum:
+      - ACTIVE
+      - PAUSED
+    WebhookV2:
+      type: object
+      description: A description of an HTTP webhook (from Figma back to your application)
+      properties:
+        id:
+          type: string
+          description: The ID of the webhook
+        event_type:
+          $ref: '#/components/schemas/WebhookV2Event'
+          description: The event this webhook triggers on
+        team_id:
+          type: string
+          description: The team id you are subscribed to for updates. This is deprecated, use context and context_id instead
+          deprecated: true
+        context:
+          type: string
+          description: The type of context this webhook is attached to. The value will be "PROJECT", "TEAM", or "FILE"
+        context_id:
+          type: string
+          description: The ID of the context this webhook is attached to
+        plan_api_id:
+          type: string
+          description: The plan API ID of the team or organization where this webhook was created
+        status:
+          $ref: '#/components/schemas/WebhookV2Status'
+          description: The current status of the webhook
+        client_id:
+          type:
+          - string
+          - 'null'
+          description: The client ID of the OAuth application that registered this webhook, if any
+        passcode:
+          type: string
+          description: The passcode that will be passed back to the webhook endpoint. For security, when using the GET endpoints, the value is an empty string
+        endpoint:
+          type: string
+          description: The endpoint that will be hit when the webhook is triggered
+        description:
+          type:
+          - string
+          - 'null'
+          description: Optional user-provided description or name for the webhook. This is provided to help make maintaining a number of webhooks more convenient. Max length 140 characters.
+      required:
+      - id
+      - event_type
+      - team_id
+      - context
+      - context_id
+      - plan_api_id
+      - status
+      - client_id
+      - passcode
+      - endpoint
+      - description
+    WebhookLibraryPublishPayload:
+      allOf:
+      - $ref: '#/components/schemas/WebhookBasePayload'
+      - type: object
+        properties:
+          event_type:
+            type: string
+            enum:
+            - LIBRARY_PUBLISH
+          created_components:
+            type: array
+            description: Components that were created by the library publish
+            items:
+              $ref: '#/components/schemas/LibraryItemData'
+          created_styles:
+            type: array
+            description: Styles that were created by the library publish
+            items:
+              $ref: '#/components/schemas/LibraryItemData'
+          created_variables:
+            type: array
+            description: Variables that were created by the library publish
+            items:
+              $ref: '#/components/schemas/LibraryItemData'
+          modified_components:
+            type: array
+            description: Components that were modified by the library publish
+            items:
+              $ref: '#/components/schemas/LibraryItemData'
+          modified_styles:
+            type: array
+            description: Styles that were modified by the library publish
+            items:
+              $ref: '#/components/schemas/LibraryItemData'
+          modified_variables:
+            type: array
+            description: Variables that were modified by the library publish
+            items:
+              $ref: '#/components/schemas/LibraryItemData'
+          deleted_components:
+            type: array
+            description: Components that were deleted by the library publish
+            items:
+              $ref: '#/components/schemas/LibraryItemData'
+          deleted_styles:
+            type: array
+            description: Styles that were deleted by the library publish
+            items:
+              $ref: '#/components/schemas/LibraryItemData'
+          deleted_variables:
+            type: array
+            description: Variables that were deleted by the library publish
+            items:
+              $ref: '#/components/schemas/LibraryItemData'
+          description:
+            type: string
+            description: Description of the library publish
+          file_key:
+            type: string
+            description: The key of the file that was published
+          file_name:
+            type: string
+            description: The name of the file that was published
+          library_item:
+            $ref: '#/components/schemas/LibraryItemData'
+            description: The library item that was published
+          triggered_by:
+            $ref: '#/components/schemas/User'
+            description: The user that published the library and triggered this event
+        required:
+        - event_type
+        - created_components
+        - created_styles
+        - created_variables
+        - modified_components
+        - modified_styles
+        - modified_variables
+        - deleted_components
+        - deleted_styles
+        - deleted_variables
+        - file_key
+        - file_name
+        - library_item
+        - triggered_by
+    WebhookV2RequestInfo:
+      type: object
+      description: Information regarding the request sent to a webhook endpoint
+      properties:
+        id:
+          type: string
+          description: The ID of the webhook
+        endpoint:
+          type: string
+          description: The actual endpoint the request was sent to
+        payload:
+          type: object
+          description: The contents of the request that was sent to the endpoint
+        sent_at:
+          type: string
+          format: date-time
+          description: UTC ISO 8601 timestamp of when the request was sent
+      required:
+      - id
+      - endpoint
+      - payload
+      - sent_at
+    DevResource:
+      type: object
+      description: A dev resource in a file
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the dev resource
+        name:
+          type: string
+          description: The name of the dev resource.
+        url:
+          type: string
+          description: The URL of the dev resource.
+        file_key:
+          type: string
+          description: The file key where the dev resource belongs.
+        node_id:
+          type: string
+          description: The target node to attach the dev resource to.
+      required:
+      - id
+      - name
+      - url
+      - file_key
+      - node_id
+    WebhookFileDeletePayload:
+      allOf:
+      - $ref: '#/components/schemas/WebhookBasePayload'
+      - type: object
+        properties:
+          event_type:
+            type: string
+            enum:
+            - FILE_DELETE
+          file_key:
+            type: string
+            description: The key of the file that was deleted
+          file_name:
+            type: string
+            description: The name of the file that was deleted
+          triggered_by:
+            $ref: '#/components/schemas/User'
+            description: The user that deleted the file and triggered this event
+        required:
+        - event_type
+        - file_key
+        - file_name
+        - triggered_by
+    ErrorResponsePayloadWithErrorBoolean:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        error:
+          type: boolean
+          description: For erroneous requests, this value is always `true`.
+          enum:
+          - true
+        status:
+          type: number
+          description: Status code
+        message:
+          type: string
+          description: A string describing the error
+      required:
+      - error
+      - status
+      - message
+    WebhookV2ResponseInfo:
+      type:
+      - object
+      - 'null'
+      description: Information regarding the reply sent back from a webhook endpoint
+      properties:
+        status:
+          type: string
+          description: HTTP status code of the response
+        received_at:
+          type: string
+          format: date-time
+          description: UTC ISO 8601 timestamp of when the response was received
+      required:
+      - status
+      - received_at
+    WebhookBasePayload:
+      type: object
+      properties:
+        passcode:
+          type: string
+          description: The passcode specified when the webhook was created, should match what was initially provided
+        timestamp:
+          type: string
+          format: date-time
+          description: UTC ISO 8601 timestamp of when the event was triggered.
+        webhook_id:
+          type: string
+          description: The id of the webhook that caused the callback
+      required:
+      - passcode
+      - timestamp
+      - webhook_id
+    ErrorResponsePayloadWithErrMessage:
+      type: object
+      description: A response indicating an error occurred.
+      properties:
+        status:
+          type: number
+          description: Status code
+        err:
+          type: string
+          description: A string describing the error
+      required:
+      - status
+      - err
+  responses:
+    BadRequestErrorResponseWithErrorBoolean:
+      description: Bad request. Parameters are invalid or malformed. Please check the input formats. This error can also happen if the requested resources are too large to complete the request, which results in a timeout. Please reduce the number and size of objects requested.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 400
+              required:
+              - status
+    TooManyRequestsErrorResponseWithErrMessage:
+      description: In some cases API requests may be throttled or rate limited. Please wait a while before attempting the request again (typically a minute).
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 429
+              required:
+              - status
+    ForbiddenErrorResponseWithErrMessage:
+      description: The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource, or may need an account of some sort.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 403
+              required:
+              - status
+    InternalServerErrorResponseWithErrorBoolean:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 500
+              required:
+              - status
+    NotFoundErrorResponseWithErrorBoolean:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrorBoolean'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 404
+              required:
+              - status
+    PutWebhookResponse:
+      description: Response from the PUT /v2/webhooks/{webhook_id} endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebhookV2'
+    InternalServerErrorResponseWithErrMessage:
+      description: An internal server error occurred.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 500
+              required:
+              - status
+    GetWebhookResponse:
+      description: Response from the GET /v2/webhooks/{webhook_id} endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebhookV2'
+    GetTeamWebhooksResponse:
+      description: Response from the GET /v2/teams/{team_id}/webhooks endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              webhooks:
+                type: array
+                description: An array of webhooks.
+                items:
+                  $ref: '#/components/schemas/WebhookV2'
+            required:
+            - webhooks
+    GetWebhookRequestsResponse:
+      description: Response from the GET /v2/webhooks/{webhook_id}/requests endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              requests:
+                type: array
+                description: An array of webhook requests.
+                items:
+                  $ref: '#/components/schemas/WebhookV2Request'
+            required:
+            - requests
+    GetWebhooksResponse:
+      description: Response from the GET /v2/webhooks endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              webhooks:
+                type: array
+                description: An array of webhooks.
+                items:
+                  $ref: '#/components/schemas/WebhookV2'
+              pagination:
+                $ref: '#/components/schemas/ResponsePagination'
+            required:
+            - webhooks
+    PostWebhookResponse:
+      description: Response from the POST /v2/webhooks endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebhookV2'
+    NotFoundErrorResponseWithErrMessage:
+      description: The requested file or resource was not found.
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/ErrorResponsePayloadWithErrMessage'
+            - type: object
+              properties:
+                status:
+                  type: number
+                  description: Status code
+                  enum:
+                  - 404
+              required:
+              - status
+    DeleteWebhookResponse:
+      description: Response from the DELETE /v2/webhooks/{webhook_id} endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebhookV2'
+  securitySchemes:
+    PersonalAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    PlanAccessToken:
+      type: apiKey
+      name: X-Figma-Token
+      in: header
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            current_user:read: Read your name, email, and profile image.
+            file_comments:read: Read the comments for files.
+            file_comments:write: Post and delete comments and comment reactions in files.
+            file_content:read: Read the contents of files, such as nodes and the editor type.
+            file_dev_resources:read: Read dev resources in files.
+            file_dev_resources:write: Write to dev resources in files.
+            file_metadata:read: Read metadata of files.
+            file_variables:read: 'Read variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_variables:write: 'Write to variables in Figma file. Note: this is only available to members in Enterprise organizations.'
+            file_versions:read: Read the version history for files you can access.
+            files:read: Deprecated. Read files, projects, users, versions, comments, components & styles, and webhooks.
+            library_analytics:read: Read library analytics data.
+            library_assets:read: Read data of individual published components and styles.
+            library_content:read: Read published components and styles of files.
+            project_metadata:read: Read metadata of projects.
+            projects:read: List projects and files in projects.
+            folders:read: List folders and files in folders.
+            folder_metadata:read: Read metadata of folders.
+            team_library_content:read: Read published components and styles of teams.
+            webhooks:read: Read metadata of webhooks.
+            webhooks:write: Create and manage webhooks.
+    OrgOAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.figma.com/oauth
+          tokenUrl: https://api.figma.com/v1/oauth/token
+          refreshUrl: https://api.figma.com/v1/oauth/refresh
+          scopes:
+            org:activity_log_read: Read activity logs in the organization.
+externalDocs:
+  description: Figma REST API Documentation
+  url: https://developers.figma.com/docs/rest-api/
