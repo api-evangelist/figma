@@ -500,3 +500,9 @@ components:
 externalDocs:
   description: Figma REST API Documentation
   url: https://developers.figma.com/docs/rest-api/
+x-provenance:
+  method: harvested
+  publisher: Figma
+  source: https://raw.githubusercontent.com/figma/rest-api-spec/HEAD/openapi/openapi.yaml
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
