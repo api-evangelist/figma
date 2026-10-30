@@ -1,4 +1,4 @@
-# Figma (figma)
+# Figma
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,601 +66,352 @@
 
 Figma is a collaborative interface design tool with a comprehensive REST API for accessing and manipulating design files, projects, and teams.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/figma/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/figma/refs/heads/main/apis.yml)
-
-## Scope
-
-- **Type:** Index
-
-## Tags
-
-- Collaboration
-- Design
-- Graphics
-- Interfaces
-- Prototypes
-- Prototyping
-- UI/UX
-
-## Timestamps
-
-- **Created:** 2023-11-22
-- **Modified:** 2026-05-19
-
-## APIs
-
-### Figma API
-
-Figma allows designers to create and prototype their digital experiences - together in real-time and in one place - helping them turn their ideas and visions into products, faster. Figma's mission is to make design accessible to everyone. The Figma API is one of the ways we aim to do that.
-
-- **Human URL:** [https://www.figma.com/developers](https://www.figma.com/developers)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Design
-- Users
-
-#### Properties
-
-- [OpenAPI](openapi/figma-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [OpenAPI](openapi/figma-rest-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [AsyncAPI](asyncapi/figma-webhooks-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
-- [JSON Schema](json-schema/figma-file-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-component-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-user-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-error-response-payload-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-get-me-response-body-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Structure](json-structure/figma-get-me-response-body-structure.json)
-- [JSON Structure](json-structure/figma-error-response-payload-structure.json)
-- [JSON Structure](json-structure/figma-user-structure.json)
-- [JSON-LD](json-ld/figma-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Documentation](https://developers.figma.com/docs/rest-api/)
-
-### Figma REST API
-
-The Figma REST API provides programmatic access to Figma files, comments, components, and related resources. It enables developers to read and interact with design data, export assets, manage comments and reactions, and query published components and styles from team libraries.
-
-- **Human URL:** [https://developers.figma.com/docs/rest-api/](https://developers.figma.com/docs/rest-api/)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Comments
-- Components
-- Files
-- Projects
-- Users
-
-#### Properties
-
-- [OpenAPI](openapi/figma-rest-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/figma-rest-get-file-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-get-file-nodes-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-get-images-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-get-image-fills-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-get-file-versions-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-get-comments-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-post-comment-request-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-get-reactions-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-get-team-components-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-get-file-components-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-get-component-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-get-team-component-sets-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-get-team-styles-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-get-team-projects-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-get-project-files-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-error-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-branch-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-canvas-node-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-client-meta-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-color-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-comment-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-component-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-component-set-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-document-node-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-documentation-link-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-frame-info-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-pagination-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-project-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-project-file-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-published-component-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-published-component-set-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-published-style-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-reaction-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-style-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-success-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-user-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-rest-version-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/figma-rest-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Documentation](https://developers.figma.com/docs/rest-api/)
-
-### Figma Files API
-
-Figma Files API provides access to design file data including document trees, nodes, images, version history, and file metadata. Read and export design data from Figma files programmatically.
-
-- **Human URL:** [https://developers.figma.com/docs/rest-api/file-endpoints/](https://developers.figma.com/docs/rest-api/file-endpoints/)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Dev Resources
-- Files
-
-#### Properties
-
-- [OpenAPI](openapi/figma-files-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-files-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-files-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/figma-files-get-file-response-body-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-branch-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-canvas-node-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-color-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-comment-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-component-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-component-set-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-delete-dev-resource-response-body-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-dev-resource-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-document-node-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-documentation-link-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-error-response-payload-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-frame-info-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-get-dev-resources-response-body-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-published-component-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-published-component-set-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-reaction-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-style-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-style-type-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-user-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-files-version-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/figma-files-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Documentation](https://developers.figma.com/docs/rest-api/file-endpoints/)
-
-### Figma Images API
-
-Figma Images API provides endpoints for rendering and exporting images from Figma files in various formats including PNG, JPG, SVG, and PDF.
-
-- **Human URL:** [https://developers.figma.com/docs/rest-api/file-endpoints/](https://developers.figma.com/docs/rest-api/file-endpoints/)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Export
-- Images
-- Rendering
-
-#### Properties
-
-- [OpenAPI](openapi/figma-images-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-images-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-images-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/figma-images-get-images-response-body-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-images-bad-request-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-images-error-response-payload-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-images-forbidden-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-images-internal-server-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-images-not-found-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-images-too-many-requests-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/figma-images-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Documentation](https://developers.figma.com/docs/rest-api/file-endpoints/)
-
-### Figma Teams API
-
-Figma Teams API provides endpoints for managing team-level resources including webhooks, projects, and team configuration.
-
-- **Human URL:** [https://developers.figma.com/docs/rest-api/file-endpoints/](https://developers.figma.com/docs/rest-api/file-endpoints/)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Teams
-- Webhooks
-
-#### Properties
-
-- [OpenAPI](openapi/figma-teams-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-teams-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-teams-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/figma-teams-get-team-webhooks-response-body-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-teams-webhook-v2-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-teams-webhook-v2-event-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-teams-webhook-v2-status-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-teams-error-response-payload-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-teams-forbidden-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-teams-internal-server-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-teams-not-found-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-teams-too-many-requests-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/figma-teams-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Documentation](https://developers.figma.com/docs/rest-api/file-endpoints/)
-
-### Figma Projects API
-
-Figma Projects API provides endpoints for listing team projects and retrieving project files.
-
-- **Human URL:** [https://developers.figma.com/docs/rest-api/projects-types/](https://developers.figma.com/docs/rest-api/projects-types/)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Files
-- Projects
-
-#### Properties
-
-- [OpenAPI](openapi/figma-projects-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-projects-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-projects-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/figma-projects-get-project-files-response-body-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-projects-project-file-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-projects-bad-request-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-projects-error-response-payload-with-err-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-projects-error-response-payload-with-message-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-projects-forbidden-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-projects-internal-server-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-projects-too-many-requests-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/figma-projects-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Documentation](https://developers.figma.com/docs/rest-api/projects-types/)
-
-### Figma Me API
-
-Figma Me API provides the endpoint for retrieving information about the currently authenticated user.
-
-- **Human URL:** [https://developers.figma.com/docs/rest-api/users-endpoints/](https://developers.figma.com/docs/rest-api/users-endpoints/)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Authentication
-- Users
-
-#### Properties
-
-- [OpenAPI](openapi/figma-me-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-me-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-me-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/figma-me-user-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-me-user-with-email-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-me-error-response-payload-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-me-forbidden-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-me-internal-server-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-me-too-many-requests-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/figma-me-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Documentation](https://developers.figma.com/docs/rest-api/users-endpoints/)
-
-### Figma Components API
-
-Figma Components API provides access to published components, component sets, and styles from team libraries. Query component metadata, retrieve thumbnails, and access documentation links for reusable design elements.
-
-- **Human URL:** [https://developers.figma.com/docs/rest-api/component-types/](https://developers.figma.com/docs/rest-api/component-types/)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Components
-- Design Systems
-- Libraries
-
-#### Properties
-
-- [OpenAPI](openapi/figma-rest-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/figma-component-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [Documentation](https://developers.figma.com/docs/rest-api/component-types/)
-
-### Figma Component Sets API
-
-Figma Component Sets API provides endpoints for retrieving published component set metadata from team libraries.
-
-- **Human URL:** [https://developers.figma.com/docs/rest-api/component-types/](https://developers.figma.com/docs/rest-api/component-types/)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Component Sets
-- Design Systems
-
-#### Properties
-
-- [OpenAPI](openapi/figma-component-sets-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-component-sets-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-component-sets-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/figma-component-sets-get-component-set-response-body-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-component-sets-published-component-set-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-component-sets-frame-info-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-component-sets-user-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-component-sets-error-response-payload-with-err-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-component-sets-error-response-payload-with-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/figma-component-sets-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Documentation](https://developers.figma.com/docs/rest-api/component-types/)
-
-### Figma Styles API
-
-Figma Styles API provides endpoints for retrieving published style metadata including colors, text styles, and effects from team libraries.
-
-- **Human URL:** [https://developers.figma.com/docs/rest-api/component-types/](https://developers.figma.com/docs/rest-api/component-types/)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Design Systems
-- Styles
-
-#### Properties
-
-- [OpenAPI](openapi/figma-styles-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-styles-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-styles-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/figma-styles-get-style-response-body-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-styles-published-style-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-styles-style-type-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-styles-user-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-styles-bad-request-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-styles-error-response-payload-with-err-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-styles-error-response-payload-with-message-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-styles-forbidden-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-styles-internal-server-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-styles-not-found-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-styles-too-many-requests-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/figma-styles-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Documentation](https://developers.figma.com/docs/rest-api/component-types/)
-
-### Figma Activity Logs API
-
-Figma Activity Logs API provides endpoints for retrieving activity log events for an organization, enabling audit trail and compliance monitoring.
-
-- **Human URL:** [https://developers.figma.com/docs/rest-api/activity-logs/](https://developers.figma.com/docs/rest-api/activity-logs/)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Activity Logs
-- Audit
-- Compliance
-
-#### Properties
-
-- [OpenAPI](openapi/figma-activity-logs-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-activity-logs-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-activity-logs-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/figma-activity-logs-get-activity-logs-response-body-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-activity-logs-activity-log-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-activity-logs-activity-log-action-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-activity-logs-activity-log-actor-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-activity-logs-activity-log-context-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-activity-logs-activity-log-entity-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-activity-logs-activity-log-file-entity-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-activity-logs-activity-log-org-entity-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-activity-logs-activity-log-project-entity-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-activity-logs-activity-log-team-entity-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-activity-logs-activity-log-user-entity-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-activity-logs-activity-logs-meta-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-activity-logs-error-response-payload-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/figma-activity-logs-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Documentation](https://developers.figma.com/docs/rest-api/activity-logs/)
-
-### Figma Payments API
-
-Figma Payments API provides endpoints for querying user payment information on plugins, widgets, and Community files.
-
-- **Human URL:** [https://developers.figma.com/docs/plugins/api/figma-payments/](https://developers.figma.com/docs/plugins/api/figma-payments/)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Monetization
-- Payments
-- Plugins
-
-#### Properties
-
-- [OpenAPI](openapi/figma-payments-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-payments-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-payments-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/figma-payments-get-payments-response-body-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-payments-payment-information-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-payments-payment-status-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-payments-error-response-payload-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-payments-internal-server-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-payments-too-many-requests-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-payments-unauthorized-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/figma-payments-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Documentation](https://developers.figma.com/docs/plugins/api/figma-payments/)
-
-### Figma Dev Resources API
-
-Figma Dev Resources API provides endpoints for creating, updating, and deleting dev resources attached to design nodes, enabling design-to-code workflows.
-
-- **Human URL:** [https://developers.figma.com/docs/rest-api/dev-resources/](https://developers.figma.com/docs/rest-api/dev-resources/)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Design to Code
-- Dev Resources
-- Development
-
-#### Properties
-
-- [OpenAPI](openapi/figma-dev-resources-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-dev-resources-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-dev-resources-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/figma-dev-resources-create-dev-resource-item-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-dev-resources-create-dev-resources-request-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-dev-resources-dev-resource-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-dev-resources-dev-resource-create-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-dev-resources-dev-resource-update-error-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-dev-resources-error-response-payload-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-dev-resources-post-dev-resources-response-body-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-dev-resources-put-dev-resources-response-body-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-dev-resources-update-dev-resource-item-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-dev-resources-update-dev-resources-request-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/figma-dev-resources-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Documentation](https://developers.figma.com/docs/rest-api/dev-resources/)
-
-### Figma Analytics API
+**Areas:** Collaboration · Design · Graphics · Interfaces · Prototypes · Prototyping · UI/UX · Figma
 
-Figma Analytics API provides endpoints for tracking component, style, and variable usage across team libraries, enabling design system adoption measurement.
-
-- **Human URL:** [https://developers.figma.com/docs/rest-api/library-analytics-intro/](https://developers.figma.com/docs/rest-api/library-analytics-intro/)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Analytics
-- Design Systems
-- Libraries
-
-#### Properties
-
-- [OpenAPI](openapi/figma-analytics-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-analytics-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-analytics-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/figma-analytics-get-library-analytics-usages-response-body-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-analytics-library-analytics-usages-by-component-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-analytics-library-analytics-usages-by-file-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-analytics-library-analytics-actions-by-component-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-analytics-library-analytics-actions-by-team-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-analytics-library-analytics-style-usages-by-asset-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-analytics-library-analytics-style-usages-by-file-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-analytics-library-analytics-variable-usages-by-asset-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-analytics-library-analytics-variable-usages-by-file-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/figma-analytics-error-response-payload-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/figma-analytics-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Documentation](https://developers.figma.com/docs/rest-api/library-analytics-intro/)
-
-### Figma Comments API
-
-Figma Commenting mode allows users to leave comments directly on layers or objects on the canvas. You can use the Figma API to post comments and reactions to a Figma file, view existing comments and reactions, and access information about a comment including when it was made, by whom, and its exact location on the canvas.
-
-- **Human URL:** [https://developers.figma.com/docs/rest-api/comments-endpoints/](https://developers.figma.com/docs/rest-api/comments-endpoints/)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Annotations
-- Collaboration
-- Comments
-- Reactions
-
-#### Properties
-
-- [OpenAPI](openapi/figma-rest-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Documentation](https://developers.figma.com/docs/rest-api/comments-endpoints/)
-
-### Figma Version History API
-
-Figma allows you to distinguish different stages or versions of a file as it evolves over time. The Version History API provides endpoints to view, track, and restore previous versions of a file, recorded in the version history.
-
-- **Human URL:** [https://developers.figma.com/docs/rest-api/version-history-endpoints/](https://developers.figma.com/docs/rest-api/version-history-endpoints/)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Files
-- History
-- Versions
-
-#### Properties
-
-- [OpenAPI](openapi/figma-rest-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Documentation](https://developers.figma.com/docs/rest-api/version-history-endpoints/)
-
-### Figma Variables API
-
-The Variables REST API includes endpoints for querying, creating, updating, and deleting variables. Variables store reusable values that can be applied to design properties and prototyping actions. To use this API, you must have a Full seat in an Enterprise org.
-
-- **Human URL:** [https://developers.figma.com/docs/rest-api/variables-endpoints/](https://developers.figma.com/docs/rest-api/variables-endpoints/)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Collections
-- Design Tokens
-- Variables
-
-#### Properties
-
-- [OpenAPI](openapi/figma-rest-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Documentation](https://developers.figma.com/docs/rest-api/variables-endpoints/)
-
-### Figma Library Analytics API
-
-The Library Analytics REST API provides six methods for tracking component, style, and variable usage. Each resource type has an actions endpoint and a usages endpoint, allowing you to get time series data about user actions and usage data for your library assets.
-
-- **Human URL:** [https://developers.figma.com/docs/rest-api/library-analytics-endpoints/](https://developers.figma.com/docs/rest-api/library-analytics-endpoints/)
-- **Base URL:** `https://api.figma.com`
-
-#### Tags
-
-- Analytics
-- Components
-- Libraries
-- Styles
-- Usages
-- Variables
-
-#### Properties
-
-- [OpenAPI](openapi/figma-rest-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/figma-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/figma-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Documentation](https://developers.figma.com/docs/rest-api/library-analytics-endpoints/)
-
-## Common Properties
-
-- [Arazzo Workflows](arazzo/) — [Arazzo Specification](https://spec.openapis.org/arazzo/latest.html)
-- [LinkedIn](https://www.linkedin.com/company/figma)
-- [Portal](https://www.figma.com/developers)
-- [Authentication](https://developers.figma.com/docs/rest-api/authentication/)
-- [Changelog](https://developers.figma.com/docs/rest-api/changelog/)
-- [Rate Limits](https://developers.figma.com/docs/rest-api/rate-limits/)
-- [OpenAPI](https://github.com/figma/rest-api-spec) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Getting Started](https://developers.figma.com/docs/code-connect/quickstart-guide/)
-- [Sign Up](https://www.figma.com/signup?cont=/developers/embed)
-- [Login](https://www.figma.com/login?cont=/developers/embed)
+## Figma on APIs.io
+
+Everything profiled for Figma is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/figma/](https://apis.io/providers/figma/)** — or go straight to one of the APIs or properties below.
+
+### APIs (12)
+
+- [Figma Files API](https://apis.io/apis/figma/figma-files-api/) — Figma Files API provides access to design file data including document trees, nodes, images, version history, and file metadata. Read and export design data…
+- [Figma Teams API](https://apis.io/apis/figma/figma-teams-api/) — Figma Teams API provides endpoints for managing team-level resources including webhooks, projects, and team configuration.
+- [Figma Projects API](https://apis.io/apis/figma/figma-projects-api/) — Figma Projects API provides endpoints for listing team projects and retrieving project files.
+- [Figma Component Sets API](https://apis.io/apis/figma/figma-component-sets-api/) — Figma Component Sets API provides endpoints for retrieving published component set metadata from team libraries.
+- [Figma Activity Logs API](https://apis.io/apis/figma/figma-activity-logs-api/) — Figma Activity Logs API provides endpoints for retrieving activity log events for an organization, enabling audit trail and compliance monitoring.
+- [Figma Payments API](https://apis.io/apis/figma/figma-payments-api/) — Figma Payments API provides endpoints for querying user payment information on plugins, widgets, and Community files.
+- [Figma Dev Resources API](https://apis.io/apis/figma/figma-dev-resources-api/) — Figma Dev Resources API provides endpoints for creating, updating, and deleting dev resources attached to design nodes, enabling design-to-code workflows.
+- [Figma Comments API](https://apis.io/apis/figma/figma-comments-api/) — Endpoints for managing comments and reactions on Figma files, including creating, listing, and deleting comments.
+- [Figma Components API](https://apis.io/apis/figma/figma-components-api/) — Endpoints for querying published components, component sets, and styles from team libraries.
+- [Figma Keys API](https://apis.io/apis/figma/figma-keys-api/) — Operations that use unique style keys for identification
+- [Figma Library Analytics API](https://apis.io/apis/figma/figma-library-analytics-api/) — Operations for retrieving library usage and action analytics data
+- [Figma Users API](https://apis.io/apis/figma/figma-users-api/) — Operations related to user information and authentication
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Arazzo workflows (12)
+
+Multi-step workflows that chain operations into a business task.
+
+- [Figma Attach Dev Resource to Node](https://apis.io/arazzos/figma/figma-attach-dev-resource-to-node-workflow/)
+- [Figma Audit Team Component](https://apis.io/arazzos/figma/figma-audit-team-component-workflow/)
+- [Figma Audit Team Webhooks](https://apis.io/arazzos/figma/figma-audit-team-webhooks-workflow/)
+- [Figma Browse Project File Comments](https://apis.io/arazzos/figma/figma-browse-project-file-comments-workflow/)
+- [Figma Catalog File Components](https://apis.io/arazzos/figma/figma-catalog-file-components-workflow/)
+- [Figma Inventory Team Component Sets](https://apis.io/arazzos/figma/figma-inventory-team-component-sets-workflow/)
+- [Figma Inventory Team Styles](https://apis.io/arazzos/figma/figma-inventory-team-styles-workflow/)
+- [Figma Post and Verify Comment](https://apis.io/arazzos/figma/figma-post-and-verify-comment-workflow/)
+- [Figma React to Latest Comment](https://apis.io/arazzos/figma/figma-react-to-latest-comment-workflow/)
+- [Figma Render File Node Images](https://apis.io/arazzos/figma/figma-render-file-node-images-workflow/)
+- [Figma Report Library Usage](https://apis.io/arazzos/figma/figma-report-library-usage-workflow/)
+- [Figma Snapshot Team Project Versions](https://apis.io/arazzos/figma/figma-snapshot-team-project-versions-workflow/)
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Figma Webhooks](https://apis.io/asyncapis/figma/figma-webhooks-asyncapi/)
+
+#### Event channels (1)
+
+Individual events and webhooks the provider emits.
+
+- [/webhook](https://apis.io/channels/figma/webhook/)
+
+#### GraphQL (1)
+
+GraphQL schemas.
+
+- [Moved to /providers/figma/](https://apis.io/graphqls/figma/figma-graphql/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [figma](https://apis.io/servers/figma/figma/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Figma Agentic Access](https://apis.io/agentic-access/figma/figma-agentic-access/)
+
+#### JSON Schema (150)
+
+The data models the API reads and writes.
+
+- [ActivityLog](https://apis.io/schemas/figma/figma-activity-logs-activity-log/)
+- [ActivityLogAction](https://apis.io/schemas/figma/figma-activity-logs-activity-log-action/)
+- [ActivityLogActor](https://apis.io/schemas/figma/figma-activity-logs-activity-log-actor/)
+- [ActivityLogContext](https://apis.io/schemas/figma/figma-activity-logs-activity-log-context/)
+- [ActivityLogEntity](https://apis.io/schemas/figma/figma-activity-logs-activity-log-entity/)
+- [ActivityLogFileEntity](https://apis.io/schemas/figma/figma-activity-logs-activity-log-file-entity/)
+- [ActivityLogOrgEntity](https://apis.io/schemas/figma/figma-activity-logs-activity-log-org-entity/)
+- [ActivityLogProjectEntity](https://apis.io/schemas/figma/figma-activity-logs-activity-log-project-entity/)
+- [ActivityLogTeamEntity](https://apis.io/schemas/figma/figma-activity-logs-activity-log-team-entity/)
+- [ActivityLogUserEntity](https://apis.io/schemas/figma/figma-activity-logs-activity-log-user-entity/)
+- [ActivityLogsMeta](https://apis.io/schemas/figma/figma-activity-logs-activity-logs-meta/)
+- [ErrorResponsePayload](https://apis.io/schemas/figma/figma-activity-logs-error-response-payload/)
+- [GetActivityLogsResponseBody](https://apis.io/schemas/figma/figma-activity-logs-get-activity-logs-response-body/)
+- [ErrorResponsePayload](https://apis.io/schemas/figma/figma-analytics-error-response-payload/)
+- [GetLibraryAnalyticsUsagesResponseBody](https://apis.io/schemas/figma/figma-analytics-get-library-analytics-usages-response-body/)
+- [LibraryAnalyticsActionsByComponent](https://apis.io/schemas/figma/figma-analytics-library-analytics-actions-by-component/)
+- [LibraryAnalyticsActionsByTeam](https://apis.io/schemas/figma/figma-analytics-library-analytics-actions-by-team/)
+- [LibraryAnalyticsStyleUsagesByAsset](https://apis.io/schemas/figma/figma-analytics-library-analytics-style-usages-by-asset/)
+- [LibraryAnalyticsStyleUsagesByFile](https://apis.io/schemas/figma/figma-analytics-library-analytics-style-usages-by-file/)
+- [LibraryAnalyticsUsagesByComponent](https://apis.io/schemas/figma/figma-analytics-library-analytics-usages-by-component/)
+- [LibraryAnalyticsUsagesByFile](https://apis.io/schemas/figma/figma-analytics-library-analytics-usages-by-file/)
+- [LibraryAnalyticsVariableUsagesByAsset](https://apis.io/schemas/figma/figma-analytics-library-analytics-variable-usages-by-asset/)
+- [LibraryAnalyticsVariableUsagesByFile](https://apis.io/schemas/figma/figma-analytics-library-analytics-variable-usages-by-file/)
+- [Figma Published Component](https://apis.io/schemas/figma/figma-component/)
+- [ErrorResponsePayloadWithErr](https://apis.io/schemas/figma/figma-component-sets-error-response-payload-with-err/)
+- …and 125 more published on APIs.io
+
+#### JSON Structure (148)
+
+Data models expressed in JSON Structure.
+
+- [Figma Activity Logs Activity Log Action Structure](https://apis.io/json-structure/figma/figma-activity-logs-activity-log-action-structure/)
+- [Figma Activity Logs Activity Log Actor Structure](https://apis.io/json-structure/figma/figma-activity-logs-activity-log-actor-structure/)
+- [Figma Activity Logs Activity Log Context Structure](https://apis.io/json-structure/figma/figma-activity-logs-activity-log-context-structure/)
+- [Figma Activity Logs Activity Log Entity Structure](https://apis.io/json-structure/figma/figma-activity-logs-activity-log-entity-structure/)
+- [Figma Activity Logs Activity Log File Entity Structure](https://apis.io/json-structure/figma/figma-activity-logs-activity-log-file-entity-structure/)
+- [Figma Activity Logs Activity Log Org Entity Structure](https://apis.io/json-structure/figma/figma-activity-logs-activity-log-org-entity-structure/)
+- [Figma Activity Logs Activity Log Project Entity Structure](https://apis.io/json-structure/figma/figma-activity-logs-activity-log-project-entity-structure/)
+- [Figma Activity Logs Activity Log Structure](https://apis.io/json-structure/figma/figma-activity-logs-activity-log-structure/)
+- [Figma Activity Logs Activity Log Team Entity Structure](https://apis.io/json-structure/figma/figma-activity-logs-activity-log-team-entity-structure/)
+- [Figma Activity Logs Activity Log User Entity Structure](https://apis.io/json-structure/figma/figma-activity-logs-activity-log-user-entity-structure/)
+- [Figma Activity Logs Activity Logs Meta Structure](https://apis.io/json-structure/figma/figma-activity-logs-activity-logs-meta-structure/)
+- [Figma Activity Logs Error Response Payload Structure](https://apis.io/json-structure/figma/figma-activity-logs-error-response-payload-structure/)
+- [Figma Activity Logs Get Activity Logs Response Body Structure](https://apis.io/json-structure/figma/figma-activity-logs-get-activity-logs-response-body-structure/)
+- [Figma Analytics Error Response Payload Structure](https://apis.io/json-structure/figma/figma-analytics-error-response-payload-structure/)
+- [Figma Analytics Get Library Analytics Usages Response Body Structure](https://apis.io/json-structure/figma/figma-analytics-get-library-analytics-usages-response-body-structure/)
+- [Figma Analytics Library Analytics Actions By Component Structure](https://apis.io/json-structure/figma/figma-analytics-library-analytics-actions-by-component-structure/)
+- [Figma Analytics Library Analytics Actions By Team Structure](https://apis.io/json-structure/figma/figma-analytics-library-analytics-actions-by-team-structure/)
+- [Figma Analytics Library Analytics Style Usages By Asset Structure](https://apis.io/json-structure/figma/figma-analytics-library-analytics-style-usages-by-asset-structure/)
+- [Figma Analytics Library Analytics Style Usages By File Structure](https://apis.io/json-structure/figma/figma-analytics-library-analytics-style-usages-by-file-structure/)
+- [Figma Analytics Library Analytics Usages By Component Structure](https://apis.io/json-structure/figma/figma-analytics-library-analytics-usages-by-component-structure/)
+- [Figma Analytics Library Analytics Usages By File Structure](https://apis.io/json-structure/figma/figma-analytics-library-analytics-usages-by-file-structure/)
+- [Figma Analytics Library Analytics Variable Usages By Asset Structure](https://apis.io/json-structure/figma/figma-analytics-library-analytics-variable-usages-by-asset-structure/)
+- [Figma Analytics Library Analytics Variable Usages By File Structure](https://apis.io/json-structure/figma/figma-analytics-library-analytics-variable-usages-by-file-structure/)
+- [Figma Component Sets Error Response Payload With Err Structure](https://apis.io/json-structure/figma/figma-component-sets-error-response-payload-with-err-structure/)
+- [Figma Component Sets Error Response Payload With Error Structure](https://apis.io/json-structure/figma/figma-component-sets-error-response-payload-with-error-structure/)
+- …and 123 more published on APIs.io
+
+#### JSON-LD (13)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Figma Activity Logs Context](https://apis.io/jsonld/figma/figma-activity-logs-context/)
+- [Figma Analytics Context](https://apis.io/jsonld/figma/figma-analytics-context/)
+- [Figma Component Sets Context](https://apis.io/jsonld/figma/figma-component-sets-context/)
+- [Figma Context](https://apis.io/jsonld/figma/figma-context/)
+- [Figma Dev Resources Context](https://apis.io/jsonld/figma/figma-dev-resources-context/)
+- [Figma Files Context](https://apis.io/jsonld/figma/figma-files-context/)
+- [Figma Images Context](https://apis.io/jsonld/figma/figma-images-context/)
+- [Figma Me Context](https://apis.io/jsonld/figma/figma-me-context/)
+- [Figma Payments Context](https://apis.io/jsonld/figma/figma-payments-context/)
+- [Figma Projects Context](https://apis.io/jsonld/figma/figma-projects-context/)
+- [Figma Rest Context](https://apis.io/jsonld/figma/figma-rest-context/)
+- [Figma Styles Context](https://apis.io/jsonld/figma/figma-styles-context/)
+- [Figma Teams Context](https://apis.io/jsonld/figma/figma-teams-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [figma API Vocabulary](https://apis.io/vocabularies/figma/figma-vocabulary/)
+
+#### Examples (148)
+
+Example requests and responses.
+
+- [Figma Activity Logs Activity Log Action Example](https://apis.io/examples/figma/figma-activity-logs-activity-log-action-example/)
+- [Figma Activity Logs Activity Log Actor Example](https://apis.io/examples/figma/figma-activity-logs-activity-log-actor-example/)
+- [Figma Activity Logs Activity Log Context Example](https://apis.io/examples/figma/figma-activity-logs-activity-log-context-example/)
+- [Figma Activity Logs Activity Log Entity Example](https://apis.io/examples/figma/figma-activity-logs-activity-log-entity-example/)
+- [Figma Activity Logs Activity Log Example](https://apis.io/examples/figma/figma-activity-logs-activity-log-example/)
+- [Figma Activity Logs Activity Log File Entity Example](https://apis.io/examples/figma/figma-activity-logs-activity-log-file-entity-example/)
+- [Figma Activity Logs Activity Log Org Entity Example](https://apis.io/examples/figma/figma-activity-logs-activity-log-org-entity-example/)
+- [Figma Activity Logs Activity Log Project Entity Example](https://apis.io/examples/figma/figma-activity-logs-activity-log-project-entity-example/)
+- [Figma Activity Logs Activity Log Team Entity Example](https://apis.io/examples/figma/figma-activity-logs-activity-log-team-entity-example/)
+- [Figma Activity Logs Activity Log User Entity Example](https://apis.io/examples/figma/figma-activity-logs-activity-log-user-entity-example/)
+- [Figma Activity Logs Activity Logs Meta Example](https://apis.io/examples/figma/figma-activity-logs-activity-logs-meta-example/)
+- [Figma Activity Logs Error Response Payload Example](https://apis.io/examples/figma/figma-activity-logs-error-response-payload-example/)
+- [Figma Activity Logs Get Activity Logs Response Body Example](https://apis.io/examples/figma/figma-activity-logs-get-activity-logs-response-body-example/)
+- [Figma Analytics Error Response Payload Example](https://apis.io/examples/figma/figma-analytics-error-response-payload-example/)
+- [Figma Analytics Get Library Analytics Usages Response Body Example](https://apis.io/examples/figma/figma-analytics-get-library-analytics-usages-response-body-example/)
+- [Figma Analytics Library Analytics Actions By Component Example](https://apis.io/examples/figma/figma-analytics-library-analytics-actions-by-component-example/)
+- [Figma Analytics Library Analytics Actions By Team Example](https://apis.io/examples/figma/figma-analytics-library-analytics-actions-by-team-example/)
+- [Figma Analytics Library Analytics Style Usages By Asset Example](https://apis.io/examples/figma/figma-analytics-library-analytics-style-usages-by-asset-example/)
+- [Figma Analytics Library Analytics Style Usages By File Example](https://apis.io/examples/figma/figma-analytics-library-analytics-style-usages-by-file-example/)
+- [Figma Analytics Library Analytics Usages By Component Example](https://apis.io/examples/figma/figma-analytics-library-analytics-usages-by-component-example/)
+- [Figma Analytics Library Analytics Usages By File Example](https://apis.io/examples/figma/figma-analytics-library-analytics-usages-by-file-example/)
+- [Figma Analytics Library Analytics Variable Usages By Asset Example](https://apis.io/examples/figma/figma-analytics-library-analytics-variable-usages-by-asset-example/)
+- [Figma Analytics Library Analytics Variable Usages By File Example](https://apis.io/examples/figma/figma-analytics-library-analytics-variable-usages-by-file-example/)
+- [Figma Component Sets Error Response Payload With Err Example](https://apis.io/examples/figma/figma-component-sets-error-response-payload-with-err-example/)
+- [Figma Component Sets Error Response Payload With Error Example](https://apis.io/examples/figma/figma-component-sets-error-response-payload-with-error-example/)
+- …and 123 more published on APIs.io
+
+#### Collections (32)
+
+Postman and Open Collection request collections.
+
+- [Figma Activity Logs API](https://apis.io/collections/figma/open-figma-activity-logs-api/)
+- [Figma Analytics API](https://apis.io/collections/figma/open-figma-analytics-api/)
+- [Figma API](https://apis.io/collections/figma/open-figma-api/)
+- [Figma Activity Logs Comments API](https://apis.io/collections/figma/open-figma-comments-api/)
+- [Figma Activity Logs Component Sets API](https://apis.io/collections/figma/open-figma-component-sets-api/)
+- [Figma Activity Logs Components API](https://apis.io/collections/figma/open-figma-components-api/)
+- [Figma Activity Logs Dev Resources API](https://apis.io/collections/figma/open-figma-dev-resources-api/)
+- [Figma Activity Logs Files API](https://apis.io/collections/figma/open-figma-files-api/)
+- [Figma Activity Logs Images API](https://apis.io/collections/figma/open-figma-images-api/)
+- [Figma Activity Logs Keys API](https://apis.io/collections/figma/open-figma-keys-api/)
+- [Figma Activity Logs Library Analytics API](https://apis.io/collections/figma/open-figma-library-analytics-api/)
+- [Figma Activity Logs Me API](https://apis.io/collections/figma/open-figma-me-api/)
+- [Figma Activity Logs Payments API](https://apis.io/collections/figma/open-figma-payments-api/)
+- [Figma Activity Logs Projects API](https://apis.io/collections/figma/open-figma-projects-api/)
+- [Figma REST API](https://apis.io/collections/figma/open-figma-rest-api/)
+- [Figma Activity Logs Styles API](https://apis.io/collections/figma/open-figma-styles-api/)
+- [Figma Activity Logs Teams API](https://apis.io/collections/figma/open-figma-teams-api/)
+- [Figma Activity Logs Users API](https://apis.io/collections/figma/open-figma-users-api/)
+- [Figma Activity Logs Webhooks API](https://apis.io/collections/figma/open-figma-webhooks-api/)
+- [Figma Activity Logs API](https://apis.io/collections/figma/postman-figma-activity-logs-api/)
+- [Figma Analytics API](https://apis.io/collections/figma/postman-figma-analytics-api/)
+- [Figma API](https://apis.io/collections/figma/postman-figma-api/)
+- [Figma Component Sets API](https://apis.io/collections/figma/postman-figma-component-sets-api/)
+- [Figma Dev Resources API](https://apis.io/collections/figma/postman-figma-dev-resources-api/)
+- [Figma Files API](https://apis.io/collections/figma/postman-figma-files-api/)
+- …and 7 more published on APIs.io
+
+#### Overlays (13)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Figma Activity Logs Api Overlay](https://apis.io/overlays/figma/figma-activity-logs-api-overlay/)
+- [Figma Analytics Api Overlay](https://apis.io/overlays/figma/figma-analytics-api-overlay/)
+- [Figma Api Overlay](https://apis.io/overlays/figma/figma-api-overlay/)
+- [Figma Component Sets Api Overlay](https://apis.io/overlays/figma/figma-component-sets-api-overlay/)
+- [Figma Dev Resources Api Overlay](https://apis.io/overlays/figma/figma-dev-resources-api-overlay/)
+- [Figma Files Api Overlay](https://apis.io/overlays/figma/figma-files-api-overlay/)
+- [Figma Images Api Overlay](https://apis.io/overlays/figma/figma-images-api-overlay/)
+- [Figma Me Api Overlay](https://apis.io/overlays/figma/figma-me-api-overlay/)
+- [Figma Payments Api Overlay](https://apis.io/overlays/figma/figma-payments-api-overlay/)
+- [Figma Projects Api Overlay](https://apis.io/overlays/figma/figma-projects-api-overlay/)
+- [Figma Rest Api Overlay](https://apis.io/overlays/figma/figma-rest-api-overlay/)
+- [Figma Styles Api Overlay](https://apis.io/overlays/figma/figma-styles-api-overlay/)
+- [Figma Teams Api Overlay](https://apis.io/overlays/figma/figma-teams-api-overlay/)
+
+#### Governance rules (3)
+
+Spectral rulesets for the provider's contracts.
+
+- [Figma — asyncapi rules](https://apis.io/rules/figma/figma-asyncapi-spectral-rules/)
+- [Figma — jsonschema rules](https://apis.io/rules/figma/figma-jsonschema-spectral-rules/)
+- [Figma API Rules](https://apis.io/rules/figma/figma-spectral-rules/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Figma Authentication](https://apis.io/security/figma/figma-authentication/)
+- [Figma Domain Security](https://apis.io/security/figma/figma-domain-security/)
+- [Figma Trust Center](https://apis.io/security/figma/figma-trust-center/)
+- [Figma Vulnerability Disclosure](https://apis.io/security/figma/figma-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Figma Scopes](https://apis.io/scopes/figma/figma-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Figma Plans Pricing](https://apis.io/plans/figma/figma-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Figma Rate Limits](https://apis.io/rate-limits/figma/figma-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Figma Finops](https://apis.io/finops/figma/figma-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.figma.com/)
+- [Getting started](https://developers.figma.com/docs/code-connect/quickstart-guide/)
 - [Pricing](https://www.figma.com/pricing/)
+- [Support](https://help.figma.com/hc/en-us/)
+- [Changelog](https://developers.figma.com/docs/rest-api/changelog/)
 - [Blog](https://www.figma.com/blog/)
 - [Security](https://www.figma.com/security/)
-- [Status Page](https://status.figma.com/)
-- [Terms of Service](https://www.figma.com/legal/tos/)
-- [Privacy Policy](https://www.figma.com/legal/privacy/)
-- [Partners](https://www.figma.com/partners/)
-- [Events](https://www.figma.com/events/)
-- [Support](https://help.figma.com/hc/en-us/)
-- [Contact](https://www.figma.com/contact/)
-- [Support](https://forum.figma.com/)
-- [GitHub Organization](https://github.com/figma)
-- [GitHub Repository](https://github.com/figma/rest-api-spec)
-- [GitHub Repository](https://github.com/figma/code-connect)
-- [GitHub Repository](https://github.com/figma/plugin-typings)
-- [GitHub Repository](https://github.com/figma/community-resources)
-- [GitHub Repository](https://github.com/figma/mcp-server-guide)
-- [Spectral Rules](rules/figma-spectral-rules.yml)
-- [Vocabulary](vocabulary/figma-vocabulary.yaml)
-- [Features](undefined)
-- [Use Cases](undefined)
-- [Integrations](undefined)
-- [Integrations](https://www.figma.com/partners/)
-- [Agent Skill](https://github.com/figma/community-resources)
-- [L L Ms Txt](https://developers.figma.com/llms.txt)
+- [Terms of service](https://www.figma.com/legal/tos/)
+- [Privacy policy](https://www.figma.com/legal/privacy/)
+- [GitHub](https://github.com/figma)
+- [Status](https://status.figma.com/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
-**URL:** http://apievangelist.com
-**Email:** support@figma.com
-**URL:** https://www.figma.com
+**Kin Score 59.6** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.7 |
+| Contract quality | 70.8 |
+| Contract governance | 31.8 |
+| Operational transparency | 52.6 |
+| Developer ergonomics | 64.8 |
+| Access clarity | 53.9 |
+
+**Agent readiness 55.6** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | unknown |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 45.1** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/figma/](https://apis.io/providers/figma/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Figma: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/figma/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
